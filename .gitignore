@@ -1,0 +1,25 @@
+# Unity生成的文件
+Library/
+Temp/
+Obj/
+obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# Visual Studio
+.vs/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+
+# OS文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+Temp.txt
