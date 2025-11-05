@@ -25,22 +25,49 @@ public class LandingPageUI : MonoBehaviour
     /// </summary>
     private IEnumerator InitializeButtonsCoroutine()
     {
-        // 等待一帧，让所有其他脚本的Awake()和Start()都有机会执行
-        yield return null;
+        Debug.Log("=== LandingPageUI Initialization Started ===");
 
-        Debug.Log("LandingPageUI: Coroutine started. Checking for manager instances...");
+        // 等待多帧，让管理器有时间初始化
+        int maxWaitFrames = 30; // 最多等待30帧（约0.5秒）
+        int framesWaited = 0;
 
-        // 现在再次检查，此时管理器应该已经初始化完成
+        while (framesWaited < maxWaitFrames)
+        {
+            framesWaited++;
+
+            // 每5帧打印一次状态
+            if (framesWaited % 5 == 0)
+            {
+                Debug.Log($"LandingPageUI: Waiting for managers... (frame {framesWaited}/{maxWaitFrames})");
+                Debug.Log($"  - GameManager.Instance: {GameManager.Instance != null}");
+                Debug.Log($"  - UIManager.Instance: {UIManager.Instance != null}");
+            }
+
+            // 如果管理器都就绪，立即退出等待
+            if (GameManager.Instance != null && UIManager.Instance != null)
+            {
+                Debug.Log($"LandingPageUI: Managers found after {framesWaited} frames!");
+                break;
+            }
+
+            yield return null;
+        }
+
+        // 最终检查
         if (GameManager.Instance == null || UIManager.Instance == null)
         {
-            Debug.LogError("LandingPageUI: GameManager or UIManager instance is still null after waiting! Check your Bootstrap scene.");
-            // 如果还是找不到，就不再继续执行，避免更多错误
+            Debug.LogError("=== LandingPageUI CRITICAL ERROR ===");
+            Debug.LogError($"Managers still null after {framesWaited} frames!");
+            Debug.LogError($"  - GameManager.Instance: {GameManager.Instance}");
+            Debug.LogError($"  - UIManager.Instance: {UIManager.Instance}");
+            Debug.LogError("Please ensure you start the game from the Bootstrap scene!");
+            Debug.LogError("Check that _Managers_Prefab is assigned in Bootstrap scene.");
             yield break;
         }
 
-        Debug.Log("LandingPageUI: Manager instances found. Initializing buttons.");
+        Debug.Log("LandingPageUI: All managers ready. Initializing buttons...");
 
-        // 绑定“开始新游戏”按钮
+        // 绑定"开始新游戏"按钮
         if (startNewGameButton != null)
         {
             startNewGameButton.onClick.AddListener(() => {
@@ -78,5 +105,7 @@ public class LandingPageUI : MonoBehaviour
         {
             Debug.LogWarning("LandingPageUI: 'Quit Game' button is not assigned in the Inspector!");
         }
+
+        Debug.Log("=== LandingPageUI Initialization Complete ===");
     }
 }
