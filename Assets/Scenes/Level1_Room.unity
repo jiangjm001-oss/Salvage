@@ -507,14 +507,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomViews:
-  - viewState: 0
-    zoomViewObject: {fileID: 0}
-  - viewState: 0
-    zoomViewObject: {fileID: 0}
-  - viewState: 0
-    zoomViewObject: {fileID: 0}
-  - viewState: 0
-    zoomViewObject: {fileID: 0}
+  - viewState: 4
+    zoomViewObject: {fileID: 1161207520}
+  - viewState: 5
+    zoomViewObject: {fileID: 453849828}
+  - viewState: 6
+    zoomViewObject: {fileID: 284983232}
+  - viewState: 7
+    zoomViewObject: {fileID: 1885193575}
 --- !u!114 &1405625921
 MonoBehaviour:
   m_ObjectHideFlags: 0
