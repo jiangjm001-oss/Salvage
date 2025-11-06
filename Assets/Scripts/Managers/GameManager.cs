@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -70,9 +71,40 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // 初始化游戏状态
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        UpdateGameStateBasedOnScene(currentSceneName);
+        // 检查当前是否在 Bootstrap 场景
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Bootstrap")
+        {
+            Debug.Log("[GameManager] Bootstrap scene detected. Loading LandingPage...");
+
+            // 延迟一帧，确保所有管理器都已完全初始化
+            StartCoroutine(LoadLandingPageNextFrame());
+        }
+        else
+        {
+            // 如果不是 Bootstrap 场景，则正常更新游戏状态
+            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            UpdateGameStateBasedOnScene(currentSceneName);
+        }
+    }
+
+    /// <summary>
+    /// 协程：延迟一帧加载 LandingPage，确保所有管理器都已就绪
+    /// </summary>
+    private System.Collections.IEnumerator LoadLandingPageNextFrame()
+    {
+        yield return null; // 等待一帧
+
+        // 使用 SceneController 来加载场景，保持逻辑统一
+        if (SceneController.Instance != null)
+        {
+            SceneController.Instance.LoadScene("LandingPage");
+        }
+        else
+        {
+            // 如果 SceneController 不可用，则直接加载
+            Debug.LogWarning("[GameManager] SceneController.Instance not found. Loading LandingPage directly.");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("LandingPage");
+        }
     }
 
     // ============ 游戏状态管理方法 ============

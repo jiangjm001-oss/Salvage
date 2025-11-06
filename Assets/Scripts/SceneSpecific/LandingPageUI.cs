@@ -44,6 +44,7 @@ public class LandingPageUI : MonoBehaviour
         if (startNewGameButton != null)
         {
             startNewGameButton.onClick.AddListener(() => {
+                Debug.Log("=== BUTTON CLICKED! ===");
                 Debug.Log("LandingPageUI: 'Start New Game' button clicked.");
                 GameManager.Instance.StartNewGame();
             });

@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [Header("UI 面板")]
     public GameObject pauseMenuPanel;
 
+    // 添加这两行 ↓
+    [SerializeField] private GameObject inventoryPanel;  // 背包面板
+    [SerializeField] private GameObject uiCanvas;        // 整个UI Canvas（可选）
+
     [Header("背包动画设置")]
     [SerializeField] private float slideAnimationDuration = 0.3f; // 动画持续时间
     [SerializeField] private AnimationCurve slideEaseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 缓动曲线
@@ -31,6 +35,7 @@ public class UIManager : MonoBehaviour
             return panelTransform?.gameObject;
         }
     }
+
 
     private RectTransform InventoryPanelRect => InventoryPanel?.GetComponent<RectTransform>();
 
@@ -88,6 +93,28 @@ public class UIManager : MonoBehaviour
             Instance = this;
             transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    public void ShowInventoryUI()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(true);
+            Debug.Log("UIManager: Inventory UI shown");
+        }
+        else
+        {
+            Debug.LogWarning("UIManager: inventoryPanel is not assigned!");
+        }
+    }
+
+    public void HideInventoryUI()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(false);
+            Debug.Log("UIManager: Inventory UI hidden");
         }
     }
 

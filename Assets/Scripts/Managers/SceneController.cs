@@ -48,6 +48,16 @@ public class SceneController : MonoBehaviour
 
         Debug.Log($"[SceneController] Scene loaded: {sceneName}");
 
+        // 根据场景控制背包UI显示
+        if (sceneName == "Level1_Room" || sceneName == "Level2_Room")
+        {
+            UIManager.Instance?.ShowInventoryUI();
+        }
+        else
+        {
+            UIManager.Instance?.HideInventoryUI();
+        }
+
         // 通知GameManager更新游戏状态
         if (GameManager.Instance != null)
         {
