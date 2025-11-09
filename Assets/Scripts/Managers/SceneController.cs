@@ -46,6 +46,9 @@ public class SceneController : MonoBehaviour
         // ✅ 无需手动调用绑定方法
         // ✅ 无隐藏依赖!
 
+        // ⭐ 添加这部分 - 根据场景名称更新游戏状态
+        UpdateGameStateBasedOnScene(sceneName);
+
         Debug.Log($"[SceneController] Scene loaded: {sceneName}");
 
         // 根据场景控制背包UI显示
@@ -73,6 +76,21 @@ public class SceneController : MonoBehaviour
             }
         }
     }
+    // ⭐ 添加这个新方法
+    private void UpdateGameStateBasedOnScene(string sceneName)
+    {
+        GameManager.GameState newState = sceneName switch
+        {
+            "LandingPage" => GameManager.GameState.MainMenu,
+            "Level1_Room" => GameManager.GameState.Level1,
+            "Level2_Room" => GameManager.GameState.Level2,
+            "EndingScene" => GameManager.GameState.Ending,
+            _ => GameManager.Instance.CurrentGameState
+        };
+
+        GameManager.Instance.ChangeGameState(newState);
+    }
+
 
     /// <summary>
     /// 获取当前活动场景的名称

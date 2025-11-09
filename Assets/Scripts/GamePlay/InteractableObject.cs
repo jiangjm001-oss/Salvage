@@ -68,7 +68,8 @@ public class InteractableObject : MonoBehaviour
                 break;
 
             case InteractionType.ZoomView:
-                HandleZoomView();
+                // 应该调用 GameManager 的方法
+                GameManager.Instance.EnterZoomView(associatedZoomView);
                 break;
 
             case InteractionType.Trigger:

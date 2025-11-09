@@ -1,260 +1,364 @@
-﻿// Assets/Scripts/Managers/UIManager.cs
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    [Header("UI 面板")]
-    public GameObject pauseMenuPanel;
+    [Header("Inventory UI (可选,如果为空则自动查找)")]
+    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject secondColumnPanel;
+    [SerializeField] private Button expandButton;
+    [SerializeField] private Text expandButtonText;
+    [SerializeField] private GameObject itemSlotPrefab;
 
-    // 添加这两行 ↓
-    [SerializeField] private GameObject inventoryPanel;  // 背包面板
-    [SerializeField] private GameObject uiCanvas;        // 整个UI Canvas（可选）
+    [Header("Inventory Settings")]
+    [SerializeField] private float expandAnimationDuration = 0.3f;
+    [SerializeField] private AnimationCurve expandCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    [Header("背包动画设置")]
-    [SerializeField] private float slideAnimationDuration = 0.3f; // 动画持续时间
-    [SerializeField] private AnimationCurve slideEaseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 缓动曲线
+    [Header("Navigation Buttons")]
+    [SerializeField] private GameObject leftArrowButton;
+    [SerializeField] private GameObject rightArrowButton;
+    [SerializeField] private GameObject backButton;
 
+    [Header("Other UI")]
+    [SerializeField] private GameObject pauseMenuPanel;
+
+    private bool isExpanded = false;
+    private bool isAnimating = false;
     private List<GameObject> slotUIObjects = new List<GameObject>();
     private int selectedIndex = -1;
-    private bool isExpanded = false;
-    private bool isAnimating = false; // 防止动画期间重复点击
 
-    // ✅ 修改：需要获取 RectTransform 来做动画
+    // ============ 属性访问器,自动查找UI元素 ============
+
     private GameObject InventoryPanel
     {
         get
         {
-            if (Instance == null) return null;
-            Transform panelTransform = Instance.transform.Find("UICanvas/InventoryPanel");
-            return panelTransform?.gameObject;
+            if (inventoryPanel == null)
+            {
+                Transform found = transform.Find("UICanvas/InventoryPanel");
+                if (found != null)
+                {
+                    inventoryPanel = found.gameObject;
+                    Debug.Log("[UIManager] Auto-found InventoryPanel");
+                }
+            }
+            return inventoryPanel;
         }
     }
 
-
-    private RectTransform InventoryPanelRect => InventoryPanel?.GetComponent<RectTransform>();
+    private GameObject SecondColumnPanel
+    {
+        get
+        {
+            if (secondColumnPanel == null)
+            {
+                Transform found = transform.Find("UICanvas/SecondColumnPanel");
+                if (found != null)
+                {
+                    secondColumnPanel = found.gameObject;
+                    Debug.Log("[UIManager] Auto-found SecondColumnPanel");
+                }
+            }
+            return secondColumnPanel;
+        }
+    }
 
     private Transform SlotContainer
     {
         get
         {
-            var panel = InventoryPanel;
-            if (panel == null) return null;
-            return panel.transform.Find("SlotContainer");
+            if (InventoryPanel == null) return null;
+            return InventoryPanel.transform.Find("SlotContainer");
         }
     }
-
-    // ✅ 修改：SecondColumnPanel 现在是 UICanvas 的子对象
-    private GameObject SecondColumnPanel
-    {
-        get
-        {
-            if (Instance == null) return null;
-            Transform panelTransform = Instance.transform.Find("UICanvas/SecondColumnPanel");
-            return panelTransform?.gameObject;
-        }
-    }
-
-    private RectTransform SecondColumnPanelRect => SecondColumnPanel?.GetComponent<RectTransform>();
 
     private Transform SecondSlotContainer
     {
         get
         {
-            var panel = SecondColumnPanel;
-            if (panel == null) return null;
-            return panel.transform.Find("SecondSlotContainer");
+            if (SecondColumnPanel == null) return null;
+            return SecondColumnPanel.transform.Find("SlotContainer");
         }
     }
-
-    private GameObject ItemSlotPrefab => Resources.Load<GameObject>("Prefabs/UI/ItemSlot");
 
     private Button ExpandButton
     {
         get
         {
-            var panel = InventoryPanel;
-            if (panel == null) return null;
-            Transform buttonTransform = panel.transform.Find("ExpandButton");
-            return buttonTransform?.GetComponent<Button>();
+            if (expandButton == null && InventoryPanel != null)
+            {
+                Transform found = InventoryPanel.transform.Find("ExpandButton");
+                if (found != null)
+                {
+                    expandButton = found.GetComponent<Button>();
+                    Debug.Log("[UIManager] Auto-found ExpandButton");
+                }
+            }
+            return expandButton;
         }
     }
+
+    private GameObject ItemSlotPrefab
+    {
+        get
+        {
+            if (itemSlotPrefab == null)
+            {
+                itemSlotPrefab = Resources.Load<GameObject>("Prefabs/UI/ItemSlot");
+                if (itemSlotPrefab != null)
+                {
+                    Debug.Log("[UIManager] Auto-loaded ItemSlot prefab from Resources");
+                }
+            }
+            return itemSlotPrefab;
+        }
+    }
+
+    // ============ Unity生命周期 ============
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else
+        if (Instance == null)
         {
             Instance = this;
-            transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    public void ShowInventoryUI()
-    {
-        if (inventoryPanel != null)
-        {
-            inventoryPanel.SetActive(true);
-            Debug.Log("UIManager: Inventory UI shown");
         }
         else
         {
-            Debug.LogWarning("UIManager: inventoryPanel is not assigned!");
-        }
-    }
-
-    public void HideInventoryUI()
-    {
-        if (inventoryPanel != null)
-        {
-            inventoryPanel.SetActive(false);
-            Debug.Log("UIManager: Inventory UI hidden");
-        }
-    }
-
-    private void OnEnable()
-    {
-        if (InventorySystem.Instance != null)
-        {
-            InventorySystem.Instance.OnInventoryChanged.AddListener(UpdateInventoryUI);
-        }
-        if (ExpandButton != null)
-        {
-            ExpandButton.onClick.AddListener(ToggleInventoryExpansion);
-        }
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnViewStateChanged.AddListener(OnViewStateChanged);
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (InventorySystem.Instance != null)
-        {
-            InventorySystem.Instance.OnInventoryChanged.RemoveListener(UpdateInventoryUI);
-        }
-        if (ExpandButton != null)
-        {
-            ExpandButton.onClick.RemoveListener(ToggleInventoryExpansion);
-        }
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnViewStateChanged.RemoveListener(OnViewStateChanged);
+            Destroy(gameObject);
+            return;
         }
     }
 
     private void Start()
     {
+        Debug.Log("[UIManager] Starting initialization...");
+
+        // 订阅InventorySystem的事件
         if (InventorySystem.Instance != null)
         {
             InventorySystem.Instance.OnInventoryChanged.AddListener(UpdateInventoryUI);
-        }
-
-        if (InventoryPanel != null)
-        {
-            InventoryPanel.SetActive(false);
-
-            // ✅ 设置初始位置
-            if (SecondColumnPanel != null)
-            {
-                SecondColumnPanel.SetActive(true); // 必须激活才能设置位置
-                RectTransform secondRect = SecondColumnPanelRect;
-                if (secondRect != null)
-                {
-                    // 初始位置：屏幕外右侧
-                    secondRect.anchoredPosition = new Vector2(200, secondRect.anchoredPosition.y);
-                }
-            }
-
-            UpdateInventoryUI();
+            Debug.Log("[UIManager] Subscribed to InventorySystem.OnInventoryChanged");
         }
         else
         {
-            Debug.LogError("UIManager: Could not find InventoryPanel dynamically!");
+            Debug.LogWarning("[UIManager] InventorySystem.Instance is null!");
+        }
+
+        // 订阅GameManager的事件
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnViewStateChanged.AddListener(OnViewStateChanged);
+            GameManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+            Debug.Log("[UIManager] Subscribed to GameManager events");
+
+            // 立即更新一次
+            UpdateNavigationButtons();
+            UpdateInventoryVisibility();
+        }
+        else
+        {
+            Debug.LogWarning("[UIManager] GameManager.Instance is null!");
+        }
+
+        // 绑定展开按钮
+        var expButton = ExpandButton;
+        if (expButton != null)
+        {
+            expButton.onClick.AddListener(ToggleInventoryExpansion);
+            Debug.Log("[UIManager] ExpandButton click listener added");
+
+            // 初始化按钮文字
+            var textComp = expButton.GetComponentInChildren<Text>();
+            if (textComp != null)
+            {
+                expandButtonText = textComp;
+                expandButtonText.text = ">";
+            }
+        }
+        else
+        {
+            Debug.LogError("[UIManager] ExpandButton not found!");
+        }
+
+        // 初始化背包UI
+        UpdateInventoryUI();
+
+        Debug.Log("[UIManager] Initialization complete");
+    }
+
+    private void OnDestroy()
+    {
+        if (InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.OnInventoryChanged.RemoveListener(UpdateInventoryUI);
         }
 
         if (GameManager.Instance != null)
         {
-            OnViewStateChanged(GameManager.Instance.CurrentViewState);
+            GameManager.Instance.OnViewStateChanged.RemoveListener(OnViewStateChanged);
+            GameManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
+
+        var expButton = ExpandButton;
+        if (expButton != null)
+        {
+            expButton.onClick.RemoveListener(ToggleInventoryExpansion);
         }
     }
 
-    // 新增：响应视图状态变化
+    // ============ 游戏状态响应 ============
+
+    private void OnGameStateChanged(GameManager.GameState newState)
+    {
+        Debug.Log($"[UIManager] OnGameStateChanged: {newState}");
+        UpdateNavigationButtons();
+        UpdateInventoryVisibility();
+    }
+
     private void OnViewStateChanged(GameManager.ViewState newState)
     {
-        // 根据视图状态决定是否显示背包
-        bool isInGameplayView = newState == GameManager.ViewState.Wall_A ||
-                               newState == GameManager.ViewState.Wall_B ||
-                               newState == GameManager.ViewState.Wall_C ||
-                               newState == GameManager.ViewState.Wall_D;
-
-        if (InventoryPanel != null)
-        {
-            InventoryPanel.SetActive(isInGameplayView);
-            if (SecondColumnPanel != null)
-            {
-                SecondColumnPanel.SetActive(isInGameplayView);
-            }
-        }
-
-        // 如果是放大视图，可以在这里添加特定UI处理
-        if (!isInGameplayView)
-        {
-            // 可能需要隐藏某些UI元素或显示返回按钮
-            Debug.Log($"UIManager: In zoom view {newState}, adjusting UI accordingly");
-        }
+        Debug.Log($"[UIManager] OnViewStateChanged: {newState}");
+        UpdateNavigationButtons();
     }
 
-    #region 背包UI逻辑
-    private void UpdateInventoryUI()
-    {
-        var inventoryPanel = InventoryPanel;
-        var slotContainer = SlotContainer;
-        var secondSlotContainer = SecondSlotContainer;
-        var itemSlotPrefab = ItemSlotPrefab;
+    // ============ 导航按钮控制 ============
 
-        if (inventoryPanel == null || slotContainer == null || itemSlotPrefab == null)
+    private void UpdateNavigationButtons()
+    {
+        if (GameManager.Instance == null) return;
+
+        var gameState = GameManager.Instance.CurrentGameState;
+        bool shouldShowNavigation = (gameState == GameManager.GameState.Level1 ||
+                                      gameState == GameManager.GameState.Level2);
+
+        if (!shouldShowNavigation)
         {
-            Debug.LogError($"UIManager.UpdateInventoryUI: Could not find required UI elements.");
+            if (leftArrowButton != null) leftArrowButton.SetActive(false);
+            if (rightArrowButton != null) rightArrowButton.SetActive(false);
+            if (backButton != null) backButton.SetActive(false);
             return;
         }
 
+        bool isInWallView = GameManager.Instance.IsInWallView();
+
+        if (isInWallView)
+        {
+            if (leftArrowButton != null) leftArrowButton.SetActive(true);
+            if (rightArrowButton != null) rightArrowButton.SetActive(true);
+            if (backButton != null) backButton.SetActive(false);
+        }
+        else
+        {
+            if (leftArrowButton != null) leftArrowButton.SetActive(false);
+            if (rightArrowButton != null) rightArrowButton.SetActive(false);
+            if (backButton != null) backButton.SetActive(true);
+        }
+    }
+
+    // ============ 背包显示控制 ============
+
+    private void UpdateInventoryVisibility()
+    {
+        if (GameManager.Instance == null) return;
+
+        var gameState = GameManager.Instance.CurrentGameState;
+        bool shouldShow = (gameState == GameManager.GameState.Level1 ||
+                           gameState == GameManager.GameState.Level2);
+
+        if (InventoryPanel != null)
+        {
+            InventoryPanel.SetActive(shouldShow);
+            Debug.Log($"[UIManager] InventoryPanel.SetActive({shouldShow})");
+        }
+
+        if (SecondColumnPanel != null)
+        {
+            SecondColumnPanel.SetActive(shouldShow);
+            Debug.Log($"[UIManager] SecondColumnPanel.SetActive({shouldShow})");
+        }
+    }
+
+    public void ShowInventoryUI()
+    {
+        if (InventoryPanel != null) InventoryPanel.SetActive(true);
+        if (SecondColumnPanel != null) SecondColumnPanel.SetActive(true);
+    }
+
+    public void HideInventoryUI()
+    {
+        if (InventoryPanel != null) InventoryPanel.SetActive(false);
+        if (SecondColumnPanel != null) SecondColumnPanel.SetActive(false);
+    }
+
+    // ============ 背包UI更新 ============
+
+    private void UpdateInventoryUI()
+    {
+        Debug.Log("[UIManager] UpdateInventoryUI called");
+
+        var slotContainer = SlotContainer;
+        var secondSlotContainer = SecondSlotContainer;
+        var prefab = ItemSlotPrefab;
+
+        if (slotContainer == null)
+        {
+            Debug.LogError("[UIManager] SlotContainer not found!");
+            return;
+        }
+
+        if (prefab == null)
+        {
+            Debug.LogError("[UIManager] ItemSlot prefab not found!");
+            return;
+        }
+
+        // 清除旧的槽位
         foreach (var obj in slotUIObjects)
         {
             if (obj != null) Destroy(obj);
         }
         slotUIObjects.Clear();
 
+        // 获取背包数据
+        if (InventorySystem.Instance == null)
+        {
+            Debug.LogError("[UIManager] InventorySystem.Instance is null!");
+            return;
+        }
+
         List<InventorySlot> slots = InventorySystem.Instance.GetSlots();
+        Debug.Log($"[UIManager] Creating {slots.Count} slots");
+
+        // 创建新的槽位
         for (int i = 0; i < slots.Count; i++)
         {
             Transform targetContainer = (i < 6) ? slotContainer : secondSlotContainer;
 
             if (targetContainer == null && i >= 6)
             {
-                Debug.LogWarning("UIManager: SecondSlotContainer not found, skipping slots 6-11.");
+                Debug.LogWarning($"[UIManager] SecondSlotContainer not found, skipping slot {i}");
                 continue;
             }
 
-            GameObject slotGO = Instantiate(itemSlotPrefab, targetContainer);
+            GameObject slotGO = Instantiate(prefab, targetContainer);
             slotUIObjects.Add(slotGO);
 
+            // 获取图标
             Transform iconTransform = slotGO.transform.Find("ItemIcon");
             if (iconTransform == null)
             {
-                Debug.LogError($"UIManager: Could not find 'ItemIcon' child on ItemSlot prefab.", slotGO);
+                Debug.LogError($"[UIManager] ItemIcon not found in slot {i}");
                 continue;
             }
+
             Image iconImage = iconTransform.GetComponent<Image>();
             Button slotButton = slotGO.GetComponent<Button>();
 
+            // 设置图标
             if (!slots[i].IsEmpty)
             {
                 iconImage.sprite = slots[i].item.icon;
@@ -266,9 +370,12 @@ public class UIManager : MonoBehaviour
                 iconImage.color = new Color(1, 1, 1, 0);
             }
 
+            // 绑定点击事件
             int currentIndex = i;
             slotButton.onClick.AddListener(() => OnSlotClicked(currentIndex));
         }
+
+        Debug.Log($"[UIManager] Created {slotUIObjects.Count} slot UI objects");
     }
 
     private void OnSlotClicked(int clickedIndex)
@@ -305,7 +412,7 @@ public class UIManager : MonoBehaviour
             if (iconTransform != null)
             {
                 Image selectedIcon = iconTransform.GetComponent<Image>();
-                selectedIcon.color = Color.black;
+                selectedIcon.color = Color.yellow; // 高亮显示
             }
         }
     }
@@ -332,45 +439,51 @@ public class UIManager : MonoBehaviour
         selectedIndex = -1;
     }
 
-    // ✅ 修改：添加滑动动画
+    // ============ 背包展开/收起 ============
+
     private void ToggleInventoryExpansion()
     {
-        if (isAnimating) return; // 动画期间不响应点击
+        if (isAnimating)
+        {
+            Debug.Log("[UIManager] Animation in progress, ignoring click");
+            return;
+        }
 
         isExpanded = !isExpanded;
+        Debug.Log($"[UIManager] Toggling inventory expansion. isExpanded: {isExpanded}");
         StartCoroutine(AnimateInventorySlide());
     }
 
-    // ✅ 新增：滑动动画协程
     private IEnumerator AnimateInventorySlide()
     {
         isAnimating = true;
 
-        RectTransform inventoryRect = InventoryPanelRect;
-        RectTransform secondRect = SecondColumnPanelRect;
+        RectTransform inventoryRect = InventoryPanel?.GetComponent<RectTransform>();
+        RectTransform secondRect = SecondColumnPanel?.GetComponent<RectTransform>();
 
         if (inventoryRect == null || secondRect == null)
         {
-            Debug.LogError("UIManager: Cannot animate - RectTransform not found.");
+            Debug.LogError("[UIManager] InventoryPanel or SecondColumnPanel RectTransform not found!");
             isAnimating = false;
             yield break;
         }
 
-        // 定义起始和目标位置
+        // 记录起始位置
         float inventoryStartX = inventoryRect.anchoredPosition.x;
         float secondStartX = secondRect.anchoredPosition.x;
 
+        // 定义目标位置
         float inventoryTargetX, secondTargetX;
 
         if (isExpanded)
         {
-            // 展开：InventoryPanel 向左移，SecondColumnPanel 滑入屏幕
+            // 展开:InventoryPanel 向左移,SecondColumnPanel 滑入屏幕
             inventoryTargetX = -200f; // InventoryPanel 向左移动一列的宽度
             secondTargetX = 0f;       // SecondColumnPanel 移到右侧
         }
         else
         {
-            // 收起：两者都向右移回原位
+            // 收起:两者都向右移回原位
             inventoryTargetX = 0f;    // InventoryPanel 回到右侧
             secondTargetX = 200f;     // SecondColumnPanel 移出屏幕
         }
@@ -378,12 +491,13 @@ public class UIManager : MonoBehaviour
         float elapsedTime = 0f;
 
         // 平滑插值动画
-        while (elapsedTime < slideAnimationDuration)
+        while (elapsedTime < expandAnimationDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / slideAnimationDuration);
-            float easedT = slideEaseCurve.Evaluate(t);
+            float t = Mathf.Clamp01(elapsedTime / expandAnimationDuration);
+            float easedT = expandCurve.Evaluate(t);
 
+            // 同时移动两个面板
             inventoryRect.anchoredPosition = new Vector2(
                 Mathf.Lerp(inventoryStartX, inventoryTargetX, easedT),
                 inventoryRect.anchoredPosition.y
@@ -401,44 +515,25 @@ public class UIManager : MonoBehaviour
         inventoryRect.anchoredPosition = new Vector2(inventoryTargetX, inventoryRect.anchoredPosition.y);
         secondRect.anchoredPosition = new Vector2(secondTargetX, secondRect.anchoredPosition.y);
 
-        // 更新箭头方向
-        var expandButton = ExpandButton;
-        if (expandButton != null)
+        // 更新按钮文字
+        if (expandButtonText != null)
         {
-            var textComponent = expandButton.GetComponentInChildren<TMPro.TMP_Text>();
-            if (textComponent != null)
-            {
-                textComponent.text = isExpanded ? ">" : "<";
-            }
+            expandButtonText.text = isExpanded ? ">" : "<";
         }
 
         isAnimating = false;
-        Debug.Log($"UIManager: Inventory {(isExpanded ? "Expanded" : "Collapsed")}");
+        Debug.Log($"[UIManager] Inventory {(isExpanded ? "Expanded" : "Collapsed")}");
     }
-    #endregion
 
-    #region 通用UI方法
+    // ============ 其他UI方法 ============
+
     public void ShowPauseMenu()
     {
-        Debug.Log("UIManager: Showing Pause Menu.");
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
     }
 
     public void HidePauseMenu()
     {
-        Debug.Log("UIManager: Hiding Pause Menu.");
         if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
     }
-
-    public void HideAllUI()
-    {
-        Debug.Log("UIManager: Hiding all UI elements.");
-        HidePauseMenu();
-    }
-
-    public void ShowNotification(string message)
-    {
-        Debug.Log($"UIManager Notification: {message}");
-    }
-    #endregion
 }

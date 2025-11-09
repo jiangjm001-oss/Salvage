@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     private void Start()
     {
         // 检查当前是否在 Bootstrap 场景
@@ -260,7 +261,9 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"[GameManager] View: {previousView} → {targetView}");
     }
-
+    /// <summary>
+    /// 切换到下一面墙 (循环: A→B→C→D→A)
+    /// </summary>
     public void SwitchToNextWall()
     {
         if (!IsInWallView()) return;
@@ -276,7 +279,9 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(nextWall);
     }
-
+    /// <summary>
+    /// 切换到上一面墙 (循环: A→D→C→B→A)
+    /// </summary>
     public void SwitchToPreviousWall()
     {
         if (!IsInWallView()) return;
@@ -292,7 +297,9 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(prevWall);
     }
-
+    /// <summary>
+    /// 进入放大视图
+    /// </summary>
     public void EnterZoomView(ViewState zoomView)
     {
         if (IsInWallView())
@@ -300,13 +307,22 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(zoomView);
     }
-
+    /// <summary>
+    /// 退出放大视图,返回到进入前的墙面
+    /// </summary>
     public void ExitZoomView()
     {
-        if (IsInWallView()) return;
+        if (IsInWallView())
+        {
+            Debug.LogWarning("[GameManager] Already in wall view!");
+            return;
+        }
+
         SwitchToView(lastWallBeforeZoom);
     }
-
+    /// <summary>
+    /// 判断当前是否在墙面视图(而非放大视图)
+    /// </summary>
     public bool IsInWallView()
     {
         return CurrentViewState == ViewState.Wall_A ||
