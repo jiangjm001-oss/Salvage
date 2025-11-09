@@ -5,6 +5,14 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource sfxSource;
+
+    [Header("Audio Settings")]
+    private bool musicEnabled = true;
+    private bool sfxEnabled = true;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -14,21 +22,129 @@ public class AudioManager : MonoBehaviour
         }
         Instance = this;
 
-        // --- È·ÈÏÕâÀïÓĞÕâÁ½ĞĞ£¬²¢ÇÒË³ĞòÕıÈ· ---
-        transform.SetParent(null); // ÏÈ°Ñ×Ô¼º´Ó¸¸¶ÔÏóÖĞ½â·Å³öÀ´
-        DontDestroyOnLoad(gameObject); // ÔÙÉèÖÃÎª³Ö¾Ã´æÔÚ
+        transform.SetParent(null);
+        DontDestroyOnLoad(gameObject);
+
+        // åˆ›å»ºAudioSourceç»„ä»¶ï¼ˆå¦‚æœæ²¡æœ‰ï¼‰
+        SetupAudioSources();
     }
 
+    /// <summary>
+    /// è®¾ç½®AudioSourceç»„ä»¶
+    /// </summary>
+    private void SetupAudioSources()
+    {
+        if (musicSource == null)
+        {
+            musicSource = gameObject.AddComponent<AudioSource>();
+            musicSource.loop = true;
+            musicSource.playOnAwake = false;
+            Debug.Log("[AudioManager] Music AudioSource created");
+        }
 
+        if (sfxSource == null)
+        {
+            sfxSource = gameObject.AddComponent<AudioSource>();
+            sfxSource.loop = false;
+            sfxSource.playOnAwake = false;
+            Debug.Log("[AudioManager] SFX AudioSource created");
+        }
+    }
+
+    /// <summary>
+    /// è®¾ç½®éŸ³ä¹å¼€å…³
+    /// </summary>
+    public void SetMusicEnabled(bool enabled)
+    {
+        musicEnabled = enabled;
+
+        if (musicSource != null)
+        {
+            if (!musicEnabled && musicSource.isPlaying)
+            {
+                musicSource.Pause();
+            }
+            else if (musicEnabled && !musicSource.isPlaying && musicSource.clip != null)
+            {
+                musicSource.UnPause();
+            }
+        }
+
+        Debug.Log($"[AudioManager] Music {(musicEnabled ? "enabled" : "disabled")}");
+    }
+
+    /// <summary>
+    /// è®¾ç½®éŸ³æ•ˆå¼€å…³
+    /// </summary>
+    public void SetSFXEnabled(bool enabled)
+    {
+        sfxEnabled = enabled;
+        Debug.Log($"[AudioManager] SFX {(sfxEnabled ? "enabled" : "disabled")}");
+    }
+
+    /// <summary>
+    /// æ’­æ”¾èƒŒæ™¯éŸ³ä¹
+    /// </summary>
     public void PlayMusic(string musicName)
     {
-        Debug.Log($"AudioManager: Playing music '{musicName}'.");
-        // TODO: ÊµÏÖ¸ù¾İ musicName ²éÕÒ²¢²¥·Å Audio Clip µÄÂß¼­
+        Debug.Log($"[AudioManager] Playing music '{musicName}'.");
+        // TODO: å®ç°æ ¹æ® musicName æŸ¥æ‰¾å¹¶æ’­æ”¾ Audio Clip çš„é€»è¾‘
+
+        if (musicSource != null && musicEnabled)
+        {
+            // ç¤ºä¾‹ï¼šå¦‚æœä½ æœ‰éŸ³ä¹èµ„æºï¼Œå¯ä»¥è¿™æ ·åŠ è½½å’Œæ’­æ”¾
+            // AudioClip clip = Resources.Load<AudioClip>($"Audio/Music/{musicName}");
+            // if (clip != null)
+            // {
+            //     musicSource.clip = clip;
+            //     musicSource.Play();
+            // }
+        }
     }
 
+    /// <summary>
+    /// æ’­æ”¾éŸ³æ•ˆ
+    /// </summary>
     public void PlaySFX(string sfxName)
     {
-        Debug.Log($"AudioManager: Playing SFX '{sfxName}'.");
-        // TODO: ÊµÏÖ²¥·ÅÒôĞ§µÄÂß¼­
+        if (!sfxEnabled || sfxSource == null)
+            return;
+
+        Debug.Log($"[AudioManager] Playing SFX '{sfxName}'.");
+        // TODO: å®ç°æ’­æ”¾éŸ³æ•ˆé€»è¾‘
+
+        // ç¤ºä¾‹ï¼šå¦‚æœä½ æœ‰éŸ³æ•ˆèµ„æºï¼Œå¯ä»¥è¿™æ ·åŠ è½½å’Œæ’­æ”¾
+        // AudioClip clip = Resources.Load<AudioClip>($"Audio/SFX/{sfxName}");
+        // if (clip != null)
+        // {
+        //     sfxSource.PlayOneShot(clip);
+        // }
+    }
+
+    /// <summary>
+    /// åœæ­¢éŸ³ä¹
+    /// </summary>
+    public void StopMusic()
+    {
+        if (musicSource != null && musicSource.isPlaying)
+        {
+            musicSource.Stop();
+        }
+    }
+
+    /// <summary>
+    /// è·å–éŸ³ä¹å¼€å…³çŠ¶æ€
+    /// </summary>
+    public bool IsMusicEnabled()
+    {
+        return musicEnabled;
+    }
+
+    /// <summary>
+    /// è·å–éŸ³æ•ˆå¼€å…³çŠ¶æ€
+    /// </summary>
+    public bool IsSFXEnabled()
+    {
+        return sfxEnabled;
     }
 }
