@@ -6,36 +6,38 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    [Header("ÉèÖÃÃæ°åÒýÓÃ")]
-    public GameObject settingsPanel;          // ÉèÖÃÃæ°å¸ù¶ÔÏó
-    public GameObject tutorialPanel;          // ËµÃ÷µ¯´°Ãæ°å
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    public GameObject settingsPanel;          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject tutorialPanel;          // Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    [Header("°´Å¥ÒýÓÃ")]
-    public Button continueButton;             // ¼ÌÐø°´Å¥
-    public Button musicToggleButton;          // ÒôÀÖÇÐ»»°´Å¥
-    public Button sfxToggleButton;            // ÒôÐ§ÇÐ»»°´Å¥
-    public Button mainMenuButton;             // Ö÷²Ëµ¥°´Å¥
-    public Button tutorialButton;             // ËµÃ÷°´Å¥
-    public Button closeTutorialButton;        // ¹Ø±ÕËµÃ÷°´Å¥
+    [Header("ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½")]
+    public Button continueButton;             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
+    public Button musicToggleButton;          // ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½Å¥
+    public Button sfxToggleButton;            // ï¿½ï¿½Ð§ï¿½Ð»ï¿½ï¿½ï¿½Å¥
+    public Button mainMenuButton;             // ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Å¥
+    public Button tutorialButton;             // Ëµï¿½ï¿½ï¿½ï¿½Å¥
+    public Button closeTutorialButton;        // ï¿½Ø±ï¿½Ëµï¿½ï¿½ï¿½ï¿½Å¥
 
-    [Header("°´Å¥ÎÄ×Ö")]
-    public Text musicButtonText;              // ÒôÀÖ°´Å¥ÎÄ×Ö
-    public Text sfxButtonText;                // ÒôÐ§°´Å¥ÎÄ×Ö
+    [Header("ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½")]
+    public Text musicButtonText;              // ï¿½ï¿½ï¿½Ö°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
+    public Text sfxButtonText;                // ï¿½ï¿½Ð§ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
 
-    [Header("ËµÃ÷ÄÚÈÝ")]
-    public Text tutorialText;                 // ËµÃ÷ÎÄ×ÖÄÚÈÝ
+    [Header("Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    public Text tutorialText;                 // Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    private string currentSceneBeforeSettings; // ¼ÇÂ¼´ò¿ªÉèÖÃÇ°µÄ³¡¾°
+    private string currentSceneBeforeSettings; // ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ä³ï¿½ï¿½ï¿½
 
-    // ============ µ¥Àý³õÊ¼»¯ ============
+    // ============ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ ============
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log("[SettingsManager] Instance has been set.");
         }
         else
         {
+            Debug.LogWarning("[SettingsManager] Duplicate SettingsManager detected! Destroying this instance.");
             Destroy(gameObject);
             return;
         }
@@ -43,7 +45,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        // ³õÊ¼»¯:Òþ²ØÃæ°å
+        // ï¿½ï¿½Ê¼ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (settingsPanel != null)
         {
             settingsPanel.SetActive(false);
@@ -54,17 +56,17 @@ public class SettingsManager : MonoBehaviour
             tutorialPanel.SetActive(false);
         }
 
-        // °ó¶¨°´Å¥ÊÂ¼þ
+        // ï¿½ó¶¨°ï¿½Å¥ï¿½Â¼ï¿½
         BindButtonEvents();
 
-        // ¶©ÔÄAudioManagerÊÂ¼þÒÔ¸üÐÂ°´Å¥ÎÄ×Ö
+        // ï¿½ï¿½ï¿½ï¿½AudioManagerï¿½Â¼ï¿½ï¿½Ô¸ï¿½ï¿½Â°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.OnMusicToggled.AddListener(UpdateMusicButtonText);
             AudioManager.Instance.OnSFXToggled.AddListener(UpdateSFXButtonText);
         }
 
-        // ³õÊ¼»¯°´Å¥ÎÄ×Ö
+        // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½
         UpdateMusicButtonText(AudioManager.Instance?.IsMusicEnabled() ?? true);
         UpdateSFXButtonText(AudioManager.Instance?.IsSFXEnabled() ?? true);
 
@@ -73,7 +75,7 @@ public class SettingsManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // È¡Ïû¶©ÔÄ
+        // È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.OnMusicToggled.RemoveListener(UpdateMusicButtonText);
@@ -83,7 +85,7 @@ public class SettingsManager : MonoBehaviour
         UnbindButtonEvents();
     }
 
-    // ============ °´Å¥ÊÂ¼þ°ó¶¨ ============
+    // ============ ï¿½ï¿½Å¥ï¿½Â¼ï¿½ï¿½ï¿½ ============
 
     private void BindButtonEvents()
     {
@@ -151,10 +153,10 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    // ============ ÉèÖÃÃæ°å¿ØÖÆ ============
+    // ============ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ============
 
     /// <summary>
-    /// ´ò¿ªÉèÖÃÃæ°å
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void OpenSettings()
     {
@@ -163,7 +165,7 @@ public class SettingsManager : MonoBehaviour
             settingsPanel.SetActive(true);
             Debug.Log("[SettingsManager] Settings panel opened");
 
-            // ¼ÇÂ¼µ±Ç°³¡¾°
+            // ï¿½ï¿½Â¼ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
             if (SceneController.Instance != null)
             {
                 currentSceneBeforeSettings = SceneController.Instance.GetCurrentSceneName();
@@ -172,7 +174,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹Ø±ÕÉèÖÃÃæ°å
+    /// ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void CloseSettings()
     {
@@ -182,14 +184,14 @@ public class SettingsManager : MonoBehaviour
             Debug.Log("[SettingsManager] Settings panel closed");
         }
 
-        // Í¬Ê±¹Ø±ÕËµÃ÷Ãæ°å
+        // Í¬Ê±ï¿½Ø±ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
     }
 
-    // ============ °´Å¥µã»÷´¦Àí ============
+    // ============ ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ============
 
     private void OnContinueClicked()
     {
@@ -220,7 +222,7 @@ public class SettingsManager : MonoBehaviour
         Debug.Log("[SettingsManager] Main menu button clicked");
         CloseSettings();
 
-        // ¼ÓÔØÖ÷²Ëµ¥³¡¾°
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene("LandingPage");
@@ -245,13 +247,13 @@ public class SettingsManager : MonoBehaviour
         }
     }
 
-    // ============ UI¸üÐÂ ============
+    // ============ UIï¿½ï¿½ï¿½ï¿½ ============
 
     private void UpdateMusicButtonText(bool isEnabled)
     {
         if (musicButtonText != null)
         {
-            musicButtonText.text = isEnabled ? "ÒôÀÖ: ¿ª" : "ÒôÀÖ: ¹Ø";
+            musicButtonText.text = isEnabled ? "ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½" : "ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½";
         }
     }
 
@@ -259,12 +261,12 @@ public class SettingsManager : MonoBehaviour
     {
         if (sfxButtonText != null)
         {
-            sfxButtonText.text = isEnabled ? "ÒôÐ§: ¿ª" : "ÒôÐ§: ¹Ø";
+            sfxButtonText.text = isEnabled ? "ï¿½ï¿½Ð§: ï¿½ï¿½" : "ï¿½ï¿½Ð§: ï¿½ï¿½";
         }
     }
 
     /// <summary>
-    /// ÉèÖÃËµÃ÷ÎÄ×ÖÄÚÈÝ
+    /// ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void SetTutorialText(string text)
     {
