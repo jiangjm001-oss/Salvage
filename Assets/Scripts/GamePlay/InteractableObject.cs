@@ -2,65 +2,65 @@
 using UnityEngine;
 
 /// <summary>
-/// ¿É½»»¥ÎïÌå×é¼ş
-/// Ö§³ÖÈıÖÖ½»»¥ÀàĞÍ£ºÊ°È¡ÎïÆ·¡¢·Å´ó²é¿´¡¢´¥·¢ÊÂ¼ş
+/// ï¿½É½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+/// Ö§ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½Ê°È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Å´ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 /// </summary>
 public class InteractableObject : MonoBehaviour
 {
-    [Header("ÎïÌå»ù±¾ĞÅÏ¢")]
-    [Tooltip("ÎïÌåµÄÎ¨Ò»±êÊ¶·û")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢")]
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶ï¿½ï¿½")]
     public string objectID;
 
-    [Tooltip("ÎïÌåµÄÏÔÊ¾Ãû³Æ")]
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½")]
     public string displayName;
 
-    [Header("½»»¥ÀàĞÍÉèÖÃ")]
-    [Tooltip("Ñ¡Ôñ´ËÎïÌåµÄ½»»¥ÀàĞÍ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    [Tooltip("Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public InteractionType interactionType = InteractionType.Pickup;
 
-    [Header("Ê°È¡ÎïÆ·ÉèÖÃ (Pickup)")]
-    [Tooltip("´ËÎïÌå´ú±íµÄÎïÆ·Êı¾İ£¨½öµ±½»»¥ÀàĞÍÎªPickupÊ±Ê¹ÓÃ£©")]
+    [Header("Ê°È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ (Pickup)")]
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPickupÊ±Ê¹ï¿½Ã£ï¿½")]
     public ItemData item;
 
-    [Tooltip("ÊÇ·ñ¿ÉÒÔ±»Ê°È¡£¨½öµ±½»»¥ÀàĞÍÎªPickupÊ±Ê¹ÓÃ£©")]
+    [Tooltip("ï¿½Ç·ï¿½ï¿½ï¿½Ô±ï¿½Ê°È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPickupÊ±Ê¹ï¿½Ã£ï¿½")]
     public bool isPickupable = true;
 
-    [Header("·Å´óÊÓÍ¼ÉèÖÃ (ZoomView)")]
-    [Tooltip("Ñ¡ÔñÕâ¸öÎïÌå¹ØÁªµÄ·Å´óÊÓÍ¼£¨½öµ±½»»¥ÀàĞÍÎªZoomViewÊ±Ê¹ÓÃ£©")]
+    [Header("ï¿½Å´ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ (ZoomView)")]
+    [Tooltip("Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·Å´ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªZoomViewÊ±Ê¹ï¿½Ã£ï¿½")]
     public GameManager.ViewState associatedZoomView;
 
-    [Header("ÒôĞ§ÉèÖÃ£¨¿ÉÑ¡£©")]
-    [Tooltip("Ê°È¡ÎïÆ·Ê±²¥·ÅµÄÒôĞ§Ãû³Æ")]
-    public string pickupSoundName = "item_pickup";
+    [Header("ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½")]
+    [Tooltip("Ê°È¡ï¿½ï¿½Æ·Ê±ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½")]
+    public string pickupSoundName = "Audio/SFX/item_pickup";
 
-    [Tooltip("½øÈë·Å´óÊÓÍ¼Ê±²¥·ÅµÄÒôĞ§Ãû³Æ")]
-    public string zoomSoundName = "zoom_in";
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼Ê±ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½")]
+    public string zoomSoundName = "Audio/SFX/zoom_in";
 
-    [Tooltip("´¥·¢ÊÂ¼şÊ±²¥·ÅµÄÒôĞ§Ãû³Æ")]
-    public string triggerSoundName = "trigger";
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Ê±ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½")]
+    public string triggerSoundName = "Audio/SFX/trigger";
 
-    [Header("´¥·¢ÊÂ¼şÉèÖÃ (Trigger)")]
-    [Tooltip("´¥·¢ºóÊÇ·ñ½ûÓÃ´ËÎïÌå")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ (Trigger)")]
+    [Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public bool disableAfterTrigger = false;
 
     /// <summary>
-    /// ½»»¥ÀàĞÍÃ¶¾Ù
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½
     /// </summary>
     public enum InteractionType
     {
-        Pickup,      // Ê°È¡ÎïÆ·µ½±³°ü
-        ZoomView,    // ·Å´ó²é¿´
-        Trigger      // ´¥·¢ÊÂ¼ş/»ú¹Ø
+        Pickup,      // Ê°È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        ZoomView,    // ï¿½Å´ï¿½é¿´
+        Trigger      // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½/ï¿½ï¿½ï¿½ï¿½
     }
 
     /// <summary>
-    /// Ö÷½»»¥·½·¨ - ÓÉInteractionSystemµ÷ÓÃ
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½InteractionSystemï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void Interact()
     {
-        Debug.Log($"[InteractableObject] Íæ¼ÒÓëÎïÌå '{displayName}' (ID: {objectID}) ½øĞĞÁË½»»¥¡£½»»¥ÀàĞÍ: {interactionType}");
+        Debug.Log($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ '{displayName}' (ID: {objectID}) ï¿½ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {interactionType}");
 
-        // ¸ù¾İ½»»¥ÀàĞÍ·Ö·¢µ½²»Í¬µÄ´¦Àí·½·¨
+        // ï¿½ï¿½ï¿½İ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         switch (interactionType)
         {
             case InteractionType.Pickup:
@@ -68,7 +68,7 @@ public class InteractableObject : MonoBehaviour
                 break;
 
             case InteractionType.ZoomView:
-                // Ó¦¸Ãµ÷ÓÃ GameManager µÄ·½·¨
+                // Ó¦ï¿½Ãµï¿½ï¿½ï¿½ GameManager ï¿½Ä·ï¿½ï¿½ï¿½
                 GameManager.Instance.EnterZoomView(associatedZoomView);
                 break;
 
@@ -77,71 +77,71 @@ public class InteractableObject : MonoBehaviour
                 break;
 
             default:
-                Debug.LogWarning($"[InteractableObject] Î´ÖªµÄ½»»¥ÀàĞÍ: {interactionType}");
+                Debug.LogWarning($"[InteractableObject] Î´Öªï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {interactionType}");
                 break;
         }
     }
 
     /// <summary>
-    /// ´¦ÀíÊ°È¡ÎïÆ·½»»¥
+    /// ï¿½ï¿½ï¿½ï¿½Ê°È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void HandlePickup()
     {
         if (!isPickupable)
         {
-            Debug.Log($"[InteractableObject] ÎïÌå '{displayName}' ÎŞ·¨±»Ê°È¡£¨isPickupable = false£©¡£");
+            Debug.Log($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ '{displayName}' ï¿½Ş·ï¿½ï¿½ï¿½Ê°È¡ï¿½ï¿½isPickupable = falseï¿½ï¿½ï¿½ï¿½");
             return;
         }
 
         if (item == null)
         {
-            Debug.LogError($"[InteractableObject] ÎïÌå '{displayName}' Ã»ÓĞ·ÖÅäItemData£¡ÇëÔÚInspectorÖĞÉèÖÃ¡£");
+            Debug.LogError($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ '{displayName}' Ã»ï¿½Ğ·ï¿½ï¿½ï¿½ItemDataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Inspectorï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½");
             return;
         }
 
-        // µ÷ÓÃ±³°üÏµÍ³Ìí¼ÓÎïÆ·
+        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
         InventorySystem.Instance.AddItem(item);
 
-        Debug.Log($"[InteractableObject] ³É¹¦Ê°È¡ÎïÆ·: {item.displayName}");
+        Debug.Log($"[InteractableObject] ï¿½É¹ï¿½Ê°È¡ï¿½ï¿½Æ·: {item.displayName}");
 
-        // ²¥·ÅÊ°È¡ÒôĞ§
+        // ï¿½ï¿½ï¿½ï¿½Ê°È¡ï¿½ï¿½Ğ§
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(pickupSoundName))
         {
             AudioManager.Instance.PlaySFX(pickupSoundName);
         }
 
-        // ´Ó³¡¾°ÖĞÒÆ³ıÕâ¸öÎïÌå
+        // ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         gameObject.SetActive(false);
-        // »òÕßÊ¹ÓÃ Destroy(gameObject); Èç¹û²»ĞèÒªÔÙ´Î¼¤»î
+        // ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ Destroy(gameObject); ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ù´Î¼ï¿½ï¿½ï¿½
     }
 
     /// <summary>
-    /// ´¦Àí·Å´óÊÓÍ¼½»»¥
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void HandleZoomView()
     {
-        // ÑéÖ¤ÊÇ·ñÊÇÓĞĞ§µÄ·Å´óÊÓÍ¼Ã¶¾ÙÖµ
+        // ï¿½ï¿½Ö¤ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½Ä·Å´ï¿½ï¿½ï¿½Í¼Ã¶ï¿½ï¿½Öµ
         string viewStateName = associatedZoomView.ToString();
 
         if (!viewStateName.Contains("Zoom"))
         {
-            Debug.LogError($"[InteractableObject] ÎïÌå '{displayName}' µÄAssociated Zoom ViewÉèÖÃ´íÎó£¡" +
-                          $"µ±Ç°Öµ: {associatedZoomView}£¬±ØĞëÑ¡Ôñ°üº¬'Zoom'µÄÊÓÍ¼×´Ì¬¡£");
+            Debug.LogError($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ '{displayName}' ï¿½ï¿½Associated Zoom Viewï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½" +
+                          $"ï¿½ï¿½Ç°Öµ: {associatedZoomView}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½'Zoom'ï¿½ï¿½ï¿½ï¿½Í¼×´Ì¬ï¿½ï¿½");
             return;
         }
 
-        // ¼ì²éGameManagerÊÇ·ñ´æÔÚ
+        // ï¿½ï¿½ï¿½GameManagerï¿½Ç·ï¿½ï¿½ï¿½ï¿½
         if (GameManager.Instance == null)
         {
-            Debug.LogError("[InteractableObject] GameManager²»´æÔÚ£¡ÎŞ·¨ÇĞ»»ÊÓÍ¼¡£");
+            Debug.LogError("[InteractableObject] GameManagerï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½Ş·ï¿½ï¿½Ğ»ï¿½ï¿½ï¿½Í¼ï¿½ï¿½");
             return;
         }
 
-        // ÇĞ»»µ½·Å´óÊÓÍ¼
-        Debug.Log($"[InteractableObject] ½øÈë·Å´óÊÓÍ¼: {associatedZoomView}");
+        // ï¿½Ğ»ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼
+        Debug.Log($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼: {associatedZoomView}");
         GameManager.Instance.EnterZoomView(associatedZoomView);
 
-        // ²¥·Å·Å´óÒôĞ§
+        // ï¿½ï¿½ï¿½Å·Å´ï¿½ï¿½ï¿½Ğ§
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(zoomSoundName))
         {
             AudioManager.Instance.PlaySFX(zoomSoundName);
@@ -149,22 +149,22 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ´¦Àí´¥·¢ÊÂ¼ş½»»¥
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void HandleTrigger()
     {
-        Debug.Log($"[InteractableObject] ´¥·¢ÁËÎïÌå: {displayName} (ID: {objectID})");
+        Debug.Log($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {displayName} (ID: {objectID})");
 
-        // ²¥·Å´¥·¢ÒôĞ§
+        // ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(triggerSoundName))
         {
             AudioManager.Instance.PlaySFX(triggerSoundName);
         }
 
-        // ´¥·¢×Ô¶¨ÒåÊÂ¼ş£¨¿ÉÒÔÔÚ×ÓÀàÖĞÖØĞ´»òÍ¨¹ıUnityEventÀ©Õ¹£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½Í¨ï¿½ï¿½UnityEventï¿½ï¿½Õ¹ï¿½ï¿½
         OnTriggered();
 
-        // Èç¹ûÉèÖÃÁË´¥·¢ºó½ûÓÃ£¬Ôò½ûÓÃ´ËÎïÌå
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½
         if (disableAfterTrigger)
         {
             gameObject.SetActive(false);
@@ -172,15 +172,15 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ´¥·¢ÊÂ¼şµÄĞé·½·¨£¬¿ÉÔÚ×ÓÀàÖĞÖØĞ´ÒÔÊµÏÖÌØ¶¨Âß¼­
-    /// ÀıÈç£º´ò¿ªÃÅ¡¢¼¤»î»ú¹Ø¡¢´¥·¢ÃÕÌâµÈ
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½é·½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½Êµï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ß¼ï¿½
+    /// ï¿½ï¿½ï¿½ç£ºï¿½ï¿½ï¿½Å¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     protected virtual void OnTriggered()
     {
-        // »ùÀàÄ¬ÈÏÊµÏÖÎª¿Õ
-        // ×ÓÀà¿ÉÒÔÖØĞ´Õâ¸ö·½·¨À´ÊµÏÖÌØ¶¨µÄ´¥·¢Âß¼­
+        // ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Êµï¿½ï¿½Îªï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½Ø¶ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
 
-        // Ê¾Àı£ºÈç¹ûÓĞPuzzleManager£¬¿ÉÒÔÍ¨ÖªËü
+        // Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PuzzleManagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Öªï¿½ï¿½
         // if (PuzzleManager.Instance != null)
         // {
         //     PuzzleManager.Instance.OnObjectTriggered(objectID);
@@ -188,11 +188,11 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ±à¼­Æ÷¸¨Öú£ºÔÚSceneÊÓÍ¼ÖĞÏÔÊ¾ÎïÌåĞÅÏ¢
+    /// ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sceneï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        // ¸ù¾İ½»»¥ÀàĞÍÏÔÊ¾²»Í¬ÑÕÉ«µÄGizmo
+        // ï¿½ï¿½ï¿½İ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¬ï¿½ï¿½É«ï¿½ï¿½Gizmo
         switch (interactionType)
         {
             case InteractionType.Pickup:
@@ -206,19 +206,19 @@ public class InteractableObject : MonoBehaviour
                 break;
         }
 
-        // ÔÚÎïÌåÎ»ÖÃ»æÖÆÒ»¸öĞ¡Çò
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ğ¡ï¿½ï¿½
         Gizmos.DrawWireSphere(transform.position, 0.3f);
     }
 
     /// <summary>
-    /// ±à¼­Æ÷¸¨Öú£ºÑéÖ¤ÉèÖÃ
+    /// ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void OnValidate()
     {
-        // ÔÚ±à¼­Æ÷ÖĞÊµÊ±ÑéÖ¤ÉèÖÃ
+        // ï¿½Ú±à¼­ï¿½ï¿½ï¿½ï¿½ÊµÊ±ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½
         if (interactionType == InteractionType.Pickup && item == null)
         {
-            Debug.LogWarning($"[InteractableObject] ÎïÌå '{gameObject.name}' µÄ½»»¥ÀàĞÍÎªPickup£¬µ«Ã»ÓĞÉèÖÃItemData£¡", this);
+            Debug.LogWarning($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ '{gameObject.name}' ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPickupï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ItemDataï¿½ï¿½", this);
         }
 
         if (interactionType == InteractionType.ZoomView)
@@ -226,7 +226,7 @@ public class InteractableObject : MonoBehaviour
             string viewStateName = associatedZoomView.ToString();
             if (!viewStateName.Contains("Zoom"))
             {
-                Debug.LogWarning($"[InteractableObject] ÎïÌå '{gameObject.name}' µÄ½»»¥ÀàĞÍÎªZoomView£¬µ«Associated Zoom ViewÉèÖÃ¿ÉÄÜ²»ÕıÈ·£¨µ±Ç°: {associatedZoomView}£©£¡", this);
+                Debug.LogWarning($"[InteractableObject] ï¿½ï¿½ï¿½ï¿½ '{gameObject.name}' ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªZoomViewï¿½ï¿½ï¿½ï¿½Associated Zoom Viewï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ü²ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Ç°: {associatedZoomView}ï¿½ï¿½ï¿½ï¿½", this);
             }
         }
     }

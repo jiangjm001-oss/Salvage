@@ -3978,11 +3978,8 @@ GameObject:
   - component: {fileID: 4691672343122044895}
   - component: {fileID: 9050412710728104055}
   - component: {fileID: 8800341532465235890}
-  - component: {fileID: 8536039471285008529}
   - component: {fileID: 6836828841745943706}
   - component: {fileID: 3260122283170684510}
-  - component: {fileID: 5555555555555555555}
-  - component: {fileID: 6418380100897262541}
   - component: {fileID: 8899999432636549473}
   - component: {fileID: 4661971711790611248}
   - component: {fileID: 2294583744351303848}
@@ -4087,26 +4084,6 @@ MonoBehaviour:
   rightArrowButton: {fileID: 2899841487813114132}
   backButton: {fileID: 389600337647835535}
   pauseMenuPanel: {fileID: 0}
---- !u!114 &8536039471285008529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8888946147516746025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2181e4d1a92f4694191078dad90e958f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
-  OnMusicToggled:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSFXToggled:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6836828841745943706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4135,41 +4112,6 @@ MonoBehaviour:
   OnInventoryChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5555555555555555555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8888946147516746025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &6418380100897262541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8888946147516746025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!114 &8899999432636549473
 MonoBehaviour:
   m_ObjectHideFlags: 0

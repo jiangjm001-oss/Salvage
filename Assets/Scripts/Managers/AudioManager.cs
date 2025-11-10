@@ -180,7 +180,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"[AudioManager] Failed to load SFX from Resources: {sfxPath}");
+            Debug.LogWarning($"[AudioManager] Failed to load SFX from Resources: {sfxPath}. Audio file not found (this is optional).");
         }
     }
 
