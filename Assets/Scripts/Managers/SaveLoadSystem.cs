@@ -1,13 +1,13 @@
 // Assets/Scripts/Managers/SaveLoadSystem.cs
 using UnityEngine;
 
-// ´æµµÊı¾İ½á¹¹
+// ï¿½æµµï¿½ï¿½ï¿½İ½á¹¹
 [System.Serializable]
 public class SaveData
 {
     public int currentLevel; // 0: Main Menu, 1: Level1, 2: Level2
     public string currentSceneName;
-    // ÔÚÕâÀïÌí¼ÓĞèÒª±£´æµÄÆäËûÊı¾İ£¬Èç±³°üÎïÆ·¡¢ÃÕÌâ×´Ì¬µÈ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ç±³ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     // public InventoryData inventory;
 }
 
@@ -19,14 +19,15 @@ public class SaveLoadSystem : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Debug.LogWarning($"[SaveLoadSystem] Duplicate SaveLoadSystem detected on {gameObject.name}! Destroying this component only.");
+            Destroy(this);  // åªé”€æ¯ç»„ä»¶ï¼Œä¸é”€æ¯æ•´ä¸ª GameObject
             return;
         }
         Instance = this;
+        Debug.Log("[SaveLoadSystem] Instance has been set.");
 
-        // --- È·ÈÏÕâÀïÓĞÕâÁ½ĞĞ£¬²¢ÇÒË³ĞòÕıÈ· ---
-        transform.SetParent(null); // ÏÈ°Ñ×Ô¼º´Ó¸¸¶ÔÏóÖĞ½â·Å³öÀ´
-        DontDestroyOnLoad(gameObject); // ÔÙÉèÖÃÎª³Ö¾Ã´æÔÚ
+        // GameManager å·²ç»åœ¨åŒä¸€ä¸ª GameObject ä¸Šè°ƒç”¨äº† DontDestroyOnLoad
+        // ä¸éœ€è¦é‡å¤è°ƒç”¨
     }
 
     public void SaveGame()
@@ -37,25 +38,25 @@ public class SaveLoadSystem : MonoBehaviour
             currentLevel = (int)GameManager.Instance.CurrentGameState,
             currentSceneName = SceneController.Instance.GetCurrentSceneName()
         };
-        // TODO: ÊµÏÖ½« data ¶ÔÏóĞòÁĞ»¯Îª JSON »ò¶ş½øÖÆ²¢Ğ´ÈëÎÄ¼şµÄÂß¼­
+        // TODO: Êµï¿½Ö½ï¿½ data ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½Îª JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½Ğ´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
         // PlayerPrefs.SetString("SaveData", JsonUtility.ToJson(data));
     }
 
     public SaveData LoadGame()
     {
         Debug.Log("SaveLoadSystem: Loading game...");
-        // TODO: ÊµÏÖ´ÓÎÄ¼ş¶ÁÈ¡Êı¾İ²¢·´ĞòÁĞ»¯Îª SaveData ¶ÔÏóµÄÂß¼­
+        // TODO: Êµï¿½Ö´ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½İ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½Îª SaveData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
         // if (PlayerPrefs.HasKey("SaveData"))
         // {
         //     return JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString("SaveData"));
         // }
-        return null; // ÔİÊ±·µ»Ø null£¬±íÊ¾Ã»ÓĞ´æµµ
+        return null; // ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ï¿½ï¿½Ê¾Ã»ï¿½Ğ´æµµ
     }
 
     public void DeleteSaveData()
     {
         Debug.Log("SaveLoadSystem: Deleting save data.");
-        // TODO: ÊµÏÖÉ¾³ı´æµµÎÄ¼şµÄÂß¼­
+        // TODO: Êµï¿½ï¿½É¾ï¿½ï¿½ï¿½æµµï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
         // PlayerPrefs.DeleteKey("SaveData");
     }
 }

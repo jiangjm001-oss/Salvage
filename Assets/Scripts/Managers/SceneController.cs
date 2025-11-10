@@ -11,11 +11,14 @@ public class SceneController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Debug.Log("[SceneController] Instance has been set.");
+            // GameManager 已经在同一个 GameObject 上调用了 DontDestroyOnLoad
+            // 不需要重复调用
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogWarning($"[SceneController] Duplicate SceneController detected on {gameObject.name}! Destroying this component only.");
+            Destroy(this);  // 只销毁组件，不销毁整个 GameObject
         }
     }
 

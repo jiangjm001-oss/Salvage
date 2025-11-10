@@ -37,8 +37,8 @@ public class SettingsManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[SettingsManager] Duplicate SettingsManager detected! Destroying this instance.");
-            Destroy(gameObject);
+            Debug.LogWarning($"[SettingsManager] Duplicate SettingsManager detected on {gameObject.name}! Destroying this component only.");
+            Destroy(this);  // 只销毁组件，不销毁整个 GameObject
             return;
         }
     }

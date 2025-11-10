@@ -6,20 +6,20 @@ public class EventSystemPersist : MonoBehaviour
 {
     private void Awake()
     {
-        // ¼ì²éÊÇ·ñÒÑ¾­ÓĞÆäËû EventSystem ´æÔÚ
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ EventSystem ï¿½ï¿½ï¿½ï¿½
         EventSystem[] eventSystems = FindObjectsOfType<EventSystem>();
 
         if (eventSystems.Length > 1)
         {
-            // Èç¹ûÓĞ¶à¸ö£¬Ïú»ÙÕâ¸ö£¨±£Áô³¡¾°ÖĞÔ­ÓĞµÄ£©
-            Destroy(gameObject);
+            // ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ĞµÄ£ï¿½
+            Debug.LogWarning($"[EventSystemPersist] Multiple EventSystems detected! Destroying this component only.");
+            Destroy(this);  // åªé”€æ¯ç»„ä»¶ï¼Œä¸é”€æ¯æ•´ä¸ª GameObject
             return;
         }
 
-        // ÈÃÕâ¸ö EventSystem ³Ö¾Ã»¯
-        transform.SetParent(null);
-        DontDestroyOnLoad(gameObject);
+        // GameManager å·²ç»åœ¨åŒä¸€ä¸ª GameObject ä¸Šè°ƒç”¨äº† DontDestroyOnLoad
+        // ä¸éœ€è¦é‡å¤è°ƒç”¨
 
-        Debug.Log("EventSystemPersist: EventSystem is now persistent across scenes.");
+        Debug.Log("[EventSystemPersist] EventSystem is now persistent across scenes.");
     }
 }

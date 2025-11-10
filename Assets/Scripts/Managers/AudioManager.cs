@@ -1,5 +1,5 @@
-// Assets/Scripts/Managers/AudioManager.cs - ¸üĞÂ°æ±¾
-// ÔÚÔ­ÓĞAudioManager.csµÄ»ù´¡ÉÏÌí¼ÓÒÔÏÂ·½·¨
+// Assets/Scripts/Managers/AudioManager.cs - ï¿½ï¿½ï¿½Â°æ±¾
+// ï¿½ï¿½Ô­ï¿½ï¿½AudioManager.csï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,18 +9,18 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("ÒôÆµÔ´")]
+    [Header("ï¿½ï¿½ÆµÔ´")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
-    [Header("ÒôÆµ×´Ì¬")]
+    [Header("ï¿½ï¿½Æµ×´Ì¬")]
     private bool isMusicEnabled = true;
     private bool isSFXEnabled = true;
 
-    [Header("ÒôĞ§×ÊÔ´»º´æ")]
+    [Header("ï¿½ï¿½Ğ§ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½")]
     private Dictionary<string, AudioClip> sfxCache = new Dictionary<string, AudioClip>();
 
-    // ÊÂ¼ş
+    // ï¿½Â¼ï¿½
     public UnityEvent<bool> OnMusicToggled = new UnityEvent<bool>();
     public UnityEvent<bool> OnSFXToggled = new UnityEvent<bool>();
 
@@ -29,10 +29,12 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log("[AudioManager] Instance has been set.");
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogWarning($"[AudioManager] Duplicate AudioManager detected on {gameObject.name}! Destroying this component only.");
+            Destroy(this);  // åªé”€æ¯ç»„ä»¶ï¼Œä¸é”€æ¯æ•´ä¸ª GameObject
             return;
         }
 
@@ -40,7 +42,7 @@ public class AudioManager : MonoBehaviour
         ApplySettings();
     }
 
-    // ============ ÒôÀÖ¿ØÖÆ ============
+    // ============ ï¿½ï¿½ï¿½Ö¿ï¿½ï¿½ï¿½ ============
 
     public void ToggleMusic()
     {
@@ -104,7 +106,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ============ ÒôĞ§¿ØÖÆ ============
+    // ============ ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ ============
 
     public void ToggleSFX()
     {
@@ -126,7 +128,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ²¥·ÅÒôĞ§ - AudioClip°æ±¾
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ - AudioClipï¿½æ±¾
     /// </summary>
     public void PlaySFX(AudioClip clip)
     {
@@ -148,8 +150,8 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ²¥·ÅÒôĞ§ - ×Ö·û´®Â·¾¶°æ±¾(¼æÈİ¾É´úÂë)
-    /// ´ÓResourcesÎÄ¼ş¼Ğ¼ÓÔØÒôĞ§
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ - ï¿½Ö·ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½æ±¾(ï¿½ï¿½ï¿½İ¾É´ï¿½ï¿½ï¿½)
+    /// ï¿½ï¿½Resourcesï¿½Ä¼ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§
     /// </summary>
     public void PlaySFX(string sfxPath)
     {
@@ -161,18 +163,18 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // ³¢ÊÔ´Ó»º´æ»ñÈ¡
+        // ï¿½ï¿½ï¿½Ô´Ó»ï¿½ï¿½ï¿½ï¿½È¡
         if (sfxCache.ContainsKey(sfxPath))
         {
             PlaySFX(sfxCache[sfxPath]);
             return;
         }
 
-        // ´ÓResources¼ÓÔØ
+        // ï¿½ï¿½Resourcesï¿½ï¿½ï¿½ï¿½
         AudioClip clip = Resources.Load<AudioClip>(sfxPath);
         if (clip != null)
         {
-            sfxCache[sfxPath] = clip; // »º´æÆğÀ´
+            sfxCache[sfxPath] = clip; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             PlaySFX(clip);
             Debug.Log($"[AudioManager] Loaded and cached SFX: {sfxPath}");
         }
@@ -190,12 +192,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ============ »ñÈ¡×´Ì¬ ============
+    // ============ ï¿½ï¿½È¡×´Ì¬ ============
 
     public bool IsMusicEnabled() => isMusicEnabled;
     public bool IsSFXEnabled() => isSFXEnabled;
 
-    // ============ Êı¾İ³Ö¾Ã»¯ ============
+    // ============ ï¿½ï¿½ï¿½İ³Ö¾Ã»ï¿½ ============
 
     private void LoadSettings()
     {
@@ -219,7 +221,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Çå³ıÒôĞ§»º´æ(¿ÉÑ¡,ÓÃÓÚÄÚ´æ¹ÜÀí)
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Ñ¡,ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½)
     /// </summary>
     public void ClearSFXCache()
     {
