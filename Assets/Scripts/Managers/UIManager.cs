@@ -125,10 +125,12 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log("[UIManager] Instance has been set.");
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogWarning($"[UIManager] Duplicate UIManager detected on {gameObject.name}! Destroying this component only.");
+            Destroy(this);  // 只销毁组件，不销毁整个 GameObject
             return;
         }
     }
