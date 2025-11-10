@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // ============ ÓÎÏ·×´Ì¬¹ÜÀí ============
+    // ============ ï¿½ï¿½Ï·×´Ì¬ï¿½ï¿½ï¿½ï¿½ ============
     public enum GameState
     {
         MainMenu,
@@ -20,18 +20,18 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
     public UnityEvent<GameState> OnGameStateChanged = new UnityEvent<GameState>();
 
-    // ============ ÊÓÍ¼×´Ì¬¹ÜÀí ============
+    // ============ ï¿½ï¿½Í¼×´Ì¬ï¿½ï¿½ï¿½ï¿½ ============
     public enum ViewState
     {
         Wall_A, Wall_B, Wall_C, Wall_D,
 
-        // Level 1 ·Å´óÊÓÍ¼
+        // Level 1 ï¿½Å´ï¿½ï¿½ï¿½Í¼
         Level1_Zoom_Mirror,
         Level1_Zoom_LowCabinet,
         Level1_Zoom_GrandfatherClock,
         Level1_Zoom_CoalHeater,
 
-        // Level 2 ·Å´óÊÓÍ¼
+        // Level 2 ï¿½Å´ï¿½ï¿½ï¿½Í¼
         Level2_Zoom_Mirror,
         Level2_Zoom_Painting,
         Level2_Zoom_Safe,
@@ -42,17 +42,17 @@ public class GameManager : MonoBehaviour
 
     private ViewState lastWallBeforeZoom = ViewState.Wall_A;
 
-    // ============ ³¡¾°¹ÜÀíÆ÷ÒýÓÃ(v3.0ÐÂÔö) ============
+    // ============ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(v3.0ï¿½ï¿½ï¿½ï¿½) ============
     private WallManager currentWallManager;
     private FurnitureZoomController currentZoomController;
 
     /// <summary>
-    /// ±ã½Ý·ÃÎÊ:µ±Ç°³¡¾°µÄWallManager
+    /// ï¿½ï¿½Ý·ï¿½ï¿½ï¿½:ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WallManager
     /// </summary>
     public static WallManager CurrentWallManager => Instance?.currentWallManager;
 
     /// <summary>
-    /// ±ã½Ý·ÃÎÊ:µ±Ç°³¡¾°µÄFurnitureZoomController
+    /// ï¿½ï¿½Ý·ï¿½ï¿½ï¿½:ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½FurnitureZoomController
     /// </summary>
     public static FurnitureZoomController CurrentZoomController => Instance?.currentZoomController;
 
@@ -62,56 +62,39 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("[GameManager] Instance initialized and marked as DontDestroyOnLoad");
         }
         else
         {
+            Debug.LogWarning($"[GameManager] Duplicate instance detected on {gameObject.name}, destroying...");
             Destroy(gameObject);
+            return;
         }
     }
 
 
     private void Start()
     {
-        // ¼ì²éµ±Ç°ÊÇ·ñÔÚ Bootstrap ³¡¾°
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Bootstrap")
-        {
-            Debug.Log("[GameManager] Bootstrap scene detected. Loading LandingPage...");
+        // BootstrapLoader ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï²»ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-            // ÑÓ³ÙÒ»Ö¡£¬È·±£ËùÓÐ¹ÜÀíÆ÷¶¼ÒÑÍêÈ«³õÊ¼»¯
-            StartCoroutine(LoadLandingPageNextFrame());
-        }
-        else
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·×´Ì¬
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentSceneName != "Bootstrap")
         {
-            // Èç¹û²»ÊÇ Bootstrap ³¡¾°£¬ÔòÕý³£¸üÐÂÓÎÏ·×´Ì¬
-            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             UpdateGameStateBasedOnScene(currentSceneName);
         }
-    }
-
-    /// <summary>
-    /// Ð­³Ì£ºÑÓ³ÙÒ»Ö¡¼ÓÔØ LandingPage£¬È·±£ËùÓÐ¹ÜÀíÆ÷¶¼ÒÑ¾ÍÐ÷
-    /// </summary>
-    private System.Collections.IEnumerator LoadLandingPageNextFrame()
-    {
-        yield return null; // µÈ´ýÒ»Ö¡
-
-        // Ê¹ÓÃ SceneController À´¼ÓÔØ³¡¾°£¬±£³ÖÂß¼­Í³Ò»
-        if (SceneController.Instance != null)
-        {
-            SceneController.Instance.LoadScene("LandingPage");
-        }
         else
         {
-            // Èç¹û SceneController ²»¿ÉÓÃ£¬ÔòÖ±½Ó¼ÓÔØ
-            Debug.LogWarning("[GameManager] SceneController.Instance not found. Loading LandingPage directly.");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("LandingPage");
+            Debug.Log("[GameManager] Initialized in Bootstrap scene, waiting for scene transition...");
         }
     }
 
-    // ============ ÓÎÏ·×´Ì¬¹ÜÀí·½·¨ ============
+
+    // ============ ï¿½ï¿½Ï·×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ============
 
     /// <summary>
-    /// ¸ù¾Ý³¡¾°Ãû³Æ¸üÐÂÓÎÏ·×´Ì¬
+    /// ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ï¿½Ï·×´Ì¬
     /// </summary>
     public void UpdateGameStateBasedOnScene(string sceneName)
     {
@@ -131,7 +114,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¸Ä±äÓÎÏ·×´Ì¬
+    /// ï¿½Ä±ï¿½ï¿½ï¿½Ï·×´Ì¬
     /// </summary>
     public void ChangeGameState(GameState newState)
     {
@@ -143,19 +126,19 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¿ªÊ¼ÐÂÓÎÏ·
+    /// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·
     /// </summary>
     public void StartNewGame()
     {
         Debug.Log("[GameManager] Starting new game.");
         
-        // É¾³ýÈÎºÎÏÖÓÐ´æµµ
+        // É¾ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½Ð´æµµ
         if (SaveLoadSystem.Instance != null)
         {
             SaveLoadSystem.Instance.DeleteSaveData();
         }
         
-        // ¼ÓÔØµÚÒ»¹Ø
+        // ï¿½ï¿½ï¿½Øµï¿½Ò»ï¿½ï¿½
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene("Level1_Room");
@@ -167,7 +150,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¼ÌÐøÓÎÏ·
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
     /// </summary>
     public void ContinueGame()
     {
@@ -179,7 +162,7 @@ public class GameManager : MonoBehaviour
             
             if (saveData != null)
             {
-                // ¼ÓÔØ±£´æµÄ³¡¾°
+                // ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
                 if (SceneController.Instance != null)
                 {
                     SceneController.Instance.LoadScene(saveData.currentSceneName);
@@ -202,25 +185,25 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÍË³öÓÎÏ·
+    /// ï¿½Ë³ï¿½ï¿½ï¿½Ï·
     /// </summary>
     public void QuitGame()
     {
         Debug.Log("[GameManager] Quitting game.");
         
-        // ÔÚ±à¼­Æ÷Ä£Ê½ÏÂÍ£Ö¹²¥·Å
+        // ï¿½Ú±à¼­ï¿½ï¿½Ä£Ê½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ï¿½
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         #else
-        // ÔÚ¹¹½¨µÄÓ¦ÓÃÖÐÍË³ö
+        // ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½
         Application.Quit();
         #endif
     }
 
-    // ============ ³¡¾°¹ÜÀíÆ÷×¢²á(v3.0ÐÂÔö) ============
+    // ============ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½(v3.0ï¿½ï¿½ï¿½ï¿½) ============
 
     /// <summary>
-    /// ÓÉ³¡¾°¹ÜÀíÆ÷ÔÚAwakeÊ±×Ô¶¯µ÷ÓÃ
+    /// ï¿½É³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AwakeÊ±ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void RegisterWallManager(WallManager manager)
     {
@@ -229,7 +212,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ÓÉ³¡¾°¹ÜÀíÆ÷ÔÚAwakeÊ±×Ô¶¯µ÷ÓÃ
+    /// ï¿½É³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AwakeÊ±ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void RegisterZoomController(FurnitureZoomController controller)
     {
@@ -238,7 +221,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ³¡¾°ÇÐ»»Ê±ÇåÀíÒýÓÃ
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void UnregisterSceneManagers()
     {
@@ -247,7 +230,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] Scene managers unregistered");
     }
 
-    // ============ ÊÓÍ¼ÇÐ»»·½·¨ ============
+    // ============ ï¿½ï¿½Í¼ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ ============
 
     public void SwitchToView(ViewState targetView)
     {
@@ -259,10 +242,10 @@ public class GameManager : MonoBehaviour
 
         OnViewStateChanged?.Invoke(targetView);
 
-        Debug.Log($"[GameManager] View: {previousView} ¡ú {targetView}");
+        Debug.Log($"[GameManager] View: {previousView} ï¿½ï¿½ {targetView}");
     }
     /// <summary>
-    /// ÇÐ»»µ½ÏÂÒ»ÃæÇ½ (Ñ­»·: A¡úB¡úC¡úD¡úA)
+    /// ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ç½ (Ñ­ï¿½ï¿½: Aï¿½ï¿½Bï¿½ï¿½Cï¿½ï¿½Dï¿½ï¿½A)
     /// </summary>
     public void SwitchToNextWall()
     {
@@ -280,7 +263,7 @@ public class GameManager : MonoBehaviour
         SwitchToView(nextWall);
     }
     /// <summary>
-    /// ÇÐ»»µ½ÉÏÒ»ÃæÇ½ (Ñ­»·: A¡úD¡úC¡úB¡úA)
+    /// ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ç½ (Ñ­ï¿½ï¿½: Aï¿½ï¿½Dï¿½ï¿½Cï¿½ï¿½Bï¿½ï¿½A)
     /// </summary>
     public void SwitchToPreviousWall()
     {
@@ -298,7 +281,7 @@ public class GameManager : MonoBehaviour
         SwitchToView(prevWall);
     }
     /// <summary>
-    /// ½øÈë·Å´óÊÓÍ¼
+    /// ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼
     /// </summary>
     public void EnterZoomView(ViewState zoomView)
     {
@@ -308,7 +291,7 @@ public class GameManager : MonoBehaviour
         SwitchToView(zoomView);
     }
     /// <summary>
-    /// ÍË³ö·Å´óÊÓÍ¼,·µ»Øµ½½øÈëÇ°µÄÇ½Ãæ
+    /// ï¿½Ë³ï¿½ï¿½Å´ï¿½ï¿½ï¿½Í¼,ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ç½ï¿½ï¿½
     /// </summary>
     public void ExitZoomView()
     {
@@ -321,7 +304,7 @@ public class GameManager : MonoBehaviour
         SwitchToView(lastWallBeforeZoom);
     }
     /// <summary>
-    /// ÅÐ¶Ïµ±Ç°ÊÇ·ñÔÚÇ½ÃæÊÓÍ¼(¶ø·Ç·Å´óÊÓÍ¼)
+    /// ï¿½Ð¶Ïµï¿½Ç°ï¿½Ç·ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ï¿½Í¼(ï¿½ï¿½ï¿½Ç·Å´ï¿½ï¿½ï¿½Í¼)
     /// </summary>
     public bool IsInWallView()
     {
