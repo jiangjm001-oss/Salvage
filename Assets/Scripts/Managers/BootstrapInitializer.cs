@@ -3,21 +3,28 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 /// <summary>
-/// Õâ¸ö½Å±¾Ö»´æÔÚÓÚ Bootstrap ³¡¾°£¬¸ºÔðÔÚËùÓÐ¹ÜÀíÆ÷³õÊ¼»¯Íê³Éºó£¬
-/// ×Ô¶¯¼ÓÔØ²¢½øÈëÖ÷²Ëµ¥³¡¾°¡£
+/// ï¿½ï¿½ï¿½ï¿½Å±ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Bootstrap ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Éºï¿½
+/// ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /// </summary>
 public class BootstrapInitializer : MonoBehaviour
 {
-    [Header("³¡¾°¼ÓÔØÉèÖÃ")]
-    [Tooltip("Bootstrap Íê³ÉºóÒª¼ÓÔØµÄµÚÒ»¸ö³¡¾°")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    [Tooltip("Bootstrap ï¿½ï¿½Éºï¿½Òªï¿½ï¿½ï¿½ØµÄµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private string firstSceneToLoad = "LandingPage";
 
-    [Tooltip("ÔÚ¼ÓÔØ³¡¾°Ç°µÈ´ýµÄÃëÊý£¬È·±£ËùÓÐ¹ÜÀíÆ÷¶¼ÒÑ³õÊ¼»¯")]
+    [Tooltip("ï¿½Ú¼ï¿½ï¿½Ø³ï¿½ï¿½ï¿½Ç°ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ³ï¿½Ê¼ï¿½ï¿½")]
     [SerializeField] private float waitTimeBeforeLoad = 0.5f;
 
     private void Start()
     {
-        // Æô¶¯Ð­³ÌÀ´¼ÓÔØ³¡¾°
+        // If BootstrapLoader exists in the scene, let it handle initialization
+        if (FindObjectOfType<BootstrapLoader>() != null)
+        {
+            Debug.Log("[BootstrapInitializer] BootstrapLoader detected. Skipping initialization.");
+            return;
+        }
+
+        // ï¿½ï¿½ï¿½ï¿½Ð­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½
         StartCoroutine(LoadFirstSceneAfterDelay());
     }
 
@@ -25,19 +32,19 @@ public class BootstrapInitializer : MonoBehaviour
     {
         Debug.Log("[Bootstrap] Waiting for managers to initialize...");
 
-        // µÈ´ýÖ¸¶¨µÄÊ±¼ä
+        // ï¿½È´ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
         yield return new WaitForSeconds(waitTimeBeforeLoad);
 
         Debug.Log($"[Bootstrap] Loading scene: {firstSceneToLoad}");
 
-        // Ê¹ÓÃ SceneController À´¼ÓÔØ³¡¾°£¬ÕâÑù¿ÉÒÔ±£³ÖÂß¼­Í³Ò»
+        // Ê¹ï¿½ï¿½ SceneController ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ß¼ï¿½Í³Ò»
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene(firstSceneToLoad);
         }
         else
         {
-            // Èç¹û SceneController ²»¿ÉÓÃ£¬ÔòÖ±½Ó¼ÓÔØ
+            // ï¿½ï¿½ï¿½ SceneController ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½Ö±ï¿½Ó¼ï¿½ï¿½ï¿½
             Debug.LogWarning("[Bootstrap] SceneController.Instance not found. Loading scene directly.");
             SceneManager.LoadScene(firstSceneToLoad);
         }
