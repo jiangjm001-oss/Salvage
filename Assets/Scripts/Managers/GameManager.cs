@@ -64,10 +64,11 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             Debug.Log("[GameManager] Instance initialized and marked as DontDestroyOnLoad");
         }
-        else
+        else if (Instance != this)
         {
-            Debug.LogWarning($"[GameManager] Duplicate instance detected on {gameObject.name}, destroying...");
-            Destroy(gameObject);
+            // 只销毁多余的组件，不销毁整个 GameObject
+            Debug.LogWarning($"[GameManager] Duplicate component detected, destroying component only");
+            Destroy(this);
             return;
         }
     }

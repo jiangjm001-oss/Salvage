@@ -126,10 +126,13 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("[UIManager] Instance initialized");
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(gameObject);
+            // 只销毁多余的组件，不销毁整个 GameObject
+            Debug.LogWarning($"[UIManager] Duplicate component detected, destroying component only");
+            Destroy(this);
             return;
         }
     }
