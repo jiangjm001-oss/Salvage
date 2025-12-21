@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
-  m_Name: Garbage_Level1_Item
+  m_Name: PaperBall_level1_Item
   m_EditorClassIdentifier: 
-  itemID: Garbage_Level1_Item
+  itemID: PaperBall_Level1_Item
   displayName: "\u5783\u573E\u6876\u91CC\u7684\u7EB8\u56E2"
-  description: "\u5594...\u597D\u50CF\u6709\u70B9\u810F\u3002"
+  description: "\u5594...\u597D\u50CF\u5199\u7740\u5B57\uFF1F"
   icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}

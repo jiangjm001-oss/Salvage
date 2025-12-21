@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -25,13 +25,11 @@ public class GameManager : MonoBehaviour
     {
         Wall_A, Wall_B, Wall_C, Wall_D,
 
-        // Level 1 �Ŵ���ͼ
+        // Level 1 放大视图
         Level1_Zoom_Mirror,
-        Level1_Zoom_LowCabinet,
-        Level1_Zoom_GrandfatherClock,
-        Level1_Zoom_CoalHeater,
+        Level1_Zoom_TrashCan,
 
-        // Level 2 �Ŵ���ͼ
+        // Level 2 放大视图
         Level2_Zoom_Mirror,
         Level2_Zoom_Painting,
         Level2_Zoom_Safe,

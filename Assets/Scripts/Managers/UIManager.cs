@@ -365,13 +365,19 @@ public class UIManager : MonoBehaviour
             {
                 iconImage.sprite = slots[i].item.icon;
                 iconImage.color = Color.white;
+
+                // 强制设置图标尺寸和缩放
+                iconImage.rectTransform.sizeDelta = new Vector2(64, 64);
+                iconImage.rectTransform.localScale = Vector3.one;  // 确保缩放为1
+                iconImage.SetNativeSize();  // 先设为原始大小
+                iconImage.rectTransform.sizeDelta = new Vector2(128, 128);  // 再强制设为64x64
             }
             else
             {
                 iconImage.sprite = null;
                 iconImage.color = new Color(1, 1, 1, 0);
             }
-
+            
             // 绑定点击事件
             int currentIndex = i;
             slotButton.onClick.AddListener(() => OnSlotClicked(currentIndex));

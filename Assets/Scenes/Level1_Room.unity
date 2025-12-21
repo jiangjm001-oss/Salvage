@@ -518,7 +518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 453849829}
   m_Layer: 0
-  m_Name: Garbage_ZoomView
+  m_Name: TrashCan_ZoomView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 770782625}
   - component: {fileID: 770782624}
   m_Layer: 3
-  m_Name: Garbage
+  m_Name: TrashCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,12 +652,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: garbage_level1
+  objectID: trashcan_level1
   displayName: "\u5783\u573E\u6876"
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
-  associatedZoomView: 4
+  associatedZoomView: 5
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
@@ -1448,7 +1448,7 @@ GameObject:
   - component: {fileID: 1632606494}
   - component: {fileID: 1632606493}
   m_Layer: 3
-  m_Name: Spitball
+  m_Name: PaperBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Spitball_level1
+  objectID: Paperball_level1
   displayName: "\u5783\u573E\u6876\u91CC\u7684\u7EB8\u56E2"
   interactionType: 0
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
