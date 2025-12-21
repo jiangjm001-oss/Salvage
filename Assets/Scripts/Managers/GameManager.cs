@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// Assets/Scripts/Managers/GameManager.cs
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -7,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // ============ ��Ϸ״̬���� ============
+    // ============ 游戏状态定义 ============
     public enum GameState
     {
         MainMenu,
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
     public UnityEvent<GameState> OnGameStateChanged = new UnityEvent<GameState>();
 
-    // ============ ��ͼ״̬���� ============
+    // ============ 视图状态定义 ============
     public enum ViewState
     {
         Wall_A, Wall_B, Wall_C, Wall_D,
@@ -40,19 +41,17 @@ public class GameManager : MonoBehaviour
 
     private ViewState lastWallBeforeZoom = ViewState.Wall_A;
 
-    // ============ ��������������(v3.0����) ============
+    // ============ 场景管理器引用 ============
     private WallManager currentWallManager;
     private FurnitureZoomController currentZoomController;
 
-    /// <summary>
-    /// ��ݷ���:��ǰ������WallManager
-    /// </summary>
     public static WallManager CurrentWallManager => Instance?.currentWallManager;
-
-    /// <summary>
-    /// ��ݷ���:��ǰ������FurnitureZoomController
-    /// </summary>
     public static FurnitureZoomController CurrentZoomController => Instance?.currentZoomController;
+
+    // ============ 存档相关 ============
+    private SaveData pendingSaveData = null;
+    private ViewState pendingViewState = ViewState.Wall_A;
+    private bool hasPendingViewState = false;
 
     private void Awake()
     {
@@ -62,35 +61,68 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Debug.Log("[GameManager] Instance has been set. GameManager initialized successfully.");
+            Debug.Log("[GameManager] Instance initialized successfully.");
         }
         else
         {
-            Debug.LogWarning("[GameManager] Duplicate GameManager detected! Destroying this instance.");
+            Debug.LogWarning("[GameManager] Duplicate detected! Destroying this instance.");
             Destroy(gameObject);
         }
     }
-
 
     private void Start()
     {
         Debug.Log("[GameManager] Start() called.");
 
-        // BootstrapLoader will handle scene loading in Bootstrap scene
-        // Only update game state if we're in a game scene
-        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string currentSceneName = SceneManager.GetActiveScene().name;
 
         if (currentSceneName != "Bootstrap")
         {
             UpdateGameStateBasedOnScene(currentSceneName);
         }
+
+        // 订阅场景加载完成事件
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // ============ ��Ϸ״̬�������� ============
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     /// <summary>
-    /// ���ݳ������Ƹ�����Ϸ״̬
+    /// 场景加载完成回调
     /// </summary>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[GameManager] Scene loaded: {scene.name}");
+
+        // 如果有待应用的存档数据，在场景加载后应用
+        if (pendingSaveData != null)
+        {
+            StartCoroutine(ApplySaveDataDelayed());
+        }
+    }
+
+    /// <summary>
+    /// 延迟应用存档数据（等待场景完全初始化）
+    /// </summary>
+    private IEnumerator ApplySaveDataDelayed()
+    {
+        // 等待几帧，确保 WallManager 和其他组件都已初始化
+        yield return null;
+        yield return null;
+        yield return new WaitForEndOfFrame();
+
+        if (pendingSaveData != null && SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.ApplySaveData(pendingSaveData);
+            pendingSaveData = null;
+        }
+    }
+
+    // ============ 游戏状态管理 ============
+
     public void UpdateGameStateBasedOnScene(string sceneName)
     {
         GameState newState = sceneName switch
@@ -108,9 +140,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// �ı���Ϸ״̬
-    /// </summary>
     public void ChangeGameState(GameState newState)
     {
         if (CurrentGameState == newState) return;
@@ -120,20 +149,34 @@ public class GameManager : MonoBehaviour
         Debug.Log($"[GameManager] Game state changed to: {newState}");
     }
 
+    // ============ 开始游戏 / 继续游戏 ============
+
     /// <summary>
-    /// ��ʼ����Ϸ
+    /// 开始新游戏 - 清除所有存档，从头开始
     /// </summary>
     public void StartNewGame()
     {
-        Debug.Log("[GameManager] Starting new game.");
-        
-        // ɾ���κ����д浵
+        Debug.Log("[GameManager] ========== Starting NEW game ==========");
+
+        // 1. 删除所有存档数据
         if (SaveLoadSystem.Instance != null)
         {
             SaveLoadSystem.Instance.DeleteSaveData();
         }
-        
-        // ���ص�һ��
+
+        // 2. 清空背包
+        if (InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.ClearInventory();
+        }
+
+        // 3. 重置状态
+        CurrentViewState = ViewState.Wall_A;
+        lastWallBeforeZoom = ViewState.Wall_A;
+        pendingSaveData = null;
+        hasPendingViewState = false;
+
+        // 4. 加载第一关
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene("Level1_Room");
@@ -141,83 +184,111 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogError("[GameManager] SceneController instance not found!");
+            SceneManager.LoadScene("Level1_Room");
         }
+
+        Debug.Log("[GameManager] New game started.");
     }
 
     /// <summary>
-    /// ������Ϸ
+    /// 继续游戏 - 读取存档恢复进度
     /// </summary>
     public void ContinueGame()
     {
-        Debug.Log("[GameManager] Continuing game.");
-        
-        if (SaveLoadSystem.Instance != null)
+        Debug.Log("[GameManager] ========== Continuing game ==========");
+
+        if (SaveLoadSystem.Instance == null)
         {
-            SaveData saveData = SaveLoadSystem.Instance.LoadGame();
-            
-            if (saveData != null)
-            {
-                // ���ر���ĳ���
-                if (SceneController.Instance != null)
-                {
-                    SceneController.Instance.LoadScene(saveData.currentSceneName);
-                }
-                else
-                {
-                    Debug.LogError("[GameManager] SceneController instance not found!");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("[GameManager] No save data found. Starting new game instead.");
-                StartNewGame();
-            }
+            Debug.LogError("[GameManager] SaveLoadSystem instance not found!");
+            StartNewGame();
+            return;
+        }
+
+        // 1. 检查是否有存档
+        if (!SaveLoadSystem.Instance.HasSaveData())
+        {
+            Debug.LogWarning("[GameManager] No save data found. Starting new game instead.");
+            StartNewGame();
+            return;
+        }
+
+        // 2. 读取存档
+        SaveData saveData = SaveLoadSystem.Instance.LoadGame();
+
+        if (saveData == null)
+        {
+            Debug.LogWarning("[GameManager] Failed to load save data. Starting new game instead.");
+            StartNewGame();
+            return;
+        }
+
+        // 3. 保存存档数据，等场景加载后再应用
+        pendingSaveData = saveData;
+
+        // 4. 加载存档中的场景
+        string sceneToLoad = saveData.currentSceneName;
+
+        if (string.IsNullOrEmpty(sceneToLoad))
+        {
+            sceneToLoad = "Level1_Room";
+        }
+
+        Debug.Log($"[GameManager] Loading saved scene: {sceneToLoad}");
+
+        if (SceneController.Instance != null)
+        {
+            // ⭐ 使用专门的存档加载方法，不会重置视图状态
+            SceneController.Instance.LoadSceneFromSave(sceneToLoad);
         }
         else
         {
-            Debug.LogError("[GameManager] SaveLoadSystem instance not found!");
+            SceneManager.LoadScene(sceneToLoad);
         }
+
+        Debug.Log("[GameManager] Game continued from save.");
     }
 
     /// <summary>
-    /// �˳���Ϸ
+    /// 退出游戏
     /// </summary>
     public void QuitGame()
     {
         Debug.Log("[GameManager] Quitting game.");
-        
-        // �ڱ༭��ģʽ��ֹͣ����
-        #if UNITY_EDITOR
+
+        // 退出前自动保存
+        if (SaveLoadSystem.Instance != null &&
+            CurrentGameState != GameState.MainMenu)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+        }
+
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        // �ڹ�����Ӧ�����˳�
+#else
         Application.Quit();
-        #endif
+#endif
     }
 
-    // ============ ����������ע��(v3.0����) ============
+    // ============ 场景管理器注册 ============
 
-    /// <summary>
-    /// �ɳ�����������Awakeʱ�Զ�����
-    /// </summary>
     public void RegisterWallManager(WallManager manager)
     {
         currentWallManager = manager;
         Debug.Log($"[GameManager] WallManager registered: {manager.gameObject.scene.name}");
+
+        // 如果有待恢复的视图状态，现在应用
+        if (hasPendingViewState)
+        {
+            StartCoroutine(ApplyPendingViewStateDelayed());
+        }
     }
 
-    /// <summary>
-    /// �ɳ�����������Awakeʱ�Զ�����
-    /// </summary>
     public void RegisterZoomController(FurnitureZoomController controller)
     {
         currentZoomController = controller;
         Debug.Log($"[GameManager] FurnitureZoomController registered: {controller.gameObject.scene.name}");
     }
 
-    /// <summary>
-    /// �����л�ʱ��������
-    /// </summary>
     public void UnregisterSceneManagers()
     {
         currentWallManager = null;
@@ -225,7 +296,96 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] Scene managers unregistered");
     }
 
-    // ============ ��ͼ�л����� ============
+    // ============ 视图状态恢复 ============
+
+    /// <summary>
+    /// 恢复视图状态（由 SaveLoadSystem 调用）
+    /// </summary>
+    public void RestoreViewState(ViewState viewState)
+    {
+        Debug.Log($"[GameManager] RestoreViewState called: {viewState}");
+
+        // 如果 WallManager 已注册，直接切换
+        if (currentWallManager != null)
+        {
+            SwitchToView(viewState);
+
+            // 如果是墙面视图，也更新 lastWallBeforeZoom
+            if (IsWallView(viewState))
+            {
+                lastWallBeforeZoom = viewState;
+            }
+        }
+        else
+        {
+            // WallManager 还没注册，保存待应用状态
+            Debug.Log($"[GameManager] WallManager not ready, pending view state: {viewState}");
+            pendingViewState = viewState;
+            hasPendingViewState = true;
+        }
+    }
+
+    /// <summary>
+    /// 延迟应用待恢复的视图状态
+    /// </summary>
+    private IEnumerator ApplyPendingViewStateDelayed()
+    {
+        // 等待一帧确保 WallManager 完全初始化
+        yield return null;
+
+        if (hasPendingViewState && currentWallManager != null)
+        {
+            Debug.Log($"[GameManager] Applying pending view state: {pendingViewState}");
+            SwitchToView(pendingViewState);
+
+            if (IsWallView(pendingViewState))
+            {
+                lastWallBeforeZoom = pendingViewState;
+            }
+
+            hasPendingViewState = false;
+        }
+    }
+
+    /// <summary>
+    /// 判断是否是墙面视图
+    /// </summary>
+    private bool IsWallView(ViewState state)
+    {
+        return state == ViewState.Wall_A ||
+               state == ViewState.Wall_B ||
+               state == ViewState.Wall_C ||
+               state == ViewState.Wall_D;
+    }
+
+    // ============ 存档辅助方法 ============
+
+    /// <summary>
+    /// 获取应该保存的视图状态（如果在放大视图中，返回上一个墙面）
+    /// </summary>
+    public ViewState GetViewStateForSave()
+    {
+        // 如果当前在墙面视图，直接返回当前状态
+        if (IsInWallView())
+        {
+            return CurrentViewState;
+        }
+
+        // 如果在放大视图中，返回上一个墙面状态
+        // 因为放大视图是临时的，玩家不希望继续游戏时还在放大视图里
+        Debug.Log($"[GameManager] Currently in zoom view, saving wall state instead: {lastWallBeforeZoom}");
+        return lastWallBeforeZoom;
+    }
+
+    /// <summary>
+    /// 获取 lastWallBeforeZoom（用于存档）
+    /// </summary>
+    public ViewState GetLastWallBeforeZoom()
+    {
+        return lastWallBeforeZoom;
+    }
+
+    // ============ 视图切换功能 ============
 
     public void SwitchToView(ViewState targetView)
     {
@@ -237,11 +397,9 @@ public class GameManager : MonoBehaviour
 
         OnViewStateChanged?.Invoke(targetView);
 
-        Debug.Log($"[GameManager] View: {previousView} �� {targetView}");
+        Debug.Log($"[GameManager] View: {previousView} → {targetView}");
     }
-    /// <summary>
-    /// �л�����һ��ǽ (ѭ��: A��B��C��D��A)
-    /// </summary>
+
     public void SwitchToNextWall()
     {
         if (!IsInWallView()) return;
@@ -257,9 +415,7 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(nextWall);
     }
-    /// <summary>
-    /// �л�����һ��ǽ (ѭ��: A��D��C��B��A)
-    /// </summary>
+
     public void SwitchToPreviousWall()
     {
         if (!IsInWallView()) return;
@@ -275,9 +431,7 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(prevWall);
     }
-    /// <summary>
-    /// ����Ŵ���ͼ
-    /// </summary>
+
     public void EnterZoomView(ViewState zoomView)
     {
         if (IsInWallView())
@@ -285,9 +439,7 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(zoomView);
     }
-    /// <summary>
-    /// �˳��Ŵ���ͼ,���ص�����ǰ��ǽ��
-    /// </summary>
+
     public void ExitZoomView()
     {
         if (IsInWallView())
@@ -298,9 +450,7 @@ public class GameManager : MonoBehaviour
 
         SwitchToView(lastWallBeforeZoom);
     }
-    /// <summary>
-    /// �жϵ�ǰ�Ƿ���ǽ����ͼ(���ǷŴ���ͼ)
-    /// </summary>
+
     public bool IsInWallView()
     {
         return CurrentViewState == ViewState.Wall_A ||
