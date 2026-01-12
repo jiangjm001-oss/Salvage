@@ -158,10 +158,13 @@ public class InteractableObject : MonoBehaviour
     {
         string viewStateName = associatedZoomView.ToString();
 
-        if (!viewStateName.Contains("Zoom"))
+        // 使用不区分大小写的检查
+        bool isValidZoomView = viewStateName.IndexOf("zoom", System.StringComparison.OrdinalIgnoreCase) >= 0;
+
+        if (!isValidZoomView)
         {
             Debug.LogError($"[InteractableObject] 物体 '{displayName}' 的 Associated Zoom View 设置错误！" +
-                          $"当前值: {associatedZoomView}，请选择包含 'Zoom' 的视图状态。");
+                          $"当前值: {associatedZoomView}，请选择包含 'zoom' 的视图状态。");
             return;
         }
 
@@ -347,7 +350,11 @@ public class InteractableObject : MonoBehaviour
         if (interactionType == InteractionType.ZoomView)
         {
             string viewStateName = associatedZoomView.ToString();
-            if (!viewStateName.Contains("Zoom"))
+            // 使用不区分大小写的检查，同时排除墙面视图
+            bool isValidZoomView = viewStateName.IndexOf("zoom", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            bool isWallView = viewStateName.StartsWith("Wall_");
+
+            if (!isValidZoomView || isWallView)
             {
                 Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ZoomView，但 Associated Zoom View 设置可能不正确（当前: {associatedZoomView}）", this);
             }
