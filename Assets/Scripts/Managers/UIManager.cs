@@ -425,7 +425,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void DeselectItem()
+    public void DeselectItem()
     {
         if (selectedIndex >= 0 && selectedIndex < slotUIObjects.Count)
         {
@@ -446,6 +446,93 @@ public class UIManager : MonoBehaviour
         }
         selectedIndex = -1;
     }
+    // ============================================================
+    // UIManager 补丁 - 添加物品选中状态访问方法
+    // ============================================================
+    // 
+    // 将以下代码添加到 UIManager.cs 文件中
+    // 位置建议：在 DeselectItem() 方法后面添加
+    //
+    // ============================================================
+
+    // ============ 物品选中状态访问（新增） ============
+
+    /// <summary>
+    /// 获取当前选中的物品（如果有）
+    /// 供其他系统（如 InteractableObject）查询玩家手中持有的物品
+    /// </summary>
+    /// <returns>选中的 ItemData，如果没有选中则返回 null</returns>
+    public ItemData GetSelectedItem()
+    {
+        // 没有选中任何槽位
+        if (selectedIndex < 0) return null;
+
+        // 获取槽位列表
+        var slots = InventorySystem.Instance?.GetSlots();
+        if (slots == null) return null;
+
+        // 索引越界检查
+        if (selectedIndex >= slots.Count) return null;
+
+        // 返回选中槽位的物品（可能为空）
+        return slots[selectedIndex].item;
+    }
+
+    /// <summary>
+    /// 获取当前选中物品的槽位索引
+    /// </summary>
+    /// <returns>选中的槽位索引，-1 表示没有选中任何物品</returns>
+    public int GetSelectedIndex()
+    {
+        return selectedIndex;
+    }
+
+    /// <summary>
+    /// 检查是否有物品被选中
+    /// </summary>
+    public bool HasSelectedItem()
+    {
+        return selectedIndex >= 0 && GetSelectedItem() != null;
+    }
+
+    /// <summary>
+    /// 使用（消耗）当前选中的物品
+    /// 物品会从背包中移除，并取消选中状态
+    /// </summary>
+    public void ConsumeSelectedItem()
+    {
+        if (selectedIndex < 0) return;
+
+        var slots = InventorySystem.Instance?.GetSlots();
+        if (slots == null) return;
+
+        if (selectedIndex < slots.Count && !slots[selectedIndex].IsEmpty)
+        {
+            string itemName = slots[selectedIndex].item.displayName;
+            string itemID = slots[selectedIndex].item.itemID;
+
+            // 从背包移除物品
+            InventorySystem.Instance.RemoveItemByID(itemID);
+
+            Debug.Log($"[UIManager] 消耗了物品: {itemName}");
+        }
+
+        // 取消选中状态
+        DeselectItem();
+    }
+
+    // ============================================================
+    // 重要：需要将 DeselectItem() 方法改为 public
+    // ============================================================
+    // 
+    // 找到原来的：
+    //     private void DeselectItem()
+    // 
+    // 改为：
+    //     public void DeselectItem()
+    // 
+    // 这样其他系统可以在使用物品后取消选中状态
+    // ============================================================
 
     // ============ 背包展开/收起 ============
 

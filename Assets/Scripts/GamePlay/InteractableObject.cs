@@ -1,9 +1,10 @@
 // Assets/Scripts/GamePlay/InteractableObject.cs
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 可交互物体组件
-/// 支持三种交互类型：拾取物品、放大查看、触发事件
+/// 支持四种交互类型：拾取物品、放大查看、触发事件、需要物品
 /// </summary>
 public class InteractableObject : MonoBehaviour
 {
@@ -43,6 +44,26 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("触发后是否禁用此物体")]
     public bool disableAfterTrigger = false;
 
+    // ============ 新增：条件触发设置 (RequireItem) ============
+    [Header("条件触发设置 (RequireItem)")]
+    [Tooltip("需要使用的物品ID（必须与 ItemData 的 itemID 一致）")]
+    public string requiredItemID;
+
+    [Tooltip("交互成功后是否消耗该物品")]
+    public bool consumeItemOnUse = true;
+
+    [Tooltip("未选中任何物品时的提示")]
+    public string noItemHint = "需要用什么东西...";
+
+    [Tooltip("选中了错误物品时的提示")]
+    public string wrongItemHint = "这个东西在这里没有用...";
+
+    [Tooltip("成功使用物品后触发的事件")]
+    public UnityEvent OnItemUsedSuccess;
+
+    [Tooltip("成功使用后播放的音效")]
+    public string itemUsedSoundName = "Audio/SFX/item_used";
+
     /// <summary>
     /// 交互类型枚举
     /// </summary>
@@ -50,7 +71,8 @@ public class InteractableObject : MonoBehaviour
     {
         Pickup,      // 拾取物品
         ZoomView,    // 放大查看
-        Trigger      // 触发事件
+        Trigger,     // 触发事件
+        RequireItem  // 需要特定物品才能交互
     }
 
     /// <summary>
@@ -72,6 +94,10 @@ public class InteractableObject : MonoBehaviour
 
             case InteractionType.Trigger:
                 HandleTrigger();
+                break;
+
+            case InteractionType.RequireItem:
+                HandleRequireItem();
                 break;
 
             default:
@@ -185,6 +211,86 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
+    /// 处理需要物品的交互逻辑
+    /// 玩家必须先在背包中选中正确的物品，再点击此物体
+    /// </summary>
+    private void HandleRequireItem()
+    {
+        // 检查 UIManager 是否存在
+        if (UIManager.Instance == null)
+        {
+            Debug.LogError("[InteractableObject] UIManager 不存在，无法检查选中物品！");
+            return;
+        }
+
+        // 获取当前选中的物品
+        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+
+        // 情况1：没有选中任何物品
+        if (selectedItem == null)
+        {
+            Debug.Log($"[InteractableObject] 点击了 '{displayName}'，但没有选中物品");
+
+            // 可以在这里显示提示（如果有对话系统）
+            // DialogueManager.Instance?.ShowHint(noItemHint);
+
+            // 或者播放一个"需要物品"的音效
+            // AudioManager.Instance?.PlaySFX("Audio/SFX/need_item");
+
+            return;
+        }
+
+        // 情况2：选中的物品不匹配
+        if (selectedItem.itemID != requiredItemID)
+        {
+            Debug.Log($"[InteractableObject] 物品 '{selectedItem.displayName}' 不能用于 '{displayName}'");
+
+            // 显示错误提示
+            // DialogueManager.Instance?.ShowHint(wrongItemHint);
+
+            // 播放"不匹配"音效
+            // AudioManager.Instance?.PlaySFX("Audio/SFX/wrong_item");
+
+            return;
+        }
+
+        // 情况3：匹配成功！
+        Debug.Log($"[InteractableObject] ✓ 成功使用 '{selectedItem.displayName}' 于 '{displayName}'");
+
+        // 消耗物品（如果需要）
+        if (consumeItemOnUse)
+        {
+            UIManager.Instance.ConsumeSelectedItem();
+        }
+        else
+        {
+            // 不消耗，只取消选中
+            UIManager.Instance.DeselectItem();
+        }
+
+        // 播放成功音效
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(itemUsedSoundName))
+        {
+            AudioManager.Instance.PlaySFX(itemUsedSoundName);
+        }
+
+        // 触发成功事件（在 Inspector 中配置）
+        OnItemUsedSuccess?.Invoke();
+
+        // 如果设置了触发后禁用
+        if (disableAfterTrigger)
+        {
+            gameObject.SetActive(false);
+        }
+
+        // 保存进度
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+        }
+    }
+
+    /// <summary>
     /// 触发事件的虚方法，子类可以重写实现特定逻辑
     /// 例如：开门、触发机关、播放对话等
     /// </summary>
@@ -211,6 +317,9 @@ public class InteractableObject : MonoBehaviour
                 break;
             case InteractionType.Trigger:
                 Gizmos.color = Color.yellow;
+                break;
+            case InteractionType.RequireItem:
+                Gizmos.color = Color.magenta;  // 紫色表示需要物品
                 break;
         }
 
@@ -242,6 +351,12 @@ public class InteractableObject : MonoBehaviour
             {
                 Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ZoomView，但 Associated Zoom View 设置可能不正确（当前: {associatedZoomView}）", this);
             }
+        }
+
+        // 验证 RequireItem 类型必须有 requiredItemID
+        if (interactionType == InteractionType.RequireItem && string.IsNullOrEmpty(requiredItemID))
+        {
+            Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 RequireItem，但没有设置 Required Item ID！", this);
         }
     }
 }

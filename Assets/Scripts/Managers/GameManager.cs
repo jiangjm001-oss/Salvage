@@ -28,7 +28,24 @@ public class GameManager : MonoBehaviour
 
         // Level 1 放大视图
         Level1_Zoom_Mirror,
+        lv1_A_zoom_lowCabinet,
+        lv1_A_zoom_GrandfatherClock,
+        lv1_A_zoom_Heater,
+        lv1_A_zoom_Towel,
+
+        lv1_B_zoom_Window,
+        lv1_B_zoom_Desk,
+        lv1_B_zoom_GroupPhoto,
         Level1_Zoom_TrashCan,
+
+        lv1_C_zoom_Fireplace,
+        lv1_C_zoom_OilPainting,
+        lv1_C_zoom_EmptyPhotoFrame,
+
+        lv1_D_zoom_sofa,
+        lv1_D_zoom_coffeeTable,
+        lv1_D_zoom_foldingScreen,
+        lv1_D_zoom_Hammer,
 
         // Level 2 放大视图
         Level2_Zoom_Mirror,
