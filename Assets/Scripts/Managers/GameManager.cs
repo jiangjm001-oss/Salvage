@@ -34,9 +34,15 @@ public class GameManager : MonoBehaviour
         lv1_A_zoom_Towel,
 
         lv1_B_zoom_Window,
-        lv1_B_zoom_Desk,
+        lv1_B_zoom_RightDrawer,
+        lv1_B_zoom_LeftDrawer,
         lv1_B_zoom_GroupPhoto,
         Level1_Zoom_TrashCan,
+        lv1_B_zoom_Typewriter,
+        lv1_B_zoom_Quill,
+        lv1_B_zoom_Ink,
+        lv1_B_zoom_ThreeBooks,
+
 
         lv1_C_zoom_Fireplace,
         lv1_C_zoom_OilPainting,
@@ -46,6 +52,7 @@ public class GameManager : MonoBehaviour
         lv1_D_zoom_coffeeTable,
         lv1_D_zoom_foldingScreen,
         lv1_D_zoom_Hammer,
+        lv1_D_zoom_Clock,
 
         // Level 2 放大视图
         Level2_Zoom_Mirror,
