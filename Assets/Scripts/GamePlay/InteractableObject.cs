@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 /// <summary>
 /// 可交互物体组件
-/// 支持四种交互类型：拾取物品、放大查看、触发事件、需要物品
+/// 支持六种交互类型：拾取物品、放大查看、触发事件、需要物品、物品合成、状态切换
 /// </summary>
 public class InteractableObject : MonoBehaviour
 {
@@ -44,10 +44,10 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("触发后是否禁用此物体")]
     public bool disableAfterTrigger = false;
 
-    // ============ 新增：条件触发设置 (RequireItem) ============
+    // ============ 条件触发设置 (RequireItem) ============
     [Header("条件触发设置 (RequireItem)")]
-    [Tooltip("需要使用的物品ID（必须与 ItemData 的 itemID 一致）")]
-    public string requiredItemID;
+    [Tooltip("需要使用的物品（直接拖入 ItemData）")]
+    public ItemData requiredItem;
 
     [Tooltip("交互成功后是否消耗该物品")]
     public bool consumeItemOnUse = true;
@@ -64,6 +64,51 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("成功使用后播放的音效")]
     public string itemUsedSoundName = "Audio/SFX/item_used";
 
+    // ============ ⭐ 物品合成设置 (ItemCombine) ============
+    [Header("物品合成设置 (ItemCombine)")]
+    [Tooltip("合成需要的物品（直接拖入 ItemData）")]
+    public ItemData combineRequiredItem;
+
+    [Tooltip("合成产出的物品（放入背包）")]
+    public ItemData combineResultItem;
+
+    [Tooltip("合成后是否消耗手中的物品")]
+    public bool consumeCombineItem = true;
+
+    [Tooltip("合成后是否禁用此场景物体（如水被用完）")]
+    public bool disableAfterCombine = false;
+
+    [Tooltip("合成成功后触发的事件")]
+    public UnityEvent OnCombineSuccess;
+
+    [Tooltip("合成成功播放的音效")]
+    public string combineSoundName = "Audio/SFX/combine";
+
+    // ============ ⭐ 状态切换设置 (StateSwitch) ============
+    [Header("状态切换设置 (StateSwitch)")]
+    [Tooltip("状态切换需要的物品（直接拖入 ItemData）")]
+    public ItemData switchRequiredItem;
+
+    [Tooltip("切换后显示的精灵图（图片B）")]
+    public Sprite switchedSprite;
+
+    [Tooltip("切换后是否消耗物品")]
+    public bool consumeSwitchItem = true;
+
+    [Tooltip("是否已切换状态（用于存档）")]
+    [HideInInspector]
+    public bool hasStateSwitch = false;
+
+    [Tooltip("状态切换成功后触发的事件")]
+    public UnityEvent OnStateSwitchSuccess;
+
+    [Tooltip("状态切换播放的音效")]
+    public string stateSwitchSoundName = "Audio/SFX/state_switch";
+
+    // 缓存原始精灵图（用于存档恢复）
+    private Sprite originalSprite;
+    private SpriteRenderer spriteRenderer;
+
     /// <summary>
     /// 交互类型枚举
     /// </summary>
@@ -72,7 +117,19 @@ public class InteractableObject : MonoBehaviour
         Pickup,      // 拾取物品
         ZoomView,    // 放大查看
         Trigger,     // 触发事件
-        RequireItem  // 需要特定物品才能交互
+        RequireItem, // 需要特定物品才能交互
+        ItemCombine, // ⭐ 物品合成：选中物品A + 点击场景物品B = 获得物品C
+        StateSwitch  // ⭐ 状态切换：使用物品改变物体外观/状态
+    }
+
+    private void Awake()
+    {
+        // 缓存 SpriteRenderer 和原始精灵图
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalSprite = spriteRenderer.sprite;
+        }
     }
 
     /// <summary>
@@ -100,6 +157,14 @@ public class InteractableObject : MonoBehaviour
                 HandleRequireItem();
                 break;
 
+            case InteractionType.ItemCombine:
+                HandleItemCombine();
+                break;
+
+            case InteractionType.StateSwitch:
+                HandleStateSwitch();
+                break;
+
             default:
                 Debug.LogWarning($"[InteractableObject] 未知的交互类型: {interactionType}");
                 break;
@@ -123,23 +188,19 @@ public class InteractableObject : MonoBehaviour
             return;
         }
 
-        // 调用背包系统添加物品
         bool added = InventorySystem.Instance.AddItem(item);
 
         if (added)
         {
             Debug.Log($"[InteractableObject] 成功拾取物品: {item.displayName}");
 
-            // 播放拾取音效
             if (AudioManager.Instance != null && !string.IsNullOrEmpty(pickupSoundName))
             {
                 AudioManager.Instance.PlaySFX(pickupSoundName);
             }
 
-            // 禁用物体（表示已拾取）
             gameObject.SetActive(false);
 
-            // ⭐ 实时保存游戏进度
             if (SaveLoadSystem.Instance != null)
             {
                 SaveLoadSystem.Instance.OnItemPickedUp(objectID);
@@ -157,8 +218,6 @@ public class InteractableObject : MonoBehaviour
     private void HandleZoomView()
     {
         string viewStateName = associatedZoomView.ToString();
-
-        // 使用不区分大小写的检查
         bool isValidZoomView = viewStateName.IndexOf("zoom", System.StringComparison.OrdinalIgnoreCase) >= 0;
 
         if (!isValidZoomView)
@@ -177,7 +236,6 @@ public class InteractableObject : MonoBehaviour
         Debug.Log($"[InteractableObject] 进入放大视图: {associatedZoomView}");
         GameManager.Instance.EnterZoomView(associatedZoomView);
 
-        // 播放放大音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(zoomSoundName))
         {
             AudioManager.Instance.PlaySFX(zoomSoundName);
@@ -191,21 +249,17 @@ public class InteractableObject : MonoBehaviour
     {
         Debug.Log($"[InteractableObject] 触发了事件: {displayName} (ID: {objectID})");
 
-        // 播放触发音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(triggerSoundName))
         {
             AudioManager.Instance.PlaySFX(triggerSoundName);
         }
 
-        // 调用自定义事件处理
         OnTriggered();
 
-        // 如果设置了触发后禁用，则禁用物体
         if (disableAfterTrigger)
         {
             gameObject.SetActive(false);
 
-            // 实时保存
             if (SaveLoadSystem.Instance != null)
             {
                 SaveLoadSystem.Instance.SaveGame();
@@ -215,99 +269,264 @@ public class InteractableObject : MonoBehaviour
 
     /// <summary>
     /// 处理需要物品的交互逻辑
-    /// 玩家必须先在背包中选中正确的物品，再点击此物体
     /// </summary>
     private void HandleRequireItem()
     {
-        // 检查 UIManager 是否存在
         if (UIManager.Instance == null)
         {
             Debug.LogError("[InteractableObject] UIManager 不存在，无法检查选中物品！");
             return;
         }
 
-        // 获取当前选中的物品
+        // ⭐ 检查是否配置了需要的物品
+        if (requiredItem == null)
+        {
+            Debug.LogError($"[InteractableObject] '{displayName}' 没有配置 requiredItem！");
+            return;
+        }
+
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
 
-        // 情况1：没有选中任何物品
         if (selectedItem == null)
         {
             Debug.Log($"[InteractableObject] 点击了 '{displayName}'，但没有选中物品");
-
-            // 可以在这里显示提示（如果有对话系统）
-            // DialogueManager.Instance?.ShowHint(noItemHint);
-
-            // 或者播放一个"需要物品"的音效
-            // AudioManager.Instance?.PlaySFX("Audio/SFX/need_item");
-
             return;
         }
 
-        // 情况2：选中的物品不匹配
-        if (selectedItem.itemID != requiredItemID)
+        // ⭐ 使用 ItemData 的 itemID 进行比较
+        if (selectedItem.itemID != requiredItem.itemID)
         {
-            Debug.Log($"[InteractableObject] 物品 '{selectedItem.displayName}' 不能用于 '{displayName}'");
-
-            // 显示错误提示
-            // DialogueManager.Instance?.ShowHint(wrongItemHint);
-
-            // 播放"不匹配"音效
-            // AudioManager.Instance?.PlaySFX("Audio/SFX/wrong_item");
-
+            Debug.Log($"[InteractableObject] 物品 '{selectedItem.displayName}' 不能用于 '{displayName}'（需要: {requiredItem.displayName}）");
             return;
         }
 
-        // 情况3：匹配成功！
         Debug.Log($"[InteractableObject] ✓ 成功使用 '{selectedItem.displayName}' 于 '{displayName}'");
 
-        // 消耗物品（如果需要）
         if (consumeItemOnUse)
         {
             UIManager.Instance.ConsumeSelectedItem();
         }
         else
         {
-            // 不消耗，只取消选中
             UIManager.Instance.DeselectItem();
         }
 
-        // 播放成功音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(itemUsedSoundName))
         {
             AudioManager.Instance.PlaySFX(itemUsedSoundName);
         }
 
-        // 触发成功事件（在 Inspector 中配置）
         OnItemUsedSuccess?.Invoke();
 
-        // 如果设置了触发后禁用
         if (disableAfterTrigger)
         {
             gameObject.SetActive(false);
         }
 
-        // 保存进度
         if (SaveLoadSystem.Instance != null)
         {
             SaveLoadSystem.Instance.SaveGame();
         }
     }
 
+    // ============ ⭐ 物品合成逻辑 ============
+    /// <summary>
+    /// 处理物品合成逻辑
+    /// 例如：毛巾 + 水 = 浸湿的毛巾
+    /// </summary>
+    private void HandleItemCombine()
+    {
+        if (UIManager.Instance == null)
+        {
+            Debug.LogError("[InteractableObject] UIManager 不存在，无法检查选中物品！");
+            return;
+        }
+
+        // ⭐ 检查是否配置了合成需要的物品
+        if (combineRequiredItem == null)
+        {
+            Debug.LogError($"[InteractableObject] '{displayName}' 没有配置 combineRequiredItem！");
+            return;
+        }
+
+        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+
+        // 情况1：没有选中任何物品
+        if (selectedItem == null)
+        {
+            Debug.Log($"[InteractableObject] 点击了 '{displayName}'，但没有选中物品进行合成");
+            return;
+        }
+
+        // 情况2：选中的物品不匹配（使用 ItemData 的 itemID 比较）
+        if (selectedItem.itemID != combineRequiredItem.itemID)
+        {
+            Debug.Log($"[InteractableObject] 物品 '{selectedItem.displayName}' 无法与 '{displayName}' 合成（需要: {combineRequiredItem.displayName}）");
+            return;
+        }
+
+        // 情况3：检查合成产物是否配置
+        if (combineResultItem == null)
+        {
+            Debug.LogError($"[InteractableObject] '{displayName}' 没有配置合成产物 combineResultItem！");
+            return;
+        }
+
+        // 合成成功！
+        Debug.Log($"[InteractableObject] ✓ 合成成功: {selectedItem.displayName} + {displayName} = {combineResultItem.displayName}");
+
+        // 1. 消耗手中的物品（如果需要）
+        if (consumeCombineItem)
+        {
+            UIManager.Instance.ConsumeSelectedItem();
+        }
+        else
+        {
+            UIManager.Instance.DeselectItem();
+        }
+
+        // 2. 将合成产物添加到背包
+        bool added = InventorySystem.Instance.AddItem(combineResultItem);
+        if (!added)
+        {
+            Debug.LogWarning($"[InteractableObject] 无法添加合成产物 '{combineResultItem.displayName}'，背包可能已满！");
+        }
+
+        // 3. 播放合成音效
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(combineSoundName))
+        {
+            AudioManager.Instance.PlaySFX(combineSoundName);
+        }
+
+        // 4. 触发合成成功事件
+        OnCombineSuccess?.Invoke();
+
+        // 5. 如果设置了合成后禁用（如水被用完）
+        if (disableAfterCombine)
+        {
+            gameObject.SetActive(false);
+        }
+
+        // 6. 保存进度
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+        }
+    }
+
+    // ============ ⭐ 状态切换逻辑 ============
+    /// <summary>
+    /// 处理状态切换逻辑
+    /// 例如：浸湿毛巾 + 脏镜子 = 干净镜子（图片从A切换到B）
+    /// </summary>
+    private void HandleStateSwitch()
+    {
+        // 如果已经切换过状态，可以选择不再响应或执行其他逻辑
+        if (hasStateSwitch)
+        {
+            Debug.Log($"[InteractableObject] '{displayName}' 已经切换过状态");
+            OnStateSwitchSuccess?.Invoke();
+            return;
+        }
+
+        if (UIManager.Instance == null)
+        {
+            Debug.LogError("[InteractableObject] UIManager 不存在，无法检查选中物品！");
+            return;
+        }
+
+        // ⭐ 检查是否配置了状态切换需要的物品
+        if (switchRequiredItem == null)
+        {
+            Debug.LogError($"[InteractableObject] '{displayName}' 没有配置 switchRequiredItem！");
+            return;
+        }
+
+        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+
+        // 情况1：没有选中任何物品
+        if (selectedItem == null)
+        {
+            Debug.Log($"[InteractableObject] 点击了 '{displayName}'，但没有选中物品");
+            return;
+        }
+
+        // 情况2：选中的物品不匹配（使用 ItemData 的 itemID 比较）
+        if (selectedItem.itemID != switchRequiredItem.itemID)
+        {
+            Debug.Log($"[InteractableObject] 物品 '{selectedItem.displayName}' 无法用于 '{displayName}'（需要: {switchRequiredItem.displayName}）");
+            return;
+        }
+
+        // 情况3：检查切换精灵图是否配置
+        if (switchedSprite == null)
+        {
+            Debug.LogError($"[InteractableObject] '{displayName}' 没有配置切换后的精灵图 switchedSprite！");
+            return;
+        }
+
+        // 切换成功！
+        Debug.Log($"[InteractableObject] ✓ 状态切换成功: 使用 '{selectedItem.displayName}' 于 '{displayName}'");
+
+        // 1. 消耗物品（如果需要）
+        if (consumeSwitchItem)
+        {
+            UIManager.Instance.ConsumeSelectedItem();
+        }
+        else
+        {
+            UIManager.Instance.DeselectItem();
+        }
+
+        // 2. 切换精灵图
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = switchedSprite;
+        }
+
+        // 3. 标记状态已切换
+        hasStateSwitch = true;
+
+        // 4. 播放状态切换音效
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(stateSwitchSoundName))
+        {
+            AudioManager.Instance.PlaySFX(stateSwitchSoundName);
+        }
+
+        // 5. 触发状态切换成功事件
+        OnStateSwitchSuccess?.Invoke();
+
+        // 6. 保存进度
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+        }
+    }
+
+    // ============ 状态恢复方法（供存档系统调用） ============
+
+    /// <summary>
+    /// 恢复状态切换（用于读取存档）
+    /// </summary>
+    public void RestoreStateSwitch(bool switched)
+    {
+        hasStateSwitch = switched;
+        if (switched && spriteRenderer != null && switchedSprite != null)
+        {
+            spriteRenderer.sprite = switchedSprite;
+        }
+    }
+
     /// <summary>
     /// 触发事件的虚方法，子类可以重写实现特定逻辑
-    /// 例如：开门、触发机关、播放对话等
     /// </summary>
     protected virtual void OnTriggered()
     {
         // 默认实现为空
-        // 子类可以重写此方法来实现特定的触发逻辑
     }
 
     // ============ 编辑器辅助 ============
 
-    /// <summary>
-    /// 编辑器中在 Scene 视图绘制物体信息
-    /// </summary>
     private void OnDrawGizmosSelected()
     {
         switch (interactionType)
@@ -322,16 +541,19 @@ public class InteractableObject : MonoBehaviour
                 Gizmos.color = Color.yellow;
                 break;
             case InteractionType.RequireItem:
-                Gizmos.color = Color.magenta;  // 紫色表示需要物品
+                Gizmos.color = Color.magenta;
+                break;
+            case InteractionType.ItemCombine:
+                Gizmos.color = Color.cyan;
+                break;
+            case InteractionType.StateSwitch:
+                Gizmos.color = new Color(1f, 0.5f, 0f);
                 break;
         }
 
         Gizmos.DrawWireSphere(transform.position, 0.3f);
     }
 
-    /// <summary>
-    /// 编辑器验证设置
-    /// </summary>
     private void OnValidate()
     {
         // 自动生成 objectID（如果为空）
@@ -350,20 +572,45 @@ public class InteractableObject : MonoBehaviour
         if (interactionType == InteractionType.ZoomView)
         {
             string viewStateName = associatedZoomView.ToString();
-            // 使用不区分大小写的检查，同时排除墙面视图
             bool isValidZoomView = viewStateName.IndexOf("zoom", System.StringComparison.OrdinalIgnoreCase) >= 0;
             bool isWallView = viewStateName.StartsWith("Wall_");
 
             if (!isValidZoomView || isWallView)
             {
-                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ZoomView，但 Associated Zoom View 设置可能不正确（当前: {associatedZoomView}）", this);
+                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ZoomView，但 Associated Zoom View 设置可能不正确", this);
             }
         }
 
-        // 验证 RequireItem 类型必须有 requiredItemID
-        if (interactionType == InteractionType.RequireItem && string.IsNullOrEmpty(requiredItemID))
+        // ⭐ 验证 RequireItem 类型必须有 requiredItem
+        if (interactionType == InteractionType.RequireItem && requiredItem == null)
         {
-            Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 RequireItem，但没有设置 Required Item ID！", this);
+            Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 RequireItem，但没有设置 Required Item！", this);
+        }
+
+        // ⭐ 验证 ItemCombine 类型
+        if (interactionType == InteractionType.ItemCombine)
+        {
+            if (combineRequiredItem == null)
+            {
+                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ItemCombine，但没有设置 Combine Required Item！", this);
+            }
+            if (combineResultItem == null)
+            {
+                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 ItemCombine，但没有设置 Combine Result Item！", this);
+            }
+        }
+
+        // ⭐ 验证 StateSwitch 类型
+        if (interactionType == InteractionType.StateSwitch)
+        {
+            if (switchRequiredItem == null)
+            {
+                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 StateSwitch，但没有设置 Switch Required Item！", this);
+            }
+            if (switchedSprite == null)
+            {
+                Debug.LogWarning($"[InteractableObject] 物体 '{gameObject.name}' 的交互类型为 StateSwitch，但没有设置 Switched Sprite！", this);
+            }
         }
     }
 }

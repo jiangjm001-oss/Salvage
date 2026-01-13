@@ -178,7 +178,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -186,6 +186,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &4314972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -459,7 +475,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -479,6 +495,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &105940622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -531,145 +563,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &108831562
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 108831563}
-  - component: {fileID: 108831564}
-  - component: {fileID: 108831565}
-  m_Layer: 0
-  m_Name: Protagonist_Display
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &108831563
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108831562}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16, y: -4.8358, z: 0.509}
-  m_LocalScale: {x: 0.47560087, y: 0.47560087, z: 0.47560087}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1161207521}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &108831564
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108831562}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: c6bf32c455a340640a8f41d77051391a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &108831565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108831562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Protagonist_Display_-18628
-  displayName: "\u4E3B\u89D2"
-  interactionType: 2
-  item: {fileID: 0}
-  isPickupable: 1
-  associatedZoomView: 0
-  pickupSoundName: Audio/SFX/item_pickup
-  zoomSoundName: Audio/SFX/zoom_in
-  triggerSoundName: Audio/SFX/trigger
-  disableAfterTrigger: 0
-  requiredItemID: 
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 108831562}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1739637313}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  itemUsedSoundName: Audio/SFX/item_used
 --- !u!1 &119121029
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +620,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -735,6 +628,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &119121032
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -940,7 +849,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Small key
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -960,6 +869,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &128908855
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1061,7 +986,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -1069,6 +994,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &146972834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1175,10 +1116,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 150814610}
+  - component: {fileID: 150814614}
   - component: {fileID: 150814611}
   - component: {fileID: 150814612}
-  m_Layer: 0
-  m_Name: Background_Mirror
+  - component: {fileID: 150814613}
+  m_Layer: 3
+  m_Name: Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1196,7 +1139,8 @@ Transform:
   m_LocalPosition: {x: -0.16, y: -4.8358, z: 0.509}
   m_LocalScale: {x: 0.47560087, y: 0.47560087, z: 0.47560087}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2051392106}
   m_Father: {fileID: 1161207521}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &150814611
@@ -1263,9 +1207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: EmptyMirror_lv1_A
-  displayName: "\u7A7A\u7684\u955C\u5B50"
-  interactionType: 3
+  objectID: lv1_mirror_entry
+  displayName: "\u955C\u5B50"
+  interactionType: 5
   item: {fileID: 0}
   isPickupable: 1
   associatedZoomView: 0
@@ -1273,38 +1217,117 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: waterTowel
+  requiredItem: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
   OnItemUsedSuccess:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 150814609}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 108831562}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
+  switchedSprite: {fileID: 21300000, guid: c6bf32c455a340640a8f41d77051391a, type: 3}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 150814613}
+        m_TargetAssemblyTypeName: MirrorController, Assembly-CSharp
+        m_MethodName: CleanMirror
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!114 &150814613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150814609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b62c831fa6c3304cb8aae597d0e774c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  dirtySprite: {fileID: 21300000, guid: 897b2f821a2d36e49b792dd0780ac428, type: 3}
+  cleanSprite: {fileID: 21300000, guid: c6bf32c455a340640a8f41d77051391a, type: 3}
+  specialSprite: {fileID: 21300000, guid: 1e0f1071a7effc749b3f31772bd39718, type: 3}
+  enableDynamicItemDisplay: 1
+  itemDisplayPosition: {fileID: 2051392106}
+  itemDisplayScale: 1
+  specialItemTriggers:
+  - triggerItem: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
+    triggerSprite: {fileID: 21300000, guid: 1e0f1071a7effc749b3f31772bd39718, type: 3}
+    triggerSound: 
+    permanentSwitch: 0
+  OnMirrorStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSpecialStateTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!61 &150814614
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150814609}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.0902498, y: -0.18662739}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 17.567995, y: 11.969919}
+  m_EdgeRadius: 0
 --- !u!1 &152960340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,7 +1383,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -1380,6 +1403,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &152960343
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1606,14 +1645,30 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
-  consumeItemOnUse: 1
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
   OnItemUsedSuccess:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &253437098
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1777,133 +1832,6 @@ Transform:
   - {fileID: 987835189}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &317110542
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 317110543}
-  - component: {fileID: 317110545}
-  - component: {fileID: 317110544}
-  m_Layer: 0
-  m_Name: Background-none
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &317110543
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317110542}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.29486537, y: -4.7516956, z: 0.50898397}
-  m_LocalScale: {x: 0.4626, y: 0.4626, z: 0.4626}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1688752665}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &317110544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317110542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Basin_lv1_A
-  displayName: "\u76C6"
-  interactionType: 3
-  item: {fileID: 0}
-  isPickupable: 1
-  associatedZoomView: 0
-  pickupSoundName: Audio/SFX/item_pickup
-  zoomSoundName: Audio/SFX/zoom_in
-  triggerSoundName: Audio/SFX/trigger
-  disableAfterTrigger: 0
-  requiredItemID: Water
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1901375055}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  itemUsedSoundName: Audio/SFX/item_used
---- !u!212 &317110545
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317110542}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 796d4f780209d7a4890d6f92a9fb6ed5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &348282223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,7 +1887,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Sculpture fragments
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -1979,6 +1907,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &348282226
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2087,7 +2031,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -2095,6 +2039,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &365813691
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2451,7 +2411,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -2459,6 +2419,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &409614788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2647,7 +2623,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -2655,6 +2631,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &455343311
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2808,7 +2800,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -2816,6 +2808,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &459482406
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2968,7 +2976,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -2988,6 +2996,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &464799372
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3096,7 +3120,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3104,6 +3128,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &488262208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3290,7 +3330,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3298,6 +3338,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &573553011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3452,7 +3508,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee powder, Hot water, Expired milk
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3460,6 +3516,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &578045973
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3613,7 +3685,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3621,6 +3693,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &589602741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3774,7 +3862,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3782,6 +3870,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &610589495
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3935,7 +4039,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -3943,6 +4047,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &627008396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4137,7 +4257,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: CharcoalFire
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -4145,6 +4265,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &654221508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4381,7 +4517,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -4401,6 +4537,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &667283013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4670,7 +4822,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -4678,6 +4830,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &770782625
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4831,7 +4999,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Telescope
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -4851,6 +5019,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &797984145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5042,7 +5226,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5062,6 +5246,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &816083699
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5169,7 +5369,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Telescope
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5189,6 +5389,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &816783935
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5231,6 +5447,183 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 925bc241dcb96a245ae3376b4b0f5647, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &825713661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 825713662}
+  - component: {fileID: 825713665}
+  - component: {fileID: 825713664}
+  - component: {fileID: 825713663}
+  m_Layer: 3
+  m_Name: Test (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &825713662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825713661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.95, y: -8.1, z: 0}
+  m_LocalScale: {x: 0.0754432, y: 0.25222632, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161207521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &825713663
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825713661}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.96, y: 1.96}
+  m_EdgeRadius: 0
+--- !u!114 &825713664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825713661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Ring_Item
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: 4c44ccef8b363674ebbdd04155aa7a88, type: 2}
+  isPickupable: 1
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!212 &825713665
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825713661}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 81be06a2e87e9264cb0fb0dad26b6b82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5381,7 +5774,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Ring
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5401,6 +5794,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &857161487
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5554,7 +5963,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5562,6 +5971,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &907817095
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5714,7 +6139,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5734,6 +6159,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &925595056
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5843,7 +6284,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee beans
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -5851,6 +6292,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &926433208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6003,7 +6460,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6023,6 +6480,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &940017216
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6130,7 +6603,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6150,6 +6623,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &987835191
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6258,7 +6747,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6266,6 +6755,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &991251844
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6419,7 +6924,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6427,6 +6932,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &995738667
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6580,7 +7101,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6588,6 +7109,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1016962365
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6741,7 +7278,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Ring
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6761,6 +7298,22 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1034786687
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6913,7 +7466,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -6933,6 +7486,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1104429238
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7039,7 +7608,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7047,6 +7616,199 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!1 &1157858539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1157858540}
+  - component: {fileID: 1157858542}
+  - component: {fileID: 1157858541}
+  - component: {fileID: 1157858543}
+  m_Layer: 3
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1157858540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157858539}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.82, y: -1.2, z: 0}
+  m_LocalScale: {x: 0.09473122, y: 0.09630398, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161207521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1157858541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157858539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: WetTowel
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
+  isPickupable: 1
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!212 &1157858542
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157858539}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 920bae99dd1f4c9409d8516ad43f1a2c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!61 &1157858543
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157858539}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.21702, y: 21.6}
+  m_EdgeRadius: 0
 --- !u!1 &1161207520
 GameObject:
   m_ObjectHideFlags: 0
@@ -7062,7 +7824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1161207521
 Transform:
   m_ObjectHideFlags: 0
@@ -7077,8 +7839,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 150814610}
-  - {fileID: 108831563}
-  - {fileID: 1739637314}
+  - {fileID: 1157858540}
+  - {fileID: 1612694819}
+  - {fileID: 825713662}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232636885
@@ -7137,7 +7900,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Note 02_Item
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7157,6 +7920,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1232636888
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7310,7 +8089,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7318,6 +8097,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1248233021
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7471,7 +8266,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7479,6 +8274,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1252968016
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7632,7 +8443,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7640,6 +8451,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1261447381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7793,7 +8620,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee beans
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7801,6 +8628,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1272726720
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7955,7 +8798,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee beans
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -7963,6 +8806,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1273536783
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8116,7 +8975,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -8136,6 +8995,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1317836961
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8373,7 +9248,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -8381,6 +9256,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1370700564
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8617,7 +9508,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -8637,6 +9528,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1391245846
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8744,7 +9651,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -8764,6 +9671,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1391761806
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8966,7 +9889,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -8974,6 +9897,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1412556230
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9162,7 +10101,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -9170,6 +10109,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1517678458
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9323,7 +10278,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Note 02_Item
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -9343,6 +10298,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1518455065
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9496,7 +10467,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -9504,6 +10475,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1520084979
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9725,7 +10712,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -9745,6 +10732,22 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1560453848
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9980,6 +10983,183 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1612694818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1612694819}
+  - component: {fileID: 1612694821}
+  - component: {fileID: 1612694820}
+  - component: {fileID: 1612694822}
+  m_Layer: 3
+  m_Name: Test (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1612694819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612694818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.05, y: -3.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161207521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1612694820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612694818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Ring_Item
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
+  isPickupable: 1
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!212 &1612694821
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612694818}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 203b9702fe0b448469867be00ea3342a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!61 &1612694822
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612694818}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.96, y: 1.96}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.96, y: 1.96}
+  m_EdgeRadius: 0
 --- !u!1 &1632606491
 GameObject:
   m_ObjectHideFlags: 0
@@ -10036,7 +11216,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -10056,6 +11236,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1632606494
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10208,7 +11404,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -10228,6 +11424,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1642562548
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10335,7 +11547,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -10355,6 +11567,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1648757657
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10436,7 +11664,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 317110543}
   - {fileID: 1901375056}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10480,7 +11707,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Water
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -10500,6 +11727,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1692998467
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10623,7 +11866,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -10631,6 +11874,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1695479948
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10826,90 +12085,6 @@ Transform:
   - {fileID: 1391245844}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1739637313
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1739637314}
-  - component: {fileID: 1739637315}
-  m_Layer: 0
-  m_Name: Shadow_Display
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1739637314
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739637313}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16, y: -4.8358, z: 0.509}
-  m_LocalScale: {x: 0.47560087, y: 0.47560087, z: 0.47560087}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1161207521}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1739637315
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739637313}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 1e0f1071a7effc749b3f31772bd39718, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &1830738464
 GameObject:
   m_ObjectHideFlags: 0
@@ -11100,7 +12275,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -11108,6 +12283,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1835166465
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11245,7 +12436,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: Telescope
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -11265,6 +12456,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!212 &1837816953
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11377,13 +12584,15 @@ GameObject:
   m_Component:
   - component: {fileID: 1901375056}
   - component: {fileID: 1901375057}
+  - component: {fileID: 1901375059}
+  - component: {fileID: 1901375058}
   m_Layer: 0
   m_Name: Background-water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1901375056
 Transform:
   m_ObjectHideFlags: 0
@@ -11393,8 +12602,8 @@ Transform:
   m_GameObject: {fileID: 1901375055}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.29486537, y: -4.7516956, z: 0.50898397}
-  m_LocalScale: {x: 0.4626, y: 0.4626, z: 0.4626}
+  m_LocalPosition: {x: 0.05, y: -6.07, z: 0.50898397}
+  m_LocalScale: {x: 0.5994833, y: 0.5994833, z: 0.5994833}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1688752665}
@@ -11451,6 +12660,97 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1901375058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901375055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: lv1_heater_water
+  displayName: "\u7089\u5B50\u91CC\u7684\u6C34"
+  interactionType: 4
+  item: {fileID: 0}
+  isPickupable: 1
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
+  consumeCombineItem: 1
+  disableAfterCombine: 1
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+--- !u!61 &1901375059
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901375055}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.9127221, y: 4.762288}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 8.847687, y: 4.7368217}
+  m_EdgeRadius: 0
 --- !u!1 &1952809671
 GameObject:
   m_ObjectHideFlags: 0
@@ -11554,7 +12854,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -11562,6 +12862,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1980301629
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11714,7 +13030,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Key_Level1_Item
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -11722,6 +13038,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &1995786161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11823,7 +13155,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee beans
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -11831,6 +13163,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &2033235213
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11962,6 +13310,90 @@ Transform:
   - {fileID: 667283011}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2051392105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2051392106}
+  - component: {fileID: 2051392107}
+  m_Layer: 0
+  m_Name: ItemDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2051392106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051392105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 150814610}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2051392107
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051392105}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2064509568
 GameObject:
   m_ObjectHideFlags: 0
@@ -12017,7 +13449,7 @@ MonoBehaviour:
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -12037,6 +13469,22 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &2064509571
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12364,7 +13812,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: Coffee beans
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -12372,6 +13820,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &2102362392
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12525,7 +13989,7 @@ MonoBehaviour:
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItemID: 
+  requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
@@ -12533,6 +13997,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
 --- !u!61 &2109335722
 BoxCollider2D:
   m_ObjectHideFlags: 0
