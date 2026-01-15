@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
   m_Name: Wooden_key_Item
   m_EditorClassIdentifier: 
-  itemID: Quill
-  displayName: "\u7FBD\u6BDB\u7B14"
+  itemID: Cabinet_KEY
+  displayName: "\u77EE\u67DC\u94A5\u5319"
   description: 
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  icon: {fileID: 21300000, guid: 2520f30a700c76d47b89836f6bc75672, type: 3}
+  category: 0

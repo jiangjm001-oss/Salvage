@@ -173,6 +173,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 7
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -202,6 +203,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &4314972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -333,6 +351,7 @@ Transform:
   - {fileID: 4314970}
   - {fileID: 488262206}
   - {fileID: 589602739}
+  - {fileID: 1412556228}
   - {fileID: 1995786159}
   m_Father: {fileID: 1541279197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,7 +428,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 0ad855931e77fc24f9bcc797bccc177d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80b6ffe232040dc418e6fd4b33bf5072, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -470,6 +489,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -511,6 +531,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &105940622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -553,6 +590,201 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 19a05df05c031ec4e91afe6d1740e300, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &111619845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111619846}
+  - component: {fileID: 111619849}
+  - component: {fileID: 111619848}
+  - component: {fileID: 111619847}
+  m_Layer: 3
+  m_Name: Cabinet_Open
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &111619846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111619845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.76, y: -3.11, z: 0}
+  m_LocalScale: {x: 0.16725671, y: 0.1573763, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 642104564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &111619847
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111619845}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.21702, y: 21.6}
+  m_EdgeRadius: 0
+--- !u!114 &111619848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111619845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Cabinet_Open_-9342
+  displayName: 
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 1836088260}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!212 &111619849
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111619845}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: e0b278cec0a87fa4cb9822abf593c9a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -615,6 +847,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -644,6 +877,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &119121032
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -844,6 +1094,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -885,6 +1136,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &128908855
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -981,6 +1249,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 11
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -1010,6 +1279,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &146972834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1212,6 +1498,7 @@ MonoBehaviour:
   interactionType: 5
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -1253,6 +1540,23 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!114 &150814613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,7 +1580,7 @@ MonoBehaviour:
   - triggerItem: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
     triggerSprite: {fileID: 21300000, guid: 1e0f1071a7effc749b3f31772bd39718, type: 3}
     triggerSound: 
-    permanentSwitch: 0
+    permanentSwitch: 1
   OnMirrorStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1378,6 +1682,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -1419,6 +1724,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &152960343
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1640,6 +1962,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 4
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -1669,6 +1992,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &253437098
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1766,6 +2106,201 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &262426540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 262426544}
+  - component: {fileID: 262426543}
+  - component: {fileID: 262426542}
+  - component: {fileID: 262426541}
+  m_Layer: 3
+  m_Name: key
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &262426541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262426540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: key
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: 7b24bebb2b2691847b32ae6f48658920, type: 2}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &262426542
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262426540}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.35252666, y: 0.08813286}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.96, y: 1.96}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.483627, y: 22.73838}
+  m_EdgeRadius: 0
+--- !u!212 &262426543
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262426540}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: f5fd21814f194c947829ff8e967ebaaf, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &262426544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262426540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.44, y: -5.04, z: 0}
+  m_LocalScale: {x: 0.21521924, y: 0.21521924, z: 0.21521924}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891373819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284983232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,6 +2417,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -1923,6 +2459,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &348282226
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2026,6 +2579,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 88c85d4f6d9245243a15807f6c41d3b3, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -2055,6 +2609,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &365813691
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2406,6 +2977,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -2435,6 +3007,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &409614788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2618,6 +3207,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -2647,6 +3237,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &455343311
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2795,6 +3402,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 14
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -2824,6 +3432,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &459482406
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2971,6 +3596,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -3012,6 +3638,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &464799372
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3115,6 +3758,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 903ac93c30c2fa343b6fd94241e9fe44, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 8
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -3144,6 +3788,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &488262208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3274,6 +3935,90 @@ Transform:
   - {fileID: 105940620}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &559960129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 559960130}
+  - component: {fileID: 559960131}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &559960130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559960129}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -4.66, z: 0.50898397}
+  m_LocalScale: {x: 0.47259632, y: 0.47259632, z: 0.47259632}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891373819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &559960131
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559960129}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 21300000, guid: dc9f92350a2383c4a9603afe945828c7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &573553008
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,6 +4070,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -3354,6 +4100,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &573553011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3503,6 +4266,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 11400000, guid: 47677f875219ea74aae48bd19de05366, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -3532,6 +4296,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &578045973
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3680,6 +4461,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 6
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -3709,6 +4491,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &589602741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3857,6 +4656,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 10
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -3886,6 +4686,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &610589495
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4034,6 +4851,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 13
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -4063,6 +4881,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &627008396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4189,16 +5024,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 669136474}
+  - {fileID: 1016962363}
   - {fileID: 907817093}
   - {fileID: 455343309}
-  - {fileID: 1016962363}
   - {fileID: 1252968014}
   - {fileID: 1273536781}
   - {fileID: 926433206}
   - {fileID: 578045971}
   - {fileID: 119121030}
-  - {fileID: 1412556228}
   - {fileID: 74233902}
+  - {fileID: 1836088264}
+  - {fileID: 111619846}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &654221505
@@ -4252,6 +5089,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -4281,6 +5119,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &654221508
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4512,6 +5367,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -4553,6 +5409,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &667283013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4605,6 +5478,243 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &669136473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 669136474}
+  - component: {fileID: 669136478}
+  - component: {fileID: 669136477}
+  - component: {fileID: 669136476}
+  - component: {fileID: 669136475}
+  m_Layer: 3
+  m_Name: TitleNote
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &669136474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669136473}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.69, y: -5.84, z: 0.50898397}
+  m_LocalScale: {x: 0.16864197, y: 0.055035774, z: 0.47160044}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 642104564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &669136475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669136473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14504f0960bc1d94ea5e6d95153b043d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
+  fadeDelay: 0.2
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableColliderAfterFade: 1
+  fadeInSound: 
+  playOnStart: 0
+--- !u!114 &669136476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669136473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: TitleNote
+  displayName: "\u6D6E\u73B0\u7684\u5B57\u6761"
+  interactionType: 0
+  item: {fileID: 11400000, guid: 16953c4ecd4913a4583d331571cbf5e2, type: 2}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 1
+  pickupSoundName: item_pickup
+  zoomSoundName: zoom_in
+  triggerSoundName: trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &669136477
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669136473}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.3666916, y: 0.8435621}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 1.96, y: 1.96}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 40.95186, y: 22.964746}
+  m_EdgeRadius: 0
+--- !u!212 &669136478
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669136473}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 8f6a5a43e3dcbd14da57d9199ad34436, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.96, y: 1.96}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &682588952
 GameObject:
   m_ObjectHideFlags: 0
@@ -4639,6 +5749,8 @@ Transform:
   - {fileID: 1520084977}
   - {fileID: 1370700562}
   - {fileID: 2130083177}
+  - {fileID: 911503150}
+  - {fileID: 1651482845}
   m_Father: {fileID: 1541279197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &737649357
@@ -4680,6 +5792,7 @@ Transform:
   - {fileID: 146972832}
   - {fileID: 610589493}
   - {fileID: 1980301627}
+  - {fileID: 1159140574}
   m_Father: {fileID: 1541279197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &754219468
@@ -4817,6 +5930,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 13
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -4846,6 +5960,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &770782625
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4943,6 +6074,183 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &788795580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 788795581}
+  - component: {fileID: 788795584}
+  - component: {fileID: 788795583}
+  - component: {fileID: 788795582}
+  m_Layer: 3
+  m_Name: Shadow_WallA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &788795581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788795580}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7, y: -4.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161207521}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &788795582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788795580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dccaf45c5fef647ba6a57c09fda1cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  belongsToWall: 0
+  moveDistance: 2
+  moveDuration: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeDuration: 0.8
+  fadeWhileMoving: 1
+  appearSound: Audio/SFX/shadow_appear
+  clickSound: Audio/SFX/shadow_click
+  vanishSound: Audio/SFX/shadow_vanish
+  hasBeenClicked: 0
+  isAnimating: 0
+--- !u!61 &788795583
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788795580}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.222722, y: 0.10863018}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.1207523, y: 7.043441}
+  m_EdgeRadius: 0
+--- !u!212 &788795584
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788795580}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2ba49ef6478a97e4a8d437054bce8fed, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &797984142
 GameObject:
   m_ObjectHideFlags: 0
@@ -4994,6 +6302,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -5035,6 +6344,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &797984145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5221,6 +6547,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -5262,6 +6589,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &816083699
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5364,6 +6708,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -5405,6 +6750,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &816783935
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5447,183 +6809,6 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 925bc241dcb96a245ae3376b4b0f5647, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!1 &825713661
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 825713662}
-  - component: {fileID: 825713665}
-  - component: {fileID: 825713664}
-  - component: {fileID: 825713663}
-  m_Layer: 3
-  m_Name: Test (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &825713662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825713661}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.95, y: -8.1, z: 0}
-  m_LocalScale: {x: 0.0754432, y: 0.25222632, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1161207521}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &825713663
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825713661}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.96, y: 1.96}
-  m_EdgeRadius: 0
---- !u!114 &825713664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825713661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Ring_Item
-  displayName: 
-  interactionType: 0
-  item: {fileID: 11400000, guid: 4c44ccef8b363674ebbdd04155aa7a88, type: 2}
-  isPickupable: 1
-  associatedZoomView: 0
-  pickupSoundName: Audio/SFX/item_pickup
-  zoomSoundName: Audio/SFX/zoom_in
-  triggerSoundName: Audio/SFX/trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
---- !u!212 &825713665
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825713661}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 81be06a2e87e9264cb0fb0dad26b6b82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5769,6 +6954,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 1d9c7e19870db324c80573328b56ac43, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -5810,6 +6996,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &857161487
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5958,6 +7161,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -5987,6 +7191,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &907817095
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6084,6 +7305,183 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &911503149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 911503150}
+  - component: {fileID: 911503153}
+  - component: {fileID: 911503152}
+  - component: {fileID: 911503151}
+  m_Layer: 3
+  m_Name: Shadow_WallD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &911503150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911503149}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7, y: -4.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 682588953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &911503151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911503149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dccaf45c5fef647ba6a57c09fda1cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  belongsToWall: 3
+  moveDistance: 2
+  moveDuration: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeDuration: 0.8
+  fadeWhileMoving: 1
+  appearSound: Audio/SFX/shadow_appear
+  clickSound: Audio/SFX/shadow_click
+  vanishSound: Audio/SFX/shadow_vanish
+  hasBeenClicked: 0
+  isAnimating: 0
+--- !u!61 &911503152
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911503149}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.222722, y: 0.10863018}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.1207523, y: 7.043441}
+  m_EdgeRadius: 0
+--- !u!212 &911503153
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911503149}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2ba49ef6478a97e4a8d437054bce8fed, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &925595053
 GameObject:
   m_ObjectHideFlags: 0
@@ -6134,6 +7532,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -6175,6 +7574,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &925595056
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6279,6 +7695,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 47677f875219ea74aae48bd19de05366, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -6308,6 +7725,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &926433208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6455,6 +7889,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -6496,6 +7931,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &940017216
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6598,6 +8050,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -6639,6 +8092,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &987835191
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6742,6 +8212,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 7339d1e320d20474fa7dd404ea990a05, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 19
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -6771,6 +8242,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &991251844
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6919,6 +8407,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 16
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -6948,6 +8437,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &995738667
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7091,23 +8597,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Paperball_level1
-  displayName: "\u5783\u573E\u6876\u91CC\u7684\u7EB8\u56E2"
-  interactionType: 2
+  objectID: Kerosene_lamp
+  displayName: "\u7164\u6CB9\u706F"
+  interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
+  requiredItem: {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
   wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
   OnItemUsedSuccess:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 669136475}
+        m_TargetAssemblyTypeName: FadeInObject, Assembly-CSharp
+        m_MethodName: FadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   itemUsedSoundName: Audio/SFX/item_used
   combineRequiredItem: {fileID: 0}
   combineResultItem: {fileID: 0}
@@ -7125,6 +8644,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1016962365
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7273,6 +8809,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 11400000, guid: f25443a4825f7d94e8579159c9f2971e, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -7314,6 +8851,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1034786687
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7461,6 +9015,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -7502,6 +9057,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1104429238
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7603,6 +9175,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -7632,7 +9205,24 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
---- !u!1 &1157858539
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!1 &1159140573
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7640,85 +9230,130 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1157858540}
-  - component: {fileID: 1157858542}
-  - component: {fileID: 1157858541}
-  - component: {fileID: 1157858543}
+  - component: {fileID: 1159140574}
+  - component: {fileID: 1159140577}
+  - component: {fileID: 1159140576}
+  - component: {fileID: 1159140575}
   m_Layer: 3
-  m_Name: Test
+  m_Name: Shadow_WallB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1157858540
+  m_IsActive: 0
+--- !u!4 &1159140574
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157858539}
+  m_GameObject: {fileID: 1159140573}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.82, y: -1.2, z: 0}
-  m_LocalScale: {x: 0.09473122, y: 0.09630398, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7, y: -4.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1161207521}
+  m_Father: {fileID: 737649358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1157858541
+--- !u!114 &1159140575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157858539}
+  m_GameObject: {fileID: 1159140573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 12dccaf45c5fef647ba6a57c09fda1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: WetTowel
-  displayName: 
-  interactionType: 0
-  item: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
-  isPickupable: 1
-  associatedZoomView: 0
-  pickupSoundName: Audio/SFX/item_pickup
-  zoomSoundName: Audio/SFX/zoom_in
-  triggerSoundName: Audio/SFX/trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
---- !u!212 &1157858542
+  belongsToWall: 1
+  moveDistance: 2
+  moveDuration: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeDuration: 0.8
+  fadeWhileMoving: 1
+  appearSound: Audio/SFX/shadow_appear
+  clickSound: Audio/SFX/shadow_click
+  vanishSound: Audio/SFX/shadow_vanish
+  hasBeenClicked: 0
+  isAnimating: 0
+--- !u!61 &1159140576
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159140573}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.222722, y: 0.10863018}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.1207523, y: 7.043441}
+  m_EdgeRadius: 0
+--- !u!212 &1159140577
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157858539}
+  m_GameObject: {fileID: 1159140573}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -7753,7 +9388,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 920bae99dd1f4c9409d8516ad43f1a2c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ba49ef6478a97e4a8d437054bce8fed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7764,51 +9399,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1157858543
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157858539}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 39.21702, y: 21.6}
-  m_EdgeRadius: 0
 --- !u!1 &1161207520
 GameObject:
   m_ObjectHideFlags: 0
@@ -7839,9 +9429,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 150814610}
-  - {fileID: 1157858540}
-  - {fileID: 1612694819}
-  - {fileID: 825713662}
+  - {fileID: 788795581}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232636885
@@ -7895,6 +9483,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -7936,6 +9525,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1232636888
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8084,6 +9690,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 0c285ae6affdf1f4abd5b6a6a8ef5c6b, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -8113,6 +9720,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1248233021
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8210,6 +9834,183 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1251568834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1251568835}
+  - component: {fileID: 1251568838}
+  - component: {fileID: 1251568837}
+  - component: {fileID: 1251568836}
+  m_Layer: 3
+  m_Name: Shadow_WallC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1251568835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251568834}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.7, y: -4.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1514665724}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1251568836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251568834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dccaf45c5fef647ba6a57c09fda1cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  belongsToWall: 2
+  moveDistance: 2
+  moveDuration: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeDuration: 0.8
+  fadeWhileMoving: 1
+  appearSound: Audio/SFX/shadow_appear
+  clickSound: Audio/SFX/shadow_click
+  vanishSound: Audio/SFX/shadow_vanish
+  hasBeenClicked: 0
+  isAnimating: 0
+--- !u!61 &1251568837
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251568834}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 3.222722, y: 0.10863018}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.1207523, y: 7.043441}
+  m_EdgeRadius: 0
+--- !u!212 &1251568838
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251568834}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2ba49ef6478a97e4a8d437054bce8fed, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1252968013
 GameObject:
   m_ObjectHideFlags: 0
@@ -8261,6 +10062,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -8290,6 +10092,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1252968016
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8438,6 +10257,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -8467,6 +10287,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1261447381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8615,6 +10452,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -8644,6 +10482,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1272726720
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8793,6 +10648,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -8822,6 +10678,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1273536783
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8970,6 +10843,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: f25443a4825f7d94e8579159c9f2971e, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -9011,6 +10885,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1317836961
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9243,6 +11134,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 18
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -9272,6 +11164,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1370700564
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9503,6 +11412,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -9544,6 +11454,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1391245846
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9646,6 +11573,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: e63c7d00c3bee7248af9917348c439a0, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -9687,6 +11615,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1391761806
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9769,7 +11714,8 @@ Transform:
   m_LocalPosition: {x: -0.29486537, y: 4.7516956, z: -0.50898397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1524708836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1405625920
@@ -9810,7 +11756,7 @@ MonoBehaviour:
   - viewState: 21
     zoomViewObject: {fileID: 1702567316}
   - viewState: 6
-    zoomViewObject: {fileID: 284983232}
+    zoomViewObject: {fileID: 1891373818}
   - viewState: 10
     zoomViewObject: {fileID: 1548676948}
   - viewState: 11
@@ -9846,7 +11792,7 @@ GameObject:
   - component: {fileID: 1412556230}
   - component: {fileID: 1412556229}
   m_Layer: 3
-  m_Name: Box
+  m_Name: Desktop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9861,11 +11807,11 @@ Transform:
   m_GameObject: {fileID: 1412556227}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.75, y: -0.07, z: 0.50898397}
+  m_LocalPosition: {x: -1.05, y: -3.59, z: 0.50898397}
   m_LocalScale: {x: 0.4302475, y: 0.29647303, z: 0.36155248}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 642104564}
+  m_Father: {fileID: 15530627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1412556229
 MonoBehaviour:
@@ -9879,12 +11825,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Box_lv1_A
-  displayName: "\u76D2\u5B50"
+  objectID: Desktop
+  displayName: "\u684C\u9762"
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 1
-  associatedZoomView: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 6
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
@@ -9913,6 +11860,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1412556230
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9945,7 +11909,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
+  m_Offset: {x: -3.2180042, y: 0.9857464}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9956,7 +11920,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
+  m_Size: {x: 7.4360123, y: 8.412788}
   m_EdgeRadius: 0
 --- !u!212 &1412556231
 SpriteRenderer:
@@ -10043,6 +12007,7 @@ Transform:
   - {fileID: 627008394}
   - {fileID: 1517678456}
   - {fileID: 1835166463}
+  - {fileID: 1251568835}
   m_Father: {fileID: 1541279197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1517678455
@@ -10096,6 +12061,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 14
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -10125,6 +12091,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1517678458
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10273,6 +12256,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -10314,6 +12298,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1518455065
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10462,6 +12463,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 17
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -10491,6 +12493,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1520084979
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10588,6 +12607,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1524708835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1524708836}
+  - component: {fileID: 1524708837}
+  m_Layer: 0
+  m_Name: ShadowChaseController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1524708836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524708835}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1405625919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1524708837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524708835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19b8f7527ca2c14ab5a0b4047d17f26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPhase: 0
+  shadowOnWallA: {fileID: 788795582}
+  shadowOnWallB: {fileID: 1159140575}
+  shadowOnWallC: {fileID: 1251568836}
+  shadowOnWallD: {fileID: 911503151}
+  mirrorController: {fileID: 150814613}
+  noteObject: {fileID: 1651482844}
+  OnChaseStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnChaseCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1541279196
 GameObject:
   m_ObjectHideFlags: 0
@@ -10707,6 +12783,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -10748,6 +12825,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1560453848
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10983,7 +13077,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1612694818
+--- !u!1 &1632453090
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10991,49 +13085,35 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1612694819}
-  - component: {fileID: 1612694821}
-  - component: {fileID: 1612694820}
-  - component: {fileID: 1612694822}
+  - component: {fileID: 1632453094}
+  - component: {fileID: 1632453093}
+  - component: {fileID: 1632453092}
+  - component: {fileID: 1632453091}
   m_Layer: 3
-  m_Name: Test (1)
+  m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1612694819
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612694818}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.05, y: -3.63, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1161207521}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1612694820
+--- !u!114 &1632453091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612694818}
+  m_GameObject: {fileID: 1632453090}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Ring_Item
-  displayName: 
-  interactionType: 0
-  item: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
+  objectID: lv1_box
+  displayName: "\u76D2\u5B50"
+  interactionType: 7
+  item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -11063,13 +13143,88 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
---- !u!212 &1612694821
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 262426540}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 21300000, guid: dc9f92350a2383c4a9603afe945828c7, type: 3}
+  containerOpenedSprite: {fileID: 21300000, guid: 53090739fff6ae04fb946642c76bddf7, type: 3}
+  containedObjects:
+  - {fileID: 262426540}
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &1632453092
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632453090}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.35252666, y: 0.08813286}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.483627, y: 22.73838}
+  m_EdgeRadius: 0
+--- !u!212 &1632453093
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612694818}
+  m_GameObject: {fileID: 1632453090}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -11104,7 +13259,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 203b9702fe0b448469867be00ea3342a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc9f92350a2383c4a9603afe945828c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11115,51 +13270,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1612694822
-BoxCollider2D:
+--- !u!4 &1632453094
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612694818}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.96, y: 1.96}
-    newSize: {x: 39.21702, y: 21.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_GameObject: {fileID: 1632453090}
   serializedVersion: 2
-  m_Size: {x: 1.96, y: 1.96}
-  m_EdgeRadius: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.44, y: -5.04, z: 0}
+  m_LocalScale: {x: 0.21521924, y: 0.21521924, z: 0.21521924}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891373819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1632606491
 GameObject:
   m_ObjectHideFlags: 0
@@ -11211,6 +13336,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -11252,6 +13378,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1632606494
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11399,6 +13542,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -11440,6 +13584,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1642562548
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11542,6 +13703,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -11583,6 +13745,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1648757657
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11625,6 +13804,201 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bd6043dbf54636d41ae093457cf05d1a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1651482844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1651482845}
+  - component: {fileID: 1651482848}
+  - component: {fileID: 1651482847}
+  - component: {fileID: 1651482846}
+  m_Layer: 0
+  m_Name: Note_04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1651482845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651482844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 682588953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651482846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651482844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: lv1_note_04
+  displayName: "\u4FBF\u6761"
+  interactionType: 0
+  item: {fileID: 11400000, guid: 1d9c7e19870db324c80573328b56ac43, type: 2}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &1651482847
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651482844}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.21702, y: 21.6}
+  m_EdgeRadius: 0
+--- !u!212 &1651482848
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651482844}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: ec4737e716675b44c960b12867bfba3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11702,6 +14076,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -11743,6 +14118,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1692998467
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11861,6 +14253,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 3730f8796677da349929a6a946925020, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -11890,6 +14283,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1695479948
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12270,6 +14680,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -12299,6 +14710,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1835166465
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12396,6 +14824,201 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1836088260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836088264}
+  - component: {fileID: 1836088263}
+  - component: {fileID: 1836088262}
+  - component: {fileID: 1836088261}
+  m_Layer: 3
+  m_Name: Cabinet_Closed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1836088261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836088260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Cabinet_Closed_-9104
+  displayName: 
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 111619845}
+  swapRequiredItem: {fileID: 11400000, guid: 4c44ccef8b363674ebbdd04155aa7a88, type: 2}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &1836088262
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836088260}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.052718163, y: -0.4116454}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 16.49853, y: 19.229996}
+  m_EdgeRadius: 0
+--- !u!212 &1836088263
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836088260}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 7e927d06fd67436408a2102fb8e389ba, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1836088264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836088260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.79, y: -3.13, z: 0}
+  m_LocalScale: {x: 0.1912961, y: 0.17148432, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 642104564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1837816951
 GameObject:
   m_ObjectHideFlags: 0
@@ -12431,6 +15054,7 @@ MonoBehaviour:
   interactionType: 3
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -12472,6 +15096,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!212 &1837816953
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12572,6 +15213,99 @@ Transform:
   - {fileID: 128908852}
   - {fileID: 1248233019}
   - {fileID: 390482603}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1875081579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1875081581}
+  - component: {fileID: 1875081580}
+  m_Layer: 0
+  m_Name: _DebugTools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1875081580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875081579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883aa973f868e2746a97759b8336624c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableDebug: 1
+  testItems:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
+  - {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
+  - {fileID: 11400000, guid: 4c44ccef8b363674ebbdd04155aa7a88, type: 2}
+  - {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  instructions: "\u3010\u7269\u54C1\u5FEB\u6377\u952E\u3011\n\u6570\u5B57\u952E 1-9\uFF1A\u6DFB\u52A0\u5BF9\u5E94\u69FD\u4F4D\u7684\u7269\u54C1\u5230\u80CC\u5305\n\n\u3010\u8C03\u8BD5\u5FEB\u6377\u952E\u3011\nC
+    \u952E\uFF1A\u6E05\u7A7A\u80CC\u5305\nM \u952E\uFF1A\u5207\u6362\u955C\u5B50\u72B6\u6001\uFF08Dirty
+    \u2192 Clean \u2192 Special \u2192 Dirty\uFF09\nP \u952E\uFF1A\u6253\u5370\u5F53\u524D\u80CC\u5305\u5185\u5BB9\nS
+    \u952E\uFF1A\u624B\u52A8\u4FDD\u5B58\u6E38\u620F\nL \u952E\uFF1A\u6253\u5370\u5F53\u524D\u6E38\u620F\u72B6\u6001"
+--- !u!4 &1875081581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875081579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1891373818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1891373819}
+  m_Layer: 0
+  m_Name: Desktop_ZoomView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1891373819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891373818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 559960130}
+  - {fileID: 262426544}
+  - {fileID: 1632453094}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1901375055
@@ -12677,6 +15411,7 @@ MonoBehaviour:
   interactionType: 4
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -12706,6 +15441,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1901375059
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12849,6 +15601,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 12
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -12878,6 +15631,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1980301629
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13025,6 +15795,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 5
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -13054,6 +15825,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &1995786161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13150,6 +15938,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -13179,6 +15968,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &2033235213
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13444,6 +16250,7 @@ MonoBehaviour:
   interactionType: 2
   item: {fileID: 0}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
@@ -13485,6 +16292,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &2064509571
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13807,6 +16631,7 @@ MonoBehaviour:
   interactionType: 0
   item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
   isPickupable: 1
+  hasBeenPickedUp: 0
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -13836,6 +16661,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &2102362392
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13984,6 +16826,7 @@ MonoBehaviour:
   interactionType: 1
   item: {fileID: 0}
   isPickupable: 0
+  hasBeenPickedUp: 0
   associatedZoomView: 9
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
@@ -14013,6 +16856,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!61 &2109335722
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14224,8 +17084,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1161207521}
-  - {fileID: 453849829}
   - {fileID: 642104564}
+  - {fileID: 1891373819}
+  - {fileID: 453849829}
   - {fileID: 1843634785}
   - {fileID: 1702567317}
   - {fileID: 284983233}
@@ -14246,6 +17107,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2071918909}
+  - {fileID: 1875081581}
   - {fileID: 1952809673}
   - {fileID: 1405625919}
   - {fileID: 1541279197}

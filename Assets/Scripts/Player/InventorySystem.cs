@@ -291,21 +291,13 @@ public class InventorySystem : MonoBehaviour
     /// </summary>
     private ItemData LoadItemDataByID(string itemID)
     {
-        // 方法1：直接用ID作为文件名
-        ItemData item = Resources.Load<ItemData>($"Prefabs/Items/{itemID}");
-        if (item != null) return item;
-
-        // 方法2：加上 "_Item" 后缀
-        item = Resources.Load<ItemData>($"Prefabs/Items/{itemID}_Item");
-        if (item != null) return item;
-
-        // 方法3：遍历所有 ItemData 查找匹配的 ID
+        // 直接遍历所有 ItemData 查找匹配的 ID（支持子文件夹）
         ItemData[] allItems = Resources.LoadAll<ItemData>("Prefabs/Items");
-        foreach (var i in allItems)
+        foreach (var item in allItems)
         {
-            if (i.itemID == itemID)
+            if (item.itemID == itemID)
             {
-                return i;
+                return item;
             }
         }
 
