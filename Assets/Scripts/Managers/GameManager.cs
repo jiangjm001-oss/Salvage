@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
         // Level 1 放大视图
         Level1_Zoom_Mirror,
         lv1_A_zoom_lowCabinet,
-        lv1_A_zoom_lowCabinet_PuzzleBox,
         lv1_A_zoom_Desktop,
         lv1_A_zoom_GrandfatherClock,
         lv1_A_zoom_Heater,
@@ -44,7 +43,6 @@ public class GameManager : MonoBehaviour
         lv1_B_zoom_Quill,
         lv1_B_zoom_Ink,
         lv1_B_zoom_ThreeBooks,
-
 
         lv1_C_zoom_Fireplace,
         lv1_C_zoom_OilPainting,
@@ -79,6 +77,15 @@ public class GameManager : MonoBehaviour
     private ViewState pendingViewState = ViewState.Wall_A;
     private bool hasPendingViewState = false;
 
+    // ============ ⭐ 直接引用放大视图（新增）============
+    private GameObject currentZoomViewObject = null;
+
+    /// <summary>
+    /// ⭐ 标志：是否正在使用直接引用模式的放大视图
+    /// FurnitureZoomController 检查此标志，为 true 时不处理
+    /// </summary>
+    public bool IsUsingDirectZoomView { get; private set; } = false;
+
     private void Awake()
     {
         Debug.Log("[GameManager] Awake() called.");
@@ -107,7 +114,6 @@ public class GameManager : MonoBehaviour
             UpdateGameStateBasedOnScene(currentSceneName);
         }
 
-        // 订阅场景加载完成事件
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -116,26 +122,22 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    /// <summary>
-    /// 场景加载完成回调
-    /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"[GameManager] Scene loaded: {scene.name}");
 
-        // 如果有待应用的存档数据，在场景加载后应用
+        // 清除直接引用的放大视图（场景切换后旧引用失效）
+        currentZoomViewObject = null;
+        IsUsingDirectZoomView = false;
+
         if (pendingSaveData != null)
         {
             StartCoroutine(ApplySaveDataDelayed());
         }
     }
 
-    /// <summary>
-    /// 延迟应用存档数据（等待场景完全初始化）
-    /// </summary>
     private IEnumerator ApplySaveDataDelayed()
     {
-        // 等待几帧，确保 WallManager 和其他组件都已初始化
         yield return null;
         yield return null;
         yield return new WaitForEndOfFrame();
@@ -177,32 +179,27 @@ public class GameManager : MonoBehaviour
 
     // ============ 开始游戏 / 继续游戏 ============
 
-    /// <summary>
-    /// 开始新游戏 - 清除所有存档，从头开始
-    /// </summary>
     public void StartNewGame()
     {
         Debug.Log("[GameManager] ========== Starting NEW game ==========");
 
-        // 1. 删除所有存档数据
         if (SaveLoadSystem.Instance != null)
         {
             SaveLoadSystem.Instance.DeleteSaveData();
         }
 
-        // 2. 清空背包
         if (InventorySystem.Instance != null)
         {
             InventorySystem.Instance.ClearInventory();
         }
 
-        // 3. 重置状态
         CurrentViewState = ViewState.Wall_A;
         lastWallBeforeZoom = ViewState.Wall_A;
         pendingSaveData = null;
         hasPendingViewState = false;
+        currentZoomViewObject = null;
+        IsUsingDirectZoomView = false;
 
-        // 4. 加载第一关
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene("Level1_Room");
@@ -216,9 +213,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] New game started.");
     }
 
-    /// <summary>
-    /// 继续游戏 - 读取存档恢复进度
-    /// </summary>
     public void ContinueGame()
     {
         Debug.Log("[GameManager] ========== Continuing game ==========");
@@ -230,7 +224,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 1. 检查是否有存档
         if (!SaveLoadSystem.Instance.HasSaveData())
         {
             Debug.LogWarning("[GameManager] No save data found. Starting new game instead.");
@@ -238,7 +231,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 2. 读取存档
         SaveData saveData = SaveLoadSystem.Instance.LoadGame();
 
         if (saveData == null)
@@ -248,10 +240,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 3. 保存存档数据，等场景加载后再应用
         pendingSaveData = saveData;
 
-        // 4. 加载存档中的场景
         string sceneToLoad = saveData.currentSceneName;
 
         if (string.IsNullOrEmpty(sceneToLoad))
@@ -263,7 +253,6 @@ public class GameManager : MonoBehaviour
 
         if (SceneController.Instance != null)
         {
-            // ⭐ 使用专门的存档加载方法，不会重置视图状态
             SceneController.Instance.LoadSceneFromSave(sceneToLoad);
         }
         else
@@ -274,14 +263,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] Game continued from save.");
     }
 
-    /// <summary>
-    /// 退出游戏
-    /// </summary>
     public void QuitGame()
     {
         Debug.Log("[GameManager] Quitting game.");
 
-        // 退出前自动保存
         if (SaveLoadSystem.Instance != null &&
             CurrentGameState != GameState.MainMenu)
         {
@@ -302,7 +287,6 @@ public class GameManager : MonoBehaviour
         currentWallManager = manager;
         Debug.Log($"[GameManager] WallManager registered: {manager.gameObject.scene.name}");
 
-        // 如果有待恢复的视图状态，现在应用
         if (hasPendingViewState)
         {
             StartCoroutine(ApplyPendingViewStateDelayed());
@@ -319,24 +303,21 @@ public class GameManager : MonoBehaviour
     {
         currentWallManager = null;
         currentZoomController = null;
+        currentZoomViewObject = null;
+        IsUsingDirectZoomView = false;
         Debug.Log("[GameManager] Scene managers unregistered");
     }
 
     // ============ 视图状态恢复 ============
 
-    /// <summary>
-    /// 恢复视图状态（由 SaveLoadSystem 调用）
-    /// </summary>
     public void RestoreViewState(ViewState viewState)
     {
         Debug.Log($"[GameManager] RestoreViewState called: {viewState}");
 
-        // 如果 WallManager 已注册，直接切换
         if (currentWallManager != null)
         {
             SwitchToView(viewState);
 
-            // 如果是墙面视图，也更新 lastWallBeforeZoom
             if (IsWallView(viewState))
             {
                 lastWallBeforeZoom = viewState;
@@ -344,19 +325,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // WallManager 还没注册，保存待应用状态
             Debug.Log($"[GameManager] WallManager not ready, pending view state: {viewState}");
             pendingViewState = viewState;
             hasPendingViewState = true;
         }
     }
 
-    /// <summary>
-    /// 延迟应用待恢复的视图状态
-    /// </summary>
     private IEnumerator ApplyPendingViewStateDelayed()
     {
-        // 等待一帧确保 WallManager 完全初始化
         yield return null;
 
         if (hasPendingViewState && currentWallManager != null)
@@ -373,9 +349,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 判断是否是墙面视图
-    /// </summary>
     private bool IsWallView(ViewState state)
     {
         return state == ViewState.Wall_A ||
@@ -386,26 +359,17 @@ public class GameManager : MonoBehaviour
 
     // ============ 存档辅助方法 ============
 
-    /// <summary>
-    /// 获取应该保存的视图状态（如果在放大视图中，返回上一个墙面）
-    /// </summary>
     public ViewState GetViewStateForSave()
     {
-        // 如果当前在墙面视图，直接返回当前状态
         if (IsInWallView())
         {
             return CurrentViewState;
         }
 
-        // 如果在放大视图中，返回上一个墙面状态
-        // 因为放大视图是临时的，玩家不希望继续游戏时还在放大视图里
         Debug.Log($"[GameManager] Currently in zoom view, saving wall state instead: {lastWallBeforeZoom}");
         return lastWallBeforeZoom;
     }
 
-    /// <summary>
-    /// 获取 lastWallBeforeZoom（用于存档）
-    /// </summary>
     public ViewState GetLastWallBeforeZoom()
     {
         return lastWallBeforeZoom;
@@ -420,6 +384,14 @@ public class GameManager : MonoBehaviour
 
         ViewState previousView = CurrentViewState;
         CurrentViewState = targetView;
+
+        // ⭐ 清除直接引用标志（因为这是枚举模式）
+        if (currentZoomViewObject != null)
+        {
+            currentZoomViewObject.SetActive(false);
+            currentZoomViewObject = null;
+        }
+        IsUsingDirectZoomView = false;
 
         OnViewStateChanged?.Invoke(targetView);
 
@@ -458,16 +430,73 @@ public class GameManager : MonoBehaviour
         SwitchToView(prevWall);
     }
 
+    /// <summary>
+    /// 进入放大视图（枚举方式，兼容旧代码）
+    /// </summary>
     public void EnterZoomView(ViewState zoomView)
     {
         if (IsInWallView())
             lastWallBeforeZoom = CurrentViewState;
 
+        // ⭐ 清除直接引用标志
+        currentZoomViewObject = null;
+        IsUsingDirectZoomView = false;
+
         SwitchToView(zoomView);
     }
 
+    /// <summary>
+    /// ⭐ 直接进入放大视图（GameObject 引用方式，无需枚举）
+    /// </summary>
+    public void EnterZoomViewDirect(GameObject zoomViewObject)
+    {
+        if (zoomViewObject == null)
+        {
+            Debug.LogError("[GameManager] 放大视图物体为空！");
+            return;
+        }
+
+        // 记录当前墙面
+        if (IsInWallView())
+        {
+            lastWallBeforeZoom = CurrentViewState;
+        }
+
+        // 隐藏之前的直接引用放大视图
+        if (currentZoomViewObject != null && currentZoomViewObject != zoomViewObject)
+        {
+            currentZoomViewObject.SetActive(false);
+        }
+
+        // ⭐ 设置直接引用标志（FurnitureZoomController 会检查这个）
+        IsUsingDirectZoomView = true;
+
+        // 显示目标放大视图
+        zoomViewObject.SetActive(true);
+        currentZoomViewObject = zoomViewObject;
+
+        // 更新状态（用于让 WallManager 隐藏墙面，但 FurnitureZoomController 会忽略）
+        ViewState previousView = CurrentViewState;
+        CurrentViewState = ViewState.Level1_Zoom_Mirror; // 仅表示"不在墙面"
+
+        OnViewStateChanged?.Invoke(CurrentViewState);
+
+        Debug.Log($"[GameManager] 进入放大视图(直接引用): {zoomViewObject.name}（上一墙面: {lastWallBeforeZoom}）");
+    }
+
+    /// <summary>
+    /// 退出放大视图
+    /// </summary>
     public void ExitZoomView()
     {
+        // ⭐ 隐藏直接引用的放大视图
+        if (currentZoomViewObject != null)
+        {
+            currentZoomViewObject.SetActive(false);
+            currentZoomViewObject = null;
+        }
+        IsUsingDirectZoomView = false;
+
         if (IsInWallView())
         {
             Debug.LogWarning("[GameManager] Already in wall view!");
@@ -483,5 +512,15 @@ public class GameManager : MonoBehaviour
                CurrentViewState == ViewState.Wall_B ||
                CurrentViewState == ViewState.Wall_C ||
                CurrentViewState == ViewState.Wall_D;
+    }
+
+    public bool IsInZoomView()
+    {
+        return !IsInWallView();
+    }
+
+    public GameObject GetCurrentZoomViewObject()
+    {
+        return currentZoomViewObject;
     }
 }

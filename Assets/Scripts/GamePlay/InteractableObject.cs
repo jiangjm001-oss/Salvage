@@ -1,4 +1,5 @@
 // Assets/Scripts/GamePlay/InteractableObject.cs
+// 简化版 - 支持直接拖入放大视图 GameObject，无需改枚举
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,9 +32,12 @@ public class InteractableObject : MonoBehaviour
     [HideInInspector]
     public bool hasBeenPickedUp = false;
 
-    // ============ 放大视图设置 (ZoomView) ============
+    // ============ 放大视图设置 (ZoomView) - 简化版 ============
     [Header("放大视图设置 (ZoomView)")]
-    [Tooltip("选择进入的放大视图")]
+    [Tooltip("【推荐】直接拖入放大视图 GameObject")]
+    public GameObject zoomViewTarget;
+
+    [Tooltip("【旧版兼容】使用枚举选择（如果上面已拖入则忽略此项）")]
     public GameManager.ViewState associatedZoomView;
 
     // ============ 音效设置 ============
@@ -51,6 +55,8 @@ public class InteractableObject : MonoBehaviour
     [Header("触发事件设置 (Trigger)")]
     [Tooltip("触发后是否禁用此物体")]
     public bool disableAfterTrigger = false;
+
+    public UnityEvent OnTrigger;
 
     // ============ 条件触发设置 (RequireItem) ============
     [Header("条件触发设置 (RequireItem)")]
@@ -134,7 +140,7 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("物体切换播放的音效")]
     public string swapSoundName = "Audio/SFX/swap";
 
-    // ============ ⭐ 容器设置 (Container) ============
+    // ============ 容器设置 (Container) ============
     [Header("容器设置 (Container)")]
     [Tooltip("关闭状态的精灵图")]
     public Sprite containerClosedSprite;
@@ -181,7 +187,7 @@ public class InteractableObject : MonoBehaviour
         ItemCombine, // 物品合成
         StateSwitch, // 状态切换（单向）
         ObjectSwap,  // 物体切换（双向，两个物体）
-        Container    // ⭐ 容器（单物体，开关状态 + 内部物品）
+        Container    // 容器（单物体，开关状态 + 内部物品）
     }
 
     private void Awake()
@@ -249,9 +255,7 @@ public class InteractableObject : MonoBehaviour
                 AudioManager.Instance.PlaySFX(pickupSoundName);
             }
 
-            // ⭐ 标记为已拾取（供容器判断）
             hasBeenPickedUp = true;
-
             gameObject.SetActive(false);
 
             if (SaveLoadSystem.Instance != null)
@@ -261,19 +265,34 @@ public class InteractableObject : MonoBehaviour
         }
     }
 
-    // ============ ZoomView ============
+    // ============ ZoomView - 简化版 ============
     private void HandleZoomView()
     {
+        if (GameManager.Instance == null) return;
+
+        // ⭐【新方式】优先使用直接引用的 GameObject
+        if (zoomViewTarget != null)
+        {
+            GameManager.Instance.EnterZoomViewDirect(zoomViewTarget);
+
+            if (AudioManager.Instance != null && !string.IsNullOrEmpty(zoomSoundName))
+            {
+                AudioManager.Instance.PlaySFX(zoomSoundName);
+            }
+
+            Debug.Log($"[InteractableObject] 进入放大视图: {zoomViewTarget.name}");
+            return;
+        }
+
+        // 【旧方式】使用枚举（兼容已有配置）
         string viewStateName = associatedZoomView.ToString();
         bool isValidZoomView = viewStateName.IndexOf("zoom", System.StringComparison.OrdinalIgnoreCase) >= 0;
 
         if (!isValidZoomView)
         {
-            Debug.LogError($"[InteractableObject] '{displayName}' 的 ZoomView 设置错误！");
+            Debug.LogError($"[InteractableObject] '{displayName}' 的 ZoomView 设置错误！请拖入 zoomViewTarget 或选择正确的枚举");
             return;
         }
-
-        if (GameManager.Instance == null) return;
 
         GameManager.Instance.EnterZoomView(associatedZoomView);
 
@@ -291,6 +310,7 @@ public class InteractableObject : MonoBehaviour
             AudioManager.Instance.PlaySFX(triggerSoundName);
         }
 
+        OnTrigger?.Invoke();
         OnTriggered();
 
         if (disableAfterTrigger)
@@ -409,14 +429,20 @@ public class InteractableObject : MonoBehaviour
     {
         if (swapTargetObject == null) return;
 
-        // 已解锁或不需要物品 → 直接切换
+        // ⭐ 新增：检查是否有特殊控制器需要优先处理
+        var specialController = GetComponent<OilLampBController>();
+        if (specialController != null && specialController.TrySpecialInteraction())
+        {
+            // 特殊交互已处理，不执行切换
+            return;
+        }
+
         if (isSwapUnlocked || swapRequiredItem == null)
         {
             PerformSwap();
             return;
         }
 
-        // 需要物品
         if (UIManager.Instance == null) return;
 
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
@@ -432,7 +458,6 @@ public class InteractableObject : MonoBehaviour
 
         isSwapUnlocked = true;
 
-        // 同步解锁目标
         InteractableObject target = swapTargetObject.GetComponent<InteractableObject>();
         if (target != null)
         {
@@ -456,10 +481,9 @@ public class InteractableObject : MonoBehaviour
         SaveLoadSystem.Instance?.SaveGame();
     }
 
-    // ============ ⭐ Container ============
+    // ============ Container ============
     private void HandleContainer()
     {
-        // 检查是否需要物品才能首次打开
         if (!isContainerOpen && !isContainerUnlocked && containerRequiredItem != null)
         {
             if (UIManager.Instance == null) return;
@@ -478,13 +502,11 @@ public class InteractableObject : MonoBehaviour
             isContainerUnlocked = true;
         }
 
-        // 需要物品但未解锁，且当前关闭 → 无法打开
         if (!isContainerOpen && !isContainerUnlocked && containerRequiredItem != null)
         {
             return;
         }
 
-        // 切换开关状态
         isContainerOpen = !isContainerOpen;
 
         if (isContainerOpen)
@@ -503,24 +525,20 @@ public class InteractableObject : MonoBehaviour
     {
         Debug.Log($"[InteractableObject] 打开容器: '{displayName}'");
 
-        // 切换精灵图
         if (spriteRenderer != null && containerOpenedSprite != null)
         {
             spriteRenderer.sprite = containerOpenedSprite;
         }
 
-        // 显示内部物品（只显示未被拾取的）
         if (containedObjects != null)
         {
             foreach (var obj in containedObjects)
             {
                 if (obj == null) continue;
 
-                // ⭐ 检查是否已被拾取
                 InteractableObject interactable = obj.GetComponent<InteractableObject>();
                 if (interactable != null && interactable.hasBeenPickedUp)
                 {
-                    // 已拾取，不显示
                     continue;
                 }
 
@@ -528,7 +546,6 @@ public class InteractableObject : MonoBehaviour
             }
         }
 
-        // 播放音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(containerOpenSound))
         {
             AudioManager.Instance.PlaySFX(containerOpenSound);
@@ -539,13 +556,11 @@ public class InteractableObject : MonoBehaviour
     {
         Debug.Log($"[InteractableObject] 关闭容器: '{displayName}'");
 
-        // 切换精灵图
         if (spriteRenderer != null && containerClosedSprite != null)
         {
             spriteRenderer.sprite = containerClosedSprite;
         }
 
-        // 隐藏内部物品
         if (containedObjects != null)
         {
             foreach (var obj in containedObjects)
@@ -555,7 +570,6 @@ public class InteractableObject : MonoBehaviour
             }
         }
 
-        // 播放音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(containerCloseSound))
         {
             AudioManager.Instance.PlaySFX(containerCloseSound);
@@ -578,9 +592,6 @@ public class InteractableObject : MonoBehaviour
         isSwapUnlocked = unlocked;
     }
 
-    /// <summary>
-    /// 恢复容器状态（供存档系统调用）
-    /// </summary>
     public void RestoreContainerState(bool unlocked, bool open)
     {
         isContainerUnlocked = unlocked;
@@ -598,7 +609,6 @@ public class InteractableObject : MonoBehaviour
             }
         }
 
-        // 恢复内部物品显示状态
         if (containedObjects != null)
         {
             foreach (var obj in containedObjects)
@@ -607,7 +617,6 @@ public class InteractableObject : MonoBehaviour
 
                 if (open)
                 {
-                    // 打开状态：只显示未被拾取的
                     InteractableObject interactable = obj.GetComponent<InteractableObject>();
                     if (interactable != null && interactable.hasBeenPickedUp)
                     {
@@ -620,16 +629,12 @@ public class InteractableObject : MonoBehaviour
                 }
                 else
                 {
-                    // 关闭状态：全部隐藏
                     obj.SetActive(false);
                 }
             }
         }
     }
 
-    /// <summary>
-    /// 标记为已拾取（供存档系统调用）
-    /// </summary>
     public void MarkAsPickedUp()
     {
         hasBeenPickedUp = true;
@@ -638,59 +643,6 @@ public class InteractableObject : MonoBehaviour
     protected virtual void OnTriggered() { }
 
     // ============ 编辑器辅助 ============
-
-    private void OnDrawGizmosSelected()
-    {
-        switch (interactionType)
-        {
-            case InteractionType.Pickup:
-                Gizmos.color = Color.green;
-                break;
-            case InteractionType.ZoomView:
-                Gizmos.color = Color.blue;
-                break;
-            case InteractionType.Trigger:
-                Gizmos.color = Color.yellow;
-                break;
-            case InteractionType.RequireItem:
-                Gizmos.color = Color.magenta;
-                break;
-            case InteractionType.ItemCombine:
-                Gizmos.color = Color.cyan;
-                break;
-            case InteractionType.StateSwitch:
-                Gizmos.color = new Color(1f, 0.5f, 0f);
-                break;
-            case InteractionType.ObjectSwap:
-                Gizmos.color = new Color(0.5f, 0f, 1f);
-                break;
-            case InteractionType.Container:
-                Gizmos.color = new Color(0f, 1f, 0.5f); // 青绿色
-                break;
-        }
-
-        Gizmos.DrawWireSphere(transform.position, 0.3f);
-
-        // ObjectSwap 连线
-        if (interactionType == InteractionType.ObjectSwap && swapTargetObject != null)
-        {
-            Gizmos.color = new Color(0.5f, 0f, 1f, 0.5f);
-            Gizmos.DrawLine(transform.position, swapTargetObject.transform.position);
-        }
-
-        // Container 连线
-        if (interactionType == InteractionType.Container && containedObjects != null)
-        {
-            Gizmos.color = new Color(0f, 1f, 0.5f, 0.5f);
-            foreach (var obj in containedObjects)
-            {
-                if (obj != null)
-                {
-                    Gizmos.DrawLine(transform.position, obj.transform.position);
-                }
-            }
-        }
-    }
 
     private void OnValidate()
     {

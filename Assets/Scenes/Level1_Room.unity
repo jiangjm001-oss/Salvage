@@ -150,8 +150,8 @@ Transform:
   m_GameObject: {fileID: 4314969}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.87, y: -7.26, z: 0}
-  m_LocalScale: {x: 0.12710056, y: 0.15788738, z: 0.094294906}
+  m_LocalPosition: {x: 3.35, y: -7.33, z: 0}
+  m_LocalScale: {x: 0.5564511, y: 0.5564511, z: 0.5564511}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15530627}
@@ -174,11 +174,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1688752664}
   associatedZoomView: 7
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -249,21 +253,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 10.783052, y: 2.2977552}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 40.96, y: 25.06}
-    newSize: {x: 19.2, y: 10.8}
+    oldSize: {x: 8.08, y: 8.46}
+    newSize: {x: 8.08, y: 8.46}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32.300945, y: 26.091463}
+  m_Size: {x: 8.08, y: 8.46}
   m_EdgeRadius: 0
 --- !u!212 &4314973
 SpriteRenderer:
@@ -306,15 +310,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5f07723fd2bff5c4d99175d64e81f77a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e7a597c475bbd5c42afea524ef38d261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 10.8}
+  m_Size: {x: 8.08, y: 8.46}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &15530626
@@ -348,13 +352,411 @@ Transform:
   m_Children:
   - {fileID: 251411741}
   - {fileID: 253437096}
+  - {fileID: 1412556228}
   - {fileID: 4314970}
   - {fileID: 488262206}
   - {fileID: 589602739}
-  - {fileID: 1412556228}
   - {fileID: 1995786159}
   m_Father: {fileID: 1541279197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &34581410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34581414}
+  - component: {fileID: 34581413}
+  - component: {fileID: 34581412}
+  - component: {fileID: 34581411}
+  m_Layer: 3
+  m_Name: Note01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &34581411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34581410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Key_-28956
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: 88c85d4f6d9245243a15807f6c41d3b3, type: 2}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &34581412
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34581410}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 12.72, y: 9.31}
+    newSize: {x: 12.72, y: 9.31}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0001, y: 0.0001}
+  m_EdgeRadius: 0
+--- !u!212 &34581413
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34581410}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 883c74cd8ef6f834f890377b4b50718a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.72, y: 9.31}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &34581414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34581410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.06, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1283114846}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &37163111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 37163112}
+  - component: {fileID: 37163115}
+  - component: {fileID: 37163114}
+  - component: {fileID: 37163113}
+  m_Layer: 3
+  m_Name: ThinKey
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &37163112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37163111}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.22, y: 1.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 913922347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &37163113
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37163111}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.3, y: 4.76}
+    newSize: {x: 8.3, y: 4.76}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 8.3, y: 4.76}
+  m_EdgeRadius: 0
+--- !u!212 &37163114
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37163111}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2fcf1a02dcbd42c4493e4e6612b6621b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 8.3, y: 4.76}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &37163115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37163111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: ThinKey_-10994
+  displayName: 
+  interactionType: 0
+  item: {fileID: 11400000, guid: 25c395aaad6b5f147b1d43a1f22b1120, type: 2}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
 --- !u!1 &74233901
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,8 +783,8 @@ Transform:
   m_GameObject: {fileID: 74233901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000035763, y: -4.66, z: 0.50898397}
-  m_LocalScale: {x: 0.47259632, y: 0.47259632, z: 0.47259632}
+  m_LocalPosition: {x: 0.00000026823, y: -4.64, z: 0.50898397}
+  m_LocalScale: {x: 0.58171827, y: 0.58171827, z: 0.58171827}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -428,7 +830,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 80b6ffe232040dc418e6fd4b33bf5072, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b45a7b6016d7c1f48a613f714a345079, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -490,11 +892,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -628,8 +1034,8 @@ Transform:
   m_GameObject: {fileID: 111619845}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.76, y: -3.11, z: 0}
-  m_LocalScale: {x: 0.16725671, y: 0.1573763, z: 1}
+  m_LocalPosition: {x: -1.01, y: -2.28, z: 0}
+  m_LocalScale: {x: 0.61445415, y: 0.61445415, z: 0.61445415}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -670,8 +1076,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 22.79, y: 8.791064}
+    newSize: {x: 22.79, y: 8.791064}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -691,17 +1097,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Cabinet_Open_-9342
+  objectID: up_Cabinet_Open_25074
   displayName: 
-  interactionType: 6
+  interactionType: 0
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -726,7 +1136,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 1836088260}
+  swapTargetObject: {fileID: 0}
   swapRequiredItem: {fileID: 0}
   consumeSwapItem: 1
   isSwapUnlocked: 0
@@ -784,12 +1194,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e0b278cec0a87fa4cb9822abf593c9a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1656613ddebad314181d31f5809811fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 22.79, y: 8.791064}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -822,12 +1232,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119121029}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.91, y: -6.3, z: 0.50898397}
-  m_LocalScale: {x: 0.56120455, y: 0.47160044, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.64, y: -7.33, z: 0}
+  m_LocalScale: {x: 0.745143, y: 0.745143, z: 0.745143}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 573553009}
+  m_Children: []
   m_Father: {fileID: 642104564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &119121031
@@ -844,15 +1253,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: A jar for coffee beans_lv1_A
   displayName: "\u88C5\u5496\u5561\u8C46\u7684\u7F50\u5B50"
-  interactionType: 2
-  item: {fileID: 0}
+  interactionType: 1
+  item: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 2035263816}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -923,21 +1336,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 3.06, y: 4.62}
+    newSize: {x: 3.06, y: 4.62}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
+  m_Size: {x: 3.06, y: 4.62}
   m_EdgeRadius: 0
 --- !u!212 &119121033
 SpriteRenderer:
@@ -980,15 +1393,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: cdeb962372fdc4b4e9368f8d06ace21f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.06, y: 4.62}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &128908851
@@ -1095,11 +1508,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -1198,6 +1615,165 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.7081695, y: 2.330646}
   m_EdgeRadius: 0
+--- !u!1 &131548963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131548964}
+  - component: {fileID: 131548967}
+  - component: {fileID: 131548966}
+  - component: {fileID: 131548968}
+  m_Layer: 3
+  m_Name: CoffeeCup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &131548964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131548963}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.4419, y: -4.7416, z: 0}
+  m_LocalScale: {x: 0.48753598, y: 0.48753598, z: 0.48753598}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1399235695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &131548966
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131548963}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -3.3056555, y: -0.638592}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 19.984118, y: 15.063824}
+  m_EdgeRadius: 0
+--- !u!212 &131548967
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131548963}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 45daeed2e06ea464f8477a0cccca1710, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &131548968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131548963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581f5c77f52d4d1469157054451d6ce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: coffee_cup_01
+  displayName: "\u5496\u5561\u676F"
+  currentState: 0
+  spriteEmpty: {fileID: 21300000, guid: 45daeed2e06ea464f8477a0cccca1710, type: 3}
+  spritePowder: {fileID: 21300000, guid: 152b5f9c3d400784b9ed108288fe262d, type: 3}
+  spriteWater: {fileID: 21300000, guid: 489fd5c928768b1449f51e57cc9ec93c, type: 3}
+  spriteMilk: {fileID: 21300000, guid: deeabaa3048c1c94395b828a273a53d1, type: 3}
+  itemForPowder: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
+  itemForWater: {fileID: 11400000, guid: 3730f8796677da349929a6a946925020, type: 2}
+  itemForMilk: {fileID: 11400000, guid: 00fda583b5f11224e977d7cfb310af71, type: 2}
+  pickupItem: {fileID: 11400000, guid: 47677f875219ea74aae48bd19de05366, type: 2}
+  requiredObjectForPickup: {fileID: 2005425385}
+  pickupBlockedHint: "\u597D\u50CF\u8FD8\u9700\u8981\u505A\u70B9\u4EC0\u4E48..."
+  objectToShowOnMilk: {fileID: 1440831663}
+  pourSoundName: 
+  collectSoundName: Audio/SFX/item_pickup
 --- !u!1 &146972831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,11 +1826,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 11
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -1499,11 +2079,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 11400000, guid: 60fa0036392e6d14a9912af901d22881, type: 2}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -1683,11 +2267,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -1864,11 +2452,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -1942,18 +2534,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.052718163, y: -0.4116454}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 16.03, y: 6.93}
+    newSize: {x: 16.03, y: 6.93}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 16.49853, y: 19.229996}
+  m_Size: {x: 16.03, y: 6.93}
   m_EdgeRadius: 0
 --- !u!212 &206273922
 SpriteRenderer:
@@ -1995,13 +2587,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 7e927d06fd67436408a2102fb8e389ba, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: 055f4ac0381c663409fa2c647655c340, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 16.03, y: 6.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2016,8 +2608,8 @@ Transform:
   m_GameObject: {fileID: 206273919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.79, y: -6.55, z: 0}
-  m_LocalScale: {x: 0.1912961, y: 0.17148432, z: 1}
+  m_LocalPosition: {x: -1.09, y: -6.99, z: 0}
+  m_LocalScale: {x: 0.6075485, y: 0.6075485, z: 0.6075485}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -2048,8 +2640,8 @@ Transform:
   m_GameObject: {fileID: 251411740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -4.79, z: 0}
-  m_LocalScale: {x: 0.2485949, y: 0.24812256, z: 0.2485949}
+  m_LocalPosition: {x: 0.2747, y: -4.6669, z: 0}
+  m_LocalScale: {x: 0.46335527, y: 0.47766462, z: 0.47857392}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15530627}
@@ -2095,7 +2687,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 41728e6a9a4b43748acdda8f937ff6fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e09d5940f185a54ea4e32fe02ff7b75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2134,8 +2726,8 @@ Transform:
   m_GameObject: {fileID: 253437095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.42, y: -2.74, z: 0}
-  m_LocalScale: {x: 0.13425736, y: 0.13425736, z: 0.13425736}
+  m_LocalPosition: {x: 2.86, y: -2.36, z: 0}
+  m_LocalScale: {x: 0.61147267, y: 0.61147267, z: 0.61147267}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15530627}
@@ -2158,11 +2750,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
-  associatedZoomView: 4
+  zoomViewTarget: {fileID: 1161207520}
+  associatedZoomView: 29
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -2233,21 +2829,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 10.783052, y: 2.2977552}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 40.96, y: 25.06}
-    newSize: {x: 19.2, y: 10.8}
+    oldSize: {x: 8.64, y: 6.97}
+    newSize: {x: 8.64, y: 6.97}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32.300945, y: 26.091463}
+  m_Size: {x: 8.64, y: 6.97}
   m_EdgeRadius: 0
 --- !u!212 &253437099
 SpriteRenderer:
@@ -2290,15 +2886,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5f07723fd2bff5c4d99175d64e81f77a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e8cb8b854693564dbc2d99d8a3df2d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 10.8}
+  m_Size: {x: 8.64, y: 6.97}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &262426540
@@ -2338,11 +2934,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 7b24bebb2b2691847b32ae6f48658920, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -2511,7 +3111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &284983233
 Transform:
   m_ObjectHideFlags: 0
@@ -2572,8 +3172,8 @@ GameObject:
   m_Component:
   - component: {fileID: 318837029}
   - component: {fileID: 318837032}
-  - component: {fileID: 318837031}
   - component: {fileID: 318837030}
+  - component: {fileID: 318837031}
   m_Layer: 3
   m_Name: below_Cabinet_Open
   m_TagString: Untagged
@@ -2590,8 +3190,8 @@ Transform:
   m_GameObject: {fileID: 318837028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.76, y: -6.63, z: 0}
-  m_LocalScale: {x: 0.16725671, y: 0.1573763, z: 1}
+  m_LocalPosition: {x: -1.04, y: -6.53, z: 0}
+  m_LocalScale: {x: 0.61190236, y: 0.61190236, z: 0.61190236}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -2632,14 +3232,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 22.79, y: 8.791064}
+    newSize: {x: 22.79, y: 8.791064}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 22.79, y: 8.791064}
   m_EdgeRadius: 0
 --- !u!114 &318837031
 MonoBehaviour:
@@ -2659,11 +3259,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -2746,207 +3350,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e0b278cec0a87fa4cb9822abf593c9a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1656613ddebad314181d31f5809811fe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!1 &333502122
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 333502123}
-  - component: {fileID: 333502126}
-  - component: {fileID: 333502125}
-  - component: {fileID: 333502124}
-  m_Layer: 3
-  m_Name: Note_01
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &333502123
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333502122}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.880903, y: 0.4340548, z: 0}
-  m_LocalScale: {x: 2.0669272, y: 2.0669272, z: 2.0669272}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2118601498}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &333502124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333502122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Note_01_-7238
-  displayName: 
-  interactionType: 0
-  item: {fileID: 11400000, guid: 88c85d4f6d9245243a15807f6c41d3b3, type: 2}
-  isPickupable: 1
-  hasBeenPickedUp: 0
-  associatedZoomView: 0
-  pickupSoundName: Audio/SFX/item_pickup
-  zoomSoundName: Audio/SFX/zoom_in
-  triggerSoundName: Audio/SFX/trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
-  swapRequiredItem: {fileID: 0}
-  consumeSwapItem: 1
-  isSwapUnlocked: 0
-  OnSwapSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  swapSoundName: Audio/SFX/swap
-  containerClosedSprite: {fileID: 0}
-  containerOpenedSprite: {fileID: 0}
-  containedObjects: []
-  containerRequiredItem: {fileID: 0}
-  consumeContainerItem: 1
-  isContainerUnlocked: 0
-  isContainerOpen: 0
-  containerOpenSound: Audio/SFX/container_open
-  containerCloseSound: Audio/SFX/container_close
---- !u!61 &333502125
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333502122}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 39.21702, y: 21.6}
-  m_EdgeRadius: 0
---- !u!212 &333502126
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333502122}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 69a7d31c215a6844282e957f67a11ab5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 22.79, y: 8.791064}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3003,11 +3412,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -3368,11 +3781,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -3572,9 +3989,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455343308}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.07, y: -2.84, z: 0.50898397}
-  m_LocalScale: {x: 0.47160044, y: 0.47160044, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.02, y: -4.03, z: 0}
+  m_LocalScale: {x: 0.47674, y: 0.47674, z: 0.47674}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -3597,11 +4014,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 192aeb7323f43404da1c86d82bea78e4, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1283114845}
   associatedZoomView: 6
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -3672,21 +4093,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.350738, y: -2.3520393}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 7.98, y: 3.81}
+    newSize: {x: 7.98, y: 3.81}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.5754404, y: 3.3613167}
+  m_Size: {x: 7.98, y: 3.81}
   m_EdgeRadius: 0
 --- !u!212 &455343312
 SpriteRenderer:
@@ -3729,15 +4150,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9b55b35dd52f06d49bdf2e221837c54d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7.98, y: 3.81}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &459482403
@@ -3792,11 +4213,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 14
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -3986,11 +4411,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -4124,8 +4553,8 @@ Transform:
   m_GameObject: {fileID: 488262205}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.39, y: -3.692, z: 0}
-  m_LocalScale: {x: 0.057032816, y: 0.0956807, z: 0.04362082}
+  m_LocalPosition: {x: 6.77, y: -3.33, z: 0}
+  m_LocalScale: {x: 0.6818, y: 0.6818, z: 0.6818}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15530627}
@@ -4148,11 +4577,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 903ac93c30c2fa343b6fd94241e9fe44, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 8
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -4223,21 +4656,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 10.783052, y: 2.2977552}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 40.96, y: 25.06}
-    newSize: {x: 19.2, y: 10.8}
+    oldSize: {x: 4.69, y: 6.28}
+    newSize: {x: 4.69, y: 6.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32.300945, y: 26.091463}
+  m_Size: {x: 4.69, y: 6.28}
   m_EdgeRadius: 0
 --- !u!212 &488262209
 SpriteRenderer:
@@ -4280,17 +4713,49 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5f07723fd2bff5c4d99175d64e81f77a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d754b3847a3233c4d9bd1c09a4aa9f74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 10.8}
+  m_Size: {x: 4.69, y: 6.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &513605194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513605195}
+  m_Layer: 0
+  m_Name: Grinder_Zoomview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &513605195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513605194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1511250745}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &533454916
 GameObject:
   m_ObjectHideFlags: 0
@@ -4324,6 +4789,174 @@ Transform:
   - {fileID: 105940620}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &533503733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 533503734}
+  - component: {fileID: 533503735}
+  m_Layer: 3
+  m_Name: CoffeeJarC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &533503734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533503733}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.44, y: -4.81, z: 0}
+  m_LocalScale: {x: 0.523977, y: 0.523977, z: 0.523977}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035263817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &533503735
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533503733}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 70ef0d2de51795e4f845f9c6149d7c12, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 18.11, y: 15.4}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &536625494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 536625495}
+  - component: {fileID: 536625496}
+  m_Layer: 0
+  m_Name: Shadow of the low cabinet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &536625495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536625494}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.118181325, y: 1.8564565, z: 0}
+  m_LocalScale: {x: 1.1618819, y: 0.99669313, z: 4.9292407}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1995786159}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &536625496
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536625494}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 5353793ffa586eb4c993bff38e0e57d7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 9.21, y: 12.69}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &559960129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4397,7 +5030,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: dc9f92350a2383c4a9603afe945828c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 78e975d6ee0d71c4bbc4a721ec311996, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4435,9 +5068,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 563429560}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.51, y: -2.06, z: 0.50898397}
-  m_LocalScale: {x: 0.47160044, y: 0.47160044, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.31, y: -1.907, z: 0}
+  m_LocalScale: {x: 0.2339194, y: 0.2339194, z: 0.2339194}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -4456,9 +5089,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: radio_antenna
   stateSprites:
-  - {fileID: 21300000, guid: f5fd21814f194c947829ff8e967ebaaf, type: 3}
-  - {fileID: 21300000, guid: 966d380d233acf645a5633626cf7ab13, type: 3}
-  - {fileID: 21300000, guid: 27bc0f3f7c2fbe24ba382bf100211a0f, type: 3}
+  - {fileID: 21300000, guid: 748da488c658954438cab96246adfcf3, type: 3}
+  - {fileID: 21300000, guid: 041b280263061174a91b9c0a1d7e8191, type: 3}
+  - {fileID: 21300000, guid: b73f8ccc5133b8e4b8a94d2f259fd42d, type: 3}
   switchSoundPath: Audio/SFX/switch
   currentStateIndex: 0
 --- !u!61 &563429563
@@ -4490,21 +5123,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.36845905, y: -0.02199775}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.96, y: 1.96}
+    oldSize: {x: 1.71, y: 7.7}
     newSize: {x: 1.96, y: 1.96}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7369212, y: 1.6995729}
+  m_Size: {x: 1.71, y: 7.7}
   m_EdgeRadius: 0
 --- !u!212 &563429564
 SpriteRenderer:
@@ -4547,7 +5180,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f5fd21814f194c947829ff8e967ebaaf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f27c1ad00f417c4489b1a02193ef2cd6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4558,7 +5191,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &573553008
+--- !u!1 &572468170
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4566,148 +5199,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 573553009}
-  - component: {fileID: 573553012}
-  - component: {fileID: 573553011}
-  - component: {fileID: 573553010}
-  m_Layer: 3
-  m_Name: Coffee_beans
+  - component: {fileID: 572468171}
+  - component: {fileID: 572468172}
+  m_Layer: 0
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &573553009
+--- !u!4 &572468171
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573553008}
+  m_GameObject: {fileID: 572468170}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: -4.74, z: 0}
+  m_LocalScale: {x: 0.46662834, y: 0.46662834, z: 0.46662834}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 119121030}
+  m_Father: {fileID: 2035263817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &573553010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573553008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Coffee beans_lv1_A
-  displayName: "\u5496\u5561\u8C46"
-  interactionType: 0
-  item: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
-  isPickupable: 1
-  hasBeenPickedUp: 0
-  associatedZoomView: 1
-  pickupSoundName: item_pickup
-  zoomSoundName: zoom_in
-  triggerSoundName: trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
-  swapRequiredItem: {fileID: 0}
-  consumeSwapItem: 1
-  isSwapUnlocked: 0
-  OnSwapSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  swapSoundName: Audio/SFX/swap
-  containerClosedSprite: {fileID: 0}
-  containerOpenedSprite: {fileID: 0}
-  containedObjects: []
-  containerRequiredItem: {fileID: 0}
-  consumeContainerItem: 1
-  isContainerUnlocked: 0
-  isContainerOpen: 0
-  containerOpenSound: Audio/SFX/container_open
-  containerCloseSound: Audio/SFX/container_close
---- !u!61 &573553011
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573553008}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
-  m_EdgeRadius: 0
---- !u!212 &573553012
+--- !u!212 &572468172
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573553008}
+  m_GameObject: {fileID: 572468170}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -4742,15 +5264,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a7185a225f31e0e449f40f6a4e7f43be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 39.21702, y: 21.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &578045970
@@ -4771,7 +5293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &578045971
 Transform:
   m_ObjectHideFlags: 0
@@ -4806,11 +5328,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 47677f875219ea74aae48bd19de05366, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -4949,6 +5475,205 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &584419235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584419236}
+  - component: {fileID: 584419239}
+  - component: {fileID: 584419238}
+  - component: {fileID: 584419237}
+  m_Layer: 3
+  m_Name: CoffeeJarA_Lid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &584419236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584419235}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.44, y: -4.81, z: 0}
+  m_LocalScale: {x: 0.523977, y: 0.523977, z: 0.523977}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035263817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &584419237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584419235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: coffee_jar_a
+  displayName: "\u5496\u5561\u7F50"
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 1531071535}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &584419238
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584419235}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.2448246, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 18.11, y: 15.4}
+    newSize: {x: 18.11, y: 15.4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 13.620352, y: 15.4}
+  m_EdgeRadius: 0
+--- !u!212 &584419239
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584419235}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 489fd5c928768b1449f51e57cc9ec93c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 18.11, y: 15.4}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &589602738
 GameObject:
   m_ObjectHideFlags: 0
@@ -4977,8 +5702,8 @@ Transform:
   m_GameObject: {fileID: 589602738}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5824, y: -5.52, z: 0}
-  m_LocalScale: {x: 0.07819148, y: 0.30610678, z: 0.13425736}
+  m_LocalPosition: {x: -6.55, y: -4.82, z: 0}
+  m_LocalScale: {x: 0.5275117, y: 0.5275117, z: 0.5275117}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15530627}
@@ -5001,11 +5726,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 284983232}
   associatedZoomView: 6
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -5076,21 +5805,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 10.783052, y: 2.2977552}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 40.96, y: 25.06}
-    newSize: {x: 19.2, y: 10.8}
+    oldSize: {x: 6.51, y: 17.42}
+    newSize: {x: 6.51, y: 17.42}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32.300945, y: 26.091463}
+  m_Size: {x: 6.51, y: 17.42}
   m_EdgeRadius: 0
 --- !u!212 &589602742
 SpriteRenderer:
@@ -5133,15 +5862,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5f07723fd2bff5c4d99175d64e81f77a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0f1bb2e632ae7d04a948e0e06034f7bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 19.2, y: 10.8}
+  m_Size: {x: 6.51, y: 17.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &610589492
@@ -5196,11 +5925,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 10
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -5391,11 +6124,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 13
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -5566,11 +6303,10 @@ Transform:
   - {fileID: 907817093}
   - {fileID: 563429561}
   - {fileID: 455343309}
-  - {fileID: 1252968014}
+  - {fileID: 119121030}
   - {fileID: 1273536781}
   - {fileID: 926433206}
   - {fileID: 578045971}
-  - {fileID: 119121030}
   - {fileID: 74233902}
   - {fileID: 1836088264}
   - {fileID: 111619846}
@@ -5630,11 +6366,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -5908,11 +6648,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -6037,7 +6781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &669136474
 Transform:
   m_ObjectHideFlags: 0
@@ -6046,9 +6790,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669136473}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.82, y: -5.84, z: 0.50898397}
-  m_LocalScale: {x: 0.16864197, y: 0.055035774, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.33, y: -1.77, z: 0}
+  m_LocalScale: {x: 1.7675198, y: 1.7675198, z: 1.7675198}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1891373819}
@@ -6112,11 +6856,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 16953c4ecd4913a4583d331571cbf5e2, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -6187,21 +6935,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3666916, y: 0.8435621}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 1.42, y: 1.18}
     newSize: {x: 1.96, y: 1.96}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 40.95186, y: 22.964746}
+  m_Size: {x: 1.42, y: 1.18}
   m_EdgeRadius: 0
 --- !u!212 &669136478
 SpriteRenderer:
@@ -6244,7 +6992,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f6a5a43e3dcbd14da57d9199ad34436, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e2d917a38c362ca46b6848d3a6a3efff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6471,11 +7219,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 13
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -6791,6 +7543,217 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &789912332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 789912333}
+  - component: {fileID: 789912336}
+  - component: {fileID: 789912335}
+  - component: {fileID: 789912334}
+  m_Layer: 3
+  m_Name: Kerosene_lampB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &789912333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789912332}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.93, y: -5.64, z: 0}
+  m_LocalScale: {x: 0.37157834, y: 0.37157834, z: 0.37157834}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891373819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &789912334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789912332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: oil_lamp_b
+  displayName: "\u70B9\u71C3\u7684\u7164\u6CB9\u706F"
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 1
+  pickupSoundName: item_pickup
+  zoomSoundName: zoom_in
+  triggerSoundName: trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 669136475}
+        m_TargetAssemblyTypeName: FadeInObject, Assembly-CSharp
+        m_MethodName: FadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 1016962362}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &789912335
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789912332}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.88, y: 15.61}
+    newSize: {x: 1.96, y: 1.96}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 7.88, y: 15.61}
+  m_EdgeRadius: 0
+--- !u!212 &789912336
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789912332}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b03894699d75abc4692ea728c3357a56, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.96, y: 1.96}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &797984142
 GameObject:
   m_ObjectHideFlags: 0
@@ -6843,11 +7806,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -6948,6 +7915,90 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &798560228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 798560229}
+  - component: {fileID: 798560230}
+  m_Layer: 3
+  m_Name: Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &798560229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798560228}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.05, y: -1.67, z: 0}
+  m_LocalScale: {x: 2.2728, y: 2.2728, z: 2.2728}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1412556228}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &798560230
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798560228}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 1d4d1da49bf848a4daa3586257af58c1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2.07, y: 1.06}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -7088,11 +8139,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -7249,11 +8304,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -7385,8 +8444,8 @@ Transform:
   m_GameObject: {fileID: 836302363}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.66, z: 0.50898397}
-  m_LocalScale: {x: 0.47259632, y: 0.47259632, z: 0.47259632}
+  m_LocalPosition: {x: 0.000000029802, y: -4.33, z: 0.50898397}
+  m_LocalScale: {x: 0.5127201, y: 0.5127201, z: 0.5127201}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 284983233}
@@ -7432,7 +8491,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: d540a9689d9c4f54fa495f0800f60975, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 295fb5db523bce74a86622ad7f0f52b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7495,11 +8554,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 1d9c7e19870db324c80573328b56ac43, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -7678,8 +8741,8 @@ Transform:
   m_GameObject: {fileID: 907817092}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.95, y: -2.87, z: 0.50898397}
-  m_LocalScale: {x: 0.47160044, y: 0.47160044, z: 0.47160044}
+  m_LocalPosition: {x: -3.151, y: -3.71, z: 0.50898397}
+  m_LocalScale: {x: 0.17657748, y: 0.17657748, z: 0.17657748}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -7713,21 +8776,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 16.46, y: 11.98}
+    newSize: {x: 16.46, y: 11.98}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
+  m_Size: {x: 16.46, y: 11.98}
   m_EdgeRadius: 0
 --- !u!212 &907817096
 SpriteRenderer:
@@ -7770,15 +8833,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 13c9fafccf4250743bb7312e7140ccf9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 16.46, y: 11.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &907817097
@@ -7978,6 +9041,206 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &913922346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913922347}
+  - component: {fileID: 913922350}
+  - component: {fileID: 913922349}
+  - component: {fileID: 913922348}
+  m_Layer: 3
+  m_Name: Box-no
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &913922347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913922346}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.68, y: -5.78, z: 0.5}
+  m_LocalScale: {x: 0.37, y: 0.37, z: 0.37}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 37163112}
+  m_Father: {fileID: 1406777429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &913922348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913922346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Box-yes_-9010
+  displayName: 
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 983427554}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &913922349
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913922346}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 24.869999, y: 11.924971}
+    newSize: {x: 25.300863, y: 14.59}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 25.300863, y: 14.59}
+  m_EdgeRadius: 0
+--- !u!212 &913922350
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913922346}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 1b267728de0512f418c3c4a4c291cb14, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 25.300863, y: 14.59}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &925595053
 GameObject:
   m_ObjectHideFlags: 0
@@ -8029,11 +9292,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -8166,12 +9433,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926433205}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.36, y: -6.03, z: 0.50898397}
-  m_LocalScale: {x: 0.56120455, y: 0.47160044, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.99, y: -8.43, z: 0}
+  m_LocalScale: {x: 0.66789937, y: 0.66789937, z: 0.66789937}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2102362390}
+  m_Children: []
   m_Father: {fileID: 642104564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &926433207
@@ -8188,15 +9454,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Coffee cup_lv1_A
   displayName: "\u5496\u5561\u676F"
-  interactionType: 0
+  interactionType: 1
   item: {fileID: 11400000, guid: 47677f875219ea74aae48bd19de05366, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1399235694}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -8267,21 +9537,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 2.87, y: 1.69}
+    newSize: {x: 2.87, y: 1.69}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
+  m_Size: {x: 2.87, y: 1.69}
   m_EdgeRadius: 0
 --- !u!212 &926433209
 SpriteRenderer:
@@ -8324,15 +9594,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: dd6c0d3729eded142bfe881e7c770319, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.87, y: 1.69}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &940017213
@@ -8386,11 +9656,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -8496,6 +9770,205 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &983427554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 983427558}
+  - component: {fileID: 983427557}
+  - component: {fileID: 983427556}
+  - component: {fileID: 983427555}
+  m_Layer: 3
+  m_Name: Box-yes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &983427555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983427554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: Box-yes_-9010
+  displayName: 
+  interactionType: 6
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 913922346}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!61 &983427556
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983427554}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 25.300863, y: 14.59}
+    newSize: {x: 25.300863, y: 14.59}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 25.300863, y: 14.59}
+  m_EdgeRadius: 0
+--- !u!212 &983427557
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983427554}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: bfc905930d973434db49f2f15cc2f383, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 25.300863, y: 14.59}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &983427558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983427554}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.8, y: -5.3, z: 0.5}
+  m_LocalScale: {x: 0.37, y: 0.37, z: 0.37}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1406777429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &987835188
 GameObject:
   m_ObjectHideFlags: 0
@@ -8547,11 +10020,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -8709,11 +10186,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 7339d1e320d20474fa7dd404ea990a05, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 19
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -8904,11 +10385,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 16
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -9060,7 +10545,7 @@ GameObject:
   - component: {fileID: 1016962365}
   - component: {fileID: 1016962364}
   m_Layer: 3
-  m_Name: Kerosene_lamp
+  m_Name: Kerosene_lampA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9074,9 +10559,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016962362}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4775, y: -5.5276, z: 0.50898397}
-  m_LocalScale: {x: 3.1075234, y: 2.5330236, z: 2.6113641}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.36, y: -5.19, z: 0}
+  m_LocalScale: {x: 0.431997, y: 0.431997, z: 0.431997}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1891373819}
@@ -9093,17 +10578,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: Kerosene_lamp
+  objectID: oil_lamp_a
   displayName: "\u7164\u6CB9\u706F"
-  interactionType: 3
+  interactionType: 6
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -9140,7 +10629,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
+  swapTargetObject: {fileID: 789912332}
   swapRequiredItem: {fileID: 0}
   consumeSwapItem: 1
   isSwapUnlocked: 0
@@ -9186,21 +10675,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004033804, y: 0.016660154}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.96, y: 1.96}
+    oldSize: {x: 7.88, y: 15.61}
     newSize: {x: 1.96, y: 1.96}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.03405, y: 1.997924}
+  m_Size: {x: 7.88, y: 15.61}
   m_EdgeRadius: 0
 --- !u!212 &1016962366
 SpriteRenderer:
@@ -9243,7 +10732,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 203b9702fe0b448469867be00ea3342a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27a8dfaf466b68c41955db4db8077ac4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9306,11 +10795,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: f25443a4825f7d94e8579159c9f2971e, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -9512,11 +11005,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -9672,11 +11169,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: d9d19d3863b6bc54f97c9a65cd6b0194, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -9980,11 +11481,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -10164,6 +11669,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1264958713}
   - {fileID: 2118601498}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10219,11 +11725,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 0c285ae6affdf1f4abd5b6a6a8ef5c6b, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -10539,201 +12049,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1252968013
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1252968014}
-  - component: {fileID: 1252968017}
-  - component: {fileID: 1252968016}
-  - component: {fileID: 1252968015}
-  m_Layer: 3
-  m_Name: Slider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1252968014
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252968013}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.91, y: -6.3, z: 0.50898397}
-  m_LocalScale: {x: 0.56120455, y: 0.47160044, z: 0.47160044}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 642104564}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1252968015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252968013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Slider_lv1_A
-  displayName: "\u6ED1\u5757"
-  interactionType: 2
-  item: {fileID: 0}
-  isPickupable: 1
-  hasBeenPickedUp: 0
-  associatedZoomView: 1
-  pickupSoundName: item_pickup
-  zoomSoundName: zoom_in
-  triggerSoundName: trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
-  swapRequiredItem: {fileID: 0}
-  consumeSwapItem: 1
-  isSwapUnlocked: 0
-  OnSwapSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  swapSoundName: Audio/SFX/swap
-  containerClosedSprite: {fileID: 0}
-  containerOpenedSprite: {fileID: 0}
-  containedObjects: []
-  containerRequiredItem: {fileID: 0}
-  consumeContainerItem: 1
-  isContainerUnlocked: 0
-  isContainerOpen: 0
-  containerOpenSound: Audio/SFX/container_open
-  containerCloseSound: Audio/SFX/container_close
---- !u!61 &1252968016
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252968013}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
-  m_EdgeRadius: 0
---- !u!212 &1252968017
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252968013}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &1261447378
 GameObject:
   m_ObjectHideFlags: 0
@@ -10786,11 +12101,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -10929,7 +12248,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1272726717
+--- !u!1 &1264958712
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10937,148 +12256,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1272726718}
-  - component: {fileID: 1272726721}
-  - component: {fileID: 1272726720}
-  - component: {fileID: 1272726719}
-  m_Layer: 3
-  m_Name: Coffee_powder
+  - component: {fileID: 1264958713}
+  - component: {fileID: 1264958714}
+  m_Layer: 0
+  m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1272726718
+--- !u!4 &1264958713
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272726717}
+  m_GameObject: {fileID: 1264958712}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7, y: -4.63, z: 0}
+  m_LocalScale: {x: 0.49760813, y: 0.49760813, z: 0.49760813}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1273536781}
+  m_Father: {fileID: 1243944214}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1272726719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272726717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Coffee powder_lv1_A
-  displayName: "\u5496\u5561\u7C89"
-  interactionType: 0
-  item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
-  isPickupable: 1
-  hasBeenPickedUp: 0
-  associatedZoomView: 1
-  pickupSoundName: item_pickup
-  zoomSoundName: zoom_in
-  triggerSoundName: trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
-  swapRequiredItem: {fileID: 0}
-  consumeSwapItem: 1
-  isSwapUnlocked: 0
-  OnSwapSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  swapSoundName: Audio/SFX/swap
-  containerClosedSprite: {fileID: 0}
-  containerOpenedSprite: {fileID: 0}
-  containedObjects: []
-  containerRequiredItem: {fileID: 0}
-  consumeContainerItem: 1
-  isContainerUnlocked: 0
-  isContainerOpen: 0
-  containerOpenSound: Audio/SFX/container_open
-  containerCloseSound: Audio/SFX/container_close
---- !u!61 &1272726720
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272726717}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
-  m_EdgeRadius: 0
---- !u!212 &1272726721
+--- !u!212 &1264958714
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272726717}
+  m_GameObject: {fileID: 1264958712}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -11113,15 +12321,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6dde3e60edc32b643a816cadb83b138f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 39.21702, y: 21.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1273536780
@@ -11151,12 +12359,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273536780}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.36, y: -6.03, z: 0.50898397}
-  m_LocalScale: {x: 0.56120455, y: 0.47160044, z: 0.47160044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.87, y: -7.09, z: 0}
+  m_LocalScale: {x: 0.56159, y: 0.56159, z: 0.56159}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1272726718}
+  m_Children: []
   m_Father: {fileID: 642104564}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1273536782
@@ -11173,15 +12380,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: Grinder_lv1_A
   displayName: "\u7814\u78E8\u5668"
-  interactionType: 3
+  interactionType: 1
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -11190,8 +12401,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
+  combineRequiredItem: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
+  combineResultItem: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
   consumeCombineItem: 1
   disableAfterCombine: 0
   OnCombineSuccess:
@@ -11252,21 +12463,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 4.32, y: 6.73}
+    newSize: {x: 4.32, y: 6.73}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
+  m_Size: {x: 4.32, y: 6.73}
   m_EdgeRadius: 0
 --- !u!212 &1273536784
 SpriteRenderer:
@@ -11309,17 +12520,217 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e9a52bfb40ebe6a4e9d423c1f46ef004, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.32, y: 6.73}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1283114845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283114846}
+  - component: {fileID: 1283114848}
+  - component: {fileID: 1283114849}
+  - component: {fileID: 1283114847}
+  m_Layer: 3
+  m_Name: Box_Puzzle_Zoomview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1283114846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283114845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.26, y: -4.78, z: 0}
+  m_LocalScale: {x: 0.46842152, y: 0.46842152, z: 0.46842152}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 34581414}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1283114847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283114845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: puzzle_box_01
+  displayName: "\u795E\u79D8\u76D2\u5B50"
+  interactionType: 1
+  item: {fileID: 0}
+  isPickupable: 1
+  hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1243944213}
+  associatedZoomView: 0
+  pickupSoundName: Audio/SFX/item_pickup
+  zoomSoundName: Audio/SFX/zoom_in
+  triggerSoundName: Audio/SFX/trigger
+  disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  requiredItem: {fileID: 0}
+  consumeItemOnUse: 1
+  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
+  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
+  OnItemUsedSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  itemUsedSoundName: Audio/SFX/item_used
+  combineRequiredItem: {fileID: 0}
+  combineResultItem: {fileID: 0}
+  consumeCombineItem: 1
+  disableAfterCombine: 0
+  OnCombineSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  combineSoundName: Audio/SFX/combine
+  switchRequiredItem: {fileID: 0}
+  switchedSprite: {fileID: 0}
+  consumeSwitchItem: 1
+  hasStateSwitch: 0
+  OnStateSwitchSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  stateSwitchSoundName: Audio/SFX/state_switch
+  swapTargetObject: {fileID: 0}
+  swapRequiredItem: {fileID: 0}
+  consumeSwapItem: 1
+  isSwapUnlocked: 0
+  OnSwapSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  swapSoundName: Audio/SFX/swap
+  containerClosedSprite: {fileID: 0}
+  containerOpenedSprite: {fileID: 0}
+  containedObjects: []
+  containerRequiredItem: {fileID: 0}
+  consumeContainerItem: 1
+  isContainerUnlocked: 0
+  isContainerOpen: 0
+  containerOpenSound: Audio/SFX/container_open
+  containerCloseSound: Audio/SFX/container_close
+--- !u!212 &1283114848
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283114845}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 61d3ae35c0bc0c84984cb8e022af96d1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!61 &1283114849
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283114845}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.5868053, y: 0.75343704}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 14.152628, y: 9.544979}
+  m_EdgeRadius: 0
 --- !u!1 &1317836958
 GameObject:
   m_ObjectHideFlags: 0
@@ -11372,11 +12783,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: f25443a4825f7d94e8579159c9f2971e, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -11663,11 +13078,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 18
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -11941,11 +13360,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -12102,11 +13525,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: e63c7d00c3bee7248af9917348c439a0, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -12212,6 +13639,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1399235694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399235695}
+  m_Layer: 0
+  m_Name: CoffeeCup_ZoomView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1399235695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399235694}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 131548964}
+  - {fileID: 1440831664}
+  - {fileID: 2005425386}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1405625916
 GameObject:
   m_ObjectHideFlags: 0
@@ -12309,6 +13770,40 @@ MonoBehaviour:
   wallB: {fileID: 737649357}
   wallC: {fileID: 1514665723}
   wallD: {fileID: 682588952}
+--- !u!1 &1406777428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406777429}
+  m_Layer: 0
+  m_Name: Box_Zoomview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1406777429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406777428}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1767323954}
+  - {fileID: 983427558}
+  - {fileID: 913922347}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1412556227
 GameObject:
   m_ObjectHideFlags: 0
@@ -12340,7 +13835,9 @@ Transform:
   m_LocalPosition: {x: -1.05, y: -3.59, z: 0.50898397}
   m_LocalScale: {x: 0.4302475, y: 0.29647303, z: 0.36155248}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1533839974}
+  - {fileID: 798560229}
   m_Father: {fileID: 15530627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1412556229
@@ -12361,11 +13858,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1891373818}
   associatedZoomView: 5
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -12436,21 +13937,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.2864325, y: 1.4822788}
+  m_Offset: {x: -2.9696388, y: 1.3967837}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.2991557, y: 7.4197235}
+  m_Size: {x: 8.680588, y: 8.345182}
   m_EdgeRadius: 0
 --- !u!212 &1412556231
 SpriteRenderer:
@@ -12502,6 +14003,310 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1440831663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1440831664}
+  - component: {fileID: 1440831667}
+  - component: {fileID: 1440831666}
+  - component: {fileID: 1440831665}
+  m_Layer: 0
+  m_Name: FilterPaperA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1440831664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440831663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4419, y: -4.7416, z: 0}
+  m_LocalScale: {x: 0.48753598, y: 0.48753598, z: 0.48753598}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1399235695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1440831665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440831663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5173c2e41da8da14fa6c856f22a1a210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: filter_paper_a
+  displayName: "\u6EE4\u7EB8"
+  nextObject: {fileID: 2005425385}
+  switchSoundName: 
+  hasBeenUsed: 0
+--- !u!61 &1440831666
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440831663}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 21.89, y: 11.661127}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0001, y: 0.0001}
+  m_EdgeRadius: 0
+--- !u!212 &1440831667
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440831663}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: d24c502fb9d8e7048b0f59eaefbaadcd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1511250744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1511250745}
+  - component: {fileID: 1511250748}
+  - component: {fileID: 1511250747}
+  - component: {fileID: 1511250746}
+  m_Layer: 3
+  m_Name: Grinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1511250745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511250744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00000038743, y: -4.66, z: 0}
+  m_LocalScale: {x: 0.4824595, y: 0.4824595, z: 0.4824595}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 513605195}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1511250746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511250744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b376e6554fbdebb44bec30687c1158d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: grinder_01
+  displayName: "\u7814\u78E8\u5668"
+  currentState: 0
+  spriteEmpty: {fileID: 21300000, guid: d90eca37749fdbf49bd791f23888b3c3, type: 3}
+  spriteBeans: {fileID: 21300000, guid: 6d5f3ee35eea8cd4b82dbf15f557b200, type: 3}
+  spritePowder: {fileID: 21300000, guid: f2ff3b737214eeb47b757e94ccd63383, type: 3}
+  spriteUsed: {fileID: 21300000, guid: d90eca37749fdbf49bd791f23888b3c3, type: 3}
+  requiredItem: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
+  consumeRequiredItem: 1
+  outputItem: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
+  addBeansSoundName: 
+  grindSoundName: 
+  collectSoundName: Audio/SFX/item_pickup
+--- !u!61 &1511250747
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511250744}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 39.21702, y: 21.6}
+    newSize: {x: 39.21702, y: 21.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 39.21702, y: 21.6}
+  m_EdgeRadius: 0
+--- !u!212 &1511250748
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511250744}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: d90eca37749fdbf49bd791f23888b3c3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1514665723
@@ -12592,11 +14397,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 14
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -12787,11 +14596,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -12994,11 +14807,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 17
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -13194,6 +15011,239 @@ MonoBehaviour:
   OnChaseCompleted:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1531071535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531071536}
+  - component: {fileID: 1531071539}
+  - component: {fileID: 1531071538}
+  - component: {fileID: 1531071537}
+  m_Layer: 3
+  m_Name: CoffeeJarB_NoLid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1531071536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531071535}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.44, y: -4.81, z: 0}
+  m_LocalScale: {x: 0.523977, y: 0.523977, z: 0.523977}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2035263817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1531071537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531071535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ef0f5049c5912499c61be2bd1c0d75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: coffee_jar_b
+  displayName: "\u6253\u5F00\u7684\u5496\u5561\u7F50"
+  pickupItem: {fileID: 11400000, guid: 5228863a958a43c42bdf683650808b9e, type: 2}
+  pickupSoundName: Audio/SFX/item_pickup
+  nextObject: {fileID: 533503733}
+  hasBeenUsed: 0
+--- !u!61 &1531071538
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531071535}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.2448246, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 18.11, y: 15.4}
+    newSize: {x: 18.11, y: 15.4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 13.620352, y: 15.4}
+  m_EdgeRadius: 0
+--- !u!212 &1531071539
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531071535}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 0eedb5627914e0a42aa322d39bd2acc6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 18.11, y: 15.4}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1533839973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1533839974}
+  - component: {fileID: 1533839975}
+  m_Layer: 3
+  m_Name: Lamp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1533839974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533839973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.99, y: 1.39, z: 0}
+  m_LocalScale: {x: 1.3424978, y: 1.7435035, z: 1.7435035}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1412556228}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1533839975
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533839973}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: fe49033c5a0c3974ba13ddccd8c6754a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2.5, y: 4.87}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1541279196
 GameObject:
   m_ObjectHideFlags: 0
@@ -13314,11 +15364,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -13640,15 +15694,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectID: lv1_box
   displayName: "\u76D2\u5B50"
-  interactionType: 7
+  interactionType: 1
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 1406777428}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -13735,18 +15793,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.35252666, y: 0.08813286}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 7.14, y: 3.66}
     newSize: {x: 39.21702, y: 21.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 39.483627, y: 22.73838}
+  m_Size: {x: 7.14, y: 3.66}
   m_EdgeRadius: 0
 --- !u!212 &1632453093
 SpriteRenderer:
@@ -13789,7 +15847,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dc9f92350a2383c4a9603afe945828c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4471aa644e6f6904ba763997d49e30d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13809,8 +15867,8 @@ Transform:
   m_GameObject: {fileID: 1632453090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.44, y: -5.04, z: 0}
-  m_LocalScale: {x: 0.21521924, y: 0.21521924, z: 0.21521924}
+  m_LocalPosition: {x: 1.56, y: -7.29, z: 0}
+  m_LocalScale: {x: 0.7808, y: 0.7808, z: 0.7808}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1891373819}
@@ -13867,11 +15925,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -14073,11 +16135,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -14234,11 +16300,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -14396,11 +16466,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 1d9c7e19870db324c80573328b56ac43, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -14607,11 +16681,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -14784,11 +16862,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 3730f8796677da349929a6a946925020, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -15025,6 +17107,90 @@ Transform:
   - {fileID: 1391245844}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1767323953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1767323954}
+  - component: {fileID: 1767323955}
+  m_Layer: 0
+  m_Name: BackGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1767323954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767323953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.27, y: -4.8, z: 0}
+  m_LocalScale: {x: 0.45796734, y: 0.45796734, z: 0.45796734}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1406777429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1767323955
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767323953}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: efb2cddf1d4adab4c9b0c71222454f22, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1830738464
 GameObject:
   m_ObjectHideFlags: 0
@@ -15211,11 +17377,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 15
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -15391,11 +17561,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -15469,18 +17643,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.052718163, y: -0.4116454}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
+    oldSize: {x: 16.03, y: 6.86}
+    newSize: {x: 16.03, y: 6.93}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 16.49853, y: 19.229996}
+  m_Size: {x: 16.03, y: 6.93}
   m_EdgeRadius: 0
 --- !u!212 &1836088263
 SpriteRenderer:
@@ -15522,13 +17696,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 7e927d06fd67436408a2102fb8e389ba, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: d40df0e2448bc7a4e84b06491aae21a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 16.03, y: 6.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -15543,8 +17717,8 @@ Transform:
   m_GameObject: {fileID: 1836088260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.79, y: -3.13, z: 0}
-  m_LocalScale: {x: 0.1912961, y: 0.17148432, z: 1}
+  m_LocalPosition: {x: -1.03, y: -2.78, z: 0}
+  m_LocalScale: {x: 0.61186206, y: 0.61186206, z: 0.61186206}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 642104564}
@@ -15585,11 +17759,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -15836,6 +18014,7 @@ Transform:
   - {fileID: 559960130}
   - {fileID: 669136474}
   - {fileID: 1016962363}
+  - {fileID: 789912333}
   - {fileID: 262426544}
   - {fileID: 1632453094}
   m_Father: {fileID: 2138321456}
@@ -15944,11 +18123,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -16134,11 +18317,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 12
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -16286,6 +18473,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1995786159}
+  - component: {fileID: 1995786162}
   - component: {fileID: 1995786161}
   - component: {fileID: 1995786160}
   m_Layer: 3
@@ -16304,10 +18492,11 @@ Transform:
   m_GameObject: {fileID: 1995786158}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.547, y: -6.7227, z: 0.50898397}
-  m_LocalScale: {x: 4.242463, y: 3.633508, z: 1}
+  m_LocalPosition: {x: -2.05, y: -6.91, z: 0.50898397}
+  m_LocalScale: {x: 0.63347864, y: 0.62393284, z: 0.1493186}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 536625495}
   m_Father: {fileID: 15530627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1995786160
@@ -16328,11 +18517,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 642104563}
   associatedZoomView: 5
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 0
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -16403,22 +18596,158 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.024140358, y: 0.010569781}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 8.86, y: 8.11}
+    newSize: {x: 8.86, y: 8.11}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0482807, y: 1.0211396}
+  m_Size: {x: 8.86, y: 8.11}
   m_EdgeRadius: 0
+--- !u!212 &1995786162
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995786158}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 92d1f82c32766c94abb578ed54e6f995, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 8.86, y: 8.11}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &2005425385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2005425386}
+  - component: {fileID: 2005425387}
+  m_Layer: 0
+  m_Name: FilterPaperB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2005425386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005425385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.66, y: -6.79, z: 0}
+  m_LocalScale: {x: 0.48, y: 0.48, z: 0.48}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1399235695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2005425387
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005425385}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 1bdb7e7b228d2014fa76726577e5f123, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 39.21702, y: 21.6}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2033235210
 GameObject:
   m_ObjectHideFlags: 0
@@ -16471,11 +18800,15 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 1
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -16614,6 +18947,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2035263816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035263817}
+  m_Layer: 0
+  m_Name: CoffeeJar_Zoomview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2035263817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035263816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 584419236}
+  - {fileID: 1531071536}
+  - {fileID: 533503734}
+  - {fileID: 572468171}
+  m_Father: {fileID: 2138321456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2045507790
 GameObject:
   m_ObjectHideFlags: 0
@@ -16783,11 +19151,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 1
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 0
   pickupSoundName: Audio/SFX/item_pickup
   zoomSoundName: Audio/SFX/zoom_in
   triggerSoundName: Audio/SFX/trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -17112,201 +19484,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089070917}
   m_CullTransparentMesh: 1
---- !u!1 &2102362389
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2102362390}
-  - component: {fileID: 2102362393}
-  - component: {fileID: 2102362392}
-  - component: {fileID: 2102362391}
-  m_Layer: 3
-  m_Name: Coffee_powder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2102362390
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102362389}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 926433206}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2102362391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102362389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 991a355ef6608e3409f5f27a937520f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: Coffee powder_lv1_A
-  displayName: "\u5496\u5561\u7C89"
-  interactionType: 0
-  item: {fileID: 11400000, guid: 8dea48b86ed23e746a702258da4e35d3, type: 2}
-  isPickupable: 1
-  hasBeenPickedUp: 0
-  associatedZoomView: 1
-  pickupSoundName: item_pickup
-  zoomSoundName: zoom_in
-  triggerSoundName: trigger
-  disableAfterTrigger: 0
-  requiredItem: {fileID: 0}
-  consumeItemOnUse: 1
-  noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
-  wrongItemHint: "\u8FD9\u4E2A\u4E1C\u897F\u5728\u8FD9\u91CC\u6CA1\u6709\u7528..."
-  OnItemUsedSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  itemUsedSoundName: Audio/SFX/item_used
-  combineRequiredItem: {fileID: 0}
-  combineResultItem: {fileID: 0}
-  consumeCombineItem: 1
-  disableAfterCombine: 0
-  OnCombineSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  combineSoundName: Audio/SFX/combine
-  switchRequiredItem: {fileID: 0}
-  switchedSprite: {fileID: 0}
-  consumeSwitchItem: 1
-  hasStateSwitch: 0
-  OnStateSwitchSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  stateSwitchSoundName: Audio/SFX/state_switch
-  swapTargetObject: {fileID: 0}
-  swapRequiredItem: {fileID: 0}
-  consumeSwapItem: 1
-  isSwapUnlocked: 0
-  OnSwapSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  swapSoundName: Audio/SFX/swap
-  containerClosedSprite: {fileID: 0}
-  containerOpenedSprite: {fileID: 0}
-  containedObjects: []
-  containerRequiredItem: {fileID: 0}
-  consumeContainerItem: 1
-  isContainerUnlocked: 0
-  isContainerOpen: 0
-  containerOpenSound: Audio/SFX/container_open
-  containerCloseSound: Audio/SFX/container_close
---- !u!61 &2102362392
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102362389}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.8192286, y: -1.1964296}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.638459, y: 4.0484366}
-  m_EdgeRadius: 0
---- !u!212 &2102362393
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102362389}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &2109335719
 GameObject:
   m_ObjectHideFlags: 0
@@ -17359,11 +19536,15 @@ MonoBehaviour:
   item: {fileID: 0}
   isPickupable: 0
   hasBeenPickedUp: 0
+  zoomViewTarget: {fileID: 0}
   associatedZoomView: 9
   pickupSoundName: item_pickup
   zoomSoundName: zoom_in
   triggerSoundName: trigger
   disableAfterTrigger: 0
+  OnTrigger:
+    m_PersistentCalls:
+      m_Calls: []
   requiredItem: {fileID: 0}
   consumeItemOnUse: 1
   noItemHint: "\u9700\u8981\u7528\u4EC0\u4E48\u4E1C\u897F..."
@@ -17515,7 +19696,7 @@ GameObject:
   - component: {fileID: 2118601500}
   - component: {fileID: 2118601499}
   m_Layer: 3
-  m_Name: PuzzleBox
+  m_Name: SlidingPuzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17530,11 +19711,10 @@ Transform:
   m_GameObject: {fileID: 2118601497}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.00000035763, y: -4.8, z: 0}
-  m_LocalScale: {x: 0.48381, y: 0.48381, z: 0.48381}
+  m_LocalPosition: {x: -1.03, y: -5.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 333502123}
+  m_Children: []
   m_Father: {fileID: 1243944214}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2118601499
@@ -17549,38 +19729,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42704e8067e4c0742897e66db54348b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: puzzle_box_01
   tileSprites:
-  - {fileID: 21300000, guid: cff03627a88889e40b1186619a68e784, type: 3}
-  - {fileID: 21300000, guid: 9542a20340979a34c8fbea33e6808388, type: 3}
-  - {fileID: 21300000, guid: b834ec953854368479ea22f0e0347e80, type: 3}
-  - {fileID: 21300000, guid: 3dcc56f4f426d0641a74846335d6fb3d, type: 3}
-  - {fileID: 21300000, guid: 3dbfd6cd64d4e6845a820d209bba1783, type: 3}
-  - {fileID: 21300000, guid: 1029b25b6f0ff2e4a822c493e3f00f89, type: 3}
-  - {fileID: 21300000, guid: 656a613f17766c84fa131997e4959bad, type: 3}
-  - {fileID: 21300000, guid: 77df6a661ad65e549a2b9ad96481e70c, type: 3}
-  tileSize: 0.8
-  tileSpacing: 0.05
+  - {fileID: 21300000, guid: e9425bb273278034d880e90be2399939, type: 3}
+  - {fileID: 21300000, guid: 3912e450121341c4394bb1ce59f4ed47, type: 3}
+  - {fileID: 21300000, guid: 20ab9a9f959cb5945a1fceb189a7183b, type: 3}
+  - {fileID: 21300000, guid: 8f7bf8577294b57439f6d4c4c9e92268, type: 3}
+  - {fileID: 21300000, guid: 2075f54fc2391db42a58a157e0aeaabc, type: 3}
+  - {fileID: 21300000, guid: dadef470a00586f4d975362ca6b9d141, type: 3}
+  - {fileID: 21300000, guid: 782819336960d9948be49943bb38ad86, type: 3}
+  - {fileID: 21300000, guid: 4df716d62b892a148bfe61172531181a, type: 3}
+  tileSize: 2.2
+  tileSpacing: 0.2
   puzzleOffset: {x: 0, y: 0.5}
-  boxClosedSprite: {fileID: 21300000, guid: b0d87a7fe158a804b8ddbe009b98847d, type: 3}
-  boxOpenedSprite: {fileID: 21300000, guid: 88d0925951afee54993b3ad49c4a9c3a, type: 3}
-  containedObjects:
-  - {fileID: 333502122}
-  slideSoundPath: Audio/SFX/slide
+  boxRenderer: {fileID: 1283114848}
+  boxOpenedSprite: {fileID: 21300000, guid: deae35ae5c1a14b48920c28bd52d6492, type: 3}
+  containedItems:
+  - {fileID: 34581410}
+  moveSoundPath: Audio/SFX/tile_move
   completeSoundPath: Audio/SFX/puzzle_complete
-  openSoundPath: Audio/SFX/box_open
-  closeSoundPath: Audio/SFX/box_close
-  OnPuzzleSolved:
+  OnPuzzleCompleted:
     m_PersistentCalls:
       m_Calls: []
-  OnBoxOpened:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBoxClosed:
-    m_PersistentCalls:
-      m_Calls: []
-  isPuzzleSolved: 0
-  isBoxOpen: 0
+  puzzleID: sliding_puzzle_01
 --- !u!61 &2118601500
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17616,15 +19786,15 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 39.21702, y: 21.6}
-    newSize: {x: 39.21702, y: 21.6}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 0.0001, y: 0.0001}
   m_EdgeRadius: 0
 --- !u!212 &2118601501
 SpriteRenderer:
@@ -17667,15 +19837,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a60c8f03125b4e443a0a8cb9a30d6c4b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 39.21702, y: 21.6}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2130083176
@@ -17793,12 +19963,17 @@ Transform:
   m_Children:
   - {fileID: 1161207521}
   - {fileID: 1891373819}
+  - {fileID: 1406777429}
   - {fileID: 642104564}
+  - {fileID: 1283114846}
   - {fileID: 1243944214}
+  - {fileID: 2035263817}
+  - {fileID: 513605195}
+  - {fileID: 1399235695}
+  - {fileID: 284983233}
   - {fileID: 453849829}
   - {fileID: 1843634785}
   - {fileID: 1702567317}
-  - {fileID: 284983233}
   - {fileID: 1688752665}
   - {fileID: 2045507791}
   - {fileID: 1548676949}

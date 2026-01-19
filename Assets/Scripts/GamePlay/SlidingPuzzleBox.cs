@@ -1,86 +1,75 @@
-// Assets/Scripts/GamePlay/SlidingPuzzleBox.cs
+ï»¿// Assets/Scripts/GamePlay/SlidingPuzzle.cs
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 /// <summary>
-/// »ªÈİµÀ»ú¹ØºĞ - 3x3»¬¶¯ÃÕÌâ + ÈİÆ÷¹¦ÄÜ
-/// ½â¿ªÃÕÌâºó¿ÉÒÔ´ò¿ªºĞ×Ó£¬Â¶³öÄÚ²¿ÎïÆ·
+/// åå®¹é“æ»‘åŠ¨è°œé¢˜ç»„ä»¶
+/// æ”¾åœ¨æ”¾å¤§è§†å›¾ä¸­ï¼Œå®Œæˆåè‡ªåŠ¨è¿”å›å¹¶åˆ‡æ¢ç›’å­çŠ¶æ€
 /// </summary>
-public class SlidingPuzzleBox : MonoBehaviour
+public class SlidingPuzzle : MonoBehaviour
 {
-    [Header("»ù±¾ĞÅÏ¢")]
-    [Tooltip("ÎïÌåÎ¨Ò»±êÊ¶·û£¨ÓÃÓÚ´æµµ£©")]
-    public string objectID;
+    [Header("è°œé¢˜è®¾ç½®")]
+    [Tooltip("æ•°å­—æ–¹å—ç²¾çµ (1-8)ï¼ŒæŒ‰é¡ºåºæ”¾å…¥")]
+    public Sprite[] tileSprites = new Sprite[8];
 
-    [Header("ÃÕÌâÅäÖÃ")]
-    [Tooltip("Êı×Ö·½¿éµÄ¾«ÁéÍ¼£¨°´Ë³Ğò£º1-8£¬¹²8ÕÅ£©")]
-    public Sprite[] tileSprites;
+    [Tooltip("æ–¹å—å¤§å°")]
+    public float tileSize = 1.5f;
 
-    [Tooltip("·½¿é´óĞ¡")]
-    public float tileSize = 1f;
+    [Tooltip("æ–¹å—é—´è·")]
+    public float tileSpacing = 0.1f;
 
-    [Tooltip("·½¿é¼ä¾à")]
-    public float tileSpacing = 0.05f;
-
-    [Tooltip("ÃÕÌâÏà¶ÔÓÚºĞ×ÓµÄÆ«ÒÆÎ»ÖÃ")]
+    [Tooltip("è°œé¢˜ç›¸å¯¹äºæ­¤ç‰©ä½“çš„åç§»")]
     public Vector2 puzzleOffset = Vector2.zero;
 
-    [Header("ºĞ×ÓÍâ¹Û")]
-    [Tooltip("ºĞ×Ó¹Ø±ÕÊ±µÄ¾«ÁéÍ¼")]
-    public Sprite boxClosedSprite;
+    [Header("å…³è”çš„ç›’å­")]
+    [Tooltip("ç›’å­çš„ SpriteRendererï¼ˆç”¨äºåˆ‡æ¢æ‰“å¼€çŠ¶æ€ï¼‰")]
+    public SpriteRenderer boxRenderer;
 
-    [Tooltip("ºĞ×Ó´ò¿ªÊ±µÄ¾«ÁéÍ¼")]
+    [Tooltip("ç›’å­æ‰“å¼€åçš„ç²¾çµå›¾")]
     public Sprite boxOpenedSprite;
 
-    [Header("ÄÚ²¿ÎïÆ·")]
-    [Tooltip("ºĞ×ÓÄÚµÄÎïÆ·£¨½âËøºó¿É¼û£©")]
-    public GameObject[] containedObjects;
+    [Tooltip("ç›’å­å†…çš„ç‰©å“ï¼ˆå®Œæˆåæ˜¾ç¤ºï¼‰")]
+    public GameObject[] containedItems;
 
-    [Header("ÒôĞ§")]
-    [Tooltip("·½¿é»¬¶¯ÒôĞ§")]
-    public string slideSoundPath = "Audio/SFX/slide";
+    [Header("éŸ³æ•ˆ")]
+    [Tooltip("ç§»åŠ¨æ–¹å—éŸ³æ•ˆ")]
+    public string moveSoundPath = "Audio/SFX/tile_move";
 
-    [Tooltip("ÃÕÌâÍê³ÉÒôĞ§")]
+    [Tooltip("å®Œæˆè°œé¢˜éŸ³æ•ˆ")]
     public string completeSoundPath = "Audio/SFX/puzzle_complete";
 
-    [Tooltip("ºĞ×Ó´ò¿ªÒôĞ§")]
-    public string openSoundPath = "Audio/SFX/box_open";
+    [Header("äº‹ä»¶")]
+    public UnityEvent OnPuzzleCompleted;
 
-    [Tooltip("ºĞ×Ó¹Ø±ÕÒôĞ§")]
-    public string closeSoundPath = "Audio/SFX/box_close";
+    [Header("å­˜æ¡£")]
+    [Tooltip("å”¯ä¸€æ ‡è¯†ç¬¦")]
+    public string puzzleID = "sliding_puzzle_01";
 
-    [Header("ÊÂ¼ş")]
-    public UnityEvent OnPuzzleSolved;
-    public UnityEvent OnBoxOpened;
-    public UnityEvent OnBoxClosed;
-
-    [Header("ÔËĞĞÊ±×´Ì¬£¨Ö»¶Á£©")]
-    [SerializeField] private bool isPuzzleSolved = false;
-    [SerializeField] private bool isBoxOpen = false;
-
-    // ÄÚ²¿Êı¾İ
-    private int[] board = new int[9]; // 0=¿ÕÎ», 1-8=Êı×Ö
-    private int emptyIndex = 8; // ¿ÕÎ»Ë÷Òı
+    // å†…éƒ¨çŠ¶æ€
+    private int[] board = new int[9]; // 0 = ç©ºæ ¼, 1-8 = æ•°å­—
     private GameObject[] tileObjects = new GameObject[8];
-    private SpriteRenderer boxRenderer;
+    private bool isSolved = false;
     private bool isInitialized = false;
 
-    // Ä¿±ê×´Ì¬£º1,2,3,4,5,6,7,8,0
+    // ç›®æ ‡çŠ¶æ€ï¼š1,2,3,4,5,6,7,8,0
     private readonly int[] solvedState = { 1, 2, 3, 4, 5, 6, 7, 8, 0 };
 
-    /// <summary>
-    /// ÃÕÌâÊÇ·ñÒÑ½â¿ª
-    /// </summary>
-    public bool IsPuzzleSolved => isPuzzleSolved;
-
-    /// <summary>
-    /// ºĞ×ÓÊÇ·ñ´ò¿ª
-    /// </summary>
-    public bool IsBoxOpen => isBoxOpen;
-
-    private void Awake()
+    private void OnEnable()
     {
-        boxRenderer = GetComponent<SpriteRenderer>();
+        // æ¯æ¬¡è¿›å…¥æ”¾å¤§è§†å›¾æ—¶æ£€æŸ¥
+        if (!isInitialized)
+        {
+            InitializePuzzle();
+        }
+
+        // å¦‚æœå·²ç»å®Œæˆï¼Œç›´æ¥è¿”å›
+        if (isSolved)
+        {
+            Debug.Log("[SlidingPuzzle] è°œé¢˜å·²å®Œæˆï¼Œè‡ªåŠ¨è¿”å›");
+            // å»¶è¿Ÿä¸€å¸§è¿”å›ï¼Œé¿å…å†²çª
+            Invoke(nameof(AutoReturn), 0.1f);
+        }
     }
 
     private void Start()
@@ -89,86 +78,78 @@ public class SlidingPuzzleBox : MonoBehaviour
         {
             InitializePuzzle();
         }
-        UpdateBoxVisual();
-        UpdateContainedObjects();
     }
 
     /// <summary>
-    /// ³õÊ¼»¯ÃÕÌâ
+    /// åˆå§‹åŒ–è°œé¢˜
     /// </summary>
-    public void InitializePuzzle()
+    private void InitializePuzzle()
     {
         if (isInitialized) return;
 
-        // Éú³É¿É½âµÄËæ»ú²¼¾Ö
-        GenerateSolvableBoard();
+        // å°è¯•ä»å­˜æ¡£æ¢å¤
+        if (!TryRestoreFromSave())
+        {
+            // æ²¡æœ‰å­˜æ¡£ï¼Œç”Ÿæˆéšæœºå¯è§£çš„å¸ƒå±€
+            GenerateSolvableBoard();
+        }
 
-        // ´´½¨·½¿é
         CreateTiles();
-
         isInitialized = true;
 
-        Debug.Log($"[SlidingPuzzleBox] ÃÕÌâ³õÊ¼»¯Íê³É£¬³õÊ¼²¼¾Ö: {string.Join(",", board)}");
+        Debug.Log($"[SlidingPuzzle] åˆå§‹åŒ–å®Œæˆï¼Œæ£‹ç›˜: [{string.Join(",", board)}]");
     }
 
     /// <summary>
-    /// Éú³É¿É½âµÄÆåÅÌ²¼¾Ö
+    /// ç”Ÿæˆå¯è§£çš„éšæœºæ£‹ç›˜
     /// </summary>
     private void GenerateSolvableBoard()
     {
-        // ´ÓÒÑ½â¾ö×´Ì¬¿ªÊ¼£¬Ëæ»ú»¬¶¯Èô¸É´Î
+        // ä»å·²è§£å†³çŠ¶æ€å¼€å§‹ï¼Œéšæœºç§»åŠ¨æ¥æ‰“ä¹±
         board = (int[])solvedState.Clone();
-        emptyIndex = 8;
 
-        // Ëæ»ú»¬¶¯ 100 ´Î´òÂÒ
-        int shuffleCount = 100;
-        int lastMove = -1;
+        System.Random rng = new System.Random();
+        int emptyIndex = 8; // ç©ºæ ¼åˆå§‹åœ¨ä½ç½®8
 
-        for (int i = 0; i < shuffleCount; i++)
+        // éšæœºç§»åŠ¨100æ¬¡
+        for (int i = 0; i < 100; i++)
         {
-            int[] neighbors = GetNeighbors(emptyIndex);
+            List<int> neighbors = GetNeighbors(emptyIndex);
+            int randomNeighbor = neighbors[rng.Next(neighbors.Count)];
 
-            // ¹ıÂËµôÉÏÒ»´ÎÒÆ¶¯µÄ·½¿é£¨±ÜÃâÀ´»ØÒÆ¶¯£©
-            int moveIndex;
-            do
-            {
-                moveIndex = neighbors[Random.Range(0, neighbors.Length)];
-            } while (neighbors.Length > 1 && moveIndex == lastMove);
-
-            // Ö´ĞĞÒÆ¶¯
-            board[emptyIndex] = board[moveIndex];
-            board[moveIndex] = 0;
-            lastMove = emptyIndex;
-            emptyIndex = moveIndex;
+            // äº¤æ¢
+            board[emptyIndex] = board[randomNeighbor];
+            board[randomNeighbor] = 0;
+            emptyIndex = randomNeighbor;
         }
     }
 
     /// <summary>
-    /// »ñÈ¡Ö¸¶¨Î»ÖÃµÄÏàÁÚÎ»ÖÃ
+    /// è·å–ç›¸é‚»ä½ç½®
     /// </summary>
-    private int[] GetNeighbors(int index)
+    private List<int> GetNeighbors(int index)
     {
+        List<int> neighbors = new List<int>();
         int row = index / 3;
         int col = index % 3;
-        var neighbors = new System.Collections.Generic.List<int>();
 
-        if (row > 0) neighbors.Add(index - 3); // ÉÏ
-        if (row < 2) neighbors.Add(index + 3); // ÏÂ
-        if (col > 0) neighbors.Add(index - 1); // ×ó
-        if (col < 2) neighbors.Add(index + 1); // ÓÒ
+        if (row > 0) neighbors.Add(index - 3); // ä¸Š
+        if (row < 2) neighbors.Add(index + 3); // ä¸‹
+        if (col > 0) neighbors.Add(index - 1); // å·¦
+        if (col < 2) neighbors.Add(index + 1); // å³
 
-        return neighbors.ToArray();
+        return neighbors;
     }
 
     /// <summary>
-    /// ´´½¨·½¿éÎïÌå
+    /// åˆ›å»ºæ–¹å— GameObject
     /// </summary>
     private void CreateTiles()
     {
-        if (tileSprites == null || tileSprites.Length < 8)
+        // æ¸…é™¤æ—§çš„æ–¹å—
+        foreach (var tile in tileObjects)
         {
-            Debug.LogError("[SlidingPuzzleBox] ĞèÒªÅäÖÃ8ÕÅÊı×Ö¾«ÁéÍ¼£¡");
-            return;
+            if (tile != null) Destroy(tile);
         }
 
         float totalSize = tileSize + tileSpacing;
@@ -176,316 +157,284 @@ public class SlidingPuzzleBox : MonoBehaviour
         for (int i = 0; i < 9; i++)
         {
             int value = board[i];
-            if (value == 0) continue; // Ìø¹ı¿ÕÎ»
+            if (value == 0) continue; // ç©ºæ ¼ä¸åˆ›å»º
 
-            // ´´½¨·½¿éÎïÌå
-            GameObject tile = new GameObject($"Tile_{value}");
-            tile.transform.SetParent(transform);
-
-            // ¼ÆËãÎ»ÖÃ
             int row = i / 3;
             int col = i % 3;
+
+            // è®¡ç®—ä½ç½®ï¼ˆå·¦ä¸Šè§’ä¸ºåŸç‚¹ï¼‰
             float x = (col - 1) * totalSize + puzzleOffset.x;
             float y = (1 - row) * totalSize + puzzleOffset.y;
-            tile.transform.localPosition = new Vector3(x, y, -0.1f);
 
-            // Ìí¼Ó¾«Áé
+            GameObject tile = new GameObject($"Tile_{value}");
+            tile.transform.SetParent(transform);
+            tile.transform.localPosition = new Vector3(x, y, 0);
+
+            // æ·»åŠ  SpriteRenderer
             SpriteRenderer sr = tile.AddComponent<SpriteRenderer>();
-            sr.sprite = tileSprites[value - 1];
-            sr.sortingOrder = boxRenderer != null ? boxRenderer.sortingOrder + 1 : 1;
+            if (value >= 1 && value <= 8 && tileSprites[value - 1] != null)
+            {
+                sr.sprite = tileSprites[value - 1];
+            }
+            sr.sortingOrder = 10;
 
-            // Ìí¼ÓÅö×²Ìå
+            // æ·»åŠ ç¢°æ’å™¨
             BoxCollider2D collider = tile.AddComponent<BoxCollider2D>();
             collider.size = new Vector2(tileSize, tileSize);
 
-            // Ìí¼Ó·½¿é×é¼ş
-            PuzzleTile puzzleTile = tile.AddComponent<PuzzleTile>();
-            puzzleTile.Initialize(this, value);
+            // æ·»åŠ ç‚¹å‡»ç»„ä»¶
+            PuzzleTile pt = tile.AddComponent<PuzzleTile>();
+            pt.puzzle = this;
+            pt.boardIndex = i;
 
-            // ±£´æÒıÓÃ
             tileObjects[value - 1] = tile;
         }
     }
 
     /// <summary>
-    /// ³¢ÊÔÒÆ¶¯·½¿é£¨ÓÉ PuzzleTile µ÷ÓÃ£©
+    /// å°è¯•ç§»åŠ¨æ–¹å—
     /// </summary>
-    public bool TryMoveTile(int tileValue)
+    public void TryMoveTile(int boardIndex)
     {
-        if (isPuzzleSolved) return false;
+        if (isSolved) return;
 
-        // ÕÒµ½·½¿éµ±Ç°Î»ÖÃ
-        int tileIndex = -1;
-        for (int i = 0; i < 9; i++)
+        int value = board[boardIndex];
+        if (value == 0) return; // ç‚¹å‡»çš„æ˜¯ç©ºæ ¼
+
+        // æ‰¾åˆ°ç©ºæ ¼ä½ç½®
+        int emptyIndex = System.Array.IndexOf(board, 0);
+
+        // æ£€æŸ¥æ˜¯å¦ç›¸é‚»
+        List<int> neighbors = GetNeighbors(emptyIndex);
+        if (!neighbors.Contains(boardIndex)) return;
+
+        // äº¤æ¢
+        board[emptyIndex] = value;
+        board[boardIndex] = 0;
+
+        // æ’­æ”¾éŸ³æ•ˆ
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(moveSoundPath))
         {
-            if (board[i] == tileValue)
-            {
-                tileIndex = i;
-                break;
-            }
+            AudioManager.Instance.PlaySFX(moveSoundPath);
         }
 
-        if (tileIndex == -1) return false;
+        // æ›´æ–°æ–¹å—ä½ç½®
+        UpdateTilePositions();
 
-        // ¼ì²éÊÇ·ñÓë¿ÕÎ»ÏàÁÚ
-        int[] neighbors = GetNeighbors(emptyIndex);
-        bool isAdjacent = false;
-        foreach (int n in neighbors)
-        {
-            if (n == tileIndex)
-            {
-                isAdjacent = true;
-                break;
-            }
-        }
-
-        if (!isAdjacent) return false;
-
-        // Ö´ĞĞÒÆ¶¯
-        board[emptyIndex] = tileValue;
-        board[tileIndex] = 0;
-
-        // ¸üĞÂ·½¿éÎ»ÖÃ
-        UpdateTilePosition(tileValue, emptyIndex);
-
-        emptyIndex = tileIndex;
-
-        // ²¥·ÅÒôĞ§
-        PlaySound(slideSoundPath);
-
-        Debug.Log($"[SlidingPuzzleBox] ÒÆ¶¯·½¿é {tileValue}£¬µ±Ç°²¼¾Ö: {string.Join(",", board)}");
-
-        // ¼ì²éÊÇ·ñÍê³É
+        // æ£€æŸ¥æ˜¯å¦å®Œæˆ
         CheckSolved();
 
-        // ±£´æÓÎÏ·
-        SaveLoadSystem.Instance?.SaveGame();
-
-        return true;
+        // ä¿å­˜çŠ¶æ€
+        SaveState();
     }
 
     /// <summary>
-    /// ¸üĞÂ·½¿éµÄÏÔÊ¾Î»ÖÃ
+    /// æ›´æ–°æ‰€æœ‰æ–¹å—ä½ç½®
     /// </summary>
-    private void UpdateTilePosition(int tileValue, int boardIndex)
+    private void UpdateTilePositions()
     {
-        if (tileValue < 1 || tileValue > 8) return;
-
-        GameObject tile = tileObjects[tileValue - 1];
-        if (tile == null) return;
-
         float totalSize = tileSize + tileSpacing;
-        int row = boardIndex / 3;
-        int col = boardIndex % 3;
-        float x = (col - 1) * totalSize + puzzleOffset.x;
-        float y = (1 - row) * totalSize + puzzleOffset.y;
 
-        tile.transform.localPosition = new Vector3(x, y, -0.1f);
+        for (int i = 0; i < 9; i++)
+        {
+            int value = board[i];
+            if (value == 0) continue;
+
+            int row = i / 3;
+            int col = i % 3;
+
+            float x = (col - 1) * totalSize + puzzleOffset.x;
+            float y = (1 - row) * totalSize + puzzleOffset.y;
+
+            GameObject tile = tileObjects[value - 1];
+            if (tile != null)
+            {
+                tile.transform.localPosition = new Vector3(x, y, 0);
+
+                // æ›´æ–° PuzzleTile çš„ boardIndex
+                PuzzleTile pt = tile.GetComponent<PuzzleTile>();
+                if (pt != null) pt.boardIndex = i;
+            }
+        }
     }
 
     /// <summary>
-    /// ¼ì²éÊÇ·ñÒÑ½â¿ª
+    /// æ£€æŸ¥æ˜¯å¦å®Œæˆ
     /// </summary>
     private void CheckSolved()
     {
         for (int i = 0; i < 9; i++)
         {
-            if (board[i] != solvedState[i])
-                return;
+            if (board[i] != solvedState[i]) return;
         }
 
-        // ÃÕÌâ½â¿ª£¡
-        isPuzzleSolved = true;
+        // å®Œæˆï¼
+        isSolved = true;
+        Debug.Log("[SlidingPuzzle] âœ“ è°œé¢˜å®Œæˆï¼");
 
-        PlaySound(completeSoundPath);
-        OnPuzzleSolved?.Invoke();
+        // æ’­æ”¾å®ŒæˆéŸ³æ•ˆ
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(completeSoundPath))
+        {
+            AudioManager.Instance.PlaySFX(completeSoundPath);
+        }
 
-        Debug.Log("[SlidingPuzzleBox] ¡ï ÃÕÌâ½â¿ª£¡ºĞ×ÓÒÑ½âËø");
+        // è§¦å‘äº‹ä»¶
+        OnPuzzleCompleted?.Invoke();
+
+        // åˆ‡æ¢ç›’å­çŠ¶æ€
+        SwitchBoxToOpened();
+
+        // ä¿å­˜çŠ¶æ€
+        SaveState();
+
+        // å»¶è¿Ÿè¿”å›ä¸Šä¸€ç•Œé¢
+        Invoke(nameof(AutoReturn), 0.8f);
     }
 
     /// <summary>
-    /// µã»÷ºĞ×Ó£¨ÃÕÌâ½â¿ªºó¿ÉÒÔ¿ª¹Ø£©
+    /// åˆ‡æ¢ç›’å­ä¸ºæ‰“å¼€çŠ¶æ€
     /// </summary>
-    public void OnBoxClicked()
+    private void SwitchBoxToOpened()
     {
-        if (!isPuzzleSolved)
-        {
-            Debug.Log("[SlidingPuzzleBox] ÃÕÌâÎ´½â¿ª£¬ÎŞ·¨´ò¿ªºĞ×Ó");
-            return;
-        }
-
-        // ÇĞ»»¿ª¹Ø×´Ì¬
-        isBoxOpen = !isBoxOpen;
-
-        if (isBoxOpen)
-        {
-            OpenBox();
-        }
-        else
-        {
-            CloseBox();
-        }
-
-        SaveLoadSystem.Instance?.SaveGame();
-    }
-
-    private void OpenBox()
-    {
-        Debug.Log("[SlidingPuzzleBox] ´ò¿ªºĞ×Ó");
-
-        // Òş²ØÃÕÌâ·½¿é
-        SetTilesVisible(false);
-
-        // ¸üĞÂºĞ×ÓÍâ¹Û
-        UpdateBoxVisual();
-
-        // ÏÔÊ¾ÄÚ²¿ÎïÆ·
-        UpdateContainedObjects();
-
-        PlaySound(openSoundPath);
-        OnBoxOpened?.Invoke();
-    }
-
-    private void CloseBox()
-    {
-        Debug.Log("[SlidingPuzzleBox] ¹Ø±ÕºĞ×Ó");
-
-        // ÏÔÊ¾ÃÕÌâ·½¿é
-        SetTilesVisible(true);
-
-        // ¸üĞÂºĞ×ÓÍâ¹Û
-        UpdateBoxVisual();
-
-        // Òş²ØÄÚ²¿ÎïÆ·
-        UpdateContainedObjects();
-
-        PlaySound(closeSoundPath);
-        OnBoxClosed?.Invoke();
-    }
-
-    private void SetTilesVisible(bool visible)
-    {
-        foreach (var tile in tileObjects)
-        {
-            if (tile != null)
-                tile.SetActive(visible);
-        }
-    }
-
-    private void UpdateBoxVisual()
-    {
-        if (boxRenderer == null) return;
-
-        if (isBoxOpen && boxOpenedSprite != null)
+        if (boxRenderer != null && boxOpenedSprite != null)
         {
             boxRenderer.sprite = boxOpenedSprite;
+            Debug.Log("[SlidingPuzzle] ç›’å­å·²åˆ‡æ¢ä¸ºæ‰“å¼€çŠ¶æ€");
         }
-        else if (!isBoxOpen && boxClosedSprite != null)
+
+        // æ˜¾ç¤ºå†…éƒ¨ç‰©å“
+        if (containedItems != null)
         {
-            boxRenderer.sprite = boxClosedSprite;
-        }
-    }
-
-    private void UpdateContainedObjects()
-    {
-        if (containedObjects == null) return;
-
-        foreach (var obj in containedObjects)
-        {
-            if (obj == null) continue;
-
-            // ¼ì²éÊÇ·ñÒÑ±»Ê°È¡
-            InteractableObject interactable = obj.GetComponent<InteractableObject>();
-            if (interactable != null && interactable.hasBeenPickedUp)
+            foreach (var item in containedItems)
             {
-                obj.SetActive(false);
-                continue;
-            }
-
-            obj.SetActive(isBoxOpen);
-        }
-    }
-
-    private void PlaySound(string path)
-    {
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(path))
-        {
-            AudioManager.Instance.PlaySFX(path);
-        }
-    }
-
-    // ============ µã»÷¼ì²â£¨ºĞ×Ó±¾Ìå£©============
-
-    private void OnMouseDown()
-    {
-        if (UnityEngine.EventSystems.EventSystem.current != null &&
-            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
-
-        // Ö»ÓĞÃÕÌâ½â¿ªºó£¬µã»÷ºĞ×Ó²ÅÄÜ¿ª¹Ø
-        if (isPuzzleSolved)
-        {
-            OnBoxClicked();
-        }
-    }
-
-    // ============ ´æµµÏà¹Ø ============
-
-    /// <summary>
-    /// »ñÈ¡µ±Ç°ÆåÅÌ×´Ì¬£¨ÓÃÓÚ´æµµ£©
-    /// </summary>
-    public int[] GetBoardState()
-    {
-        return (int[])board.Clone();
-    }
-
-    /// <summary>
-    /// »Ö¸´×´Ì¬£¨ÓÃÓÚ¶Áµµ£©
-    /// </summary>
-    public void RestoreState(int[] savedBoard, bool solved, bool open)
-    {
-        if (savedBoard != null && savedBoard.Length == 9)
-        {
-            board = (int[])savedBoard.Clone();
-
-            // ÕÒµ½¿ÕÎ»
-            for (int i = 0; i < 9; i++)
-            {
-                if (board[i] == 0)
+                if (item != null)
                 {
-                    emptyIndex = i;
-                    break;
+                    item.SetActive(true);
                 }
             }
-
-            // ÖØĞÂ´´½¨·½¿é
-            DestroyTiles();
-            CreateTiles();
         }
-
-        isPuzzleSolved = solved;
-        isBoxOpen = open;
-
-        if (isPuzzleSolved && isBoxOpen)
-        {
-            SetTilesVisible(false);
-        }
-
-        UpdateBoxVisual();
-        UpdateContainedObjects();
-
-        isInitialized = true;
     }
 
-    private void DestroyTiles()
+    /// <summary>
+    /// è‡ªåŠ¨è¿”å›ä¸Šä¸€ç•Œé¢
+    /// </summary>
+    private void AutoReturn()
     {
-        foreach (var tile in tileObjects)
+        if (GameManager.Instance != null)
         {
-            if (tile != null)
-                Destroy(tile);
+            GameManager.Instance.ExitZoomView();
         }
-        tileObjects = new GameObject[8];
+    }
+
+    // ============ å­˜æ¡£ç›¸å…³ ============
+
+    private void SaveState()
+    {
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+        }
+    }
+
+    private bool TryRestoreFromSave()
+    {
+        // è¿™é‡Œéœ€è¦ä» SaveLoadSystem è·å–å­˜æ¡£æ•°æ®
+        // ç®€åŒ–å®ç°ï¼šä½¿ç”¨ PlayerPrefs
+        string key = $"Puzzle_{puzzleID}";
+
+        if (PlayerPrefs.HasKey(key))
+        {
+            string data = PlayerPrefs.GetString(key);
+            string[] parts = data.Split(',');
+
+            if (parts.Length >= 10)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    board[i] = int.Parse(parts[i]);
+                }
+                isSolved = parts[9] == "1";
+
+                Debug.Log($"[SlidingPuzzle] ä»å­˜æ¡£æ¢å¤: [{string.Join(",", board)}], solved={isSolved}");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// è·å–å­˜æ¡£æ•°æ®
+    /// </summary>
+    public string GetSaveData()
+    {
+        string boardStr = string.Join(",", board);
+        return $"{boardStr},{(isSolved ? "1" : "0")}";
+    }
+
+    /// <summary>
+    /// æ¢å¤å­˜æ¡£æ•°æ®
+    /// </summary>
+    public void RestoreSaveData(string data)
+    {
+        if (string.IsNullOrEmpty(data)) return;
+
+        string[] parts = data.Split(',');
+        if (parts.Length >= 10)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                board[i] = int.Parse(parts[i]);
+            }
+            isSolved = parts[9] == "1";
+
+            if (isInitialized)
+            {
+                UpdateTilePositions();
+            }
+
+            // å¦‚æœå·²å®Œæˆï¼Œåˆ‡æ¢ç›’å­çŠ¶æ€
+            if (isSolved)
+            {
+                SwitchBoxToOpened();
+            }
+        }
+    }
+
+    /// <summary>
+    /// ä¿å­˜åˆ° PlayerPrefsï¼ˆç®€åŒ–å­˜æ¡£ï¼‰
+    /// </summary>
+    public void SaveToPlayerPrefs()
+    {
+        string key = $"Puzzle_{puzzleID}";
+        PlayerPrefs.SetString(key, GetSaveData());
+        PlayerPrefs.Save();
+    }
+
+    private void OnDisable()
+    {
+        // ç¦»å¼€æ”¾å¤§è§†å›¾æ—¶ä¿å­˜
+        SaveToPlayerPrefs();
+    }
+
+    // ============ ç¼–è¾‘å™¨è¾…åŠ© ============
+
+    private void OnDrawGizmosSelected()
+    {
+        float totalSize = tileSize + tileSpacing;
+
+        Gizmos.color = Color.yellow;
+
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                float x = (col - 1) * totalSize + puzzleOffset.x;
+                float y = (1 - row) * totalSize + puzzleOffset.y;
+
+                Vector3 pos = transform.position + new Vector3(x, y, 0);
+                Gizmos.DrawWireCube(pos, new Vector3(tileSize, tileSize, 0.1f));
+            }
+        }
     }
 }

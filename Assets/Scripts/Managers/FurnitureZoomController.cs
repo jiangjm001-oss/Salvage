@@ -1,29 +1,30 @@
+ï»¿// Assets/Scripts/Managers/FurnitureZoomController.cs
 using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// ³¡¾°¼¶¼Ò¾ß·Å´óÊÓÍ¼¹ÜÀíÆ÷
-/// Ã¿¸ö¹Ø¿¨³¡¾°ÓĞ¶ÀÁ¢ÊµÀı,¹ÜÀí±¾³¡¾°µÄËùÓĞ·Å´óÊÓÍ¼
+/// å®¶å…·æ”¾å¤§è§†å›¾ç®¡ç†å™¨
+/// ç®¡ç†åœºæ™¯ä¸­çš„æ‰€æœ‰æ”¾å¤§è§†å›¾
 /// </summary>
 public class FurnitureZoomController : MonoBehaviour
 {
     [System.Serializable]
     public class ZoomViewMapping
     {
-        [Tooltip("Ñ¡Ôñ¶ÔÓ¦µÄ·Å´óÊÓÍ¼Ã¶¾ÙÖµ")]
+        [Tooltip("é€‰æ‹©å¯¹åº”çš„æ”¾å¤§è§†å›¾æšä¸¾å€¼")]
         public GameManager.ViewState viewState;
 
-        [Tooltip("ÍÏ×§¶ÔÓ¦µÄ·Å´óÊÓÍ¼GameObject")]
+        [Tooltip("æ‹–æ‹½å¯¹åº”çš„æ”¾å¤§è§†å›¾GameObject")]
         public GameObject zoomViewObject;
     }
 
     [Header("Zoom View Mappings - Set in Inspector")]
-    [Tooltip("ÎªÃ¿¸ö¼Ò¾ßµÄ·Å´óÊÓÍ¼ÅäÖÃÓ³Éä")]
+    [Tooltip("ä¸ºæ¯ä¸ªå®¶å…·çš„æ”¾å¤§è§†å›¾é…ç½®æ˜ å°„")]
     public List<ZoomViewMapping> zoomViews = new List<ZoomViewMapping>();
 
     private void Awake()
     {
-        // ×Ô¶¯×¢²áµ½GameManager
+        // è‡ªåŠ¨æ³¨å†Œåˆ°GameManager
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterZoomController(this);
@@ -32,26 +33,22 @@ public class FurnitureZoomController : MonoBehaviour
         {
             Debug.LogError("[FurnitureZoom] GameManager not found! Make sure Bootstrap is loaded first.");
         }
-
-        // ÑéÖ¤ÒıÓÃ
-        ValidateReferences();
     }
 
     private void Start()
     {
-        // ¶©ÔÄGameManagerµÄÊÓÍ¼×´Ì¬±ä¸üÊÂ¼ş
+        // è®¢é˜…è§†å›¾çŠ¶æ€å˜æ›´äº‹ä»¶
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnViewStateChanged.AddListener(OnViewStateChanged);
-
-            // ³õÊ¼»¯:ËùÓĞ·Å´óÊÓÍ¼Òş²Ø
-            HideAllZoomViews();
         }
+
+        // åˆå§‹åŒ–ï¼šæ‰€æœ‰æ”¾å¤§è§†å›¾éšè—
+        HideAllZoomViews();
     }
 
     private void OnDestroy()
     {
-        // È¡Ïû¶©ÔÄ
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnViewStateChanged.RemoveListener(OnViewStateChanged);
@@ -59,54 +56,64 @@ public class FurnitureZoomController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÑéÖ¤ËùÓĞ·Å´óÊÓÍ¼ÒıÓÃÊÇ·ñÉèÖÃ
-    /// </summary>
-    private void ValidateReferences()
-    {
-        bool hasError = false;
-
-        for (int i = 0; i < zoomViews.Count; i++)
-        {
-            var mapping = zoomViews[i];
-
-            if (mapping.zoomViewObject == null)
-            {
-                Debug.LogError($"[FurnitureZoom] Zoom view [{i}] ({mapping.viewState}) object is missing! Please assign in Inspector.");
-                hasError = true;
-            }
-        }
-
-        if (!hasError && zoomViews.Count > 0)
-        {
-            Debug.Log($"[FurnitureZoom] All {zoomViews.Count} zoom view references validated in {gameObject.scene.name}");
-        }
-    }
-
-    /// <summary>
-    /// ÏìÓ¦ÊÓÍ¼×´Ì¬±ä¸ü
+    /// å“åº”è§†å›¾çŠ¶æ€å˜æ›´
     /// </summary>
     private void OnViewStateChanged(GameManager.ViewState newState)
     {
-        // ÏÈÈ«²¿Í£ÓÃ
+        // â­ å…³é”®ä¿®å¤ï¼šå¦‚æœæ˜¯ç›´æ¥å¼•ç”¨æ¨¡å¼ï¼Œå®Œå…¨ä¸å¤„ç†
+        if (GameManager.Instance != null && GameManager.Instance.IsUsingDirectZoomView)
+        {
+            Debug.Log("[FurnitureZoom] ç›´æ¥å¼•ç”¨æ¨¡å¼ï¼Œè·³è¿‡å¤„ç†");
+            return; // ç›´æ¥è¿”å›ï¼Œä»€ä¹ˆéƒ½ä¸åš
+        }
+
+        // å…ˆéšè—æ‰€æœ‰æ”¾å¤§è§†å›¾
         HideAllZoomViews();
 
-        // ¼¤»îÆ¥ÅäµÄ·Å´óÊÓÍ¼
+        // å¦‚æœæ˜¯å¢™é¢è§†å›¾ï¼Œä¸éœ€è¦æ˜¾ç¤ºä»»ä½•æ”¾å¤§è§†å›¾
+        if (newState == GameManager.ViewState.Wall_A ||
+            newState == GameManager.ViewState.Wall_B ||
+            newState == GameManager.ViewState.Wall_C ||
+            newState == GameManager.ViewState.Wall_D)
+        {
+            return;
+        }
+
+        // æŸ¥æ‰¾å¹¶æ¿€æ´»å¯¹åº”çš„æ”¾å¤§è§†å›¾
         var activeView = zoomViews.Find(m => m.viewState == newState);
         if (activeView != null && activeView.zoomViewObject != null)
         {
             activeView.zoomViewObject.SetActive(true);
+            Debug.Log($"[FurnitureZoom] æ˜¾ç¤ºæ”¾å¤§è§†å›¾: {activeView.zoomViewObject.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"[FurnitureZoom] æ‰¾ä¸åˆ°å¯¹åº”çš„æ”¾å¤§è§†å›¾: {newState}");
         }
     }
 
     /// <summary>
-    /// Òş²ØËùÓĞ·Å´óÊÓÍ¼
+    /// éšè—æ‰€æœ‰æ”¾å¤§è§†å›¾
     /// </summary>
-    private void HideAllZoomViews()
+    public void HideAllZoomViews()
     {
         foreach (var mapping in zoomViews)
         {
             if (mapping.zoomViewObject != null)
+            {
                 mapping.zoomViewObject.SetActive(false);
+            }
         }
+    }
+
+    /// <summary>
+    /// æ‰‹åŠ¨æ˜¾ç¤ºæŒ‡å®šçš„æ”¾å¤§è§†å›¾
+    /// </summary>
+    public void ShowZoomView(GameObject zoomViewObject)
+    {
+        if (zoomViewObject == null) return;
+
+        HideAllZoomViews();
+        zoomViewObject.SetActive(true);
     }
 }

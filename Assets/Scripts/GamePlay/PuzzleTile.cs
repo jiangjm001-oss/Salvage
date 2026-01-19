@@ -2,23 +2,16 @@
 using UnityEngine;
 
 /// <summary>
-/// 华容道谜题方块 - 处理点击事件
-/// 由 SlidingPuzzleBox 自动创建，无需手动配置
+/// 华容道方块组件
+/// 自动生成，处理点击事件
 /// </summary>
-[RequireComponent(typeof(Collider2D))]
 public class PuzzleTile : MonoBehaviour
 {
-    private SlidingPuzzleBox puzzleBox;
-    private int tileValue;
+    [HideInInspector]
+    public SlidingPuzzle puzzle;
 
-    /// <summary>
-    /// 初始化方块（由 SlidingPuzzleBox 调用）
-    /// </summary>
-    public void Initialize(SlidingPuzzleBox box, int value)
-    {
-        puzzleBox = box;
-        tileValue = value;
-    }
+    [HideInInspector]
+    public int boardIndex;
 
     private void OnMouseDown()
     {
@@ -29,10 +22,9 @@ public class PuzzleTile : MonoBehaviour
             return;
         }
 
-        // 尝试移动方块
-        if (puzzleBox != null)
+        if (puzzle != null)
         {
-            puzzleBox.TryMoveTile(tileValue);
+            puzzle.TryMoveTile(boardIndex);
         }
     }
 }
