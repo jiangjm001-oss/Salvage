@@ -1,5 +1,6 @@
 ﻿// Assets/Scripts/GamePlay/MultiStageObject.cs
 // 多阶段交互物体 - 支持按顺序使用多个物品进行状态切换
+// ⭐ 扩展版：支持 requiredItem 为空时直接点击推进
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +9,7 @@ public class MultiStageObject : MonoBehaviour
     [System.Serializable]
     public class Stage
     {
-        [Tooltip("此阶段需要的物品")]
+        [Tooltip("此阶段需要的物品（留空 = 直接点击推进）")]
         public ItemData requiredItem;
 
         [Tooltip("完成此阶段后显示的精灵")]
@@ -37,15 +38,15 @@ public class MultiStageObject : MonoBehaviour
     public int currentStage = 0;
 
     [Header("完成后设置")]
-    [Tooltip("全部阶段完成后可拾取的物品")]
+    [Tooltip("全部阶段完成后可拾取的物品（留空则不拾取）")]
     public ItemData finalPickupItem;
 
     [Tooltip("全部完成后触发的事件")]
     public UnityEvent OnAllStagesComplete;
 
     [Header("音效")]
-    public string stageSoundName = "item_used";
-    public string pickupSoundName = "item_pickup";
+    public string stageSoundName = "Audio/SFX/item_used";
+    public string pickupSoundName = "Audio/SFX/item_pickup";
 
     // 内部状态
     private SpriteRenderer spriteRenderer;
@@ -95,30 +96,35 @@ public class MultiStageObject : MonoBehaviour
         // 获取当前阶段配置
         Stage stage = stages[currentStage];
 
-        // 检查是否选中了正确物品
-        if (UIManager.Instance == null) return;
-
-        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
-        if (selectedItem == null)
+        // ⭐ 关键修改：检查是否需要物品
+        if (stage.requiredItem != null)
         {
-            Debug.Log($"[MultiStageObject] '{displayName}' 需要物品: {stage.requiredItem?.displayName}");
-            return;
-        }
+            // 需要物品 → 检查是否选中了正确物品
+            if (UIManager.Instance == null) return;
 
-        if (selectedItem.itemID != stage.requiredItem.itemID)
-        {
-            Debug.Log($"[MultiStageObject] 物品不匹配，需要: {stage.requiredItem?.displayName}");
-            return;
-        }
+            ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+            if (selectedItem == null)
+            {
+                Debug.Log($"[MultiStageObject] '{displayName}' 阶段{currentStage} 需要物品: {stage.requiredItem.displayName}");
+                return;
+            }
 
-        // ✓ 物品匹配，执行阶段切换
+            if (selectedItem.itemID != stage.requiredItem.itemID)
+            {
+                Debug.Log($"[MultiStageObject] 物品不匹配，需要: {stage.requiredItem.displayName}");
+                return;
+            }
+
+            // 消耗或取消选中物品
+            if (stage.consumeItem)
+                UIManager.Instance.ConsumeSelectedItem();
+            else
+                UIManager.Instance.DeselectItem();
+        }
+        // ⭐ 如果 requiredItem == null，直接通过（无需物品）
+
+        // ✓ 条件满足，执行阶段切换
         Debug.Log($"[MultiStageObject] '{displayName}' 完成阶段 {currentStage}");
-
-        // 消耗或取消选中物品
-        if (stage.consumeItem)
-            UIManager.Instance.ConsumeSelectedItem();
-        else
-            UIManager.Instance.DeselectItem();
 
         // 切换精灵
         if (spriteRenderer != null && stage.resultSprite != null)
@@ -152,9 +158,10 @@ public class MultiStageObject : MonoBehaviour
 
     private void TryPickup()
     {
+        // ⭐ 允许无拾取物品（纯状态切换谜题）
         if (finalPickupItem == null)
         {
-            Debug.LogWarning($"[MultiStageObject] '{displayName}' 没有配置 finalPickupItem");
+            Debug.Log($"[MultiStageObject] '{displayName}' 已完成，无需拾取物品");
             return;
         }
 
