@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: WhiteNote
   displayName: "\u7A7A\u767D\u5B57\u6761"
   description: 
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
+  icon: {fileID: 21300000, guid: 74cc6018eef66af4794f3197d85959e4, type: 3}
   category: 0

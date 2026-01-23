@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: GoldenKey
   displayName: "\u666E\u901A\u94A5\u5319"
   description: 
-  icon: {fileID: 21300000, guid: 845dffbf4296062468049c0b3920b8ee, type: 3}
+  icon: {fileID: 21300000, guid: f345c6c4ba14e81488dd38342cd02458, type: 3}
   category: 0

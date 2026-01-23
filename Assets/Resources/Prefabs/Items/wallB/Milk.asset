@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
-  m_Name: Sculpture_Item
+  m_Name: Milk
   m_EditorClassIdentifier: 
-  itemID: Sculpture
-  displayName: "\u96D5\u5851"
-  description: "\u6253\u788E\u4E4B\u540E\u88AB\u653E\u5165\u80CC\u5305"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  itemID: milk
+  displayName: milk
+  description: 
+  icon: {fileID: 21300000, guid: 77db2364d3fbfe445b5ce29b8022a2f2, type: 3}
+  category: 0

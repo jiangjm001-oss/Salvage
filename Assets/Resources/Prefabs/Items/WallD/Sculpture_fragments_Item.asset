@@ -15,6 +15,5 @@ MonoBehaviour:
   itemID: Sculpture
   displayName: "\u96D5\u5851"
   description: "\u6253\u788E\u4E4B\u540E\u88AB\u653E\u5165\u80CC\u5305"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  icon: {fileID: 21300000, guid: 25aa11feb83ba96438195c0f601f6087, type: 3}
+  category: 0

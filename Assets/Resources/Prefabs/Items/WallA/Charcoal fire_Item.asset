@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: CharcoalFire
   displayName: "\u70AD\u706B"
   description: "\u70AD\u7B14\u6D82\u62A5\u7EB8"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
+  icon: {fileID: 21300000, guid: 19d152906d3b83f44969fb5b86a9e095, type: 3}
   category: 0

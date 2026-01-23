@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
   m_Name: Coffee_powder_Item
   m_EditorClassIdentifier: 
-  itemID: Alarm clock
-  displayName: "\u95F9\u949F"
-  description: "\u73A9\u5BB6\u6839\u636Ewall2\u4E66\u672C\u989C\u8272\u7684\u6697\u793A\uFF0C\u4F9D\u6B21\u70B9\u51FB\u4E09\u6839\u6307\u9488"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  itemID: coffePowder
+  displayName: powder
+  description: 
+  icon: {fileID: 21300000, guid: 152b5f9c3d400784b9ed108288fe262d, type: 3}
+  category: 0

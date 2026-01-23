@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: Cabinet_UP_KEY
   displayName: "\u77EE\u67DC\u94A5\u5319\u4E0A"
   description: 
-  icon: {fileID: 21300000, guid: 2520f30a700c76d47b89836f6bc75672, type: 3}
+  icon: {fileID: 21300000, guid: e9ce68d1a89668a4185fa8ce1c888b7d, type: 3}
   category: 0

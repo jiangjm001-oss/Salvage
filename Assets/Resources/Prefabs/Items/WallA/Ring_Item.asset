@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
-  m_Name: Kerosene lamp_Item
+  m_Name: Ring_Item
   m_EditorClassIdentifier: 
-  itemID: KeroseneLamp
-  displayName: "\u7164\u6CB9\u706F"
-  description: "\u4E3B\u89D2\u7167\u955C\u5B50\uFF0C\u662F\u4E3A\u4E86\u5411\u73A9\u5BB6\u4EA4\u4EE3\u4E3B\u89D2\u957F\u4EC0\u4E48\u6837\u5B50"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  itemID: Ring
+  displayName: "\u6212\u6307"
+  description: "\u6234\u4E0A\u4E4B\u540E\uFF0C\u7167\u955C\u5B50\u4F1A\u6709\u53D8\u5316"
+  icon: {fileID: 21300000, guid: 5a111ad96cff29b43babc7ce7ba84bfd, type: 3}
+  category: 0

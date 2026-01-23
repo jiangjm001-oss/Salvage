@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: WetTowel
   displayName: "\u6D78\u6E7F\u7684\u6BDB\u5DFE"
   description: 
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
+  icon: {fileID: 21300000, guid: 839b927f6d526564689478cb468e3ffd, type: 3}
   category: 0

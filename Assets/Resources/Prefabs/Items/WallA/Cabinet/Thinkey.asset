@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: ThinKey
   displayName: "\u7EC6\u94A5\u5319"
   description: 
-  icon: {fileID: 21300000, guid: 2fcf1a02dcbd42c4493e4e6612b6621b, type: 3}
+  icon: {fileID: 21300000, guid: ce4d1144e36681f4e9fb2e50c102ae6c, type: 3}
   category: 0

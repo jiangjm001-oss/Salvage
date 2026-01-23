@@ -15,6 +15,5 @@ MonoBehaviour:
   itemID: Typewriter
   displayName: "\u6253\u5B57\u673A"
   description: 
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  icon: {fileID: 21300000, guid: fa39502f4f4c7cb46a2e2fb91c567eea, type: 3}
+  category: 0

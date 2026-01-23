@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: Paper_BlackHat
   displayName: "\u4FE1\u7EB8"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 77db2364d3fbfe445b5ce29b8022a2f2, type: 3}
   category: 0

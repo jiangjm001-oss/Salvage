@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: note1
   displayName: note1
   description: 
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
+  icon: {fileID: 21300000, guid: e2d917a38c362ca46b6848d3a6a3efff, type: 3}
   category: 0

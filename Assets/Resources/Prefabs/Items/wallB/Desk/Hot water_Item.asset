@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abb39db2562d7244a5176220141c97b, type: 3}
-  m_Name: Vase_Item
+  m_Name: Hot water_Item
   m_EditorClassIdentifier: 
-  itemID: Vase
-  displayName: "\u82B1\u74F6"
-  description: "\u76C6\u91CC\u6709\u6C34"
-  icon: {fileID: 21300000, guid: c972b53bd715427498ecfd2f91d6d461, type: 3}
-  isUsable: 0
-  isCombinable: 0
+  itemID: Hot water
+  displayName: "\u70ED\u6C34"
+  description: "\u70ED\u6C34\u5F80\u6EE4\u7EB8\u91CC\u5012"
+  icon: {fileID: 21300000, guid: 215ad3a532e02ed4a8b6d169114f7cd0, type: 3}
+  category: 0

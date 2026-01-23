@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: TitleNote
   displayName: "\u6807\u9898\u5B57\u6761"
   description: "\u6B7B\u4EA1\u901A\u77E5\u4E66"
-  icon: {fileID: 21300000, guid: 203b9702fe0b448469867be00ea3342a, type: 3}
+  icon: {fileID: 21300000, guid: cf2bc75346bd0a04295d6ec26c5f3bda, type: 3}
   category: 0
