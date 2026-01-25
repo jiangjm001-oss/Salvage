@@ -1,6 +1,8 @@
 ﻿// Assets/Scripts/Player/InteractionSystem.cs
+// 修复版 - 支持重叠碰撞体检测，优先响应 Pickup 类型
 using UnityEngine;
-using UnityEngine.EventSystems; // ✅ 重要：添加这个命名空间
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class InteractionSystem : MonoBehaviour
 {
@@ -30,36 +32,89 @@ public class InteractionSystem : MonoBehaviour
 
     private void PerformInteractionCheck()
     {
-        // ✅ 关键修改：先检查鼠标是否在UI上
+        // 先检查鼠标是否在UI上
         if (IsPointerOverUI())
         {
             Debug.Log("InteractionSystem: Click was on UI, ignoring scene interaction.");
-            return; // 如果在UI上，直接返回，不检测场景物体
+            return;
         }
 
-        // 原有的射线检测逻辑
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, Mathf.Infinity, interactableLayer);
 
-        if (hit.collider != null)
-        {
-            InteractableObject interactable = hit.collider.GetComponent<InteractableObject>();
-            if (interactable != null)
-            {
-                Debug.Log($"InteractionSystem: Interacting with {interactable.displayName}");
-                interactable.Interact();
-            }
-        }
-        else
+        // ⭐ 关键修改：使用 RaycastAll 检测所有重叠的碰撞体
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, Mathf.Infinity, interactableLayer);
+
+        if (hits.Length == 0)
         {
             Debug.Log("InteractionSystem: Raycast did not hit anything on the Interactable layer.");
+            return;
+        }
+
+        // 找到最优先的交互对象
+        InteractableObject bestTarget = FindBestInteractable(hits);
+
+        if (bestTarget != null)
+        {
+            Debug.Log($"InteractionSystem: Interacting with {bestTarget.displayName} (Type: {bestTarget.interactionType})");
+            bestTarget.Interact();
         }
     }
 
-    // ✅ 新增：检查鼠标是否在UI上的方法
+    /// <summary>
+    /// 从多个命中物体中选择最合适的交互对象
+    /// 优先级：Pickup > 其他类型 > Sorting Order 更高
+    /// </summary>
+    private InteractableObject FindBestInteractable(RaycastHit2D[] hits)
+    {
+        List<InteractableObject> candidates = new List<InteractableObject>();
+
+        // 收集所有有效的 InteractableObject
+        foreach (var hit in hits)
+        {
+            InteractableObject interactable = hit.collider.GetComponent<InteractableObject>();
+            if (interactable != null && interactable.gameObject.activeInHierarchy)
+            {
+                candidates.Add(interactable);
+            }
+        }
+
+        if (candidates.Count == 0) return null;
+        if (candidates.Count == 1) return candidates[0];
+
+        // ⭐ 优先级排序
+        // 1. Pickup 类型优先（确保可拾取物品能被点击）
+        // 2. 同类型时，Sorting Order 更高的优先（更靠近玩家视角）
+        candidates.Sort((a, b) =>
+        {
+            // 优先级1：Pickup 类型最高优先
+            bool aIsPickup = a.interactionType == InteractableObject.InteractionType.Pickup && a.isPickupable;
+            bool bIsPickup = b.interactionType == InteractableObject.InteractionType.Pickup && b.isPickupable;
+
+            if (aIsPickup && !bIsPickup) return -1;  // a 优先
+            if (!aIsPickup && bIsPickup) return 1;   // b 优先
+
+            // 优先级2：Sorting Order 更高的优先
+            SpriteRenderer srA = a.GetComponent<SpriteRenderer>();
+            SpriteRenderer srB = b.GetComponent<SpriteRenderer>();
+
+            int orderA = srA != null ? srA.sortingOrder : 0;
+            int orderB = srB != null ? srB.sortingOrder : 0;
+
+            if (orderA != orderB) return orderB.CompareTo(orderA); // 降序
+
+            // 优先级3：Z 值更小的优先（更靠近相机）
+            return a.transform.position.z.CompareTo(b.transform.position.z);
+        });
+
+        Debug.Log($"InteractionSystem: Found {candidates.Count} overlapping objects, selected: {candidates[0].displayName}");
+        return candidates[0];
+    }
+
+    /// <summary>
+    /// 检查鼠标是否在UI上
+    /// </summary>
     private bool IsPointerOverUI()
     {
-        // 检查当前鼠标位置是否在UI元素上
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 }

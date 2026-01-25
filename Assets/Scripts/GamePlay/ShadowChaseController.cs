@@ -52,6 +52,9 @@ public class ShadowChaseController : MonoBehaviour
     public UnityEvent OnChaseStarted;
     public UnityEvent OnChaseCompleted;
 
+    // ⭐ 新增：记录上一个视图状态
+    private GameManager.ViewState previousViewState;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -87,6 +90,8 @@ public class ShadowChaseController : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnViewStateChanged.AddListener(OnViewStateChanged);
+            // ⭐ 记录初始视图状态
+            previousViewState = GameManager.Instance.CurrentViewState;
         }
     }
 
@@ -120,12 +125,19 @@ public class ShadowChaseController : MonoBehaviour
     /// </summary>
     private void OnViewStateChanged(GameManager.ViewState newState)
     {
+        Debug.Log($"[ShadowChaseController] 视图切换: {previousViewState} → {newState}, 当前阶段: {currentPhase}");
+
+        // ⭐ 新增：先隐藏上一个视图的黑影（如果有）
+        HideShadowForView(previousViewState);
+
+        // 记录新的视图状态
+        previousViewState = newState;
+
         // 根据当前阶段和切换到的视图，显示对应黑影
         switch (currentPhase)
         {
             case ChasePhase.WallA:
-                // ⭐ 第一阶段：黑影在镜子放大视图中（Mirror_ZoomView）
-                // 检查是否是镜子放大视图（需要根据你的 ViewState 枚举名称调整）
+                // 第一阶段：黑影在镜子放大视图中（Mirror_ZoomView）
                 string viewName = newState.ToString().ToLower();
                 if (viewName.Contains("mirror") && viewName.Contains("zoom"))
                 {
@@ -157,6 +169,50 @@ public class ShadowChaseController : MonoBehaviour
     }
 
     /// <summary>
+    /// ⭐ 新增：根据视图隐藏对应的黑影
+    /// </summary>
+    private void HideShadowForView(GameManager.ViewState viewState)
+    {
+        string viewName = viewState.ToString().ToLower();
+
+        // 镜子放大视图 → 隐藏 WallA 黑影
+        if (viewName.Contains("mirror") && viewName.Contains("zoom"))
+        {
+            if (shadowOnWallA != null && !shadowOnWallA.hasBeenClicked)
+            {
+                shadowOnWallA.HideTemporary();
+            }
+        }
+
+        // Wall_B → 隐藏 WallB 黑影
+        if (viewState == GameManager.ViewState.Wall_B)
+        {
+            if (shadowOnWallB != null && !shadowOnWallB.hasBeenClicked)
+            {
+                shadowOnWallB.HideTemporary();
+            }
+        }
+
+        // Wall_C → 隐藏 WallC 黑影
+        if (viewState == GameManager.ViewState.Wall_C)
+        {
+            if (shadowOnWallC != null && !shadowOnWallC.hasBeenClicked)
+            {
+                shadowOnWallC.HideTemporary();
+            }
+        }
+
+        // Wall_D → 隐藏 WallD 黑影
+        if (viewState == GameManager.ViewState.Wall_D)
+        {
+            if (shadowOnWallD != null && !shadowOnWallD.hasBeenClicked)
+            {
+                shadowOnWallD.HideTemporary();
+            }
+        }
+    }
+
+    /// <summary>
     /// 开始追逐
     /// </summary>
     public void StartChase()
@@ -168,7 +224,7 @@ public class ShadowChaseController : MonoBehaviour
 
         OnChaseStarted?.Invoke();
 
-        // ⭐ 如果当前在镜子放大视图中，立即显示黑影
+        // 如果当前在镜子放大视图中，立即显示黑影
         if (GameManager.Instance != null)
         {
             string viewName = GameManager.Instance.CurrentViewState.ToString().ToLower();
@@ -308,14 +364,55 @@ public class ShadowChaseController : MonoBehaviour
                 noteObject.SetActive(true);
             }
             HideAllShadows();
+
+            // ⭐ 标记所有黑影为已点击
+            MarkAllShadowsAsClicked();
         }
         else if (currentPhase != ChasePhase.NotStarted)
         {
+            // ⭐ 标记已经过的阶段的黑影为已点击
+            MarkPreviousShadowsAsClicked();
+
             // 追逐中，根据当前墙面显示黑影
             if (GameManager.Instance != null)
             {
                 OnViewStateChanged(GameManager.Instance.CurrentViewState);
             }
         }
+    }
+
+    /// <summary>
+    /// ⭐ 新增：标记所有黑影为已点击
+    /// </summary>
+    private void MarkAllShadowsAsClicked()
+    {
+        if (shadowOnWallA != null) shadowOnWallA.hasBeenClicked = true;
+        if (shadowOnWallB != null) shadowOnWallB.hasBeenClicked = true;
+        if (shadowOnWallC != null) shadowOnWallC.hasBeenClicked = true;
+        if (shadowOnWallD != null) shadowOnWallD.hasBeenClicked = true;
+    }
+
+    /// <summary>
+    /// ⭐ 新增：根据当前阶段标记之前的黑影为已点击
+    /// </summary>
+    private void MarkPreviousShadowsAsClicked()
+    {
+        // 根据当前阶段，标记之前阶段的黑影
+        switch (currentPhase)
+        {
+            case ChasePhase.WallD:
+                if (shadowOnWallC != null) shadowOnWallC.hasBeenClicked = true;
+                goto case ChasePhase.WallC;
+
+            case ChasePhase.WallC:
+                if (shadowOnWallB != null) shadowOnWallB.hasBeenClicked = true;
+                goto case ChasePhase.WallB;
+
+            case ChasePhase.WallB:
+                if (shadowOnWallA != null) shadowOnWallA.hasBeenClicked = true;
+                break;
+        }
+
+        Debug.Log($"[ShadowChaseController] 已标记阶段 {currentPhase} 之前的黑影为已点击");
     }
 }

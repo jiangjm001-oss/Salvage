@@ -1,9 +1,9 @@
-// Assets/Scripts/GamePlay/PuzzleTile.cs
+ï»¿// Assets/Scripts/GamePlay/PuzzleTile.cs
 using UnityEngine;
 
 /// <summary>
-/// »ªÈİµÀ·½¿é×é¼ş
-/// ×Ô¶¯Éú³É£¬´¦Àíµã»÷ÊÂ¼ş
+/// åå®¹é“æ–¹å—ç»„ä»¶
+/// è‡ªåŠ¨ç”Ÿæˆï¼Œå¤„ç†ç‚¹å‡»äº‹ä»¶
 /// </summary>
 public class PuzzleTile : MonoBehaviour
 {
@@ -11,20 +11,31 @@ public class PuzzleTile : MonoBehaviour
     public SlidingPuzzle puzzle;
 
     [HideInInspector]
-    public int boardIndex;
+    public int boardIndex; // ä¿ç•™å…¼å®¹
+
+    [HideInInspector]
+    public int tileValue; // â­ æ–¹å—çš„å€¼ (1-8)ï¼Œè¿™ä¸ªä¸ä¼šå˜
 
     private void OnMouseDown()
     {
-        // ¼ì²éÊÇ·ñµã»÷ÔÚ UI ÉÏ
+        Debug.Log($"[PuzzleTile] ç‚¹å‡»äº† {gameObject.name}ï¼ŒtileValue={tileValue}");
+
+        // æ£€æŸ¥æ˜¯å¦ç‚¹å‡»åœ¨ UI ä¸Š
         if (UnityEngine.EventSystems.EventSystem.current != null &&
             UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
+            Debug.Log("[PuzzleTile] ç‚¹å‡»è¢« UI é˜»æŒ¡");
             return;
         }
 
         if (puzzle != null)
         {
-            puzzle.TryMoveTile(boardIndex);
+            // â­ ä½¿ç”¨ tileValue è€Œä¸æ˜¯ boardIndex
+            puzzle.TryMoveTileByValue(tileValue);
+        }
+        else
+        {
+            Debug.LogError("[PuzzleTile] puzzle å¼•ç”¨ä¸ºç©ºï¼");
         }
     }
 }

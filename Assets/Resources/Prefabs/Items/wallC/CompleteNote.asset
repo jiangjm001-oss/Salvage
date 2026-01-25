@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: CompleteNote
   displayName: "\u4FE1\u7EB8"
   description: 
-  icon: {fileID: 21300000, guid: 734443c64b17215498d6327495d6f52c, type: 3}
+  icon: {fileID: 21300000, guid: a472a2cdc3be78f47947cc0473a50150, type: 3}
   category: 0

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -77,14 +78,39 @@ public class GameManager : MonoBehaviour
     private ViewState pendingViewState = ViewState.Wall_A;
     private bool hasPendingViewState = false;
 
-    // ============ ⭐ 直接引用放大视图（新增）============
+    // ============ ⭐ 直接引用放大视图 ============
     private GameObject currentZoomViewObject = null;
 
     /// <summary>
-    /// ⭐ 标志：是否正在使用直接引用模式的放大视图
+    /// 标志：是否正在使用直接引用模式的放大视图
     /// FurnitureZoomController 检查此标志，为 true 时不处理
     /// </summary>
     public bool IsUsingDirectZoomView { get; private set; } = false;
+
+    // ============ ⭐⭐ 新增：ZoomView 导航栈 ============
+    /// <summary>
+    /// 用于记录 ZoomView 历史的结构体
+    /// </summary>
+    private struct ZoomHistoryEntry
+    {
+        public ViewState viewState;           // 视图状态（用于枚举模式或墙面）
+        public GameObject zoomViewObject;     // 直接引用的GameObject（用于直接引用模式）
+        public bool wasDirectMode;            // 是否是直接引用模式
+
+        public ZoomHistoryEntry(ViewState state, GameObject obj, bool isDirect)
+        {
+            viewState = state;
+            zoomViewObject = obj;
+            wasDirectMode = isDirect;
+        }
+    }
+
+    /// <summary>
+    /// ZoomView 导航栈 - 用于实现嵌套 ZoomView 的逐层返回
+    /// </summary>
+    private Stack<ZoomHistoryEntry> zoomViewStack = new Stack<ZoomHistoryEntry>();
+
+    // ============ Unity 生命周期 ============
 
     private void Awake()
     {
@@ -129,6 +155,9 @@ public class GameManager : MonoBehaviour
         // 清除直接引用的放大视图（场景切换后旧引用失效）
         currentZoomViewObject = null;
         IsUsingDirectZoomView = false;
+
+        // ⭐ 清空导航栈（场景切换后历史无效）
+        zoomViewStack.Clear();
 
         if (pendingSaveData != null)
         {
@@ -200,6 +229,9 @@ public class GameManager : MonoBehaviour
         currentZoomViewObject = null;
         IsUsingDirectZoomView = false;
 
+        // ⭐ 清空导航栈
+        zoomViewStack.Clear();
+
         if (SceneController.Instance != null)
         {
             SceneController.Instance.LoadScene("Level1_Room");
@@ -207,60 +239,28 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogError("[GameManager] SceneController instance not found!");
-            SceneManager.LoadScene("Level1_Room");
         }
-
-        Debug.Log("[GameManager] New game started.");
     }
 
     public void ContinueGame()
     {
         Debug.Log("[GameManager] ========== Continuing game ==========");
 
-        if (SaveLoadSystem.Instance == null)
+        if (SaveLoadSystem.Instance != null && SaveLoadSystem.Instance.HasSaveData())
         {
-            Debug.LogError("[GameManager] SaveLoadSystem instance not found!");
-            StartNewGame();
-            return;
-        }
-
-        if (!SaveLoadSystem.Instance.HasSaveData())
-        {
-            Debug.LogWarning("[GameManager] No save data found. Starting new game instead.");
-            StartNewGame();
-            return;
-        }
-
-        SaveData saveData = SaveLoadSystem.Instance.LoadGame();
-
-        if (saveData == null)
-        {
-            Debug.LogWarning("[GameManager] Failed to load save data. Starting new game instead.");
-            StartNewGame();
-            return;
-        }
-
-        pendingSaveData = saveData;
-
-        string sceneToLoad = saveData.currentSceneName;
-
-        if (string.IsNullOrEmpty(sceneToLoad))
-        {
-            sceneToLoad = "Level1_Room";
-        }
-
-        Debug.Log($"[GameManager] Loading saved scene: {sceneToLoad}");
-
-        if (SceneController.Instance != null)
-        {
-            SceneController.Instance.LoadSceneFromSave(sceneToLoad);
+            SaveLoadSystem.Instance.LoadGame();
         }
         else
         {
-            SceneManager.LoadScene(sceneToLoad);
+            Debug.LogWarning("[GameManager] No save data found, starting new game.");
+            StartNewGame();
         }
+    }
 
-        Debug.Log("[GameManager] Game continued from save.");
+    public void SetPendingSaveData(SaveData saveData)
+    {
+        pendingSaveData = saveData;
+        Debug.Log("[GameManager] Pending save data set.");
     }
 
     public void QuitGame()
@@ -305,6 +305,10 @@ public class GameManager : MonoBehaviour
         currentZoomController = null;
         currentZoomViewObject = null;
         IsUsingDirectZoomView = false;
+
+        // ⭐ 清空导航栈
+        zoomViewStack.Clear();
+
         Debug.Log("[GameManager] Scene managers unregistered");
     }
 
@@ -435,8 +439,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void EnterZoomView(ViewState zoomView)
     {
+        // ⭐ 将当前状态压入栈中
+        ZoomHistoryEntry currentEntry = new ZoomHistoryEntry(
+            CurrentViewState,
+            currentZoomViewObject,
+            IsUsingDirectZoomView
+        );
+        zoomViewStack.Push(currentEntry);
+        Debug.Log($"[GameManager] 压栈: ViewState={CurrentViewState}, DirectMode={IsUsingDirectZoomView}, 栈深度={zoomViewStack.Count}");
+
+        // 记录墙面（仅当从墙面进入时）
         if (IsInWallView())
+        {
             lastWallBeforeZoom = CurrentViewState;
+        }
 
         // ⭐ 清除直接引用标志
         currentZoomViewObject = null;
@@ -456,7 +472,16 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // 记录当前墙面
+        // ⭐ 将当前状态压入栈中
+        ZoomHistoryEntry currentEntry = new ZoomHistoryEntry(
+            CurrentViewState,
+            currentZoomViewObject,
+            IsUsingDirectZoomView
+        );
+        zoomViewStack.Push(currentEntry);
+        Debug.Log($"[GameManager] 压栈(Direct): ViewState={CurrentViewState}, Object={currentZoomViewObject?.name ?? "null"}, DirectMode={IsUsingDirectZoomView}, 栈深度={zoomViewStack.Count}");
+
+        // 记录墙面（仅当从墙面进入时）
         if (IsInWallView())
         {
             lastWallBeforeZoom = CurrentViewState;
@@ -485,11 +510,80 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 退出放大视图
+    /// ⭐⭐ 退出放大视图 - 支持嵌套返回
     /// </summary>
     public void ExitZoomView()
     {
-        // ⭐ 隐藏直接引用的放大视图
+        // 如果栈不为空，弹出上一个状态
+        if (zoomViewStack.Count > 0)
+        {
+            ZoomHistoryEntry previousEntry = zoomViewStack.Pop();
+            Debug.Log($"[GameManager] 弹栈: ViewState={previousEntry.viewState}, Object={previousEntry.zoomViewObject?.name ?? "null"}, DirectMode={previousEntry.wasDirectMode}, 剩余栈深度={zoomViewStack.Count}");
+
+            // 隐藏当前的放大视图
+            if (currentZoomViewObject != null)
+            {
+                currentZoomViewObject.SetActive(false);
+            }
+
+            // 根据历史记录恢复状态
+            if (previousEntry.wasDirectMode && previousEntry.zoomViewObject != null)
+            {
+                // 恢复到之前的直接引用 ZoomView
+                IsUsingDirectZoomView = true;
+                currentZoomViewObject = previousEntry.zoomViewObject;
+                currentZoomViewObject.SetActive(true);
+                CurrentViewState = previousEntry.viewState;
+
+                OnViewStateChanged?.Invoke(CurrentViewState);
+
+                Debug.Log($"[GameManager] 返回到直接引用 ZoomView: {currentZoomViewObject.name}");
+            }
+            else
+            {
+                // 恢复到枚举模式的视图（可能是墙面或枚举 ZoomView）
+                currentZoomViewObject = null;
+                IsUsingDirectZoomView = false;
+
+                SwitchToView(previousEntry.viewState);
+
+                Debug.Log($"[GameManager] 返回到: {previousEntry.viewState}");
+            }
+        }
+        else
+        {
+            // 栈为空，回退到墙面（兼容旧逻辑）
+            Debug.Log("[GameManager] 导航栈为空，返回墙面");
+
+            if (currentZoomViewObject != null)
+            {
+                currentZoomViewObject.SetActive(false);
+                currentZoomViewObject = null;
+            }
+            IsUsingDirectZoomView = false;
+
+            if (IsInWallView())
+            {
+                Debug.LogWarning("[GameManager] Already in wall view!");
+                return;
+            }
+
+            SwitchToView(lastWallBeforeZoom);
+        }
+    }
+
+    /// <summary>
+    /// ⭐ 新增：直接返回墙面（跳过所有嵌套层级）
+    /// 可用于某些需要直接返回墙面的特殊情况
+    /// </summary>
+    public void ExitToWall()
+    {
+        Debug.Log("[GameManager] ExitToWall: 直接返回墙面");
+
+        // 清空导航栈
+        zoomViewStack.Clear();
+
+        // 隐藏当前的放大视图
         if (currentZoomViewObject != null)
         {
             currentZoomViewObject.SetActive(false);
@@ -504,6 +598,22 @@ public class GameManager : MonoBehaviour
         }
 
         SwitchToView(lastWallBeforeZoom);
+    }
+
+    /// <summary>
+    /// ⭐ 新增：获取当前导航栈深度（用于调试或UI显示）
+    /// </summary>
+    public int GetZoomStackDepth()
+    {
+        return zoomViewStack.Count;
+    }
+
+    /// <summary>
+    /// ⭐ 新增：检查是否有嵌套的 ZoomView 历史
+    /// </summary>
+    public bool HasZoomHistory()
+    {
+        return zoomViewStack.Count > 0;
     }
 
     public bool IsInWallView()

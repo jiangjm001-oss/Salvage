@@ -1,56 +1,57 @@
-// Assets/Scripts/GamePlay/ShadowFigure.cs
+ï»¿// Assets/Scripts/GamePlay/ShadowFigure.cs
 using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// ºÚÓ°ÊµÌå - ´¦Àíµ¥¸öºÚÓ°µÄÏÔÊ¾¡¢ÒÆ¶¯¡¢µ­³öĞĞÎª
+/// é»‘å½±å®ä½“ - å¤„ç†å•ä¸ªé»‘å½±çš„æ˜¾ç¤ºã€ç§»åŠ¨ã€æ·¡å‡ºè¡Œä¸º
 /// </summary>
 public class ShadowFigure : MonoBehaviour
 {
-    [Header("ËùÊôÇ½Ãæ")]
-    [Tooltip("Õâ¸öºÚÓ°ÊôÓÚÄÄÃæÇ½")]
+    [Header("æ‰€å±å¢™é¢")]
+    [Tooltip("è¿™ä¸ªé»‘å½±å±äºå“ªé¢å¢™")]
     public GameManager.ViewState belongsToWall;
 
-    [Header("ÒÆ¶¯ÉèÖÃ")]
-    [Tooltip("µã»÷ºóÏòÓÒÒÆ¶¯µÄ¾àÀë")]
+    [Header("ç§»åŠ¨è®¾ç½®")]
+    [Tooltip("ç‚¹å‡»åå‘å³ç§»åŠ¨çš„è·ç¦»")]
     public float moveDistance = 2f;
 
-    [Tooltip("ÒÆ¶¯³ÖĞøÊ±¼ä£¨Ãë£©")]
+    [Tooltip("ç§»åŠ¨æŒç»­æ—¶é—´ï¼ˆç§’ï¼‰")]
     public float moveDuration = 0.5f;
 
-    [Tooltip("ÒÆ¶¯Ê¹ÓÃµÄ»º¶¯ÇúÏß")]
+    [Tooltip("ç§»åŠ¨ä½¿ç”¨çš„ç¼“åŠ¨æ›²çº¿")]
     public AnimationCurve moveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    [Header("µ­³öÉèÖÃ")]
-    [Tooltip("µ­³ö³ÖĞøÊ±¼ä£¨Ãë£©")]
+    [Header("æ·¡å‡ºè®¾ç½®")]
+    [Tooltip("æ·¡å‡ºæŒç»­æ—¶é—´ï¼ˆç§’ï¼‰")]
     public float fadeDuration = 0.8f;
 
-    [Tooltip("ÒÆ¶¯ºÍµ­³öÊÇ·ñÍ¬Ê±½øĞĞ")]
+    [Tooltip("ç§»åŠ¨å’Œæ·¡å‡ºæ˜¯å¦åŒæ—¶è¿›è¡Œ")]
     public bool fadeWhileMoving = true;
 
-    [Header("ÒôĞ§")]
-    [Tooltip("³öÏÖÊ±µÄÒôĞ§")]
+    [Header("éŸ³æ•ˆ")]
+    [Tooltip("å‡ºç°æ—¶çš„éŸ³æ•ˆ")]
     public string appearSound = "";
 
-    [Tooltip("µã»÷Ê±µÄÒôĞ§")]
+    [Tooltip("ç‚¹å‡»æ—¶çš„éŸ³æ•ˆ")]
     public string clickSound = "";
 
-    [Tooltip("ÏûÊ§Ê±µÄÒôĞ§")]
+    [Tooltip("æ¶ˆå¤±æ—¶çš„éŸ³æ•ˆ")]
     public string vanishSound = "";
 
-    [Header("×´Ì¬£¨Ö»¶Á£©")]
-    [Tooltip("ÊÇ·ñÒÑ±»µã»÷¹ı")]
+    [Header("çŠ¶æ€ï¼ˆåªè¯»ï¼‰")]
+    [Tooltip("æ˜¯å¦å·²è¢«ç‚¹å‡»è¿‡")]
     public bool hasBeenClicked = false;
 
-    [Tooltip("ÊÇ·ñÕıÔÚ²¥·Å¶¯»­")]
+    [Tooltip("æ˜¯å¦æ­£åœ¨æ’­æ”¾åŠ¨ç”»")]
     public bool isAnimating = false;
 
-    // Ë½ÓĞ±äÁ¿
+    // ç§æœ‰å˜é‡
     private SpriteRenderer spriteRenderer;
     private Collider2D col;
     private Vector3 originalPosition;
     private Color originalColor;
     private bool isInitialized = false;
+    private Coroutine currentAnimationCoroutine; // â­ æ–°å¢ï¼šè·Ÿè¸ªå½“å‰åç¨‹
 
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class ShadowFigure : MonoBehaviour
     }
 
     /// <summary>
-    /// ³õÊ¼»¯×é¼şÒıÓÃ
+    /// åˆå§‹åŒ–ç»„ä»¶å¼•ç”¨
     /// </summary>
     private void Initialize()
     {
@@ -67,10 +68,10 @@ public class ShadowFigure : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
 
-        // ¼ÇÂ¼Ô­Ê¼Î»ÖÃ
+        // è®°å½•åŸå§‹ä½ç½®
         originalPosition = transform.localPosition;
 
-        // ¼ÇÂ¼Ô­Ê¼ÑÕÉ«£¨ĞèÒªÓĞ SpriteRenderer£©
+        // è®°å½•åŸå§‹é¢œè‰²ï¼ˆéœ€è¦æœ‰ SpriteRendererï¼‰
         if (spriteRenderer != null)
         {
             originalColor = spriteRenderer.color;
@@ -78,33 +79,44 @@ public class ShadowFigure : MonoBehaviour
         else
         {
             originalColor = Color.white;
-            Debug.LogWarning($"[ShadowFigure] '{gameObject.name}' Ã»ÓĞ SpriteRenderer ×é¼ş£¡");
+            Debug.LogWarning($"[ShadowFigure] '{gameObject.name}' æ²¡æœ‰ SpriteRenderer ç»„ä»¶ï¼");
         }
 
         if (col == null)
         {
-            Debug.LogWarning($"[ShadowFigure] '{gameObject.name}' Ã»ÓĞ Collider2D ×é¼ş£¡");
+            Debug.LogWarning($"[ShadowFigure] '{gameObject.name}' æ²¡æœ‰ Collider2D ç»„ä»¶ï¼");
         }
 
         isInitialized = true;
 
-        // ³õÊ¼Òş²Ø
+        // åˆå§‹éšè—
         Hide();
     }
 
     /// <summary>
-    /// ÏÔÊ¾ºÚÓ°
+    /// æ˜¾ç¤ºé»‘å½±
     /// </summary>
     public void Show()
     {
-        if (hasBeenClicked) return;
+        if (hasBeenClicked)
+        {
+            Debug.Log($"[ShadowFigure] {belongsToWall} å·²è¢«ç‚¹å‡»è¿‡ï¼Œä¸å†æ˜¾ç¤º");
+            return;
+        }
 
-        // È·±£ÒÑ³õÊ¼»¯
+        // ç¡®ä¿å·²åˆå§‹åŒ–
         if (!isInitialized) Initialize();
 
-        Debug.Log($"[ShadowFigure] ºÚÓ°ÏÔÊ¾ÔÚ {belongsToWall}");
+        // â­ å¦‚æœæ­£åœ¨æ’­æ”¾åŠ¨ç”»ï¼Œä¸è¦é‡ç½®çŠ¶æ€
+        if (isAnimating)
+        {
+            Debug.Log($"[ShadowFigure] {belongsToWall} æ­£åœ¨æ’­æ”¾åŠ¨ç”»ï¼Œè·³è¿‡ Show");
+            return;
+        }
 
-        // ÖØÖÃÎ»ÖÃºÍÑÕÉ«
+        Debug.Log($"[ShadowFigure] é»‘å½±æ˜¾ç¤ºåœ¨ {belongsToWall}");
+
+        // é‡ç½®ä½ç½®å’Œé¢œè‰²
         transform.localPosition = originalPosition;
         if (spriteRenderer != null)
         {
@@ -112,14 +124,14 @@ public class ShadowFigure : MonoBehaviour
             spriteRenderer.enabled = true;
         }
 
-        // ÆôÓÃÏÔÊ¾ºÍÅö×²
+        // å¯ç”¨æ˜¾ç¤ºå’Œç¢°æ’
         gameObject.SetActive(true);
         if (col != null)
         {
             col.enabled = true;
         }
 
-        // ²¥·Å³öÏÖÒôĞ§
+        // æ’­æ”¾å‡ºç°éŸ³æ•ˆ
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(appearSound))
         {
             AudioManager.Instance.PlaySFX(appearSound);
@@ -127,18 +139,44 @@ public class ShadowFigure : MonoBehaviour
     }
 
     /// <summary>
-    /// Òş²ØºÚÓ°
+    /// éšè—é»‘å½±ï¼ˆä¸æ”¹å˜ hasBeenClicked çŠ¶æ€ï¼‰
     /// </summary>
     public void Hide()
     {
-        // È·±£ÒÑ³õÊ¼»¯
+        // ç¡®ä¿å·²åˆå§‹åŒ–
         if (!isInitialized)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             col = GetComponent<Collider2D>();
         }
 
-        // °²È«Òş²Ø
+        // å®‰å…¨éšè—
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+        }
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // â­ æ–°å¢ï¼šä¹Ÿç¦ç”¨ GameObjectï¼Œç¡®ä¿å®Œå…¨éšè—
+        // æ³¨æ„ï¼šè¿™ä¼šåœæ­¢åç¨‹ï¼Œæ‰€ä»¥åªåœ¨éåŠ¨ç”»æ—¶è°ƒç”¨
+        if (!isAnimating)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// â­ æ–°å¢ï¼šä¸´æ—¶éšè—ï¼ˆåˆ‡æ¢è§†å›¾æ—¶è°ƒç”¨ï¼Œä¸åœæ­¢åç¨‹ï¼‰
+    /// </summary>
+    public void HideTemporary()
+    {
+        if (hasBeenClicked) return; // å·²ç‚¹å‡»çš„ä¸éœ€è¦å¤„ç†
+
+        Debug.Log($"[ShadowFigure] ä¸´æ—¶éšè— {belongsToWall}");
+
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = false;
@@ -150,61 +188,87 @@ public class ShadowFigure : MonoBehaviour
     }
 
     /// <summary>
-    /// µã»÷ºÚÓ°£¨ÓÉ InteractionSystem »òµã»÷ÊÂ¼şµ÷ÓÃ£©
+    /// ç‚¹å‡»é»‘å½±ï¼ˆç”± InteractionSystem æˆ–ç‚¹å‡»äº‹ä»¶è°ƒç”¨ï¼‰
     /// </summary>
     public void OnClick()
     {
-        if (hasBeenClicked || isAnimating) return;
+        // â­ æ”¹è¿›ï¼šæ›´è¯¦ç»†çš„æ—¥å¿—
+        if (hasBeenClicked)
+        {
+            Debug.Log($"[ShadowFigure] {belongsToWall} å·²è¢«ç‚¹å‡»è¿‡ï¼Œå¿½ç•¥");
+            return;
+        }
 
-        Debug.Log($"[ShadowFigure] ºÚÓ°±»µã»÷: {belongsToWall}");
+        if (isAnimating)
+        {
+            Debug.Log($"[ShadowFigure] {belongsToWall} æ­£åœ¨åŠ¨ç”»ä¸­ï¼Œå¿½ç•¥");
+            return;
+        }
+
+        Debug.Log($"[ShadowFigure] é»‘å½±è¢«ç‚¹å‡»: {belongsToWall}");
         hasBeenClicked = true;
 
-        // ²¥·Åµã»÷ÒôĞ§
+        // æ’­æ”¾ç‚¹å‡»éŸ³æ•ˆ
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(clickSound))
         {
             AudioManager.Instance.PlaySFX(clickSound);
         }
 
-        // Í¨Öª¿ØÖÆÆ÷
+        // â­ å…ˆå¯åŠ¨åç¨‹ï¼Œç¡®ä¿åŠ¨ç”»å¼€å§‹
+        if (currentAnimationCoroutine != null)
+        {
+            StopCoroutine(currentAnimationCoroutine);
+        }
+        currentAnimationCoroutine = StartCoroutine(MoveAndFadeCoroutine());
+
+        // é€šçŸ¥æ§åˆ¶å™¨ï¼ˆæ”¾åœ¨åç¨‹å¯åŠ¨ä¹‹åï¼‰
         if (ShadowChaseController.Instance != null)
         {
             ShadowChaseController.Instance.OnShadowClicked(this);
         }
-
-        // ¿ªÊ¼ÒÆ¶¯ºÍµ­³ö¶¯»­
-        StartCoroutine(MoveAndFadeCoroutine());
     }
 
     /// <summary>
-    /// ÒÆ¶¯ºÍµ­³öĞ­³Ì
+    /// ç§»åŠ¨å’Œæ·¡å‡ºåç¨‹
     /// </summary>
     private IEnumerator MoveAndFadeCoroutine()
     {
         isAnimating = true;
+        Debug.Log($"[ShadowFigure] {belongsToWall} å¼€å§‹ç§»åŠ¨æ·¡å‡ºåŠ¨ç”»");
 
-        // ½ûÓÃÅö×²£¨·ÀÖ¹ÖØ¸´µã»÷£©
+        // ç¦ç”¨ç¢°æ’ï¼ˆé˜²æ­¢é‡å¤ç‚¹å‡»ï¼‰
         if (col != null)
         {
             col.enabled = false;
         }
 
+        // â­ ç¡®ä¿ spriteRenderer å¯ç”¨
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($"[ShadowFigure] {belongsToWall} spriteRenderer ä¸ºç©ºï¼Œæ— æ³•æ’­æ”¾åŠ¨ç”»ï¼");
+            isAnimating = false;
+            yield break;
+        }
+
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = startPos + Vector3.right * moveDistance;
 
-        Color startColor = spriteRenderer != null ? spriteRenderer.color : Color.white;
+        Color startColor = spriteRenderer.color;
         Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
 
         float elapsed = 0f;
         float totalDuration = fadeWhileMoving ? Mathf.Max(moveDuration, fadeDuration) : moveDuration + fadeDuration;
 
+        Debug.Log($"[ShadowFigure] {belongsToWall} åŠ¨ç”»å‚æ•°: startPos={startPos}, endPos={endPos}, totalDuration={totalDuration}");
+
         if (fadeWhileMoving)
         {
-            // Í¬Ê±ÒÆ¶¯ºÍµ­³ö
+            // åŒæ—¶ç§»åŠ¨å’Œæ·¡å‡º
             while (elapsed < totalDuration)
             {
                 elapsed += Time.deltaTime;
 
-                // ÒÆ¶¯
+                // ç§»åŠ¨
                 if (elapsed < moveDuration)
                 {
                     float moveT = moveCurve.Evaluate(elapsed / moveDuration);
@@ -215,13 +279,13 @@ public class ShadowFigure : MonoBehaviour
                     transform.localPosition = endPos;
                 }
 
-                // µ­³ö
-                if (spriteRenderer != null && elapsed < fadeDuration)
+                // æ·¡å‡º
+                if (elapsed < fadeDuration)
                 {
                     float fadeT = elapsed / fadeDuration;
                     spriteRenderer.color = Color.Lerp(startColor, endColor, fadeT);
                 }
-                else if (spriteRenderer != null)
+                else
                 {
                     spriteRenderer.color = endColor;
                 }
@@ -231,7 +295,7 @@ public class ShadowFigure : MonoBehaviour
         }
         else
         {
-            // ÏÈÒÆ¶¯
+            // å…ˆç§»åŠ¨
             while (elapsed < moveDuration)
             {
                 elapsed += Time.deltaTime;
@@ -241,46 +305,56 @@ public class ShadowFigure : MonoBehaviour
             }
             transform.localPosition = endPos;
 
-            // ÔÙµ­³ö
+            // å†æ·¡å‡º
             elapsed = 0f;
             while (elapsed < fadeDuration)
             {
                 elapsed += Time.deltaTime;
                 float t = elapsed / fadeDuration;
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.color = Color.Lerp(startColor, endColor, t);
-                }
+                spriteRenderer.color = Color.Lerp(startColor, endColor, t);
                 yield return null;
             }
         }
 
-        // È·±£×îÖÕ×´Ì¬
+        // ç¡®ä¿æœ€ç»ˆçŠ¶æ€
         transform.localPosition = endPos;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = endColor;
-        }
+        spriteRenderer.color = endColor;
 
-        // ²¥·ÅÏûÊ§ÒôĞ§
+        // æ’­æ”¾æ¶ˆå¤±éŸ³æ•ˆ
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(vanishSound))
         {
             AudioManager.Instance.PlaySFX(vanishSound);
         }
 
-        // ÍêÈ«Òş²Ø
-        Hide();
-        isAnimating = false;
+        Debug.Log($"[ShadowFigure] {belongsToWall} åŠ¨ç”»å®Œæˆï¼Œéšè—");
 
-        Debug.Log($"[ShadowFigure] ºÚÓ°ÏûÊ§: {belongsToWall}");
+        // â­ å…ˆè®¾ç½® isAnimating = falseï¼Œå†è°ƒç”¨ Hide
+        isAnimating = false;
+        currentAnimationCoroutine = null;
+
+        // å®Œå…¨éšè—
+        spriteRenderer.enabled = false;
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+        gameObject.SetActive(false);
+
+        Debug.Log($"[ShadowFigure] é»‘å½±æ¶ˆå¤±: {belongsToWall}");
     }
 
     /// <summary>
-    /// ÖØÖÃºÚÓ°×´Ì¬£¨ÓÃÓÚµ÷ÊÔ»òÖØĞÂ¿ªÊ¼£©
+    /// é‡ç½®é»‘å½±çŠ¶æ€ï¼ˆç”¨äºè°ƒè¯•æˆ–é‡æ–°å¼€å§‹ï¼‰
     /// </summary>
     public void ResetShadow()
     {
+        if (currentAnimationCoroutine != null)
+        {
+            StopCoroutine(currentAnimationCoroutine);
+            currentAnimationCoroutine = null;
+        }
         StopAllCoroutines();
+
         hasBeenClicked = false;
         isAnimating = false;
         transform.localPosition = originalPosition;
@@ -291,11 +365,11 @@ public class ShadowFigure : MonoBehaviour
         Hide();
     }
 
-    // ============ µã»÷¼ì²â ============
+    // ============ ç‚¹å‡»æ£€æµ‹ ============
 
     private void OnMouseDown()
     {
-        // ¼òµ¥µÄµã»÷¼ì²â
+        // ç®€å•çš„ç‚¹å‡»æ£€æµ‹
         OnClick();
     }
 }

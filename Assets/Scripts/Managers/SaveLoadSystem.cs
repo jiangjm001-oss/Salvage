@@ -93,6 +93,24 @@ public class ContainerSaveData
 }
 
 /// <summary>
+/// ⭐ 新增：ObjectSwap 状态存档数据
+/// </summary>
+[System.Serializable]
+public class SwapStateSaveData
+{
+    public string objectID;
+    public bool isActive;  // 记录物体是否激活
+
+    public SwapStateSaveData() { }
+
+    public SwapStateSaveData(string id, bool active)
+    {
+        objectID = id;
+        isActive = active;
+    }
+}
+
+/// <summary>
 /// 存档数据结构 - 保存所有需要持久化的游戏数据
 /// </summary>
 [System.Serializable]
@@ -116,8 +134,13 @@ public class SaveData
     // 物体切换解锁数据
     public List<string> swapUnlockedObjectIDs;
 
-    // ⭐ 新增：容器状态数据
+    // 容器状态数据
     public List<ContainerSaveData> containerData;
+
+    // ⭐ 新增：ObjectSwap 激活状态数据
+    public List<SwapStateSaveData> swapStateData;
+
+    public LetterSaveData letterData;
 
     public SaveData()
     {
@@ -129,6 +152,7 @@ public class SaveData
         shadowChasePhase = 0;
         swapUnlockedObjectIDs = new List<string>();
         containerData = new List<ContainerSaveData>();
+        swapStateData = new List<SwapStateSaveData>();
     }
 }
 
@@ -192,7 +216,7 @@ public class SaveLoadSystem : MonoBehaviour
         // 6. 保存镜子状态数据
         data.mirrorData = GetMirrorData();
 
-        // 7. 保存被禁用的物体数据
+        // 7. 保存被禁用的物体数据（已排除 ObjectSwap）
         data.disabledObjects = GetDisabledObjectsData();
 
         // 8. 保存黑影追逐进度
@@ -201,8 +225,18 @@ public class SaveLoadSystem : MonoBehaviour
         // 9. 保存物体切换解锁数据
         data.swapUnlockedObjectIDs = GetSwapUnlockedObjectIDs();
 
-        // ⭐ 10. 保存容器状态数据
+        // 10. 保存容器状态数据
         data.containerData = GetContainerData();
+
+        // ⭐ 11. 保存 ObjectSwap 激活状态数据
+        data.swapStateData = GetSwapStateData();
+
+        // 保存信纸状态
+        if (LetterManager.Instance != null)
+        {
+            data.letterData = LetterManager.Instance.GetSaveData();
+            Debug.Log($"[SaveLoadSystem] 保存信纸状态: R={data.letterData.hasRecipient}, T={data.letterData.hasTitle}, L={data.letterData.hasLogo}");
+        }
 
         // 序列化为JSON并保存
         string json = JsonUtility.ToJson(data, true);
@@ -239,6 +273,8 @@ public class SaveLoadSystem : MonoBehaviour
             data.swapUnlockedObjectIDs = new List<string>();
         if (data.containerData == null)
             data.containerData = new List<ContainerSaveData>();
+        if (data.swapStateData == null)
+            data.swapStateData = new List<SwapStateSaveData>();
 
         Debug.Log($"[SaveLoadSystem] Game loaded successfully!");
         return data;
@@ -285,8 +321,17 @@ public class SaveLoadSystem : MonoBehaviour
         // 8. 恢复物体切换解锁状态
         ApplySwapUnlockedObjects(data.swapUnlockedObjectIDs);
 
-        // ⭐ 9. 恢复容器状态
+        // 9. 恢复容器状态
         ApplyContainerData(data.containerData);
+
+        // ⭐ 10. 恢复 ObjectSwap 激活状态
+        ApplySwapStateData(data.swapStateData);
+
+        // ⭐ 恢复信纸状态
+        if (data.letterData != null && LetterManager.Instance != null)
+        {
+            LetterManager.Instance.RestoreFromSave(data.letterData);
+        }
 
         Debug.Log("[SaveLoadSystem] Save data applied successfully!");
     }
@@ -339,7 +384,7 @@ public class SaveLoadSystem : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(obj.objectID) && pickedUpIDs.Contains(obj.objectID))
             {
-                // ⭐ 标记为已拾取（供容器判断是否显示）
+                // 标记为已拾取（供容器判断是否显示）
                 obj.MarkAsPickedUp();
 
                 obj.gameObject.SetActive(false);
@@ -435,6 +480,10 @@ public class SaveLoadSystem : MonoBehaviour
 
     // ============ 禁用物体相关 ============
 
+    /// <summary>
+    /// 获取被禁用的物体数据
+    /// ⭐ 修复：排除 Pickup 和 ObjectSwap 类型，因为它们有专门的保存/恢复逻辑
+    /// </summary>
     private List<DisabledObjectSaveData> GetDisabledObjectsData()
     {
         List<DisabledObjectSaveData> data = new List<DisabledObjectSaveData>();
@@ -444,6 +493,7 @@ public class SaveLoadSystem : MonoBehaviour
         {
             if (!obj.gameObject.activeSelf &&
                 obj.interactionType != InteractableObject.InteractionType.Pickup &&
+                obj.interactionType != InteractableObject.InteractionType.ObjectSwap &&  // ⭐ 排除 ObjectSwap
                 !string.IsNullOrEmpty(obj.objectID))
             {
                 data.Add(new DisabledObjectSaveData(obj.objectID));
@@ -453,6 +503,10 @@ public class SaveLoadSystem : MonoBehaviour
         return data;
     }
 
+    /// <summary>
+    /// 恢复被禁用的物体
+    /// ⭐ 修复：排除 ObjectSwap 类型，防止误禁用
+    /// </summary>
     private void ApplyDisabledObjectsData(List<DisabledObjectSaveData> data)
     {
         if (data == null || data.Count == 0) return;
@@ -462,6 +516,9 @@ public class SaveLoadSystem : MonoBehaviour
         foreach (var obj in allObjects)
         {
             if (string.IsNullOrEmpty(obj.objectID)) continue;
+
+            // ⭐ 跳过 ObjectSwap 类型，它们由专门的逻辑处理
+            if (obj.interactionType == InteractableObject.InteractionType.ObjectSwap) continue;
 
             foreach (var disabledObj in data)
             {
@@ -474,7 +531,7 @@ public class SaveLoadSystem : MonoBehaviour
         }
     }
 
-    // ============ ⭐ 黑影追逐相关（新增） ============
+    // ============ 黑影追逐相关 ============
 
     private int GetShadowChasePhase()
     {
@@ -493,7 +550,7 @@ public class SaveLoadSystem : MonoBehaviour
         }
     }
 
-    // ============ ⭐ 物体切换解锁相关（新增） ============
+    // ============ 物体切换解锁相关 ============
 
     /// <summary>
     /// 获取所有已解锁的物体切换ID
@@ -536,7 +593,55 @@ public class SaveLoadSystem : MonoBehaviour
         }
     }
 
-    // ============ ⭐ 容器状态相关（新增） ============
+    // ============ ⭐ ObjectSwap 激活状态相关（新增） ============
+
+    /// <summary>
+    /// 获取所有 ObjectSwap 物体的激活状态
+    /// </summary>
+    private List<SwapStateSaveData> GetSwapStateData()
+    {
+        List<SwapStateSaveData> data = new List<SwapStateSaveData>();
+        InteractableObject[] allObjects = FindObjectsOfType<InteractableObject>(true);
+
+        foreach (var obj in allObjects)
+        {
+            if (obj.interactionType == InteractableObject.InteractionType.ObjectSwap
+                && !string.IsNullOrEmpty(obj.objectID))
+            {
+                data.Add(new SwapStateSaveData(obj.objectID, obj.gameObject.activeSelf));
+            }
+        }
+
+        return data;
+    }
+
+    /// <summary>
+    /// 恢复 ObjectSwap 物体的激活状态
+    /// </summary>
+    private void ApplySwapStateData(List<SwapStateSaveData> data)
+    {
+        if (data == null || data.Count == 0) return;
+
+        InteractableObject[] allObjects = FindObjectsOfType<InteractableObject>(true);
+
+        foreach (var obj in allObjects)
+        {
+            if (obj.interactionType != InteractableObject.InteractionType.ObjectSwap) continue;
+            if (string.IsNullOrEmpty(obj.objectID)) continue;
+
+            foreach (var savedState in data)
+            {
+                if (obj.objectID == savedState.objectID)
+                {
+                    obj.gameObject.SetActive(savedState.isActive);
+                    Debug.Log($"[SaveLoadSystem] 恢复 ObjectSwap '{obj.objectID}' 激活状态: {savedState.isActive}");
+                    break;
+                }
+            }
+        }
+    }
+
+    // ============ 容器状态相关 ============
 
     /// <summary>
     /// 获取所有容器的状态数据

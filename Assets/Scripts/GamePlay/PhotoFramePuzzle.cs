@@ -33,11 +33,14 @@ public class PhotoFramePuzzle : MonoBehaviour
     public FragmentSlot[] fragments = new FragmentSlot[4];
 
     [Header("放置设置")]
-    [Tooltip("碎片初始放置位置（随机偏移中心）")]
+    [Tooltip("碎片初始放置位置（相对于拼图中心）")]
     public Vector2 initialPlaceOffset = new Vector2(0, -1f);
 
     [Tooltip("初始放置随机范围")]
     public float randomRange = 0.5f;
+
+    [Tooltip("碎片缩放比例（调整碎片显示大小）")]
+    public float fragmentScale = 1f;
 
     [Header("吸附设置")]
     [Tooltip("吸附距离阈值")]
@@ -126,7 +129,6 @@ public class PhotoFramePuzzle : MonoBehaviour
         if (fragmentIndex < 0)
         {
             Debug.Log($"[PhotoFramePuzzle] '{selectedItem.itemID}' 不是碎片物品");
-            Debug.Log("[PhotoFramePuzzle] 这个东西放不上去...");
             return;
         }
 
@@ -183,6 +185,7 @@ public class PhotoFramePuzzle : MonoBehaviour
         GameObject fragmentObj = new GameObject($"Fragment_{slot.fragmentItemID}");
         fragmentObj.transform.SetParent(transform);
         fragmentObj.transform.position = spawnPos;
+        fragmentObj.transform.localScale = Vector3.one * fragmentScale;  // 设置缩放
         fragmentObj.layer = gameObject.layer;
 
         // 添加 SpriteRenderer
@@ -193,7 +196,7 @@ public class PhotoFramePuzzle : MonoBehaviour
 
         // 添加 Collider
         BoxCollider2D col = fragmentObj.AddComponent<BoxCollider2D>();
-        col.size = sr.bounds.size;
+        col.size = sr.bounds.size / fragmentScale;  // 根据缩放调整碰撞体大小
 
         // 添加拖动组件
         DraggableFragment draggable = fragmentObj.AddComponent<DraggableFragment>();
@@ -201,7 +204,7 @@ public class PhotoFramePuzzle : MonoBehaviour
 
         spawnedFragments.Add(draggable);
 
-        Debug.Log($"[PhotoFramePuzzle] 放置碎片: {slot.fragmentItemID}");
+        Debug.Log($"[PhotoFramePuzzle] 放置碎片: {slot.fragmentItemID}, Scale: {fragmentScale}");
     }
 
     /// <summary>
@@ -281,9 +284,6 @@ public class PhotoFramePuzzle : MonoBehaviour
                 }
             }
 
-            // 可选：隐藏或改变相框外观
-            // gameObject.SetActive(false);
-
             Debug.Log($"[PhotoFramePuzzle] 拾取完整相片: {completePhotoItem.displayName}");
 
             OnPhotoPickedUp?.Invoke();
@@ -309,6 +309,8 @@ public class PhotoFramePuzzle : MonoBehaviour
 
         PlayerPrefs.SetString(key, string.Join(",", parts));
         PlayerPrefs.Save();
+
+        Debug.Log($"[PhotoFramePuzzle] 状态已保存: {string.Join(",", parts)}");
     }
 
     private void RestoreFromSave()
@@ -320,6 +322,16 @@ public class PhotoFramePuzzle : MonoBehaviour
         string[] parts = data.Split(',');
 
         if (parts.Length < fragments.Length * 2 + 2) return;
+
+        // 清除之前的碎片对象
+        foreach (var frag in spawnedFragments)
+        {
+            if (frag != null)
+            {
+                Destroy(frag.gameObject);
+            }
+        }
+        spawnedFragments.Clear();
 
         // 恢复碎片状态
         for (int i = 0; i < fragments.Length; i++)
@@ -338,7 +350,7 @@ public class PhotoFramePuzzle : MonoBehaviour
         isPuzzleComplete = parts[baseIndex] == "1";
         isPhotoPickedUp = parts[baseIndex + 1] == "1";
 
-        // 如果已拾取，隐藏
+        // 如果已拾取，隐藏所有碎片
         if (isPhotoPickedUp)
         {
             foreach (var frag in spawnedFragments)
@@ -346,6 +358,8 @@ public class PhotoFramePuzzle : MonoBehaviour
                 if (frag != null) frag.gameObject.SetActive(false);
             }
         }
+
+        Debug.Log($"[PhotoFramePuzzle] 状态已恢复: complete={isPuzzleComplete}, pickedUp={isPhotoPickedUp}");
     }
 
     private void RestoreFragment(int index, bool snapped)
@@ -361,6 +375,7 @@ public class PhotoFramePuzzle : MonoBehaviour
         GameObject fragmentObj = new GameObject($"Fragment_{slot.fragmentItemID}");
         fragmentObj.transform.SetParent(transform);
         fragmentObj.transform.position = pos;
+        fragmentObj.transform.localScale = Vector3.one * fragmentScale;  // 设置缩放
         fragmentObj.layer = gameObject.layer;
 
         SpriteRenderer sr = fragmentObj.AddComponent<SpriteRenderer>();
@@ -369,7 +384,7 @@ public class PhotoFramePuzzle : MonoBehaviour
         sr.sortingOrder = (spriteRenderer != null ? spriteRenderer.sortingOrder : 0) + 1 + index;
 
         BoxCollider2D col = fragmentObj.AddComponent<BoxCollider2D>();
-        col.size = sr.bounds.size;
+        col.size = sr.bounds.size / fragmentScale;  // 根据缩放调整碰撞体大小
 
         DraggableFragment draggable = fragmentObj.AddComponent<DraggableFragment>();
         draggable.Initialize(this, index, (Vector2)transform.position + slot.targetPosition);
@@ -380,6 +395,39 @@ public class PhotoFramePuzzle : MonoBehaviour
         }
 
         spawnedFragments.Add(draggable);
+    }
+
+    /// <summary>
+    /// 重置谜题（用于调试）
+    /// </summary>
+    [ContextMenu("Reset Puzzle")]
+    public void ResetPuzzle()
+    {
+        // 清除存档
+        string key = $"PhotoPuzzle_{puzzleID}";
+        PlayerPrefs.DeleteKey(key);
+        PlayerPrefs.Save();
+
+        // 清除碎片对象
+        foreach (var frag in spawnedFragments)
+        {
+            if (frag != null)
+            {
+                DestroyImmediate(frag.gameObject);
+            }
+        }
+        spawnedFragments.Clear();
+
+        // 重置状态
+        foreach (var slot in fragments)
+        {
+            slot.isPlaced = false;
+            slot.isSnapped = false;
+        }
+        isPuzzleComplete = false;
+        isPhotoPickedUp = false;
+
+        Debug.Log("[PhotoFramePuzzle] 谜题已重置");
     }
 
     // ============ 编辑器辅助 ============

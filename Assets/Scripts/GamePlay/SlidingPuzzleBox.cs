@@ -13,10 +13,10 @@ public class SlidingPuzzle : MonoBehaviour
     [Tooltip("数字方块精灵 (1-8)，按顺序放入")]
     public Sprite[] tileSprites = new Sprite[8];
 
-    [Tooltip("方块大小")]
-    public float tileSize = 1.5f;
+    [Tooltip("方块缩放比例")]
+    public float tileScale = 0.3f;
 
-    [Tooltip("方块间距")]
+    [Tooltip("方块间距（缩放后的实际间距）")]
     public float tileSpacing = 0.1f;
 
     [Tooltip("谜题相对于此物体的偏移")]
@@ -57,17 +57,14 @@ public class SlidingPuzzle : MonoBehaviour
 
     private void OnEnable()
     {
-        // 每次进入放大视图时检查
         if (!isInitialized)
         {
             InitializePuzzle();
         }
 
-        // 如果已经完成，直接返回
         if (isSolved)
         {
             Debug.Log("[SlidingPuzzle] 谜题已完成，自动返回");
-            // 延迟一帧返回，避免冲突
             Invoke(nameof(AutoReturn), 0.1f);
         }
     }
@@ -87,10 +84,8 @@ public class SlidingPuzzle : MonoBehaviour
     {
         if (isInitialized) return;
 
-        // 尝试从存档恢复
         if (!TryRestoreFromSave())
         {
-            // 没有存档，生成随机可解的布局
             GenerateSolvableBoard();
         }
 
@@ -105,19 +100,16 @@ public class SlidingPuzzle : MonoBehaviour
     /// </summary>
     private void GenerateSolvableBoard()
     {
-        // 从已解决状态开始，随机移动来打乱
         board = (int[])solvedState.Clone();
 
         System.Random rng = new System.Random();
-        int emptyIndex = 8; // 空格初始在位置8
+        int emptyIndex = 8;
 
-        // 随机移动100次
         for (int i = 0; i < 100; i++)
         {
             List<int> neighbors = GetNeighbors(emptyIndex);
             int randomNeighbor = neighbors[rng.Next(neighbors.Count)];
 
-            // 交换
             board[emptyIndex] = board[randomNeighbor];
             board[randomNeighbor] = 0;
             emptyIndex = randomNeighbor;
@@ -152,65 +144,100 @@ public class SlidingPuzzle : MonoBehaviour
             if (tile != null) Destroy(tile);
         }
 
-        float totalSize = tileSize + tileSpacing;
+        // 计算方块实际大小
+        float actualTileSize = 1f;
+        Vector2 spriteSize = Vector2.one;
+        if (tileSprites.Length > 0 && tileSprites[0] != null)
+        {
+            spriteSize = tileSprites[0].bounds.size;
+            actualTileSize = spriteSize.x * tileScale;
+        }
+
+        float totalSize = actualTileSize + tileSpacing;
+
+        Debug.Log($"[SlidingPuzzle] CreateTiles: scale={tileScale}, spriteSize={spriteSize}, totalSize={totalSize}");
 
         for (int i = 0; i < 9; i++)
         {
             int value = board[i];
-            if (value == 0) continue; // 空格不创建
+            if (value == 0) continue;
 
             int row = i / 3;
             int col = i % 3;
 
-            // 计算位置（左上角为原点）
             float x = (col - 1) * totalSize + puzzleOffset.x;
             float y = (1 - row) * totalSize + puzzleOffset.y;
 
             GameObject tile = new GameObject($"Tile_{value}");
             tile.transform.SetParent(transform);
             tile.transform.localPosition = new Vector3(x, y, 0);
+            tile.transform.localScale = new Vector3(tileScale, tileScale, 1f);
 
-            // 添加 SpriteRenderer
+            // SpriteRenderer
             SpriteRenderer sr = tile.AddComponent<SpriteRenderer>();
+            Vector2 thisSpriteSize = spriteSize;
             if (value >= 1 && value <= 8 && tileSprites[value - 1] != null)
             {
                 sr.sprite = tileSprites[value - 1];
+                thisSpriteSize = tileSprites[value - 1].bounds.size;
             }
             sr.sortingOrder = 10;
 
-            // 添加碰撞器
+            // 碰撞器
             BoxCollider2D collider = tile.AddComponent<BoxCollider2D>();
-            collider.size = new Vector2(tileSize, tileSize);
+            collider.size = thisSpriteSize;
 
-            // 添加点击组件
+            // PuzzleTile 组件
             PuzzleTile pt = tile.AddComponent<PuzzleTile>();
             pt.puzzle = this;
             pt.boardIndex = i;
+            pt.tileValue = value; // ⭐ 新增：记录方块的值
 
             tileObjects[value - 1] = tile;
+
+            Debug.Log($"[SlidingPuzzle] 创建 Tile_{value}: boardIndex={i}, pos=({x:F2},{y:F2})");
         }
     }
 
     /// <summary>
-    /// 尝试移动方块
+    /// 尝试移动方块（通过方块值来找位置，更可靠）
     /// </summary>
-    public void TryMoveTile(int boardIndex)
+    public void TryMoveTileByValue(int tileValue)
     {
-        if (isSolved) return;
+        if (isSolved)
+        {
+            Debug.Log("[SlidingPuzzle] 谜题已完成，忽略点击");
+            return;
+        }
 
-        int value = board[boardIndex];
-        if (value == 0) return; // 点击的是空格
+        // 根据值找到当前在棋盘中的位置
+        int boardIndex = System.Array.IndexOf(board, tileValue);
+        Debug.Log($"[SlidingPuzzle] TryMoveTileByValue: tileValue={tileValue}, 当前位置={boardIndex}");
+
+        if (boardIndex < 0)
+        {
+            Debug.LogError($"[SlidingPuzzle] 找不到值 {tileValue} 在棋盘中的位置！");
+            return;
+        }
 
         // 找到空格位置
         int emptyIndex = System.Array.IndexOf(board, 0);
+        Debug.Log($"[SlidingPuzzle] 空格位置: {emptyIndex}");
 
         // 检查是否相邻
         List<int> neighbors = GetNeighbors(emptyIndex);
-        if (!neighbors.Contains(boardIndex)) return;
+        Debug.Log($"[SlidingPuzzle] 空格的相邻位置: [{string.Join(",", neighbors)}]");
+
+        if (!neighbors.Contains(boardIndex))
+        {
+            Debug.Log($"[SlidingPuzzle] 位置 {boardIndex} 不与空格相邻，无法移动");
+            return;
+        }
 
         // 交换
-        board[emptyIndex] = value;
+        board[emptyIndex] = tileValue;
         board[boardIndex] = 0;
+        Debug.Log($"[SlidingPuzzle] 移动成功！新棋盘: [{string.Join(",", board)}]");
 
         // 播放音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(moveSoundPath))
@@ -229,31 +256,55 @@ public class SlidingPuzzle : MonoBehaviour
     }
 
     /// <summary>
+    /// 旧方法保留兼容
+    /// </summary>
+    public void TryMoveTile(int boardIndex)
+    {
+        if (isSolved) return;
+
+        int value = board[boardIndex];
+        if (value == 0) return;
+
+        TryMoveTileByValue(value);
+    }
+
+    /// <summary>
     /// 更新所有方块位置
     /// </summary>
     private void UpdateTilePositions()
     {
-        float totalSize = tileSize + tileSpacing;
-
-        for (int i = 0; i < 9; i++)
+        float actualTileSize = 1f;
+        if (tileSprites.Length > 0 && tileSprites[0] != null)
         {
-            int value = board[i];
-            if (value == 0) continue;
+            actualTileSize = tileSprites[0].bounds.size.x * tileScale;
+        }
 
-            int row = i / 3;
-            int col = i % 3;
+        float totalSize = actualTileSize + tileSpacing;
+
+        // 遍历所有 8 个方块
+        for (int tileValue = 1; tileValue <= 8; tileValue++)
+        {
+            // 找到这个值在棋盘中的当前位置
+            int boardPos = System.Array.IndexOf(board, tileValue);
+            if (boardPos < 0) continue;
+
+            int row = boardPos / 3;
+            int col = boardPos % 3;
 
             float x = (col - 1) * totalSize + puzzleOffset.x;
             float y = (1 - row) * totalSize + puzzleOffset.y;
 
-            GameObject tile = tileObjects[value - 1];
+            GameObject tile = tileObjects[tileValue - 1];
             if (tile != null)
             {
                 tile.transform.localPosition = new Vector3(x, y, 0);
 
                 // 更新 PuzzleTile 的 boardIndex
                 PuzzleTile pt = tile.GetComponent<PuzzleTile>();
-                if (pt != null) pt.boardIndex = i;
+                if (pt != null)
+                {
+                    pt.boardIndex = boardPos;
+                }
             }
         }
     }
@@ -268,26 +319,17 @@ public class SlidingPuzzle : MonoBehaviour
             if (board[i] != solvedState[i]) return;
         }
 
-        // 完成！
         isSolved = true;
         Debug.Log("[SlidingPuzzle] ✓ 谜题完成！");
 
-        // 播放完成音效
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(completeSoundPath))
         {
             AudioManager.Instance.PlaySFX(completeSoundPath);
         }
 
-        // 触发事件
         OnPuzzleCompleted?.Invoke();
-
-        // 切换盒子状态
         SwitchBoxToOpened();
-
-        // 保存状态
         SaveState();
-
-        // 延迟返回上一界面
         Invoke(nameof(AutoReturn), 0.8f);
     }
 
@@ -302,7 +344,6 @@ public class SlidingPuzzle : MonoBehaviour
             Debug.Log("[SlidingPuzzle] 盒子已切换为打开状态");
         }
 
-        // 显示内部物品
         if (containedItems != null)
         {
             foreach (var item in containedItems)
@@ -330,6 +371,7 @@ public class SlidingPuzzle : MonoBehaviour
 
     private void SaveState()
     {
+        SaveToPlayerPrefs();
         if (SaveLoadSystem.Instance != null)
         {
             SaveLoadSystem.Instance.SaveGame();
@@ -338,8 +380,6 @@ public class SlidingPuzzle : MonoBehaviour
 
     private bool TryRestoreFromSave()
     {
-        // 这里需要从 SaveLoadSystem 获取存档数据
-        // 简化实现：使用 PlayerPrefs
         string key = $"Puzzle_{puzzleID}";
 
         if (PlayerPrefs.HasKey(key))
@@ -356,6 +396,12 @@ public class SlidingPuzzle : MonoBehaviour
                 isSolved = parts[9] == "1";
 
                 Debug.Log($"[SlidingPuzzle] 从存档恢复: [{string.Join(",", board)}], solved={isSolved}");
+
+                if (isSolved)
+                {
+                    SwitchBoxToOpened();
+                }
+
                 return true;
             }
         }
@@ -363,18 +409,12 @@ public class SlidingPuzzle : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// 获取存档数据
-    /// </summary>
     public string GetSaveData()
     {
         string boardStr = string.Join(",", board);
         return $"{boardStr},{(isSolved ? "1" : "0")}";
     }
 
-    /// <summary>
-    /// 恢复存档数据
-    /// </summary>
     public void RestoreSaveData(string data)
     {
         if (string.IsNullOrEmpty(data)) return;
@@ -393,7 +433,6 @@ public class SlidingPuzzle : MonoBehaviour
                 UpdateTilePositions();
             }
 
-            // 如果已完成，切换盒子状态
             if (isSolved)
             {
                 SwitchBoxToOpened();
@@ -401,9 +440,6 @@ public class SlidingPuzzle : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 保存到 PlayerPrefs（简化存档）
-    /// </summary>
     public void SaveToPlayerPrefs()
     {
         string key = $"Puzzle_{puzzleID}";
@@ -413,15 +449,23 @@ public class SlidingPuzzle : MonoBehaviour
 
     private void OnDisable()
     {
-        // 离开放大视图时保存
-        SaveToPlayerPrefs();
+        if (isInitialized)
+        {
+            SaveToPlayerPrefs();
+        }
     }
 
     // ============ 编辑器辅助 ============
 
     private void OnDrawGizmosSelected()
     {
-        float totalSize = tileSize + tileSpacing;
+        float actualTileSize = 1f;
+        if (tileSprites != null && tileSprites.Length > 0 && tileSprites[0] != null)
+        {
+            actualTileSize = tileSprites[0].bounds.size.x * tileScale;
+        }
+
+        float totalSize = actualTileSize + tileSpacing;
 
         Gizmos.color = Color.yellow;
 
@@ -433,7 +477,7 @@ public class SlidingPuzzle : MonoBehaviour
                 float y = (1 - row) * totalSize + puzzleOffset.y;
 
                 Vector3 pos = transform.position + new Vector3(x, y, 0);
-                Gizmos.DrawWireCube(pos, new Vector3(tileSize, tileSize, 0.1f));
+                Gizmos.DrawWireCube(pos, new Vector3(actualTileSize, actualTileSize, 0.1f));
             }
         }
     }
