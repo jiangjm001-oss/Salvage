@@ -183,9 +183,25 @@ public class SlidingPuzzle : MonoBehaviour
             }
             sr.sortingOrder = 10;
 
-            // 碰撞器
+            // 碰撞器 - 使用更可靠的方式获取尺寸
             BoxCollider2D collider = tile.AddComponent<BoxCollider2D>();
-            collider.size = thisSpriteSize;
+            Sprite currentSprite = sr.sprite;
+            if (currentSprite != null)
+            {
+                // 使用 rect 和 pixelsPerUnit 计算正确的尺寸
+                Vector2 spriteRectSize = new Vector2(
+                    currentSprite.rect.width / currentSprite.pixelsPerUnit,
+                    currentSprite.rect.height / currentSprite.pixelsPerUnit
+                );
+                collider.size = spriteRectSize;
+                Debug.Log($"[SlidingPuzzle] Tile_{value} 碰撞器大小: {spriteRectSize}");
+            }
+            else
+            {
+                // 后备方案：使用默认大小
+                collider.size = Vector2.one;
+                Debug.LogWarning($"[SlidingPuzzle] Tile_{value} 精灵为空，使用默认碰撞器大小");
+            }
 
             // PuzzleTile 组件
             PuzzleTile pt = tile.AddComponent<PuzzleTile>();

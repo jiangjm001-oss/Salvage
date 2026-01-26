@@ -1,6 +1,7 @@
 ﻿// Assets/Scripts/GamePlay/Letter/QuillDeskController.cs
-// 羽毛笔桌面控制器 - 放在羽毛笔 ZoomView 中
+// 羽毛笔桌面控制器 - 优化版
 // 处理：信纸放置、胶水+标题粘贴、羽毛笔涂抹 Logo
+// 使用 LetterDisplay 组件管理信纸的分层显示
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,13 +27,15 @@ public class QuillDeskController : MonoBehaviour
     [Header("当前状态（调试用）")]
     public DeskState currentState = DeskState.Empty;
 
+    // ============ 桌面设置 ============
     [Header("桌面设置")]
-    [Tooltip("桌面上的信纸物体")]
+    [Tooltip("桌面上的信纸物体（包含 LetterDisplay 组件）")]
     public GameObject letterOnDesk;
 
-    [Tooltip("信纸的 SpriteRenderer")]
-    public SpriteRenderer letterSpriteRenderer;
+    [Tooltip("信纸的 LetterDisplay 组件（用于分层显示）")]
+    public LetterDisplay letterDisplay;
 
+    // ============ 标题粘贴设置 ============
     [Header("标题粘贴设置")]
     [Tooltip("胶水物品")]
     public ItemData glueItem;
@@ -40,9 +43,10 @@ public class QuillDeskController : MonoBehaviour
     [Tooltip("标题物品")]
     public ItemData titleItem;
 
-    [Tooltip("胶水效果覆盖层（涂胶水后显示）")]
-    public GameObject glueOverlay;
+    [Tooltip("胶水效果覆盖层（涂胶水后显示，独立于信纸）")]
+    public GameObject glueEffect;
 
+    // ============ Logo 涂抹设置 ============
     [Header("Logo 涂抹设置")]
     [Tooltip("羽毛笔物体")]
     public GameObject quillPen;
@@ -57,20 +61,18 @@ public class QuillDeskController : MonoBehaviour
     [Tooltip("涂抹速度（每秒增加的百分比）")]
     public float paintSpeed = 0.3f;
 
-    [Tooltip("Logo 完成后显示的覆盖层")]
-    public GameObject logoOverlay;
-
     [Tooltip("涂抹进度指示器（可选）")]
     public SpriteRenderer paintProgressIndicator;
 
+    // ============ 音效 ============
     [Header("音效")]
     public string placeLetterSound = "paper_place";
     public string applyGlueSound = "glue_apply";
     public string stickTitleSound = "paper_stick";
-    public string paintLoopSound = "pen_scratch";
     public string paintCompleteSound = "paint_complete";
     public string pickupSound = "paper_place";
 
+    // ============ 事件 ============
     [Header("事件")]
     public UnityEvent OnLetterPlaced;
     public UnityEvent OnGlueApplied;
@@ -78,13 +80,15 @@ public class QuillDeskController : MonoBehaviour
     public UnityEvent OnLogoPainted;
     public UnityEvent OnLetterPickedUp;
 
-    // 内部状态
+    // ============ 内部状态 ============
     private bool hasGlueApplied = false;
     private float currentPaintPercent = 0f;
     private bool isPainting = false;
     private Vector3 quillOriginalPos;
     private bool quillCanDrag = true;
     private bool logoCompleted = false;
+
+    // ============ Unity 生命周期 ============
 
     private void Start()
     {
@@ -94,8 +98,8 @@ public class QuillDeskController : MonoBehaviour
             quillOriginalPos = quillPen.transform.localPosition;
         }
 
-        // 初始隐藏所有覆盖层
-        HideAllOverlays();
+        // 初始隐藏
+        HideAll();
     }
 
     private void OnEnable()
@@ -111,11 +115,12 @@ public class QuillDeskController : MonoBehaviour
         }
     }
 
-    private void HideAllOverlays()
+    // ============ 初始化 ============
+
+    private void HideAll()
     {
         if (letterOnDesk != null) letterOnDesk.SetActive(false);
-        if (glueOverlay != null) glueOverlay.SetActive(false);
-        if (logoOverlay != null) logoOverlay.SetActive(false);
+        if (glueEffect != null) glueEffect.SetActive(false);
     }
 
     private void ResetDeskState()
@@ -125,7 +130,7 @@ public class QuillDeskController : MonoBehaviour
         currentPaintPercent = 0f;
         isPainting = false;
 
-        HideAllOverlays();
+        HideAll();
 
         // 重置羽毛笔位置
         if (quillPen != null)
@@ -134,7 +139,7 @@ public class QuillDeskController : MonoBehaviour
         }
     }
 
-    // ============ 桌面点击 ============
+    // ============ 桌面点击 - 放置信纸 ============
 
     /// <summary>
     /// 点击桌面区域 - 放置信纸
@@ -145,7 +150,6 @@ public class QuillDeskController : MonoBehaviour
 
         if (currentState != DeskState.Empty) return;
 
-        // 检查是否选中了信纸
         if (!TryPlaceLetterFromInventory())
         {
             Debug.Log("[QuillDeskController] 需要先选中信纸");
@@ -179,12 +183,12 @@ public class QuillDeskController : MonoBehaviour
         if (letterOnDesk != null)
         {
             letterOnDesk.SetActive(true);
+        }
 
-            // 更新精灵
-            if (letterSpriteRenderer != null && LetterManager.Instance != null)
-            {
-                letterSpriteRenderer.sprite = LetterManager.Instance.GetCurrentSprite();
-            }
+        // 刷新 LetterDisplay 显示当前状态的部件
+        if (letterDisplay != null)
+        {
+            letterDisplay.RefreshDisplay();
         }
 
         currentState = DeskState.LetterPlaced;
@@ -193,10 +197,10 @@ public class QuillDeskController : MonoBehaviour
         OnLetterPlaced?.Invoke();
     }
 
-    // ============ 信纸点击 ============
+    // ============ 信纸点击 - 胶水/标题/拾取 ============
 
     /// <summary>
-    /// 点击桌面上的信纸
+    /// 点击信纸 - 涂胶水、贴标题或拾取
     /// </summary>
     public void OnLetterClicked()
     {
@@ -210,7 +214,7 @@ public class QuillDeskController : MonoBehaviour
                 break;
 
             case DeskState.GlueApplied:
-                // 尝试粘贴标题
+                // 尝试贴标题
                 TryStickTitle();
                 break;
 
@@ -221,76 +225,89 @@ public class QuillDeskController : MonoBehaviour
         }
     }
 
-    // ============ 标题粘贴流程 ============
+    // ============ 标题流程 ============
 
     private void TryApplyGlue()
     {
-        if (UIManager.Instance == null) return;
+        // 检查标题是否已完成
+        if (LetterManager.Instance != null && LetterManager.Instance.hasTitle)
+        {
+            Debug.Log("[QuillDeskController] 标题已完成，无需涂胶水");
+            // 直接进入可拾取状态
+            currentState = DeskState.ReadyForPickup;
+            return;
+        }
+
+        if (UIManager.Instance == null || glueItem == null) return;
 
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
-        if (selectedItem == null) return;
-
-        // 检查是否是胶水
-        if (glueItem != null && selectedItem.itemID == glueItem.itemID)
+        if (selectedItem == null)
         {
-            ApplyGlue();
+            Debug.Log("[QuillDeskController] 需要选中胶水");
+            return;
         }
-    }
 
-    private void ApplyGlue()
-    {
-        Debug.Log("[QuillDeskController] 涂抹胶水");
+        if (selectedItem.itemID != glueItem.itemID)
+        {
+            Debug.Log($"[QuillDeskController] 需要胶水，不是 {selectedItem.displayName}");
+            return;
+        }
 
         // 消耗胶水
         UIManager.Instance.ConsumeSelectedItem();
 
+        // 显示胶水效果
+        if (glueEffect != null)
+        {
+            glueEffect.SetActive(true);
+        }
+
         hasGlueApplied = true;
         currentState = DeskState.GlueApplied;
 
-        // 显示胶水效果
-        if (glueOverlay != null)
-        {
-            glueOverlay.SetActive(true);
-        }
-
         PlaySound(applyGlueSound);
         OnGlueApplied?.Invoke();
+
+        Debug.Log("[QuillDeskController] ✓ 涂胶水完成");
     }
 
     private void TryStickTitle()
     {
-        if (UIManager.Instance == null) return;
+        if (UIManager.Instance == null || titleItem == null) return;
 
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
-        if (selectedItem == null) return;
-
-        // 检查是否是标题
-        if (titleItem != null && selectedItem.itemID == titleItem.itemID)
+        if (selectedItem == null)
         {
-            StickTitle();
+            Debug.Log("[QuillDeskController] 需要选中标题");
+            return;
         }
-    }
 
-    private void StickTitle()
-    {
-        Debug.Log("[QuillDeskController] 粘贴标题");
+        if (selectedItem.itemID != titleItem.itemID)
+        {
+            Debug.Log($"[QuillDeskController] 需要标题，不是 {selectedItem.displayName}");
+            return;
+        }
 
         // 消耗标题
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 通知 LetterManager
+        // 通知 LetterManager 标题完成
         if (LetterManager.Instance != null)
         {
             LetterManager.Instance.SetTitleComplete();
         }
 
-        // 更新信纸精灵
-        UpdateLetterSprite();
+        // LetterDisplay 会自动刷新显示标题
+        // 如果没有自动刷新，手动调用
+        if (letterDisplay != null)
+        {
+            letterDisplay.RefreshDisplay();
+        }
 
         // 隐藏胶水效果
-        if (glueOverlay != null)
+        if (glueEffect != null)
         {
-            glueOverlay.SetActive(false);
+            glueEffect.SetActive(false);
         }
 
         hasGlueApplied = false;
@@ -298,6 +315,8 @@ public class QuillDeskController : MonoBehaviour
 
         PlaySound(stickTitleSound);
         OnTitleStuck?.Invoke();
+
+        Debug.Log("[QuillDeskController] ✓ 标题粘贴完成");
     }
 
     // ============ Logo 涂抹流程 ============
@@ -314,7 +333,17 @@ public class QuillDeskController : MonoBehaviour
         }
 
         // 必须先放置信纸
-        if (currentState != DeskState.LetterPlaced)
+        if (currentState != DeskState.LetterPlaced && currentState != DeskState.Empty)
+        {
+            // 如果在胶水状态，也不允许涂抹
+            if (currentState == DeskState.GlueApplied)
+            {
+                Debug.Log("[QuillDeskController] 当前在胶水状态，请先完成标题粘贴");
+                return;
+            }
+        }
+
+        if (currentState == DeskState.Empty)
         {
             Debug.Log("[QuillDeskController] 需要先放置信纸");
             return;
@@ -328,8 +357,6 @@ public class QuillDeskController : MonoBehaviour
             return;
         }
 
-        // 检查标题是否已完成（标题和 Logo 使用同一个桌面）
-        // 如果标题未完成但选择涂抹 Logo 也是允许的
         isPainting = true;
         Debug.Log("[QuillDeskController] 开始涂抹");
     }
@@ -376,7 +403,7 @@ public class QuillDeskController : MonoBehaviour
 
         currentPaintPercent += Time.deltaTime * paintSpeed;
 
-        // 更新进度指示器（如果有）
+        // 更新进度指示器
         UpdatePaintProgressIndicator();
 
         // 检查是否完成
@@ -390,7 +417,6 @@ public class QuillDeskController : MonoBehaviour
     {
         if (paintProgressIndicator != null)
         {
-            // 可以用颜色透明度或缩放表示进度
             Color color = paintProgressIndicator.color;
             color.a = currentPaintPercent / requiredPaintPercent;
             paintProgressIndicator.color = color;
@@ -419,14 +445,12 @@ public class QuillDeskController : MonoBehaviour
             LetterManager.Instance.SetLogoComplete();
         }
 
-        // 显示 Logo 覆盖层
-        if (logoOverlay != null)
+        // LetterDisplay 会自动刷新显示 Logo
+        // 如果没有自动刷新，手动调用
+        if (letterDisplay != null)
         {
-            logoOverlay.SetActive(true);
+            letterDisplay.RefreshDisplay();
         }
-
-        // 更新信纸精灵
-        UpdateLetterSprite();
 
         currentState = DeskState.ReadyForPickup;
 
@@ -455,14 +479,6 @@ public class QuillDeskController : MonoBehaviour
 
     // ============ 辅助方法 ============
 
-    private void UpdateLetterSprite()
-    {
-        if (letterSpriteRenderer != null && LetterManager.Instance != null)
-        {
-            letterSpriteRenderer.sprite = LetterManager.Instance.GetCurrentSprite();
-        }
-    }
-
     private void PlaySound(string soundName)
     {
         if (string.IsNullOrEmpty(soundName)) return;
@@ -487,5 +503,20 @@ public class QuillDeskController : MonoBehaviour
     public bool CanPaintLogo()
     {
         return quillCanDrag && currentState == DeskState.LetterPlaced && !logoCompleted;
+    }
+
+    // ============ 调试方法 ============
+
+    [ContextMenu("Debug: 重置桌面")]
+    private void DebugReset() => ResetDeskState();
+
+    [ContextMenu("Debug: 完成Logo涂抹")]
+    private void DebugCompleteLogo()
+    {
+        if (currentState == DeskState.LetterPlaced)
+        {
+            currentPaintPercent = requiredPaintPercent;
+            CompletePainting();
+        }
     }
 }
