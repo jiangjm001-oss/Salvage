@@ -147,7 +147,7 @@ MonoBehaviour:
   keyCharacter: 65
   isEnterKey: 0
   isBackspaceKey: 0
-  keyLabel: {fileID: 0}
+  keyLabel: {fileID: 8710581501433162375}
   autoSetLabel: 1
   normalSprite: {fileID: 0}
   pressedSprite: {fileID: 0}
@@ -156,6 +156,8 @@ MonoBehaviour:
   normalTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressedTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressDuration: 0.1
+  enablePressOffset: 1
+  pressOffset: {x: 0, y: -0.02, z: 0}
   controller: {fileID: 0}
 --- !u!1 &7811576672620690995
 GameObject:
@@ -256,7 +258,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Q
+  m_text: A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f4765ee1ad7963d4fa6e54f4c5c61dfc, type: 2}
   m_sharedMaterial: {fileID: 1350381360604493617, guid: f4765ee1ad7963d4fa6e54f4c5c61dfc, type: 2}

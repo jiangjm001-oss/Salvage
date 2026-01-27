@@ -1,27 +1,17 @@
 ﻿// Assets/Scripts/GamePlay/Letter/QuillDeskController.cs
-// 羽毛笔桌面控制器 - 优化版
-// 处理：信纸放置、胶水+标题粘贴、羽毛笔涂抹 Logo
-// 使用 LetterDisplay 组件管理信纸的分层显示
+// 羽毛笔桌面控制器 - 修复版
+// 修复：1.羽毛笔初始位置 2.涂抹痕迹即时反馈 3.笔尖检测偏移
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// 羽毛笔桌面控制器
-/// 处理两种操作：
-/// 1. 标题粘贴：放置信纸 → 涂胶水 → 贴标题 → 拾取
-/// 2. Logo 涂抹：放置信纸 → 拖动羽毛笔涂抹 → Logo 自动显示 → 拾取
-/// </summary>
 public class QuillDeskController : MonoBehaviour
 {
-    /// <summary>
-    /// 桌面状态
-    /// </summary>
     public enum DeskState
     {
-        Empty,              // 桌面空
-        LetterPlaced,       // 信纸已放置
-        GlueApplied,        // 已涂胶水（等待贴标题）
-        ReadyForPickup      // 操作完成，等待拾取
+        Empty,
+        LetterPlaced,
+        GlueApplied,
+        ReadyForPickup
     }
 
     [Header("当前状态（调试用）")]
@@ -29,40 +19,46 @@ public class QuillDeskController : MonoBehaviour
 
     // ============ 桌面设置 ============
     [Header("桌面设置")]
-    [Tooltip("桌面上的信纸物体（包含 LetterDisplay 组件）")]
     public GameObject letterOnDesk;
-
-    [Tooltip("信纸的 LetterDisplay 组件（用于分层显示）")]
     public LetterDisplay letterDisplay;
 
     // ============ 标题粘贴设置 ============
     [Header("标题粘贴设置")]
-    [Tooltip("胶水物品")]
     public ItemData glueItem;
-
-    [Tooltip("标题物品")]
     public ItemData titleItem;
-
-    [Tooltip("胶水效果覆盖层（涂胶水后显示，独立于信纸）")]
     public GameObject glueEffect;
 
     // ============ Logo 涂抹设置 ============
     [Header("Logo 涂抹设置")]
-    [Tooltip("羽毛笔物体")]
     public GameObject quillPen;
-
-    [Tooltip("涂抹检测区域（Collider2D）")]
     public Collider2D paintArea;
 
-    [Tooltip("完成涂抹所需的百分比 (0-1)")]
     [Range(0.1f, 1f)]
     public float requiredPaintPercent = 0.6f;
-
-    [Tooltip("涂抹速度（每秒增加的百分比）")]
     public float paintSpeed = 0.3f;
-
-    [Tooltip("涂抹进度指示器（可选）")]
     public SpriteRenderer paintProgressIndicator;
+
+    // ============ 【新增】笔尖偏移设置 ============
+    [Header("笔尖偏移设置")]
+    [Tooltip("笔尖相对于羽毛笔中心的偏移（本地坐标），通常是左下角")]
+    public Vector2 penTipOffset = new Vector2(-0.3f, -0.5f);
+
+    [Tooltip("在 Scene 视图中显示笔尖位置（调试用）")]
+    public bool showPenTipGizmo = true;
+
+    // ============ 【新增】涂抹轨迹设置 ============
+    [Header("涂抹轨迹设置")]
+    [Tooltip("Trail Renderer 组件（挂在羽毛笔上或笔尖子物体上）")]
+    public TrailRenderer paintTrail;
+
+    [Tooltip("涂抹轨迹的颜色")]
+    public Color trailColor = new Color(0.2f, 0.2f, 0.5f, 0.8f);
+
+    [Tooltip("轨迹宽度")]
+    public float trailWidth = 0.1f;
+
+    [Tooltip("轨迹持续时间")]
+    public float trailDuration = 2f;
 
     // ============ 音效 ============
     [Header("音效")]
@@ -87,31 +83,89 @@ public class QuillDeskController : MonoBehaviour
     private Vector3 quillOriginalPos;
     private bool quillCanDrag = true;
     private bool logoCompleted = false;
+    private bool isInitialized = false;  // 【新增】初始化标记
 
     // ============ Unity 生命周期 ============
 
+    private void Awake()
+    {
+        // 【修复1】在 Awake 中记录原始位置，确保在 OnEnable 之前执行
+        InitializeQuillPosition();
+    }
+
     private void Start()
     {
-        // 记录羽毛笔原始位置
-        if (quillPen != null)
-        {
-            quillOriginalPos = quillPen.transform.localPosition;
-        }
+        // 双重保险：确保位置已记录
+        InitializeQuillPosition();
 
         // 初始隐藏
         HideAll();
+
+        // 【新增】设置涂抹轨迹
+        SetupPaintTrail();
     }
 
     private void OnEnable()
     {
-        // 每次进入 ZoomView 时重置桌面状态
+        // 【修复1】确保位置已初始化
+        InitializeQuillPosition();
+
+        // 重置桌面状态
         ResetDeskState();
 
-        // 检查 Logo 是否已完成（影响羽毛笔是否可拖动）
+        // 检查 Logo 是否已完成
         if (LetterManager.Instance != null)
         {
             logoCompleted = LetterManager.Instance.hasLogo;
             quillCanDrag = !logoCompleted;
+        }
+    }
+
+    // ============ 【新增】初始化方法 ============
+
+    /// <summary>
+    /// 初始化羽毛笔位置（确保只执行一次）
+    /// </summary>
+    private void InitializeQuillPosition()
+    {
+        if (isInitialized) return;
+
+        if (quillPen != null)
+        {
+            quillOriginalPos = quillPen.transform.localPosition;
+            isInitialized = true;
+            Debug.Log($"[QuillDeskController] 记录羽毛笔原始位置: {quillOriginalPos}");
+        }
+    }
+
+    /// <summary>
+    /// 设置涂抹轨迹效果
+    /// </summary>
+    private void SetupPaintTrail()
+    {
+        // 如果没有指定 TrailRenderer，尝试在羽毛笔上创建一个
+        if (paintTrail == null && quillPen != null)
+        {
+            // 创建笔尖子物体
+            GameObject penTipObj = new GameObject("PenTip");
+            penTipObj.transform.SetParent(quillPen.transform);
+            penTipObj.transform.localPosition = penTipOffset;
+
+            // 添加 TrailRenderer
+            paintTrail = penTipObj.AddComponent<TrailRenderer>();
+        }
+
+        if (paintTrail != null)
+        {
+            // 配置轨迹
+            paintTrail.time = trailDuration;
+            paintTrail.startWidth = trailWidth;
+            paintTrail.endWidth = trailWidth * 0.5f;
+            paintTrail.material = new Material(Shader.Find("Sprites/Default"));
+            paintTrail.startColor = trailColor;
+            paintTrail.endColor = new Color(trailColor.r, trailColor.g, trailColor.b, 0f);
+            paintTrail.sortingOrder = 100; // 确保显示在最上层
+            paintTrail.emitting = false;   // 初始不发射
         }
     }
 
@@ -133,17 +187,21 @@ public class QuillDeskController : MonoBehaviour
         HideAll();
 
         // 重置羽毛笔位置
-        if (quillPen != null)
+        if (quillPen != null && isInitialized)
         {
             quillPen.transform.localPosition = quillOriginalPos;
+        }
+
+        // 【新增】清除轨迹
+        if (paintTrail != null)
+        {
+            paintTrail.Clear();
+            paintTrail.emitting = false;
         }
     }
 
     // ============ 桌面点击 - 放置信纸 ============
 
-    /// <summary>
-    /// 点击桌面区域 - 放置信纸
-    /// </summary>
     public void OnDeskClicked()
     {
         Debug.Log($"[QuillDeskController] 点击桌面，当前状态: {currentState}");
@@ -163,14 +221,10 @@ public class QuillDeskController : MonoBehaviour
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
         if (selectedItem == null) return false;
 
-        // 检查是否是信纸
         if (LetterManager.Instance.letterItemData == null) return false;
         if (selectedItem.itemID != LetterManager.Instance.letterItemData.itemID) return false;
 
-        // 从背包移除信纸
         UIManager.Instance.ConsumeSelectedItem();
-
-        // 放置信纸
         PlaceLetter();
         return true;
     }
@@ -179,13 +233,11 @@ public class QuillDeskController : MonoBehaviour
     {
         Debug.Log("[QuillDeskController] 放置信纸到桌面");
 
-        // 显示信纸
         if (letterOnDesk != null)
         {
             letterOnDesk.SetActive(true);
         }
 
-        // 刷新 LetterDisplay 显示当前状态的部件
         if (letterDisplay != null)
         {
             letterDisplay.RefreshDisplay();
@@ -197,11 +249,8 @@ public class QuillDeskController : MonoBehaviour
         OnLetterPlaced?.Invoke();
     }
 
-    // ============ 信纸点击 - 胶水/标题/拾取 ============
+    // ============ 信纸点击 ============
 
-    /// <summary>
-    /// 点击信纸 - 涂胶水、贴标题或拾取
-    /// </summary>
     public void OnLetterClicked()
     {
         Debug.Log($"[QuillDeskController] 点击信纸，当前状态: {currentState}");
@@ -209,17 +258,14 @@ public class QuillDeskController : MonoBehaviour
         switch (currentState)
         {
             case DeskState.LetterPlaced:
-                // 尝试涂胶水
                 TryApplyGlue();
                 break;
 
             case DeskState.GlueApplied:
-                // 尝试贴标题
                 TryStickTitle();
                 break;
 
             case DeskState.ReadyForPickup:
-                // 拾取信纸
                 PickupLetter();
                 break;
         }
@@ -229,11 +275,9 @@ public class QuillDeskController : MonoBehaviour
 
     private void TryApplyGlue()
     {
-        // 检查标题是否已完成
         if (LetterManager.Instance != null && LetterManager.Instance.hasTitle)
         {
             Debug.Log("[QuillDeskController] 标题已完成，无需涂胶水");
-            // 直接进入可拾取状态
             currentState = DeskState.ReadyForPickup;
             return;
         }
@@ -253,10 +297,8 @@ public class QuillDeskController : MonoBehaviour
             return;
         }
 
-        // 消耗胶水
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 显示胶水效果
         if (glueEffect != null)
         {
             glueEffect.SetActive(true);
@@ -267,8 +309,6 @@ public class QuillDeskController : MonoBehaviour
 
         PlaySound(applyGlueSound);
         OnGlueApplied?.Invoke();
-
-        Debug.Log("[QuillDeskController] ✓ 涂胶水完成");
     }
 
     private void TryStickTitle()
@@ -288,23 +328,18 @@ public class QuillDeskController : MonoBehaviour
             return;
         }
 
-        // 消耗标题
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 通知 LetterManager 标题完成
         if (LetterManager.Instance != null)
         {
             LetterManager.Instance.SetTitleComplete();
         }
 
-        // LetterDisplay 会自动刷新显示标题
-        // 如果没有自动刷新，手动调用
         if (letterDisplay != null)
         {
             letterDisplay.RefreshDisplay();
         }
 
-        // 隐藏胶水效果
         if (glueEffect != null)
         {
             glueEffect.SetActive(false);
@@ -315,15 +350,10 @@ public class QuillDeskController : MonoBehaviour
 
         PlaySound(stickTitleSound);
         OnTitleStuck?.Invoke();
-
-        Debug.Log("[QuillDeskController] ✓ 标题粘贴完成");
     }
 
     // ============ Logo 涂抹流程 ============
 
-    /// <summary>
-    /// 开始拖动羽毛笔
-    /// </summary>
     public void OnQuillDragStart()
     {
         if (!quillCanDrag)
@@ -332,15 +362,10 @@ public class QuillDeskController : MonoBehaviour
             return;
         }
 
-        // 必须先放置信纸
-        if (currentState != DeskState.LetterPlaced && currentState != DeskState.Empty)
+        if (currentState == DeskState.GlueApplied)
         {
-            // 如果在胶水状态，也不允许涂抹
-            if (currentState == DeskState.GlueApplied)
-            {
-                Debug.Log("[QuillDeskController] 当前在胶水状态，请先完成标题粘贴");
-                return;
-            }
+            Debug.Log("[QuillDeskController] 当前在胶水状态，请先完成标题粘贴");
+            return;
         }
 
         if (currentState == DeskState.Empty)
@@ -349,7 +374,6 @@ public class QuillDeskController : MonoBehaviour
             return;
         }
 
-        // 检查 Logo 是否已完成
         if (LetterManager.Instance != null && LetterManager.Instance.hasLogo)
         {
             quillCanDrag = false;
@@ -358,6 +382,14 @@ public class QuillDeskController : MonoBehaviour
         }
 
         isPainting = true;
+
+        // 【新增】开始发射轨迹
+        if (paintTrail != null)
+        {
+            paintTrail.Clear();
+            paintTrail.emitting = true;
+        }
+
         Debug.Log("[QuillDeskController] 开始涂抹");
     }
 
@@ -374,19 +406,38 @@ public class QuillDeskController : MonoBehaviour
             quillPen.transform.position = worldPos;
         }
 
-        // 检测是否在涂抹区域内
-        if (paintArea != null && paintArea.OverlapPoint(worldPos))
+        // 【修复3】计算笔尖的世界坐标位置
+        Vector3 penTipWorldPos = GetPenTipWorldPosition();
+
+        // 使用笔尖位置进行检测
+        if (paintArea != null && paintArea.OverlapPoint(penTipWorldPos))
         {
             AddPaintProgress();
         }
     }
 
     /// <summary>
-    /// 结束拖动羽毛笔
+    /// 【新增】获取笔尖的世界坐标位置
     /// </summary>
+    private Vector3 GetPenTipWorldPosition()
+    {
+        if (quillPen == null) return Vector3.zero;
+
+        // 将本地偏移转换为世界坐标
+        // 考虑羽毛笔的旋转和缩放
+        Vector3 worldOffset = quillPen.transform.TransformVector(penTipOffset);
+        return quillPen.transform.position + worldOffset;
+    }
+
     public void OnQuillDragEnd()
     {
         isPainting = false;
+
+        // 【新增】停止发射轨迹
+        if (paintTrail != null)
+        {
+            paintTrail.emitting = false;
+        }
 
         // 如果未完成，羽毛笔回到原位
         if (quillCanDrag && quillPen != null)
@@ -403,10 +454,8 @@ public class QuillDeskController : MonoBehaviour
 
         currentPaintPercent += Time.deltaTime * paintSpeed;
 
-        // 更新进度指示器
         UpdatePaintProgressIndicator();
 
-        // 检查是否完成
         if (currentPaintPercent >= requiredPaintPercent)
         {
             CompletePainting();
@@ -433,20 +482,22 @@ public class QuillDeskController : MonoBehaviour
 
         Debug.Log("[QuillDeskController] ✓ Logo 涂抹完成");
 
-        // 羽毛笔回到原位并锁定
+        // 停止轨迹
+        if (paintTrail != null)
+        {
+            paintTrail.emitting = false;
+        }
+
         if (quillPen != null)
         {
             quillPen.transform.localPosition = quillOriginalPos;
         }
 
-        // 通知 LetterManager
         if (LetterManager.Instance != null)
         {
             LetterManager.Instance.SetLogoComplete();
         }
 
-        // LetterDisplay 会自动刷新显示 Logo
-        // 如果没有自动刷新，手动调用
         if (letterDisplay != null)
         {
             letterDisplay.RefreshDisplay();
@@ -464,13 +515,11 @@ public class QuillDeskController : MonoBehaviour
     {
         Debug.Log("[QuillDeskController] 拾取信纸");
 
-        // 添加回背包
         if (LetterManager.Instance != null)
         {
             LetterManager.Instance.AddLetterToInventory();
         }
 
-        // 重置桌面状态
         ResetDeskState();
 
         PlaySound(pickupSound);
@@ -489,17 +538,11 @@ public class QuillDeskController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 获取当前涂抹进度（用于 UI 显示）
-    /// </summary>
     public float GetPaintProgress()
     {
         return currentPaintPercent / requiredPaintPercent;
     }
 
-    /// <summary>
-    /// 检查是否可以涂抹 Logo
-    /// </summary>
     public bool CanPaintLogo()
     {
         return quillCanDrag && currentState == DeskState.LetterPlaced && !logoCompleted;
@@ -517,6 +560,27 @@ public class QuillDeskController : MonoBehaviour
         {
             currentPaintPercent = requiredPaintPercent;
             CompletePainting();
+        }
+    }
+
+    // 【新增】Scene 视图中绘制笔尖位置
+    private void OnDrawGizmos()
+    {
+        if (!showPenTipGizmo || quillPen == null) return;
+
+        // 绘制笔尖位置
+        Vector3 penTipPos = quillPen.transform.position +
+                           quillPen.transform.TransformVector(penTipOffset);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(penTipPos, 0.05f);
+        Gizmos.DrawLine(quillPen.transform.position, penTipPos);
+
+        // 绘制涂抹区域
+        if (paintArea != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(paintArea.bounds.center, paintArea.bounds.size);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿// Assets/Scripts/GamePlay/Typewriter/TypewriterController.cs
-// 打字机主控制器 - 配合分层显示系统
+// 打字机主控制器 - 修复版
+// 修复内容：增强状态检查、添加配置验证、优化光标显示
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
@@ -27,7 +28,7 @@ public class TypewriterController : MonoBehaviour
     [Tooltip("信纸 GameObject（包含 LetterDisplay 组件，初始隐藏）")]
     public GameObject paperObject;
 
-    [Tooltip("信纸的 LetterDisplay 组件（用于分层显示）")]
+    [Tooltip("信纸的 LetterDisplay 组件（用于分层显示）【必须配置】")]
     public LetterDisplay letterDisplay;
 
     [Tooltip("信纸上的文字显示组件")]
@@ -60,7 +61,7 @@ public class TypewriterController : MonoBehaviour
     [Tooltip("每个字符的宽度（光标移动间距）")]
     public float characterWidth = 0.3f;
 
-    [Tooltip("光标是否闪烁")]
+    [Tooltip("光标是否闪烁【建议开启】")]
     public bool cursorBlink = true;
 
     [Tooltip("闪烁间隔（秒）")]
@@ -108,6 +109,7 @@ public class TypewriterController : MonoBehaviour
     // ============ 属性访问器 ============
     public bool IsPaperPlaced => isPaperPlaced;
     public bool IsPuzzleSolved => isPuzzleSolved;
+    public bool CanPickupResult => canPickupResult;
     public string CurrentInput => currentInput;
 
     // ============ Unity 生命周期 ============
@@ -122,9 +124,14 @@ public class TypewriterController : MonoBehaviour
 
     private void Start()
     {
+        // 配置验证
+        ValidateConfiguration();
+
+        // 初始化状态
         if (paperObject != null) paperObject.SetActive(false);
         if (cursorObject != null) cursorObject.SetActive(false);
         UpdatePaperDisplay();
+
         Debug.Log("[TypewriterController] 初始化完成");
     }
 
@@ -133,9 +140,68 @@ public class TypewriterController : MonoBehaviour
         CheckAndRestoreState();
     }
 
+    private void OnDisable()
+    {
+        StopCursorBlink();
+    }
+
     private void OnDestroy()
     {
         StopCursorBlink();
+    }
+
+    // ============ 配置验证 ============
+
+    private void ValidateConfiguration()
+    {
+        bool hasError = false;
+
+        if (letterDisplay == null)
+        {
+            Debug.LogError("[TypewriterController] ⚠️ letterDisplay 未配置！请在 Inspector 中拖入 LetterDisplay 组件。");
+            hasError = true;
+
+            // 尝试自动获取
+            if (paperObject != null)
+            {
+                letterDisplay = paperObject.GetComponent<LetterDisplay>();
+                if (letterDisplay != null)
+                {
+                    Debug.Log("[TypewriterController] ✓ 自动从 paperObject 获取到 LetterDisplay");
+                }
+            }
+        }
+
+        if (paperObject == null)
+        {
+            Debug.LogError("[TypewriterController] ⚠️ paperObject 未配置！");
+            hasError = true;
+        }
+
+        if (paperText == null)
+        {
+            Debug.LogWarning("[TypewriterController] ⚠️ paperText 未配置，输入文字将无法显示。");
+        }
+
+        if (cursorObject == null)
+        {
+            Debug.LogWarning("[TypewriterController] ⚠️ cursorObject 未配置，光标将不显示。");
+        }
+
+        if (cursorStartPosition == null && cursorObject != null)
+        {
+            Debug.LogWarning("[TypewriterController] ⚠️ cursorStartPosition 未配置，光标位置可能不正确。");
+        }
+
+        if (!cursorBlink)
+        {
+            Debug.LogWarning("[TypewriterController] 💡 建议开启 cursorBlink 以提升用户体验。");
+        }
+
+        if (!hasError)
+        {
+            Debug.Log("[TypewriterController] ✓ 配置验证通过");
+        }
     }
 
     // ============ 状态检查与恢复 ============
@@ -155,10 +221,25 @@ public class TypewriterController : MonoBehaviour
             Debug.Log("[TypewriterController] 收件人已完成，跳过谜题");
             return;
         }
+
+        // 恢复进行中的状态
+        if (isPaperPlaced && !isPuzzleSolved)
+        {
+            if (paperObject != null) paperObject.SetActive(true);
+            if (cursorObject != null)
+            {
+                cursorObject.SetActive(true);
+                if (cursorBlink) StartCursorBlink();
+            }
+            UpdatePaperDisplay();
+        }
     }
 
     // ============ 信纸放置 ============
 
+    /// <summary>
+    /// 尝试放置信纸（由点击触发）
+    /// </summary>
     public void TryPlacePaper()
     {
         if (isPaperPlaced || isPuzzleSolved)
@@ -195,7 +276,7 @@ public class TypewriterController : MonoBehaviour
 
         if (selectedItem.itemID != paperToCheck.itemID)
         {
-            Debug.Log($"[TypewriterController] 选中的不是信纸");
+            Debug.Log($"[TypewriterController] 选中的不是信纸，选中的是: {selectedItem.displayName}");
             return;
         }
 
@@ -217,19 +298,10 @@ public class TypewriterController : MonoBehaviour
         }
 
         // 刷新 LetterDisplay 显示当前状态
-        if (letterDisplay != null)
-        {
-            letterDisplay.RefreshDisplay();
-        }
+        RefreshLetterDisplay();
 
         // 显示光标
-        if (cursorObject != null)
-        {
-            cursorObject.SetActive(true);
-            if (cursorRenderer != null) cursorRenderer.enabled = true;
-            UpdateCursorPosition();
-            if (cursorBlink) StartCursorBlink();
-        }
+        ShowCursor();
 
         UpdatePaperDisplay();
         Debug.Log("[TypewriterController] ✓ 信纸已放置");
@@ -240,27 +312,34 @@ public class TypewriterController : MonoBehaviour
 
     // ============ 字符输入 ============
 
+    /// <summary>
+    /// 输入一个字符
+    /// </summary>
     public void TypeCharacter(char character)
     {
-        if (!isPaperPlaced || isPuzzleSolved) return;
+        if (!isPaperPlaced || isPuzzleSolved)
+        {
+            Debug.Log("[TypewriterController] 无法输入：信纸未放置或谜题已解决");
+            return;
+        }
 
         if (currentInput.Length >= maxCharacters)
         {
-            Debug.Log($"[TypewriterController] 已达到最大字符数");
+            Debug.Log($"[TypewriterController] 已达到最大字符数: {maxCharacters}");
             return;
         }
 
         currentInput += character;
         UpdatePaperDisplay();
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(keyPressSFX))
-        {
-            AudioManager.Instance.PlaySFX(keyPressSFX);
-        }
+        PlaySFX(keyPressSFX);
 
         Debug.Log($"[TypewriterController] 输入: '{character}' | 当前: \"{currentInput}\"");
     }
 
+    /// <summary>
+    /// 退格删除
+    /// </summary>
     public void Backspace()
     {
         if (!isPaperPlaced || isPuzzleSolved) return;
@@ -269,22 +348,21 @@ public class TypewriterController : MonoBehaviour
         currentInput = currentInput.Substring(0, currentInput.Length - 1);
         UpdatePaperDisplay();
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(keyPressSFX))
-        {
-            AudioManager.Instance.PlaySFX(keyPressSFX);
-        }
+        PlaySFX(keyPressSFX);
+
+        Debug.Log($"[TypewriterController] 退格 | 当前: \"{currentInput}\"");
     }
 
+    /// <summary>
+    /// 按下回车键提交答案
+    /// </summary>
     public void PressEnter()
     {
         if (!isPaperPlaced || isPuzzleSolved) return;
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(enterSFX))
-        {
-            AudioManager.Instance.PlaySFX(enterSFX);
-        }
+        PlaySFX(enterSFX);
 
-        Debug.Log($"[TypewriterController] 提交: \"{currentInput}\"");
+        Debug.Log($"[TypewriterController] 提交答案: \"{currentInput}\"");
 
         if (currentInput.Equals(correctAnswer, System.StringComparison.OrdinalIgnoreCase))
         {
@@ -305,10 +383,11 @@ public class TypewriterController : MonoBehaviour
         isPuzzleSolved = true;
         canPickupResult = true;
 
+        // 更新文字颜色
         if (paperText != null) paperText.color = correctColor;
 
-        StopCursorBlink();
-        if (cursorObject != null) cursorObject.SetActive(false);
+        // 隐藏光标
+        HideCursor();
 
         // 通知 LetterManager 收件人完成
         if (LetterManager.Instance != null)
@@ -316,17 +395,10 @@ public class TypewriterController : MonoBehaviour
             LetterManager.Instance.SetRecipientComplete();
         }
 
-        // LetterDisplay 会自动刷新显示收件人
-        // 如果没有自动刷新，手动调用
-        if (letterDisplay != null)
-        {
-            letterDisplay.RefreshDisplay();
-        }
+        // 刷新 LetterDisplay 显示收件人
+        RefreshLetterDisplay();
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(successSFX))
-        {
-            AudioManager.Instance.PlaySFX(successSFX);
-        }
+        PlaySFX(successSFX);
 
         OnAnswerCorrect?.Invoke();
         SaveLoadSystem.Instance?.SaveGame();
@@ -339,16 +411,16 @@ public class TypewriterController : MonoBehaviour
         currentInput = "";
         UpdatePaperDisplay();
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(errorSFX))
-        {
-            AudioManager.Instance.PlaySFX(errorSFX);
-        }
+        PlaySFX(errorSFX);
 
         OnAnswerWrong?.Invoke();
     }
 
     // ============ 拾取结果 ============
 
+    /// <summary>
+    /// 尝试拾取完成的信纸
+    /// </summary>
     public void TryPickupResultPaper()
     {
         if (!canPickupResult)
@@ -369,15 +441,13 @@ public class TypewriterController : MonoBehaviour
             LetterManager.Instance.AddLetterToInventory();
         }
 
+        // 隐藏信纸
         if (paperObject != null) paperObject.SetActive(false);
 
         canPickupResult = false;
         isPaperPlaced = false;
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(pickupSFX))
-        {
-            AudioManager.Instance.PlaySFX(pickupSFX);
-        }
+        PlaySFX(pickupSFX);
 
         OnResultPickedUp?.Invoke();
         SaveLoadSystem.Instance?.SaveGame();
@@ -397,19 +467,58 @@ public class TypewriterController : MonoBehaviour
         UpdateCursorPosition();
     }
 
+    private void RefreshLetterDisplay()
+    {
+        if (letterDisplay != null)
+        {
+            letterDisplay.RefreshDisplay();
+        }
+        else
+        {
+            Debug.LogWarning("[TypewriterController] letterDisplay 为空，无法刷新显示！");
+        }
+    }
+
     // ============ 光标系统 ============
+
+    private void ShowCursor()
+    {
+        if (cursorObject == null) return;
+
+        cursorObject.SetActive(true);
+        if (cursorRenderer != null) cursorRenderer.enabled = true;
+        UpdateCursorPosition();
+
+        if (cursorBlink)
+        {
+            StartCursorBlink();
+        }
+    }
+
+    private void HideCursor()
+    {
+        StopCursorBlink();
+        if (cursorObject != null) cursorObject.SetActive(false);
+    }
 
     private void UpdateCursorPosition()
     {
-        if (cursorObject == null || cursorStartPosition == null) return;
-        float offsetX = currentInput.Length * characterWidth;
-        cursorObject.transform.position = cursorStartPosition.position + new Vector3(offsetX, 0, 0);
+        if (cursorObject == null) return;
+
+        if (cursorStartPosition != null)
+        {
+            float offsetX = currentInput.Length * characterWidth;
+            cursorObject.transform.position = cursorStartPosition.position + new Vector3(offsetX, 0, 0);
+        }
     }
 
     private void StartCursorBlink()
     {
         StopCursorBlink();
-        blinkCoroutine = StartCoroutine(CursorBlinkRoutine());
+        if (cursorRenderer != null)
+        {
+            blinkCoroutine = StartCoroutine(CursorBlinkRoutine());
+        }
     }
 
     private void StopCursorBlink()
@@ -425,10 +534,21 @@ public class TypewriterController : MonoBehaviour
     private IEnumerator CursorBlinkRoutine()
     {
         if (cursorRenderer == null) yield break;
+
         while (true)
         {
             cursorRenderer.enabled = !cursorRenderer.enabled;
             yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+
+    // ============ 音效辅助 ============
+
+    private void PlaySFX(string sfxName)
+    {
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(sfxName))
+        {
+            AudioManager.Instance.PlaySFX(sfxName);
         }
     }
 
@@ -454,6 +574,7 @@ public class TypewriterController : MonoBehaviour
         canPickupResult = data.canPickupResult;
         currentInput = data.currentInput ?? "";
 
+        // 恢复显示状态
         if (paperObject != null) paperObject.SetActive(isPaperPlaced);
 
         if (cursorObject != null)
@@ -463,11 +584,13 @@ public class TypewriterController : MonoBehaviour
             if (showCursor && cursorBlink) StartCursorBlink();
         }
 
-        if (letterDisplay != null) letterDisplay.RefreshDisplay();
+        RefreshLetterDisplay();
         UpdatePaperDisplay();
+
+        Debug.Log($"[TypewriterController] 恢复存档: placed={isPaperPlaced}, solved={isPuzzleSolved}, input=\"{currentInput}\"");
     }
 
-    // ============ 调试 ============
+    // ============ 调试方法 ============
 
     [ContextMenu("Debug: 重置谜题")]
     public void DebugReset()
@@ -476,10 +599,12 @@ public class TypewriterController : MonoBehaviour
         isPuzzleSolved = false;
         canPickupResult = false;
         currentInput = "";
-        StopCursorBlink();
+
+        HideCursor();
         if (paperObject != null) paperObject.SetActive(false);
-        if (cursorObject != null) cursorObject.SetActive(false);
         UpdatePaperDisplay();
+
+        Debug.Log("[TypewriterController] 谜题已重置");
     }
 
     [ContextMenu("Debug: 直接解决")]
@@ -492,6 +617,18 @@ public class TypewriterController : MonoBehaviour
         }
         currentInput = correctAnswer;
         OnCorrectAnswer();
+    }
+
+    [ContextMenu("Debug: 验证配置")]
+    public void DebugValidateConfig()
+    {
+        ValidateConfiguration();
+    }
+
+    [ContextMenu("Debug: 打印状态")]
+    public void DebugPrintState()
+    {
+        Debug.Log($"[TypewriterController] 状态: placed={isPaperPlaced}, solved={isPuzzleSolved}, pickup={canPickupResult}, input=\"{currentInput}\"");
     }
 }
 

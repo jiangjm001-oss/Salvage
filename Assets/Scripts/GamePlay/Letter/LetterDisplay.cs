@@ -1,144 +1,289 @@
-// Assets/Scripts/GamePlay/Letter/LetterDisplay.cs
-// ĞÅÖ½ÏÔÊ¾×é¼ş - ¹ÜÀíĞÅÖ½ÉÏ¸÷²¿¼şµÄÏÔÊ¾/Òş²Ø
-// ·ÅÔÚÈÎºÎĞèÒªÏÔÊ¾ĞÅÖ½µÄÎïÌåÉÏ£¨ZoomViewÖĞµÄĞÅÖ½¡¢×ÀÃæÉÏµÄĞÅÖ½µÈ£©
+ï»¿// Assets/Scripts/GamePlay/Letter/LetterDisplay.cs
+// ä¿¡çº¸åˆ†å±‚æ˜¾ç¤ºç»„ä»¶
+// æ ¹æ® LetterManager çš„çŠ¶æ€è‡ªåŠ¨æ˜¾ç¤º/éšè—å„ä¸ªå›¾å±‚
 using UnityEngine;
 
 /// <summary>
-/// ĞÅÖ½ÏÔÊ¾×é¼ş
-/// ¸ù¾İ LetterManager µÄ×´Ì¬×Ô¶¯ÏÔÊ¾/Òş²ØĞÅÖ½ÉÏµÄ¸÷¸ö²¿¼ş
+/// ä¿¡çº¸åˆ†å±‚æ˜¾ç¤ºç»„ä»¶
+/// ç®¡ç†ä¿¡çº¸çš„å¤šä¸ªå›¾å±‚ï¼ˆåº•çº¸ã€æ”¶ä»¶äººã€æ ‡é¢˜ã€Logoï¼‰çš„æ˜¾ç¤ºçŠ¶æ€
+/// 
+/// ä½¿ç”¨æ–¹å¼ï¼š
+/// 1. å°†æ­¤ç»„ä»¶æ·»åŠ åˆ°ä¿¡çº¸æ ¹ç‰©ä½“ä¸Š
+/// 2. åœ¨ Inspector ä¸­é…ç½®å„ä¸ªå›¾å±‚çš„ GameObject å¼•ç”¨
+/// 3. è°ƒç”¨ RefreshDisplay() æˆ–è‡ªåŠ¨åœ¨ OnEnable æ—¶åˆ·æ–°
+/// 
+/// å›¾å±‚ç»“æ„ï¼š
+/// - basePaper: ä¿¡çº¸åº•å›¾ï¼ˆå§‹ç»ˆæ˜¾ç¤ºï¼‰
+/// - recipientOverlay: æ”¶ä»¶äººå›¾å±‚ï¼ˆæ‰“å­—æœºå®Œæˆåæ˜¾ç¤ºï¼‰
+/// - titleOverlay: æ ‡é¢˜å›¾å±‚ï¼ˆç¾½æ¯›ç¬”æ¡Œé¢ç²˜è´´åæ˜¾ç¤ºï¼‰
+/// - logoOverlay: Logoå›¾å±‚ï¼ˆç¾½æ¯›ç¬”æ¶‚æŠ¹åæ˜¾ç¤ºï¼‰
 /// </summary>
 public class LetterDisplay : MonoBehaviour
 {
-    [Header("ĞÅÖ½²¿¼şÒıÓÃ")]
-    [Tooltip("»ù´¡ĞÅÖ½£¨Ê¼ÖÕÏÔÊ¾£©")]
+    // ============ å›¾å±‚å¼•ç”¨ ============
+    [Header("å›¾å±‚å¼•ç”¨")]
+    [Tooltip("ä¿¡çº¸åº•å›¾ï¼ˆå§‹ç»ˆæ˜¾ç¤ºï¼‰")]
     public GameObject basePaper;
 
-    [Tooltip("ÊÕ¼şÈËÎÄ×Ö£¨´ò×Ö»úÍê³ÉºóÏÔÊ¾£©")]
+    [Tooltip("æ”¶ä»¶äººå›¾å±‚ï¼ˆæ‰“å­—æœºå®Œæˆåæ˜¾ç¤ºï¼‰")]
     public GameObject recipientOverlay;
 
-    [Tooltip("±êÌâÌùÖ½£¨Õ³ÌùÍê³ÉºóÏÔÊ¾£©")]
+    [Tooltip("æ ‡é¢˜å›¾å±‚ï¼ˆç¾½æ¯›ç¬”æ¡Œé¢ç²˜è´´åæ˜¾ç¤ºï¼‰")]
     public GameObject titleOverlay;
 
-    [Tooltip("Logo Í¼°¸£¨Í¿Ä¨Íê³ÉºóÏÔÊ¾£©")]
+    [Tooltip("Logoå›¾å±‚ï¼ˆç¾½æ¯›ç¬”æ¶‚æŠ¹åæ˜¾ç¤ºï¼‰")]
     public GameObject logoOverlay;
 
-    [Header("ÉèÖÃ")]
-    [Tooltip("ÊÇ·ñÔÚ OnEnable Ê±×Ô¶¯Ë¢ĞÂÏÔÊ¾")]
+    // ============ è®¾ç½® ============
+    [Header("è®¾ç½®")]
+    [Tooltip("å¯ç”¨æ—¶è‡ªåŠ¨åˆ·æ–°æ˜¾ç¤º")]
     public bool autoRefreshOnEnable = true;
+
+    [Tooltip("æ˜¯å¦ç›‘å¬ LetterManager çš„çŠ¶æ€å˜åŒ–äº‹ä»¶")]
+    public bool listenToManagerEvents = true;
+
+    // ============ è°ƒè¯• ============
+    [Header("è°ƒè¯•ä¿¡æ¯ï¼ˆåªè¯»ï¼‰")]
+    [SerializeField] private bool _hasRecipient;
+    [SerializeField] private bool _hasTitle;
+    [SerializeField] private bool _hasLogo;
+
+    // ============ Unity ç”Ÿå‘½å‘¨æœŸ ============
+
+    private void Awake()
+    {
+        // åˆå§‹åŒ–æ—¶ç¡®ä¿åº•çº¸æ˜¾ç¤º
+        if (basePaper != null)
+        {
+            basePaper.SetActive(true);
+        }
+    }
 
     private void OnEnable()
     {
+        // è®¢é˜… LetterManager äº‹ä»¶
+        if (listenToManagerEvents && LetterManager.Instance != null)
+        {
+            LetterManager.Instance.OnLetterStateChanged.AddListener(OnStateChanged);
+        }
+
+        // è‡ªåŠ¨åˆ·æ–°
         if (autoRefreshOnEnable)
         {
             RefreshDisplay();
-        }
-
-        // ¶©ÔÄ×´Ì¬±ä»¯ÊÂ¼ş
-        if (LetterManager.Instance != null)
-        {
-            LetterManager.Instance.OnLetterStateChanged.AddListener(OnStateChanged);
         }
     }
 
     private void OnDisable()
     {
-        // È¡Ïû¶©ÔÄ
+        // å–æ¶ˆè®¢é˜…äº‹ä»¶
         if (LetterManager.Instance != null)
         {
             LetterManager.Instance.OnLetterStateChanged.RemoveListener(OnStateChanged);
         }
     }
 
-    /// <summary>
-    /// ×´Ì¬±ä»¯»Øµ÷
-    /// </summary>
+    // ============ äº‹ä»¶å¤„ç† ============
+
     private void OnStateChanged(int stateIndex)
     {
         RefreshDisplay();
     }
 
+    // ============ æ ¸å¿ƒæ–¹æ³• ============
+
     /// <summary>
-    /// ¸ù¾İ LetterManager ×´Ì¬Ë¢ĞÂÏÔÊ¾
+    /// åˆ·æ–°æ˜¾ç¤ºçŠ¶æ€
+    /// æ ¹æ® LetterManager çš„å½“å‰çŠ¶æ€æ›´æ–°å„å›¾å±‚çš„æ˜¾ç¤º/éšè—
     /// </summary>
     public void RefreshDisplay()
     {
         if (LetterManager.Instance == null)
         {
-            Debug.LogWarning("[LetterDisplay] LetterManager.Instance Îª¿Õ£¬ÎŞ·¨Ë¢ĞÂ");
+            Debug.LogWarning("[LetterDisplay] LetterManager.Instance ä¸ºç©ºï¼Œæ— æ³•åˆ·æ–°æ˜¾ç¤º");
+            SetAllOverlaysHidden();
             return;
         }
 
-        // »ù´¡ĞÅÖ½Ê¼ÖÕÏÔÊ¾
-        if (basePaper != null)
-        {
-            basePaper.SetActive(true);
-        }
+        // è·å–å½“å‰çŠ¶æ€
+        bool hasRecipient = LetterManager.Instance.hasRecipient;
+        bool hasTitle = LetterManager.Instance.hasTitle;
+        bool hasLogo = LetterManager.Instance.hasLogo;
 
-        // ¸ù¾İ×´Ì¬ÏÔÊ¾¸÷²¿¼ş
-        if (recipientOverlay != null)
-        {
-            recipientOverlay.SetActive(LetterManager.Instance.hasRecipient);
-        }
+        // æ›´æ–°è°ƒè¯•ä¿¡æ¯
+        _hasRecipient = hasRecipient;
+        _hasTitle = hasTitle;
+        _hasLogo = hasLogo;
 
-        if (titleOverlay != null)
-        {
-            titleOverlay.SetActive(LetterManager.Instance.hasTitle);
-        }
+        // æ›´æ–°å›¾å±‚æ˜¾ç¤º
+        UpdateLayerVisibility(basePaper, true); // åº•çº¸å§‹ç»ˆæ˜¾ç¤º
+        UpdateLayerVisibility(recipientOverlay, hasRecipient);
+        UpdateLayerVisibility(titleOverlay, hasTitle);
+        UpdateLayerVisibility(logoOverlay, hasLogo);
 
-        if (logoOverlay != null)
-        {
-            logoOverlay.SetActive(LetterManager.Instance.hasLogo);
-        }
-
-        Debug.Log($"[LetterDisplay] Ë¢ĞÂÏÔÊ¾ - R:{LetterManager.Instance.hasRecipient} T:{LetterManager.Instance.hasTitle} L:{LetterManager.Instance.hasLogo}");
+        Debug.Log($"[LetterDisplay] åˆ·æ–°æ˜¾ç¤º: R={hasRecipient}, T={hasTitle}, L={hasLogo}");
     }
 
     /// <summary>
-    /// ÊÖ¶¯ÉèÖÃÄ³¸ö²¿¼şµÄÏÔÊ¾×´Ì¬£¨ÓÃÓÚ¶¯»­¹ı¶ÉµÈÌØÊâÇé¿ö£©
+    /// æ‰‹åŠ¨è®¾ç½®æ˜¾ç¤ºçŠ¶æ€ï¼ˆä¸ä¾èµ– LetterManagerï¼‰
     /// </summary>
-    public void SetOverlayVisible(LetterPart part, bool visible)
+    public void SetDisplayState(bool showRecipient, bool showTitle, bool showLogo)
     {
-        switch (part)
+        _hasRecipient = showRecipient;
+        _hasTitle = showTitle;
+        _hasLogo = showLogo;
+
+        UpdateLayerVisibility(basePaper, true);
+        UpdateLayerVisibility(recipientOverlay, showRecipient);
+        UpdateLayerVisibility(titleOverlay, showTitle);
+        UpdateLayerVisibility(logoOverlay, showLogo);
+
+        Debug.Log($"[LetterDisplay] æ‰‹åŠ¨è®¾ç½®: R={showRecipient}, T={showTitle}, L={showLogo}");
+    }
+
+    /// <summary>
+    /// éšè—æ‰€æœ‰è¦†ç›–å±‚ï¼ˆåªä¿ç•™åº•çº¸ï¼‰
+    /// </summary>
+    public void SetAllOverlaysHidden()
+    {
+        UpdateLayerVisibility(basePaper, true);
+        UpdateLayerVisibility(recipientOverlay, false);
+        UpdateLayerVisibility(titleOverlay, false);
+        UpdateLayerVisibility(logoOverlay, false);
+
+        _hasRecipient = false;
+        _hasTitle = false;
+        _hasLogo = false;
+    }
+
+    /// <summary>
+    /// æ˜¾ç¤ºæ‰€æœ‰å›¾å±‚
+    /// </summary>
+    public void SetAllLayersVisible()
+    {
+        UpdateLayerVisibility(basePaper, true);
+        UpdateLayerVisibility(recipientOverlay, true);
+        UpdateLayerVisibility(titleOverlay, true);
+        UpdateLayerVisibility(logoOverlay, true);
+
+        _hasRecipient = true;
+        _hasTitle = true;
+        _hasLogo = true;
+    }
+
+    // ============ å•ç‹¬å›¾å±‚æ§åˆ¶ ============
+
+    /// <summary>
+    /// æ˜¾ç¤ºæ”¶ä»¶äººå›¾å±‚
+    /// </summary>
+    public void ShowRecipient()
+    {
+        UpdateLayerVisibility(recipientOverlay, true);
+        _hasRecipient = true;
+    }
+
+    /// <summary>
+    /// æ˜¾ç¤ºæ ‡é¢˜å›¾å±‚
+    /// </summary>
+    public void ShowTitle()
+    {
+        UpdateLayerVisibility(titleOverlay, true);
+        _hasTitle = true;
+    }
+
+    /// <summary>
+    /// æ˜¾ç¤º Logo å›¾å±‚
+    /// </summary>
+    public void ShowLogo()
+    {
+        UpdateLayerVisibility(logoOverlay, true);
+        _hasLogo = true;
+    }
+
+    // ============ è¾…åŠ©æ–¹æ³• ============
+
+    private void UpdateLayerVisibility(GameObject layer, bool visible)
+    {
+        if (layer != null && layer.activeSelf != visible)
         {
-            case LetterPart.Recipient:
-                if (recipientOverlay != null) recipientOverlay.SetActive(visible);
-                break;
-            case LetterPart.Title:
-                if (titleOverlay != null) titleOverlay.SetActive(visible);
-                break;
-            case LetterPart.Logo:
-                if (logoOverlay != null) logoOverlay.SetActive(visible);
-                break;
+            layer.SetActive(visible);
         }
     }
 
-    /// <summary>
-    /// Òş²ØËùÓĞ²¿¼ş£¨ÓÃÓÚÖØÖÃ£©
-    /// </summary>
-    public void HideAllOverlays()
-    {
-        if (recipientOverlay != null) recipientOverlay.SetActive(false);
-        if (titleOverlay != null) titleOverlay.SetActive(false);
-        if (logoOverlay != null) logoOverlay.SetActive(false);
-    }
+    // ============ é…ç½®éªŒè¯ ============
 
     /// <summary>
-    /// ÏÔÊ¾ËùÓĞ²¿¼ş£¨ÓÃÓÚÔ¤ÀÀÍê³É×´Ì¬£©
+    /// éªŒè¯é…ç½®æ˜¯å¦æ­£ç¡®
     /// </summary>
-    public void ShowAllOverlays()
+    public bool ValidateConfiguration()
     {
-        if (recipientOverlay != null) recipientOverlay.SetActive(true);
-        if (titleOverlay != null) titleOverlay.SetActive(true);
-        if (logoOverlay != null) logoOverlay.SetActive(true);
-    }
-}
+        bool isValid = true;
 
-/// <summary>
-/// ĞÅÖ½²¿¼şÃ¶¾Ù
-/// </summary>
-public enum LetterPart
-{
-    Recipient,  // ÊÕ¼şÈË
-    Title,      // ±êÌâ
-    Logo        // Logo
+        if (basePaper == null)
+        {
+            Debug.LogError("[LetterDisplay] âš ï¸ basePaper æœªé…ç½®ï¼");
+            isValid = false;
+        }
+
+        if (recipientOverlay == null)
+        {
+            Debug.LogWarning("[LetterDisplay] âš ï¸ recipientOverlay æœªé…ç½®");
+        }
+
+        if (titleOverlay == null)
+        {
+            Debug.LogWarning("[LetterDisplay] âš ï¸ titleOverlay æœªé…ç½®");
+        }
+
+        if (logoOverlay == null)
+        {
+            Debug.LogWarning("[LetterDisplay] âš ï¸ logoOverlay æœªé…ç½®");
+        }
+
+        return isValid;
+    }
+
+    // ============ è°ƒè¯•æ–¹æ³• ============
+
+    [ContextMenu("Debug: åˆ·æ–°æ˜¾ç¤º")]
+    private void DebugRefresh()
+    {
+        RefreshDisplay();
+    }
+
+    [ContextMenu("Debug: æ˜¾ç¤ºæ‰€æœ‰å›¾å±‚")]
+    private void DebugShowAll()
+    {
+        SetAllLayersVisible();
+    }
+
+    [ContextMenu("Debug: éšè—æ‰€æœ‰è¦†ç›–å±‚")]
+    private void DebugHideOverlays()
+    {
+        SetAllOverlaysHidden();
+    }
+
+    [ContextMenu("Debug: éªŒè¯é…ç½®")]
+    private void DebugValidate()
+    {
+        ValidateConfiguration();
+    }
+
+    [ContextMenu("Debug: æ‰“å°çŠ¶æ€")]
+    private void DebugPrintState()
+    {
+        Debug.Log($"[LetterDisplay] å½“å‰çŠ¶æ€: R={_hasRecipient}, T={_hasTitle}, L={_hasLogo}");
+        Debug.Log($"[LetterDisplay] å›¾å±‚é…ç½®: base={basePaper != null}, recipient={recipientOverlay != null}, title={titleOverlay != null}, logo={logoOverlay != null}");
+    }
+
+    // ============ ç¼–è¾‘å™¨è¾…åŠ© ============
+
+    private void OnValidate()
+    {
+        // åœ¨ç¼–è¾‘å™¨ä¸­ä¿®æ”¹æ—¶è‡ªåŠ¨åˆ·æ–°ï¼ˆä»…åœ¨æ’­æ”¾æ¨¡å¼ï¼‰
+        if (Application.isPlaying && autoRefreshOnEnable)
+        {
+            RefreshDisplay();
+        }
+    }
 }

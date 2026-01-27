@@ -330,9 +330,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_H
@@ -388,10 +396,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &11557538 stripped
 Transform:
@@ -468,12 +473,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredPaper: {fileID: 11400000, guid: fa86e1c133bff5c40b7d05be335b4e82, type: 2}
   paperObject: {fileID: 1403112366}
-  letterDisplay: {fileID: 0}
+  letterDisplay: {fileID: 1403112370}
   paperText: {fileID: 1904803269}
   correctAnswer: BlackHat
   maxCharacters: 10
-  normalColor: {r: 0, g: 0, b: 0, a: 1}
-  correctColor: {r: 1, g: 0, b: 0, a: 1}
+  normalColor: {r: 0.23018861, g: 0.23018861, b: 0.23018861, a: 1}
+  correctColor: {r: 0.16226411, g: 0.16226411, b: 0.16226411, a: 1}
   cursorObject: {fileID: 448594516}
   cursorStartPosition: {fileID: 303278023}
   characterWidth: 0.3
@@ -918,9 +923,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 84
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_T
@@ -976,10 +989,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &36138499 stripped
 Transform:
@@ -1311,9 +1321,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 68
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_D
@@ -1369,10 +1387,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &77797985 stripped
 Transform:
@@ -1388,9 +1403,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 76
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_L
@@ -1446,10 +1469,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &94557042 stripped
 Transform:
@@ -1610,9 +1630,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 83
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_S
@@ -1668,10 +1696,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &105135368 stripped
 Transform:
@@ -2639,6 +2664,90 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.7081695, y: 2.330646}
   m_EdgeRadius: 0
+--- !u!1 &130168729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 130168731}
+  - component: {fileID: 130168730}
+  m_Layer: 3
+  m_Name: BalckHat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &130168730
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130168729}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &130168731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130168729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1403112369}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &131548963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2844,7 +2953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db841d318e0a5f47ad54116232cfa7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCharacter: 65
+  keyCharacter: 46
   isEnterKey: 1
   isBackspaceKey: 0
   keyLabel: {fileID: 0}
@@ -2856,7 +2965,11 @@ MonoBehaviour:
   normalTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressedTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressDuration: 0.1
+  enablePressOffset: 1
+  pressOffset: {x: 0, y: -0.02, z: 0}
   controller: {fileID: 23830956}
+  zoomViewRoot: {fileID: 564195702}
+  checkViewState: 1
 --- !u!61 &140192881
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3734,9 +3847,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 69
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_E
@@ -3792,10 +3913,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &212721916 stripped
 Transform:
@@ -4010,9 +4128,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 87
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_W
@@ -4068,10 +4194,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &224442582 stripped
 Transform:
@@ -4571,7 +4694,6 @@ GameObject:
   m_Component:
   - component: {fileID: 262002137}
   - component: {fileID: 262002139}
-  - component: {fileID: 262002138}
   m_Layer: 0
   m_Name: Bottom (1)
   m_TagString: Untagged
@@ -4594,51 +4716,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 681330538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &262002138
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262002136}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.65, y: 1.54}
-    newSize: {x: 2.54, y: 4.9}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.65, y: 1.54}
-  m_EdgeRadius: 0
 --- !u!212 &262002139
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5107,7 +5184,7 @@ Transform:
   m_GameObject: {fileID: 303278022}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.9317133, y: -0.7128453, z: 0}
+  m_LocalPosition: {x: -3.9317133, y: -1.89, z: 0}
   m_LocalScale: {x: 0.4934711, y: 0.4934711, z: 0.4934711}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5496,9 +5573,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 71
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_G
@@ -5554,10 +5639,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &320485534 stripped
 Transform:
@@ -5751,7 +5833,6 @@ GameObject:
   m_Component:
   - component: {fileID: 364986253}
   - component: {fileID: 364986255}
-  - component: {fileID: 364986254}
   m_Layer: 0
   m_Name: Bottom
   m_TagString: Untagged
@@ -5774,51 +5855,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 681330538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &364986254
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364986252}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.65, y: 1.54}
-    newSize: {x: 2.54, y: 4.9}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.65, y: 1.54}
-  m_EdgeRadius: 0
 --- !u!212 &364986255
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6112,9 +6148,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 86
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_V
@@ -6170,10 +6214,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &410283402 stripped
 Transform:
@@ -6258,7 +6299,7 @@ Transform:
   m_GameObject: {fileID: 448594516}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.9267786, y: -2.1, z: 0}
+  m_LocalPosition: {x: -3.9267786, y: -1.86, z: 0}
   m_LocalScale: {x: 0.4934711, y: 0.4934711, z: 0.4934711}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6781,8 +6822,14 @@ MonoBehaviour:
   quillPen: {fileID: 893950689}
   paintArea: {fileID: 577640595}
   requiredPaintPercent: 0.8
-  paintSpeed: 0.3
+  paintSpeed: 0.22
   paintProgressIndicator: {fileID: 0}
+  penTipOffset: {x: -1.17, y: -2.38}
+  showPenTipGizmo: 1
+  paintTrail: {fileID: 0}
+  trailColor: {r: 0.6528301, g: 0.3135376, b: 0.27960837, a: 0.8}
+  trailWidth: 0.1
+  trailDuration: 2
   placeLetterSound: paper_place
   applyGlueSound: glue_apply
   stickTitleSound: paper_stick
@@ -7528,7 +7575,9 @@ GameObject:
   m_Component:
   - component: {fileID: 553683823}
   - component: {fileID: 553683822}
-  m_Layer: 0
+  - component: {fileID: 553683825}
+  - component: {fileID: 553683824}
+  m_Layer: 3
   m_Name: LetterOnDesk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7552,6 +7601,10 @@ MonoBehaviour:
   titleOverlay: {fileID: 531787361}
   logoOverlay: {fileID: 2101253497}
   autoRefreshOnEnable: 1
+  listenToManagerEvents: 1
+  _hasRecipient: 0
+  _hasTitle: 0
+  _hasLogo: 0
 --- !u!4 &553683823
 Transform:
   m_ObjectHideFlags: 0
@@ -7571,6 +7624,64 @@ Transform:
   - {fileID: 2101253499}
   m_Father: {fileID: 1191440538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553683824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553683821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ea37b121d773f4088c46c0e757388b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 461316663}
+--- !u!61 &553683825
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553683821}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.5753889, y: -5.2700486}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 12.77791, y: 5.463607}
+  m_EdgeRadius: 0
 --- !u!1 &559960129
 GameObject:
   m_ObjectHideFlags: 0
@@ -7834,12 +7945,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1741272911}
   - {fileID: 23830957}
+  - {fileID: 1741272911}
   - {fileID: 997404531}
+  - {fileID: 1403112369}
   - {fileID: 448594518}
   - {fileID: 303278023}
-  - {fileID: 1403112369}
   - {fileID: 1725064382}
   m_Father: {fileID: 2138321456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9887,9 +9998,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 88
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_X
@@ -9945,10 +10064,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &680273353 stripped
 Transform:
@@ -9965,7 +10081,7 @@ GameObject:
   m_Component:
   - component: {fileID: 681330538}
   m_Layer: 0
-  m_Name: Quil
+  m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9985,7 +10101,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 364986253}
-  - {fileID: 893950690}
   - {fileID: 262002137}
   m_Father: {fileID: 1191440538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10363,9 +10478,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 89
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_Y
@@ -10421,10 +10544,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &786818351 stripped
 Transform:
@@ -11521,9 +11641,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 74
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_J
@@ -11579,10 +11707,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &835196037 stripped
 Transform:
@@ -11941,9 +12066,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 81
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_Q
@@ -11992,13 +12125,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8710581501433162375, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: m_text
+      value: Q
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &881758214 stripped
 Transform:
@@ -12033,11 +12167,11 @@ Transform:
   m_GameObject: {fileID: 893950689}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.6499996, y: -5.4199996, z: 0}
+  m_LocalPosition: {x: -5.99, y: -5.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 681330538}
+  m_Father: {fileID: 1191440538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &893950691
 BoxCollider2D:
@@ -12124,7 +12258,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4ee548bc5b1908440834d0cb19fc128b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -18810,10 +18944,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 997404531}
-  - component: {fileID: 997404532}
   - component: {fileID: 997404533}
-  m_Layer: 0
-  m_Name: PaperSlot
+  - component: {fileID: 997404534}
+  m_Layer: 3
+  m_Name: TypewriterClickArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18834,19 +18968,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 564195703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &997404532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 997404530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6299fc08018010441b193b5dffd4a633, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 23830956}
 --- !u!61 &997404533
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18879,7 +19000,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.4290924, y: -0.7355882}
+  m_Offset: {x: 0.2819748, y: -0.3310144}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -18890,8 +19011,25 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8.919834, y: 2.4711764}
+  m_Size: {x: 9.214069, y: 2.3976178}
   m_EdgeRadius: 0
+--- !u!114 &997404534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997404530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fd259bf8c3f564dbaa848d8b9018e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 23830956}
+  zoomViewRoot: {fileID: 564195702}
+  checkViewState: 1
+  tryPlacePaper: 1
+  tryPickupPaper: 1
 --- !u!1 &1016962362
 GameObject:
   m_ObjectHideFlags: 0
@@ -19124,9 +19262,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 77
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_M
@@ -19182,10 +19328,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1029385578 stripped
 Transform:
@@ -19201,9 +19344,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_Z
@@ -19259,10 +19410,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1040312606 stripped
 Transform:
@@ -19984,9 +20132,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_P
@@ -20042,10 +20198,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1132593691 stripped
 Transform:
@@ -20060,6 +20213,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_A
@@ -20111,10 +20272,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1155019651 stripped
 Transform:
@@ -20449,6 +20607,7 @@ Transform:
   - {fileID: 553683823}
   - {fileID: 872151972}
   - {fileID: 577640596}
+  - {fileID: 893950690}
   - {fileID: 681330538}
   - {fileID: 461316662}
   m_Father: {fileID: 2138321456}
@@ -23255,28 +23414,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1403112369}
   - component: {fileID: 1403112368}
-  - component: {fileID: 1403112367}
   - component: {fileID: 1403112370}
   m_Layer: 3
-  m_Name: Paper
+  m_Name: PaperOnTypewriter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1403112367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403112366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d94790754c367a5489014a75677fd4e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 23830956}
 --- !u!212 &1403112368
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23317,7 +23462,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 142ce8942a9362343b1d7d1b0bd7a594, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -23338,11 +23483,12 @@ Transform:
   m_GameObject: {fileID: 1403112366}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.66, y: -0.55, z: 0}
+  m_LocalPosition: {x: -0.66, y: -0.77, z: 0}
   m_LocalScale: {x: 0.4934711, y: 0.4934711, z: 0.4934711}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1904803271}
+  - {fileID: 130168731}
   m_Father: {fileID: 564195703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1403112370
@@ -23358,10 +23504,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basePaper: {fileID: 1403112366}
-  recipientOverlay: {fileID: 0}
+  recipientOverlay: {fileID: 130168729}
   titleOverlay: {fileID: 0}
   logoOverlay: {fileID: 0}
   autoRefreshOnEnable: 1
+  listenToManagerEvents: 1
+  _hasRecipient: 0
+  _hasTitle: 0
+  _hasLogo: 0
 --- !u!1 &1405625916
 GameObject:
   m_ObjectHideFlags: 0
@@ -23900,9 +24050,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 82
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_R
@@ -23958,10 +24116,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1417881236 stripped
 Transform:
@@ -24272,9 +24427,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 78
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_N
@@ -24330,10 +24493,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1488029999 stripped
 Transform:
@@ -25332,9 +25492,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 79
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_O
@@ -25390,10 +25558,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1601069073 stripped
 Transform:
@@ -27589,9 +27754,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 66
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_B
@@ -27647,10 +27820,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1771037335 stripped
 Transform:
@@ -28060,8 +28230,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c44ccef8b363674ebbdd04155aa7a88, type: 2}
   - {fileID: 11400000, guid: 77195cb627be2f3448f84d33f5f51b95, type: 2}
   - {fileID: 11400000, guid: fa86e1c133bff5c40b7d05be335b4e82, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 16953c4ecd4913a4583d331571cbf5e2, type: 2}
+  - {fileID: 11400000, guid: 56b0aba7045e1014eaa612db52d27eef, type: 2}
   - {fileID: 0}
   instructions: "\u3010\u7269\u54C1\u5FEB\u6377\u952E\u3011\n\u6570\u5B57\u952E 1-9\uFF1A\u6DFB\u52A0\u5BF9\u5E94\u69FD\u4F4D\u7684\u7269\u54C1\u5230\u80CC\u5305\n\n\u3010\u8C03\u8BD5\u5FEB\u6377\u952E\u3011\nC
     \u952E\uFF1A\u6E05\u7A7A\u80CC\u5305\nM \u952E\uFF1A\u5207\u6362\u955C\u5B50\u72B6\u6001\uFF08Dirty
@@ -28513,7 +28683,7 @@ GameObject:
   - component: {fileID: 1904803270}
   - component: {fileID: 1904803269}
   m_Layer: 0
-  m_Name: PaperText
+  m_Name: InputText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28548,8 +28718,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -28566,13 +28736,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -28602,7 +28772,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 2.661603, y: 1.5752355, z: 2.4986558, w: 1.7925143}
+  m_margin: {x: 2.661603, y: 1.5752355, z: 2.4986558, w: 2.2417247}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -28669,7 +28839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.4, y: -1.45}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1944538204
@@ -29170,9 +29340,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_F
@@ -29228,10 +29406,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &1975409768 stripped
 Transform:
@@ -30013,9 +30188,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_K
@@ -30071,10 +30254,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &2015616046 stripped
 Transform:
@@ -30090,9 +30270,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 73
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_I
@@ -30148,10 +30336,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &2028327680 stripped
 Transform:
@@ -30438,7 +30623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db841d318e0a5f47ad54116232cfa7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyCharacter: 65
+  keyCharacter: 46
   isEnterKey: 0
   isBackspaceKey: 1
   keyLabel: {fileID: 0}
@@ -30450,7 +30635,11 @@ MonoBehaviour:
   normalTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressedTextColor: {r: 0, g: 0, b: 0, a: 1}
   pressDuration: 0.1
+  enablePressOffset: 1
+  pressOffset: {x: 0, y: -0.02, z: 0}
   controller: {fileID: 23830956}
+  zoomViewRoot: {fileID: 564195702}
+  checkViewState: 1
 --- !u!61 &2037682108
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30934,9 +31123,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 67
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_C
@@ -30992,10 +31189,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &2090875788 stripped
 Transform:
@@ -31011,9 +31205,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1725064382}
     m_Modifications:
     - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 23830956}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: keyCharacter
       value: 85
       objectReference: {fileID: 0}
+    - target: {fileID: 221130267685485638, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
+      propertyPath: zoomViewRoot
+      value: 
+      objectReference: {fileID: 564195702}
     - target: {fileID: 1737311309501013880, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
       propertyPath: m_Name
       value: Key_U
@@ -31069,10 +31271,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7811576672620690995, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba56fc588a25c048b8196217a803287, type: 3}
 --- !u!4 &2099554883 stripped
 Transform:
