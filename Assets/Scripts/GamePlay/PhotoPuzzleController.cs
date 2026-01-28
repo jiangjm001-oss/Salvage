@@ -284,11 +284,26 @@ public class PhotoPuzzleController : MonoBehaviour
     /// </summary>
     private void HideAllPieces()
     {
+        // 方法1：隐藏 placedPieces 列表中的碎片
         foreach (var piece in placedPieces)
         {
             if (piece != null)
             {
                 piece.gameObject.SetActive(false);
+            }
+        }
+
+        // 方法2：遍历所有子物体，隐藏所有碎片（包括从存档恢复的）
+        foreach (Transform child in transform)
+        {
+            // 跳过完成照片对象
+            if (child.name == "CompletedPhoto")
+                continue;
+
+            // 隐藏所有 Piece 和 CompletedPiece 对象
+            if (child.name.StartsWith("Piece_") || child.name.StartsWith("CompletedPiece_"))
+            {
+                child.gameObject.SetActive(false);
             }
         }
     }

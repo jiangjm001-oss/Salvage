@@ -248,7 +248,29 @@ public class GameManager : MonoBehaviour
 
         if (SaveLoadSystem.Instance != null && SaveLoadSystem.Instance.HasSaveData())
         {
-            SaveLoadSystem.Instance.LoadGame();
+            // 1. 读取存档数据
+            SaveData saveData = SaveLoadSystem.Instance.LoadGame();
+
+            if (saveData != null && !string.IsNullOrEmpty(saveData.currentSceneName))
+            {
+                // 2. 设置待恢复的存档数据（场景加载后会自动应用）
+                pendingSaveData = saveData;
+
+                // 3. 跳转到存档记录的场景
+                if (SceneController.Instance != null)
+                {
+                    SceneController.Instance.LoadSceneFromSave(saveData.currentSceneName);
+                }
+                else
+                {
+                    Debug.LogError("[GameManager] SceneController instance not found!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[GameManager] Save data is invalid, starting new game.");
+                StartNewGame();
+            }
         }
         else
         {
