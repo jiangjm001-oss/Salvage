@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d910f6834fd59b438d8774c74d70735, type: 3}
+  m_Name: Recipe_Container
+  m_EditorClassIdentifier: 
+  recipeID: recipe_container
+  recipeName: "\u5BB9\u5668\u914D\u65B9"
+  requiredItems:
+  - {fileID: 11400000, guid: ecb77b6ce60c0124484e3c3d6b88a87c, type: 2}
+  resultShard: {fileID: 11400000, guid: 77607c5e79f44b540895abd68e25fc4b, type: 2}
+  filledPotSprite: {fileID: 0}
+  shardDisplaySprite: {fileID: 0}

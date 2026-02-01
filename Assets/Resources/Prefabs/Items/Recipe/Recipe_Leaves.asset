@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d910f6834fd59b438d8774c74d70735, type: 3}
+  m_Name: Recipe_Leaves
+  m_EditorClassIdentifier: 
+  recipeID: recipe_leaves
+  recipeName: "\u53F6\u5B50\u914D\u65B9"
+  requiredItems:
+  - {fileID: 11400000, guid: 1439b3133f247c9408709481a781ac48, type: 2}
+  - {fileID: 11400000, guid: 0eade74b022f3ad46b4df07051f7f33e, type: 2}
+  resultShard: {fileID: 11400000, guid: 00bd141475ca86940a623ab7e1c54fcf, type: 2}
+  filledPotSprite: {fileID: 0}
+  shardDisplaySprite: {fileID: 0}

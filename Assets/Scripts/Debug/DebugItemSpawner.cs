@@ -18,7 +18,7 @@ public class DebugItemSpawner : MonoBehaviour
     public List<ItemData> testItems = new List<ItemData>();
 
     [Header("快捷键说明（只读）")]
-    [TextArea(8, 12)]
+    [TextArea(10, 14)]
     public string instructions =
         "【物品快捷键】\n" +
         "数字键 1-9：添加对应槽位的物品到背包\n" +
@@ -28,7 +28,10 @@ public class DebugItemSpawner : MonoBehaviour
         "M 键：切换镜子状态（Dirty → Clean → Special → Dirty）\n" +
         "P 键：打印当前背包内容\n" +
         "S 键：手动保存游戏\n" +
-        "L 键：打印当前游戏状态";
+        "L 键：打印当前游戏状态\n" +
+        "\n" +
+        "【跳关快捷键】\n" +
+        "F2 键：直接跳转到 Level2";
 
     private void Update()
     {
@@ -71,6 +74,12 @@ public class DebugItemSpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             PrintGameState();
+        }
+
+        // ⭐ F2 键跳转到 Level2
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            JumpToLevel2();
         }
     }
 
@@ -237,6 +246,48 @@ public class DebugItemSpawner : MonoBehaviour
     }
 
     /// <summary>
+    /// ⭐ 直接跳转到 Level2（跳过 Level1）
+    /// </summary>
+    private void JumpToLevel2()
+    {
+        Debug.Log("<color=magenta>========== 跳转到 Level2 ==========</color>");
+
+        // 清空背包（模拟干净状态）
+        if (InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.ClearInventory();
+            Debug.Log("<color=magenta>[DebugItemSpawner] 背包已清空</color>");
+        }
+
+        // 删除存档（避免旧数据干扰）
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.DeleteSaveData();
+            Debug.Log("<color=magenta>[DebugItemSpawner] 存档已删除</color>");
+        }
+
+        // 重置视图状态
+        if (GameManager.Instance != null)
+        {
+            // 这会在场景加载后自动重置
+            Debug.Log("<color=magenta>[DebugItemSpawner] 准备加载 Level2_Room...</color>");
+        }
+
+        // 加载 Level2 场景
+        if (SceneController.Instance != null)
+        {
+            SceneController.Instance.LoadScene("Level2_Room");
+            Debug.Log("<color=magenta>[DebugItemSpawner] ✓ 正在跳转到 Level2_Room</color>");
+        }
+        else
+        {
+            Debug.LogError("[DebugItemSpawner] SceneController.Instance 不存在！无法跳转场景");
+        }
+
+        Debug.Log("<color=magenta>===================================</color>");
+    }
+
+    /// <summary>
     /// 在屏幕左上角显示调试提示（运行时可见）
     /// </summary>
     private void OnGUI()
@@ -256,9 +307,10 @@ public class DebugItemSpawner : MonoBehaviour
                           "M: 切换镜子状态\n" +
                           "P: 打印背包\n" +
                           "S: 手动保存\n" +
-                          "L: 打印状态";
+                          "L: 打印状态\n" +
+                          "<color=yellow>F2: 跳转Level2</color>";
 
         // 绘制背景框和文字
-        GUI.Box(new Rect(10, 10, 150, 140), debugInfo, boxStyle);
+        GUI.Box(new Rect(10, 10, 150, 160), debugInfo, boxStyle);
     }
 }
