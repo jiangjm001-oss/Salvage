@@ -15,7 +15,7 @@ MonoBehaviour:
   recipeID: recipe_container
   recipeName: "\u5BB9\u5668\u914D\u65B9"
   requiredItems:
-  - {fileID: 11400000, guid: ecb77b6ce60c0124484e3c3d6b88a87c, type: 2}
-  resultShard: {fileID: 11400000, guid: 77607c5e79f44b540895abd68e25fc4b, type: 2}
+  - {fileID: 11400000, guid: 77607c5e79f44b540895abd68e25fc4b, type: 2}
+  resultShard: {fileID: 11400000, guid: ecb77b6ce60c0124484e3c3d6b88a87c, type: 2}
   filledPotSprite: {fileID: 0}
   shardDisplaySprite: {fileID: 0}

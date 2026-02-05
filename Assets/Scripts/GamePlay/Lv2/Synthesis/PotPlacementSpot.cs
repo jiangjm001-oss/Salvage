@@ -1,82 +1,134 @@
-// Assets/Scripts/GamePlay/Synthesis/PotPlacementSpot.cs
-// ÌÕ¹Ş·ÅÖÃµã - ÓÃÓÚÍæ¼Ò½«¿ÕÌÕ¹Ş´Ó±³°ü·Å»Ø×ÀÃæ
+ï»¿// Assets/Scripts/GamePlay/Synthesis/PotPlacementSpot.cs
+// é™¶ç½æ”¾ç½®ç‚¹ - ç”¨äºç©å®¶å°†ç©ºé™¶ç½ä»èƒŒåŒ…æ”¾å›æ¡Œé¢
+// ä¼˜åŒ–ç‰ˆï¼šæ·»åŠ å¹³æ»‘é¢œè‰²è¿‡æ¸¡
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 /// <summary>
-/// ÌÕ¹Ş·ÅÖÃµã
-/// Íæ¼ÒÑ¡ÖĞ±³°üÖĞµÄ¿ÕÌÕ¹Ş£¬µã»÷´Ë·ÅÖÃµã£¬ÌÕ¹Ş»á±»·Å»Ø×ÀÃæ
+/// é™¶ç½æ”¾ç½®ç‚¹
+/// ç©å®¶é€‰ä¸­èƒŒåŒ…ä¸­çš„ç©ºé™¶ç½ï¼Œç‚¹å‡»æ­¤æ”¾ç½®ç‚¹ï¼Œé™¶ç½ä¼šè¢«æ”¾å›æ¡Œé¢
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
 public class PotPlacementSpot : MonoBehaviour
 {
-    [Header("»ù±¾ĞÅÏ¢")]
-    [Tooltip("ÎïÌåÎ¨Ò»ID")]
+    [Header("åŸºæœ¬ä¿¡æ¯")]
+    [Tooltip("ç‰©ä½“å”¯ä¸€ID")]
     public string objectID = "pot_placement_spot";
 
-    [Tooltip("ÏÔÊ¾Ãû³Æ")]
-    public string displayName = "×ÀÃæ";
+    [Tooltip("æ˜¾ç¤ºåç§°")]
+    public string displayName = "æ¡Œé¢";
 
-    [Header("×é¼şÒıÓÃ")]
-    [Tooltip("³¡¾°ÖĞµÄÌÕ¹Ş¿ØÖÆÆ÷")]
+    [Header("ç»„ä»¶å¼•ç”¨")]
+    [Tooltip("åœºæ™¯ä¸­çš„é™¶ç½æ§åˆ¶å™¨")]
     public PotController potController;
 
-    [Header("ÎïÆ·ÅäÖÃ")]
-    [Tooltip("¿ÕÌÕ¹ŞÎïÆ·Êı¾İ")]
+    [Header("ç‰©å“é…ç½®")]
+    [Tooltip("ç©ºé™¶ç½ç‰©å“æ•°æ®")]
     public ItemData emptyPotItem;
 
-    [Header("ÊÓ¾õ·´À¡")]
-    [Tooltip("·ÅÖÃµãµÄ SpriteRenderer£¨¿ÉÑ¡£©")]
+    [Header("è§†è§‰åé¦ˆ")]
+    [Tooltip("æ”¾ç½®ç‚¹çš„ SpriteRendererï¼ˆå¯é€‰ï¼‰")]
     public SpriteRenderer spotRenderer;
 
-    [Tooltip("¿É·ÅÖÃÊ±µÄ¸ßÁÁÑÕÉ«")]
-    public Color highlightColor = new Color(0.7f, 1f, 0.7f, 0.5f);
-
-    [Tooltip("Õı³£ÑÕÉ«")]
+    [Tooltip("æ­£å¸¸é¢œè‰²ï¼ˆé€šå¸¸é€æ˜ï¼‰")]
     public Color normalColor = new Color(1f, 1f, 1f, 0f);
 
-    [Tooltip("ÊÇ·ñÏÔÊ¾·ÅÖÃÌáÊ¾£¨µ±Ñ¡ÖĞ¿ÕÌÕ¹ŞÊ±£©")]
+    [Tooltip("å¯æ”¾ç½®æ—¶çš„æç¤ºé¢œè‰²")]
+    public Color canPlaceColor = new Color(0.5f, 1f, 0.5f, 0.3f);
+
+    [Tooltip("é¼ æ ‡æ‚¬åœæ—¶çš„é«˜äº®é¢œè‰²")]
+    public Color hoverColor = new Color(0.7f, 1f, 0.7f, 0.5f);
+
+    [Tooltip("é¢œè‰²è¿‡æ¸¡æ—¶é—´ï¼ˆç§’ï¼‰")]
+    public float colorTransitionDuration = 0.15f;
+
+    [Tooltip("æ˜¯å¦æ˜¾ç¤ºæ”¾ç½®æç¤ºï¼ˆå½“é€‰ä¸­ç©ºé™¶ç½æ—¶ï¼‰")]
     public bool showPlacementHint = true;
 
-    [Header("ÌáÊ¾ÎÄ±¾")]
-    public string noItemHint = "ĞèÒªÑ¡ÖĞ¿ÕÌÕ¹Ş";
-    public string wrongItemHint = "Ö»ÄÜ·ÅÖÃ¿ÕÌÕ¹Ş";
-    public string potAlreadyOnTableHint = "ÌÕ¹ŞÒÑ¾­ÔÚ×ÀÉÏÁË";
+    [Header("æç¤ºæ–‡æœ¬")]
+    public string noItemHint = "éœ€è¦é€‰ä¸­ç©ºé™¶ç½";
+    public string wrongItemHint = "åªèƒ½æ”¾ç½®ç©ºé™¶ç½";
+    public string potAlreadyOnTableHint = "é™¶ç½å·²ç»åœ¨æ¡Œä¸Šäº†";
 
-    [Header("ÒôĞ§")]
+    [Header("éŸ³æ•ˆ")]
     public string placeSFX = "Audio/SFX/item_place";
+    public string errorSFX = "Audio/SFX/error";
 
-    [Header("ÊÂ¼ş")]
+    [Header("äº‹ä»¶")]
     public UnityEvent OnPotPlaced;
 
-    // »º´æ
-    private Color originalColor;
-    private bool isHighlighting = false;
+    // ç¼“å­˜
+    private Coroutine colorCoroutine;
+    private Collider2D spotCollider;
+    private bool isHovering = false;
+    private bool wasShowingHint = false;
 
     private void Awake()
     {
+        spotCollider = GetComponent<Collider2D>();
+
         if (spotRenderer != null)
         {
-            originalColor = spotRenderer.color;
+            // originalColor ç§»åˆ°è¿™é‡Œåˆå§‹åŒ–
         }
     }
 
     private void Update()
     {
-        // ¼ì²âÊÇ·ñÑ¡ÖĞÁË¿ÕÌÕ¹Ş£¬¶¯Ì¬ÏÔÊ¾¸ßÁÁ
+        // æ ¸å¿ƒé€»è¾‘ï¼šå½“é™¶ç½åœ¨æ¡Œä¸Šæ—¶ï¼Œç¦ç”¨ Colliderï¼Œè®©ç‚¹å‡»ç©¿é€åˆ°é™¶ç½
+        UpdateColliderState();
+
+        // æ£€æµ‹æ˜¯å¦é€‰ä¸­äº†ç©ºé™¶ç½ï¼ŒåŠ¨æ€æ˜¾ç¤ºæç¤º
         if (showPlacementHint && spotRenderer != null)
         {
-            bool shouldHighlight = ShouldShowPlacementHint();
+            bool shouldShowHint = ShouldShowPlacementHint();
 
-            if (shouldHighlight && !isHighlighting)
+            if (shouldShowHint && !wasShowingHint)
             {
-                spotRenderer.color = highlightColor;
-                isHighlighting = true;
+                // å¼€å§‹æ˜¾ç¤ºæç¤º
+                TransitionToColor(isHovering ? hoverColor : canPlaceColor);
+                wasShowingHint = true;
             }
-            else if (!shouldHighlight && isHighlighting)
+            else if (!shouldShowHint && wasShowingHint)
             {
-                spotRenderer.color = normalColor;
-                isHighlighting = false;
+                // åœæ­¢æ˜¾ç¤ºæç¤º
+                TransitionToColor(normalColor);
+                wasShowingHint = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// æ ¹æ®é™¶ç½çŠ¶æ€æ›´æ–° Collider å¯ç”¨çŠ¶æ€
+    /// å½“é™¶ç½åœ¨æ¡Œä¸Šæ—¶ç¦ç”¨ï¼Œè®©ç‚¹å‡»äº‹ä»¶ç©¿é€åˆ°é™¶ç½
+    /// </summary>
+    private void UpdateColliderState()
+    {
+        if (spotCollider == null || potController == null) return;
+
+        bool potOnTable = potController.gameObject.activeSelf &&
+            (potController.CurrentState == PotController.PotState.OnTable_Empty ||
+             potController.CurrentState == PotController.PotState.OnTable_Filling ||
+             potController.CurrentState == PotController.PotState.OnTable_Ready);
+
+        // é™¶ç½åœ¨æ¡Œä¸Šæ—¶ç¦ç”¨ Colliderï¼Œå¦åˆ™å¯ç”¨
+        bool shouldEnable = !potOnTable;
+
+        if (spotCollider.enabled != shouldEnable)
+        {
+            spotCollider.enabled = shouldEnable;
+            Debug.Log($"[PotPlacementSpot] Collider {(shouldEnable ? "å¯ç”¨" : "ç¦ç”¨")} (é™¶ç½åœ¨æ¡Œä¸Š: {potOnTable})");
+
+            // å¦‚æœç¦ç”¨äº† Colliderï¼Œé‡ç½®è§†è§‰çŠ¶æ€
+            if (!shouldEnable)
+            {
+                isHovering = false;
+                wasShowingHint = false;
+                if (spotRenderer != null)
+                {
+                    TransitionToColor(normalColor);
+                }
             }
         }
     }
@@ -86,7 +138,7 @@ public class PotPlacementSpot : MonoBehaviour
         if (UIManager.Instance == null) return false;
         if (potController == null) return false;
 
-        // Èç¹ûÌÕ¹ŞÒÑ¾­ÔÚ×ÀÉÏ£¬²»ÏÔÊ¾¸ßÁÁ
+        // å¦‚æœé™¶ç½å·²ç»åœ¨æ¡Œä¸Šï¼Œä¸æ˜¾ç¤ºæç¤º
         if (potController.gameObject.activeSelf &&
             (potController.CurrentState == PotController.PotState.OnTable_Empty ||
              potController.CurrentState == PotController.PotState.OnTable_Filling ||
@@ -95,7 +147,7 @@ public class PotPlacementSpot : MonoBehaviour
             return false;
         }
 
-        // ¼ì²éÊÇ·ñÑ¡ÖĞÁË¿ÕÌÕ¹Ş
+        // æ£€æŸ¥æ˜¯å¦é€‰ä¸­äº†ç©ºé™¶ç½
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
         if (selectedItem != null && emptyPotItem != null && selectedItem.itemID == emptyPotItem.itemID)
         {
@@ -105,32 +157,74 @@ public class PotPlacementSpot : MonoBehaviour
         return false;
     }
 
+    // ============ é¢œè‰²è¿‡æ¸¡ç³»ç»Ÿ ============
+
+    private void TransitionToColor(Color targetColor)
+    {
+        if (spotRenderer == null) return;
+
+        if (colorCoroutine != null)
+        {
+            StopCoroutine(colorCoroutine);
+        }
+
+        colorCoroutine = StartCoroutine(ColorTransitionCoroutine(targetColor));
+    }
+
+    private IEnumerator ColorTransitionCoroutine(Color targetColor)
+    {
+        Color startColor = spotRenderer.color;
+        float elapsed = 0f;
+
+        while (elapsed < colorTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = SmoothStep(elapsed / colorTransitionDuration);
+            spotRenderer.color = Color.Lerp(startColor, targetColor, t);
+            yield return null;
+        }
+
+        spotRenderer.color = targetColor;
+        colorCoroutine = null;
+    }
+
+    private float SmoothStep(float t)
+    {
+        return t * t * (3f - 2f * t);
+    }
+
+    // ============ é¼ æ ‡äº‹ä»¶ ============
+
     private void OnMouseEnter()
     {
+        isHovering = true;
+
         if (spotRenderer != null && ShouldShowPlacementHint())
         {
-            spotRenderer.color = highlightColor * 1.2f; // ¸üÁÁµÄ¸ßÁÁ
+            TransitionToColor(hoverColor);
         }
     }
 
     private void OnMouseExit()
     {
+        isHovering = false;
+
         if (spotRenderer != null)
         {
-            if (isHighlighting)
+            if (wasShowingHint)
             {
-                spotRenderer.color = highlightColor;
+                TransitionToColor(canPlaceColor);
             }
             else
             {
-                spotRenderer.color = normalColor;
+                TransitionToColor(normalColor);
             }
         }
     }
 
     private void OnMouseDown()
     {
-        // ¼ì²éÊÇ·ñµã»÷ÔÚUIÉÏ
+        // æ£€æŸ¥æ˜¯å¦ç‚¹å‡»åœ¨UIä¸Š
         if (UnityEngine.EventSystems.EventSystem.current != null &&
             UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
@@ -142,66 +236,78 @@ public class PotPlacementSpot : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("[PotPlacementSpot] ·ÅÖÃµã±»µã»÷");
+        Debug.Log("[PotPlacementSpot] æ”¾ç½®ç‚¹è¢«ç‚¹å‡»");
 
         if (potController == null)
         {
-            Debug.LogError("[PotPlacementSpot] potController Î´ÉèÖÃ£¡");
-            return;
-        }
-
-        // ¼ì²éÌÕ¹ŞÊÇ·ñÒÑÔÚ×ÀÉÏ
-        if (potController.gameObject.activeSelf &&
-            (potController.CurrentState == PotController.PotState.OnTable_Empty ||
-             potController.CurrentState == PotController.PotState.OnTable_Filling ||
-             potController.CurrentState == PotController.PotState.OnTable_Ready))
-        {
-            ShowHint(potAlreadyOnTableHint);
+            Debug.LogError("[PotPlacementSpot] potController æœªè®¾ç½®ï¼");
             return;
         }
 
         if (UIManager.Instance == null)
         {
-            Debug.LogError("[PotPlacementSpot] UIManager.Instance Îª¿Õ£¡");
+            Debug.LogError("[PotPlacementSpot] UIManager.Instance ä¸ºç©ºï¼");
             return;
         }
 
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
 
+        // å¦‚æœæ²¡æœ‰é€‰ä¸­ç‰©å“ï¼Œä¸åšä»»ä½•äº‹ï¼ˆè®©å…¶ä»–ç‰©ä½“å¤„ç†ç‚¹å‡»ï¼‰
         if (selectedItem == null)
         {
-            ShowHint(noItemHint);
+            Debug.Log("[PotPlacementSpot] æ²¡æœ‰é€‰ä¸­ç‰©å“ï¼Œå¿½ç•¥ç‚¹å‡»");
             return;
         }
 
-        // ¼ì²éÊÇ·ñÊÇ¿ÕÌÕ¹Ş
-        if (emptyPotItem == null || selectedItem.itemID != emptyPotItem.itemID)
+        // â­ ä¸¥æ ¼æ£€æŸ¥ï¼šåªæ¥å—ç©ºé™¶ç½ï¼
+        if (emptyPotItem == null)
         {
-            ShowHint(wrongItemHint);
+            Debug.LogError("[PotPlacementSpot] emptyPotItem æœªè®¾ç½®ï¼");
             return;
         }
 
-        // ·ÅÖÃÌÕ¹Ş
+        // å¦‚æœé€‰ä¸­çš„ä¸æ˜¯ç©ºé™¶ç½ï¼Œä¸å¤„ç†ï¼ˆè®©å…¶ä»–ç‰©ä½“å¤„ç†ï¼‰
+        if (selectedItem.itemID != emptyPotItem.itemID)
+        {
+            Debug.Log($"[PotPlacementSpot] é€‰ä¸­çš„æ˜¯ {selectedItem.itemID}ï¼Œä¸æ˜¯ç©ºé™¶ç½ {emptyPotItem.itemID}ï¼Œå¿½ç•¥");
+            return;
+        }
+
+        // æ£€æŸ¥é™¶ç½æ˜¯å¦å·²åœ¨æ¡Œä¸Šï¼ˆå®‰å…¨æ£€æŸ¥ï¼Œæ­£å¸¸æƒ…å†µä¸‹ Collider å·²ç¦ç”¨ï¼‰
+        if (potController.gameObject.activeSelf &&
+            (potController.CurrentState == PotController.PotState.OnTable_Empty ||
+             potController.CurrentState == PotController.PotState.OnTable_Filling ||
+             potController.CurrentState == PotController.PotState.OnTable_Ready))
+        {
+            Debug.Log("[PotPlacementSpot] é™¶ç½å·²åœ¨æ¡Œä¸Šï¼Œé™é»˜å¿½ç•¥");
+            return; // é™é»˜è¿”å›ï¼Œä¸æ˜¾ç¤ºæç¤º
+        }
+
+        // æ”¾ç½®ç©ºé™¶ç½
         PlacePot();
     }
 
     private void PlacePot()
     {
-        Debug.Log("[PotPlacementSpot] ·ÅÖÃ¿ÕÌÕ¹Şµ½×ÀÃæ");
+        Debug.Log("[PotPlacementSpot] æ”¾ç½®ç©ºé™¶ç½åˆ°æ¡Œé¢");
 
-        // ÏûºÄ±³°üÖĞµÄÌÕ¹Ş
+        // æ¶ˆè€—èƒŒåŒ…ä¸­çš„é™¶ç½
         UIManager.Instance.ConsumeSelectedItem();
 
-        // Í¨ÖªÌÕ¹Ş¿ØÖÆÆ÷
-        potController.PlaceOnTable(true); // true = ¿ÕÌÕ¹Ş
+        // é€šçŸ¥é™¶ç½æ§åˆ¶å™¨
+        potController.PlaceOnTable(true); // true = ç©ºé™¶ç½
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾éŸ³æ•ˆ
         PlaySFX(placeSFX);
 
-        // ´¥·¢ÊÂ¼ş
+        // éšè—æ”¾ç½®æç¤º
+        wasShowingHint = false;
+        TransitionToColor(normalColor);
+
+        // è§¦å‘äº‹ä»¶
         OnPotPlaced?.Invoke();
 
-        // ±£´æ
+        // ä¿å­˜
         SaveLoadSystem.Instance?.SaveGame();
     }
 
@@ -215,6 +321,6 @@ public class PotPlacementSpot : MonoBehaviour
 
     private void ShowHint(string hint)
     {
-        Debug.Log($"[ÌáÊ¾] {hint}");
+        Debug.Log($"[æç¤º] {hint}");
     }
 }

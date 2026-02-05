@@ -1,158 +1,176 @@
-// Assets/Scripts/GamePlay/Synthesis/SynthesisMachine.cs
-// ºÏ³É»úÆ÷¿ØÖÆÆ÷ - ¹ÜÀíÌÕ¹ŞºÏ³É¹ı³Ì
+ï»¿// Assets/Scripts/GamePlay/Synthesis/SynthesisMachine.cs
+// åˆæˆæœºå™¨æ§åˆ¶å™¨ - ç®¡ç†é™¶ç½åˆæˆè¿‡ç¨‹
+// ä¼˜åŒ–ç‰ˆï¼šç®€åŒ–äº¤äº’æµç¨‹ï¼Œæ·»åŠ å¹³æ»‘é¢œè‰²è¿‡æ¸¡ï¼ŒæŒç»­éœ‡åŠ¨éŸ³æ•ˆ
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 
 /// <summary>
-/// ºÏ³É»úÆ÷¿ØÖÆÆ÷
-/// ¸ºÔğ¹ÜÀí»úÆ÷µÄ×´Ì¬¡¢½ÓÊÕÌÕ¹Ş¡¢Ö´ĞĞºÏ³É¡¢Õ¹Ê¾½á¹û
+/// åˆæˆæœºå™¨æ§åˆ¶å™¨
+/// è´Ÿè´£ç®¡ç†æœºå™¨çš„çŠ¶æ€ã€æ¥æ”¶é™¶ç½ã€æ‰§è¡Œåˆæˆã€å±•ç¤ºç»“æœ
 /// 
-/// Ê¹ÓÃÁ÷³Ì£º
-/// 1. Íæ¼Òµã»÷»úÆ÷¸Ç×Ó ¡ú ´ò¿ª¸Ç×Ó
-/// 2. Íæ¼ÒÑ¡ÖĞ×°ÂúµÄÌÕ¹Ş£¬µã»÷»úÆ÷ÄÚ²¿ ¡ú ·ÅÈëÌÕ¹Ş
-/// 3. Íæ¼Òµã»÷¸Ç×Ó ¡ú ¹Ø±Õ¸Ç×Ó
-/// 4. Íæ¼Òµã»÷°´Å¥ ¡ú Æô¶¯ºÏ³É
-/// 5. 2Ãëºó¸Ç×Ó×Ô¶¯´ò¿ª ¡ú Õ¹Ê¾¿ÕÌÕ¹ŞºÍË®¾§ËéÆ¬
-/// 6. Íæ¼Òµã»÷ÌÕ¹Ş ¡ú Ê°È¡¿ÕÌÕ¹Ş
-/// 7. Íæ¼Òµã»÷Ë®¾§ËéÆ¬ ¡ú Ê°È¡ËéÆ¬
+/// ç®€åŒ–åçš„ä½¿ç”¨æµç¨‹ï¼š
+/// 1. ç©å®¶ç‚¹å‡»æœºå™¨ â†’ æ‰“å¼€ç›–å­
+/// 2. ç©å®¶é€‰ä¸­è£…æ»¡çš„é™¶ç½ï¼Œç‚¹å‡»æœºå™¨ â†’ æ”¾å…¥é™¶ç½ï¼ˆé™¶ç½æ˜¾ç¤ºåœ¨æœºå™¨ä¸­ï¼‰
+/// 3. ç©å®¶ç‚¹å‡»ç›–å­ â†’ å…³é—­ç›–å­
+/// 4. ç©å®¶ç‚¹å‡»æŒ‰é’® â†’ å¯åŠ¨åˆæˆï¼ˆæ’­æ”¾éœ‡åŠ¨éŸ³æ•ˆï¼‰
+/// 5. 2ç§’åç›–å­è‡ªåŠ¨æ‰“å¼€ï¼ˆåœæ­¢éœ‡åŠ¨éŸ³æ•ˆï¼Œæ’­æ”¾å¼€ç›–éŸ³æ•ˆï¼‰â†’ å±•ç¤ºæ°´æ™¶ç¢ç‰‡å’Œç©ºé™¶ç½
+/// 6. ç©å®¶ç‚¹å‡»æ°´æ™¶ç¢ç‰‡ â†’ æ‹¾å–ç¢ç‰‡
+/// 7. ç©å®¶ç‚¹å‡»é™¶ç½ â†’ æ‹¾å–ç©ºé™¶ç½
 /// </summary>
 public class SynthesisMachine : MonoBehaviour
 {
-    // ============ ×´Ì¬Ã¶¾Ù ============
+    // ============ çŠ¶æ€æšä¸¾ ============
     public enum MachineState
     {
-        Idle_LidClosed,       // ¿ÕÏĞ - ¸Ç×Ó¹Ø±Õ
-        Idle_LidOpen,         // ¿ÕÏĞ - ¸Ç×Ó´ò¿ª£¬µÈ´ı·ÅÈëÌÕ¹Ş
-        PotInserted_LidOpen,  // ÒÑ·ÅÈëÌÕ¹Ş - ¸Ç×Ó´ò¿ª
-        PotInserted_LidClosed,// ÒÑ·ÅÈëÌÕ¹Ş - ¸Ç×Ó¹Ø±Õ£¬µÈ´ıÆô¶¯
-        Processing,           // ºÏ³ÉÖĞ - ¸Ç×Ó¹Ø±Õ£¬ÕıÔÚÔËĞĞ
-        Complete_LidOpen,     // ºÏ³ÉÍê³É - ¸Ç×Ó´ò¿ª£¬Õ¹Ê¾½á¹û
-        ResultCollecting      // ÕıÔÚÊÕ¼¯½á¹û
+        Idle_LidClosed,       // ç©ºé—² - ç›–å­å…³é—­
+        Idle_LidOpen,         // ç©ºé—² - ç›–å­æ‰“å¼€ï¼Œç­‰å¾…æ”¾å…¥é™¶ç½
+        PotInserted_LidOpen,  // å·²æ”¾å…¥é™¶ç½ - ç›–å­æ‰“å¼€
+        PotInserted_LidClosed,// å·²æ”¾å…¥é™¶ç½ - ç›–å­å…³é—­ï¼Œç­‰å¾…å¯åŠ¨
+        Processing,           // åˆæˆä¸­ - ç›–å­å…³é—­ï¼Œæ­£åœ¨è¿è¡Œ
+        Complete_LidOpen,     // åˆæˆå®Œæˆ - ç›–å­æ‰“å¼€ï¼Œå±•ç¤ºç»“æœ
+        ResultCollecting      // æ­£åœ¨æ”¶é›†ç»“æœ
     }
 
-    // ============ »ù±¾ÅäÖÃ ============
-    [Header("»ù±¾ĞÅÏ¢")]
-    [Tooltip("ÎïÌåÎ¨Ò»ID")]
+    // ============ åŸºæœ¬é…ç½® ============
+    [Header("åŸºæœ¬ä¿¡æ¯")]
+    [Tooltip("ç‰©ä½“å”¯ä¸€ID")]
     public string objectID = "synthesis_machine";
 
-    [Tooltip("ÏÔÊ¾Ãû³Æ")]
-    public string displayName = "ºÏ³É»úÆ÷";
+    [Tooltip("æ˜¾ç¤ºåç§°")]
+    public string displayName = "åˆæˆæœºå™¨";
 
-    // ============ ×é¼şÒıÓÃ ============
-    [Header("×é¼şÒıÓÃ")]
-    [Tooltip("»úÆ÷¸Ç×ÓÎïÌå")]
+    // ============ ç»„ä»¶å¼•ç”¨ ============
+    [Header("ç»„ä»¶å¼•ç”¨")]
+    [Tooltip("æœºå™¨ä¸»ä½“ï¼ˆç”¨äºç‚¹å‡»æ‰“å¼€ç›–å­å’Œæ”¾å…¥é™¶ç½ï¼‰")]
+    public GameObject machineBody;
+
+    [Tooltip("æœºå™¨ç›–å­ç‰©ä½“")]
     public GameObject lidObject;
 
-    [Tooltip("»úÆ÷°´Å¥ÎïÌå")]
+    [Tooltip("æœºå™¨æŒ‰é’®ç‰©ä½“")]
     public GameObject buttonObject;
 
-    [Tooltip("»úÆ÷ÄÚ²¿ÇøÓò£¨ÓÃÓÚ·ÅÖÃÌÕ¹Ş£©")]
-    public GameObject machineInterior;
-
-    [Tooltip("ÌÕ¹ŞÏÔÊ¾Î»ÖÃ")]
+    [Tooltip("é™¶ç½æ˜¾ç¤ºä½ç½®")]
     public Transform potDisplayPosition;
 
-    [Tooltip("Ë®¾§ËéÆ¬ÏÔÊ¾Î»ÖÃ")]
+    [Tooltip("æ°´æ™¶ç¢ç‰‡æ˜¾ç¤ºä½ç½®")]
     public Transform shardDisplayPosition;
 
-    [Header("¾«ÁéäÖÈ¾Æ÷")]
-    [Tooltip("¸Ç×ÓµÄ SpriteRenderer")]
+    [Header("ç²¾çµæ¸²æŸ“å™¨")]
+    [Tooltip("æœºå™¨ä¸»ä½“çš„ SpriteRenderer")]
+    public SpriteRenderer machineRenderer;
+
+    [Tooltip("ç›–å­çš„ SpriteRenderer")]
     public SpriteRenderer lidRenderer;
 
-    [Tooltip("°´Å¥µÄ SpriteRenderer")]
+    [Tooltip("æŒ‰é’®çš„ SpriteRenderer")]
     public SpriteRenderer buttonRenderer;
 
-    [Tooltip("»úÆ÷ÄÚÕ¹Ê¾µÄÌÕ¹Ş SpriteRenderer")]
+    [Tooltip("æœºå™¨å†…å±•ç¤ºçš„é™¶ç½ SpriteRenderer")]
     public SpriteRenderer displayPotRenderer;
 
-    [Tooltip("»úÆ÷ÄÚÕ¹Ê¾µÄË®¾§ËéÆ¬ SpriteRenderer")]
+    [Tooltip("æœºå™¨å†…å±•ç¤ºçš„æ°´æ™¶ç¢ç‰‡ SpriteRenderer")]
     public SpriteRenderer displayShardRenderer;
 
-    // ============ ¾«ÁéÍ¼ÅäÖÃ ============
-    [Header("¸Ç×Ó¾«ÁéÍ¼")]
-    [Tooltip("¸Ç×Ó¹Ø±ÕµÄ¾«Áé")]
+    // ============ ç²¾çµå›¾é…ç½® ============
+    [Header("ç›–å­ç²¾çµå›¾")]
+    [Tooltip("ç›–å­å…³é—­çš„ç²¾çµ")]
     public Sprite lidClosedSprite;
 
-    [Tooltip("¸Ç×Ó´ò¿ªµÄ¾«Áé")]
+    [Tooltip("ç›–å­æ‰“å¼€çš„ç²¾çµ")]
     public Sprite lidOpenSprite;
 
-    [Header("°´Å¥¾«ÁéÍ¼")]
-    [Tooltip("°´Å¥Õı³£×´Ì¬¾«Áé")]
+    [Header("æŒ‰é’®ç²¾çµå›¾")]
+    [Tooltip("æŒ‰é’®æ­£å¸¸çŠ¶æ€ç²¾çµ")]
     public Sprite buttonNormalSprite;
 
-    [Tooltip("°´Å¥°´ÏÂ×´Ì¬¾«Áé")]
+    [Tooltip("æŒ‰é’®æŒ‰ä¸‹çŠ¶æ€ç²¾çµ")]
     public Sprite buttonPressedSprite;
 
-    [Tooltip("°´Å¥¼¤»î/ÔËĞĞÖĞ¾«Áé")]
+    [Tooltip("æŒ‰é’®æ¿€æ´»/è¿è¡Œä¸­ç²¾çµ")]
     public Sprite buttonActiveSprite;
 
-    [Tooltip("°´Å¥½ûÓÃ×´Ì¬¾«Áé")]
+    [Tooltip("æŒ‰é’®ç¦ç”¨çŠ¶æ€ç²¾çµ")]
     public Sprite buttonDisabledSprite;
 
-    [Header("ÌÕ¹Ş¾«ÁéÍ¼")]
-    [Tooltip("×°ÂúµÄÌÕ¹Ş¾«Áé")]
+    [Header("é™¶ç½ç²¾çµå›¾")]
+    [Tooltip("è£…æ»¡çš„é™¶ç½ç²¾çµ")]
     public Sprite potFilledSprite;
 
-    [Tooltip("¿ÕÌÕ¹Ş¾«Áé")]
+    [Tooltip("ç©ºé™¶ç½ç²¾çµ")]
     public Sprite potEmptySprite;
 
-    // ============ ÎïÆ·ÅäÖÃ ============
-    [Header("ÎïÆ·ÅäÖÃ")]
-    [Tooltip("×°ÂúµÄÌÕ¹ŞÎïÆ·Êı¾İ")]
+    // ============ ç‰©å“é…ç½® ============
+    [Header("ç‰©å“é…ç½®")]
+    [Tooltip("è£…æ»¡çš„é™¶ç½ç‰©å“æ•°æ®")]
     public ItemData filledPotItem;
 
-    [Tooltip("¿ÕÌÕ¹ŞÎïÆ·Êı¾İ")]
+    [Tooltip("ç©ºé™¶ç½ç‰©å“æ•°æ®")]
     public ItemData emptyPotItem;
 
-    [Tooltip("³¡¾°ÖĞµÄÌÕ¹Ş¿ØÖÆÆ÷ÒıÓÃ")]
+    [Tooltip("åœºæ™¯ä¸­çš„é™¶ç½æ§åˆ¶å™¨å¼•ç”¨")]
     public PotController potController;
 
-    // ============ ºÏ³ÉÅäÖÃ ============
-    [Header("ºÏ³ÉÅäÖÃ")]
-    [Tooltip("ºÏ³ÉËùĞèÊ±¼ä£¨Ãë£©")]
+    // ============ åˆæˆé…ç½® ============
+    [Header("åˆæˆé…ç½®")]
+    [Tooltip("åˆæˆæ‰€éœ€æ—¶é—´ï¼ˆç§’ï¼‰")]
     public float synthesisTime = 2f;
 
-    // ============ ÊÓ¾õ·´À¡ ============
-    [Header("ÊÓ¾õ·´À¡")]
-    [Tooltip("°´Å¥¸ßÁÁÑÕÉ«")]
-    public Color buttonHighlightColor = new Color(1f, 1f, 0.8f, 1f);
+    // ============ è§†è§‰åé¦ˆ - é¢œè‰² ============
+    [Header("è§†è§‰åé¦ˆ - é¢œè‰²")]
+    [Tooltip("æ­£å¸¸é¢œè‰²")]
+    public Color normalColor = Color.white;
 
-    [Tooltip("¿ÉÊ°È¡ÎïÆ·¸ßÁÁÑÕÉ«")]
+    [Tooltip("é¼ æ ‡æ‚¬åœé¢œè‰²")]
+    public Color hoverColor = new Color(1f, 1f, 0.8f, 1f);
+
+    [Tooltip("å¯äº¤äº’æç¤ºé¢œè‰²ï¼ˆå¦‚æŒ‰é’®å¯ç”¨æ—¶ï¼‰")]
+    public Color interactableColor = new Color(0.8f, 1f, 0.8f, 1f);
+
+    [Tooltip("åˆæˆä¸­çš„é—ªçƒé¢œè‰²")]
+    public Color processingColor = new Color(0.6f, 1f, 0.6f, 1f);
+
+    [Tooltip("å¯æ‹¾å–ç‰©å“é«˜äº®é¢œè‰²")]
     public Color pickupHighlightColor = new Color(1f, 1f, 0.7f, 1f);
 
-    [Tooltip("ºÏ³ÉÖĞµÄÉÁË¸ÑÕÉ«")]
-    public Color processingFlashColor = new Color(0.5f, 1f, 0.5f, 1f);
+    [Header("è§†è§‰åé¦ˆ - è¿‡æ¸¡è®¾ç½®")]
+    [Tooltip("é¢œè‰²è¿‡æ¸¡æ—¶é—´ï¼ˆç§’ï¼‰")]
+    public float colorTransitionDuration = 0.15f;
 
-    [Tooltip("ºÏ³ÉÖĞÉÁË¸ËÙ¶È")]
+    [Tooltip("åˆæˆä¸­é—ªçƒé€Ÿåº¦")]
     public float processingFlashSpeed = 5f;
 
-    [Tooltip("½á¹û³öÏÖÊ±µÄËõ·Å¶¯»­")]
+    [Tooltip("ç»“æœå‡ºç°æ—¶çš„ç¼©æ”¾åŠ¨ç”»")]
     public bool enableResultScaleAnimation = true;
 
-    [Tooltip("Ëõ·Å¶¯»­³ÖĞøÊ±¼ä")]
+    [Tooltip("ç¼©æ”¾åŠ¨ç”»æŒç»­æ—¶é—´")]
     public float scaleAnimationDuration = 0.3f;
 
-    // ============ ÌáÊ¾ÎÄ±¾ ============
-    [Header("ÌáÊ¾ÎÄ±¾")]
-    public string noItemHint = "ĞèÒªÑ¡ÖĞ×°ÂúµÄÌÕ¹Ş";
-    public string wrongItemHint = "ĞèÒª·ÅÈë×°ÂúµÄÌÕ¹Ş";
-    public string lidNotOpenHint = "ĞèÒªÏÈ´ò¿ª¸Ç×Ó";
-    public string noPotHint = "ĞèÒªÏÈ·ÅÈëÌÕ¹Ş";
-    public string machineRunningHint = "»úÆ÷ÕıÔÚÔËĞĞ...";
+    // ============ æç¤ºæ–‡æœ¬ ============
+    [Header("æç¤ºæ–‡æœ¬")]
+    public string noItemHint = "éœ€è¦é€‰ä¸­è£…æ»¡çš„é™¶ç½";
+    public string wrongItemHint = "éœ€è¦æ”¾å…¥è£…æ»¡çš„é™¶ç½";
+    public string lidNotOpenHint = "éœ€è¦å…ˆæ‰“å¼€ç›–å­";
+    public string noPotHint = "éœ€è¦å…ˆæ”¾å…¥é™¶ç½";
+    public string machineRunningHint = "æœºå™¨æ­£åœ¨è¿è¡Œ...";
+    public string closeLidFirstHint = "è¯·å…ˆå…³é—­ç›–å­";
+    public string collectItemsFirstHint = "è¯·å…ˆå–å‡ºç‰©å“";
 
-    // ============ ÒôĞ§ ============
-    [Header("ÒôĞ§ÉèÖÃ")]
+    // ============ éŸ³æ•ˆ ============
+    [Header("éŸ³æ•ˆè®¾ç½®")]
     public string lidOpenSFX = "Audio/SFX/lid_open";
     public string lidCloseSFX = "Audio/SFX/lid_close";
     public string potInsertSFX = "Audio/SFX/pot_insert";
     public string buttonPressSFX = "Audio/SFX/button_press";
-    public string processingSFX = "Audio/SFX/machine_running";
+    [Tooltip("åˆæˆä¸­çš„éœ‡åŠ¨/è¿è¡ŒéŸ³æ•ˆï¼ˆå¾ªç¯æ’­æ”¾ï¼‰")]
+    public string processingLoopSFX = "Audio/SFX/machine_vibrate";
     public string completeSFX = "Audio/SFX/synthesis_complete";
     public string pickupSFX = "Audio/SFX/item_pickup";
+    public string errorSFX = "Audio/SFX/error";
 
-    // ============ ÊÂ¼ş ============
-    [Header("ÊÂ¼ş")]
+    // ============ äº‹ä»¶ ============
+    [Header("äº‹ä»¶")]
     public UnityEvent OnLidOpened;
     public UnityEvent OnLidClosed;
     public UnityEvent OnPotInserted;
@@ -162,23 +180,37 @@ public class SynthesisMachine : MonoBehaviour
     public UnityEvent OnShardCollected;
     public UnityEvent OnAllShardsCollected;
 
-    // ============ ÔËĞĞÊ±Êı¾İ ============
-    [Header("µ÷ÊÔĞÅÏ¢£¨Ö»¶Á£©")]
+    // ============ è¿è¡Œæ—¶æ•°æ® ============
+    [Header("è°ƒè¯•ä¿¡æ¯ï¼ˆåªè¯»ï¼‰")]
     [SerializeField] private MachineState currentState = MachineState.Idle_LidClosed;
     [SerializeField] private PotRecipe currentRecipe = null;
     [SerializeField] private bool potCollected = false;
     [SerializeField] private bool shardCollected = false;
     [SerializeField] private int totalShardsCollected = 0;
 
-    // »º´æ
+    // ç¼“å­˜
     private Coroutine processingCoroutine;
-    private bool isAnimating = false;
+    private Coroutine machineColorCoroutine;
+    private Coroutine lidColorCoroutine;
+    private Coroutine buttonColorCoroutine;
+    private Coroutine potColorCoroutine;
+    private Coroutine shardColorCoroutine;
 
-    // ============ ÊôĞÔ ============
+    private bool isAnimating = false;
+    private bool isMachineHovering = false;
+    private bool isLidHovering = false;
+    private bool isButtonHovering = false;
+    private bool isPotHovering = false;
+    private bool isShardHovering = false;
+
+    // éœ‡åŠ¨éŸ³æ•ˆç›¸å…³
+    private AudioSource processingAudioSource;
+
+    // ============ å±æ€§ ============
     public MachineState CurrentState => currentState;
     public int TotalShardsCollected => totalShardsCollected;
 
-    // ============ Unity ÉúÃüÖÜÆÚ ============
+    // ============ Unity ç”Ÿå‘½å‘¨æœŸ ============
     private void Start()
     {
         InitializeVisuals();
@@ -186,46 +218,210 @@ public class SynthesisMachine : MonoBehaviour
 
     private void Update()
     {
-        // ºÏ³ÉÖĞµÄÊÓ¾õĞ§¹û
+        // åˆæˆä¸­çš„æŒ‰é’®é—ªçƒæ•ˆæœ
         if (currentState == MachineState.Processing && buttonRenderer != null)
         {
             float flash = (Mathf.Sin(Time.time * processingFlashSpeed) + 1f) / 2f;
-            buttonRenderer.color = Color.Lerp(Color.white, processingFlashColor, flash);
+            buttonRenderer.color = Color.Lerp(normalColor, processingColor, flash);
         }
     }
 
-    // ============ ³õÊ¼»¯ ============
+    // ============ åˆå§‹åŒ– ============
     private void InitializeVisuals()
     {
         UpdateLidVisual(false);
         UpdateButtonVisual();
 
-        // Òş²ØÕ¹Ê¾ÇøÓòµÄÎïÆ·
+        // éšè—å±•ç¤ºåŒºåŸŸçš„ç‰©å“
         if (displayPotRenderer != null) displayPotRenderer.enabled = false;
         if (displayShardRenderer != null) displayShardRenderer.enabled = false;
+
+        // è®¾ç½®åˆå§‹é¢œè‰²
+        SetRendererColor(machineRenderer, normalColor);
+        SetRendererColor(lidRenderer, normalColor);
+        SetRendererColor(buttonRenderer, normalColor);
     }
 
-    // ============ ½»»¥Èë¿Ú ============
+    // ============ é¢œè‰²è¿‡æ¸¡ç³»ç»Ÿ ============
 
     /// <summary>
-    /// ¸Ç×Ó±»µã»÷
+    /// å¹³æ»‘è¿‡æ¸¡æ¸²æŸ“å™¨é¢œè‰²
     /// </summary>
-    public void OnLidClicked()
+    private Coroutine TransitionColor(SpriteRenderer renderer, Color targetColor, ref Coroutine existingCoroutine)
+    {
+        if (renderer == null) return null;
+
+        if (existingCoroutine != null)
+        {
+            StopCoroutine(existingCoroutine);
+        }
+
+        existingCoroutine = StartCoroutine(ColorTransitionCoroutine(renderer, targetColor));
+        return existingCoroutine;
+    }
+
+    private IEnumerator ColorTransitionCoroutine(SpriteRenderer renderer, Color targetColor)
+    {
+        if (renderer == null) yield break;
+
+        Color startColor = renderer.color;
+        float elapsed = 0f;
+
+        while (elapsed < colorTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = SmoothStep(elapsed / colorTransitionDuration);
+            renderer.color = Color.Lerp(startColor, targetColor, t);
+            yield return null;
+        }
+
+        renderer.color = targetColor;
+    }
+
+    private void SetRendererColor(SpriteRenderer renderer, Color color)
+    {
+        if (renderer != null)
+        {
+            renderer.color = color;
+        }
+    }
+
+    /// <summary>
+    /// å¹³æ»‘æ­¥è¿›å‡½æ•°
+    /// </summary>
+    private float SmoothStep(float t)
+    {
+        return t * t * (3f - 2f * t);
+    }
+
+    // ============ é¼ æ ‡äº‹ä»¶å¤„ç† ============
+
+    // --- æœºå™¨ä¸»ä½“ ---
+    public void OnMachineMouseEnter()
+    {
+        isMachineHovering = true;
+        if (CanInteractWithMachine())
+        {
+            TransitionColor(machineRenderer, hoverColor, ref machineColorCoroutine);
+        }
+    }
+
+    public void OnMachineMouseExit()
+    {
+        isMachineHovering = false;
+        TransitionColor(machineRenderer, normalColor, ref machineColorCoroutine);
+    }
+
+    public void OnMachineClicked()
     {
         if (isAnimating) return;
 
-        Debug.Log($"[SynthesisMachine] ¸Ç×Ó±»µã»÷£¬µ±Ç°×´Ì¬: {currentState}");
+        Debug.Log($"[SynthesisMachine] æœºå™¨è¢«ç‚¹å‡»ï¼Œå½“å‰çŠ¶æ€: {currentState}");
 
         switch (currentState)
         {
             case MachineState.Idle_LidClosed:
-                OpenLid();
-                currentState = MachineState.Idle_LidOpen;
+                // â­ å¦‚æœé€‰ä¸­äº†é™¶ç½ï¼Œæ‰“å¼€ç›–å­åè‡ªåŠ¨æ”¾å…¥
+                if (HasSelectedFilledPot())
+                {
+                    OpenLid();
+                    currentState = MachineState.Idle_LidOpen;
+                    // ç«‹å³æ”¾å…¥é™¶ç½
+                    InsertPot();
+                }
+                else
+                {
+                    // æ²¡æœ‰é€‰ä¸­é™¶ç½ï¼Œåªæ‰“å¼€ç›–å­
+                    OpenLid();
+                    currentState = MachineState.Idle_LidOpen;
+                }
                 break;
 
             case MachineState.Idle_LidOpen:
-                CloseLid();
-                currentState = MachineState.Idle_LidClosed;
+                // â­ ä¼˜å…ˆæ£€æŸ¥æ˜¯å¦è¦æ”¾å…¥é™¶ç½
+                if (HasSelectedFilledPot())
+                {
+                    InsertPot();
+                }
+                else
+                {
+                    // æ²¡æœ‰é€‰ä¸­é™¶ç½ï¼Œå…³é—­ç›–å­
+                    CloseLid();
+                    currentState = MachineState.Idle_LidClosed;
+                }
+                break;
+
+            case MachineState.PotInserted_LidOpen:
+                // å·²æœ‰é™¶ç½ï¼Œæç¤ºå…³é—­ç›–å­
+                ShowHint(closeLidFirstHint);
+                break;
+
+            case MachineState.Processing:
+                ShowHint(machineRunningHint);
+                break;
+
+            case MachineState.Complete_LidOpen:
+            case MachineState.ResultCollecting:
+                ShowHint(collectItemsFirstHint);
+                break;
+
+            default:
+                break;
+        }
+
+        SaveLoadSystem.Instance?.SaveGame();
+    }
+
+    // --- ç›–å­ ---
+    public void OnLidMouseEnter()
+    {
+        isLidHovering = true;
+        if (CanInteractWithLid())
+        {
+            TransitionColor(lidRenderer, hoverColor, ref lidColorCoroutine);
+        }
+    }
+
+    public void OnLidMouseExit()
+    {
+        isLidHovering = false;
+        TransitionColor(lidRenderer, normalColor, ref lidColorCoroutine);
+    }
+
+    public void OnLidClicked()
+    {
+        if (isAnimating) return;
+
+        Debug.Log($"[SynthesisMachine] ç›–å­è¢«ç‚¹å‡»ï¼Œå½“å‰çŠ¶æ€: {currentState}");
+
+        switch (currentState)
+        {
+            case MachineState.Idle_LidClosed:
+                // â­ å¦‚æœé€‰ä¸­äº†é™¶ç½ï¼Œæ‰“å¼€ç›–å­åè‡ªåŠ¨æ”¾å…¥
+                if (HasSelectedFilledPot())
+                {
+                    OpenLid();
+                    currentState = MachineState.Idle_LidOpen;
+                    InsertPot();
+                }
+                else
+                {
+                    OpenLid();
+                    currentState = MachineState.Idle_LidOpen;
+                }
+                break;
+
+            case MachineState.Idle_LidOpen:
+                // â­ ä¼˜å…ˆæ£€æŸ¥æ˜¯å¦è¦æ”¾å…¥é™¶ç½
+                if (HasSelectedFilledPot())
+                {
+                    InsertPot();
+                }
+                else
+                {
+                    CloseLid();
+                    currentState = MachineState.Idle_LidClosed;
+                }
                 break;
 
             case MachineState.PotInserted_LidOpen:
@@ -245,52 +441,42 @@ public class SynthesisMachine : MonoBehaviour
                 break;
 
             case MachineState.Complete_LidOpen:
-                // ºÏ³ÉÍê³Éºó²»ÔÊĞí¹Ø±Õ¸Ç×Ó£¬Ö±µ½ÊÕ¼¯ÍêÎïÆ·
-                ShowHint("ÇëÏÈÈ¡³öÎïÆ·");
+            case MachineState.ResultCollecting:
+                ShowHint(collectItemsFirstHint);
                 break;
         }
 
         SaveLoadSystem.Instance?.SaveGame();
     }
 
-    /// <summary>
-    /// »úÆ÷ÄÚ²¿±»µã»÷£¨ÓÃÓÚ·ÅÈëÌÕ¹Ş£©
-    /// </summary>
-    public void OnInteriorClicked()
+    // --- æŒ‰é’® ---
+    public void OnButtonMouseEnter()
     {
-        if (isAnimating) return;
-
-        Debug.Log($"[SynthesisMachine] »úÆ÷ÄÚ²¿±»µã»÷£¬µ±Ç°×´Ì¬: {currentState}");
-
-        switch (currentState)
+        isButtonHovering = true;
+        if (currentState == MachineState.PotInserted_LidClosed)
         {
-            case MachineState.Idle_LidOpen:
-                TryInsertPot();
-                break;
-
-            case MachineState.Complete_LidOpen:
-            case MachineState.ResultCollecting:
-                // µã»÷ÄÚ²¿ÇøÓò²»×öÈÎºÎÊÂ£¬Íæ¼ÒĞèÒªµã»÷¾ßÌåµÄÌÕ¹Ş»òËéÆ¬
-                break;
-
-            default:
-                if (currentState == MachineState.Idle_LidClosed ||
-                    currentState == MachineState.PotInserted_LidClosed)
-                {
-                    ShowHint(lidNotOpenHint);
-                }
-                break;
+            TransitionColor(buttonRenderer, hoverColor, ref buttonColorCoroutine);
         }
     }
 
-    /// <summary>
-    /// °´Å¥±»µã»÷
-    /// </summary>
+    public void OnButtonMouseExit()
+    {
+        isButtonHovering = false;
+        if (currentState == MachineState.PotInserted_LidClosed)
+        {
+            TransitionColor(buttonRenderer, interactableColor, ref buttonColorCoroutine);
+        }
+        else if (currentState != MachineState.Processing)
+        {
+            TransitionColor(buttonRenderer, normalColor, ref buttonColorCoroutine);
+        }
+    }
+
     public void OnButtonClicked()
     {
         if (isAnimating) return;
 
-        Debug.Log($"[SynthesisMachine] °´Å¥±»µã»÷£¬µ±Ç°×´Ì¬: {currentState}");
+        Debug.Log($"[SynthesisMachine] æŒ‰é’®è¢«ç‚¹å‡»ï¼Œå½“å‰çŠ¶æ€: {currentState}");
 
         switch (currentState)
         {
@@ -301,10 +487,12 @@ public class SynthesisMachine : MonoBehaviour
             case MachineState.Idle_LidClosed:
             case MachineState.Idle_LidOpen:
                 ShowHint(noPotHint);
+                PlaySFX(errorSFX);
                 break;
 
             case MachineState.PotInserted_LidOpen:
-                ShowHint("ÇëÏÈ¹Ø±Õ¸Ç×Ó");
+                ShowHint(closeLidFirstHint);
+                PlaySFX(errorSFX);
                 break;
 
             case MachineState.Processing:
@@ -316,121 +504,146 @@ public class SynthesisMachine : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Õ¹Ê¾µÄÌÕ¹Ş±»µã»÷£¨ÓÃÓÚÊ°È¡£©
-    /// </summary>
+    // --- å±•ç¤ºçš„é™¶ç½ ---
+    public void OnDisplayPotMouseEnter()
+    {
+        isPotHovering = true;
+        if (CanCollectPot())
+        {
+            TransitionColor(displayPotRenderer, pickupHighlightColor, ref potColorCoroutine);
+        }
+    }
+
+    public void OnDisplayPotMouseExit()
+    {
+        isPotHovering = false;
+        TransitionColor(displayPotRenderer, normalColor, ref potColorCoroutine);
+    }
+
     public void OnDisplayPotClicked()
     {
         if (isAnimating) return;
 
-        Debug.Log($"[SynthesisMachine] Õ¹Ê¾µÄÌÕ¹Ş±»µã»÷£¬×´Ì¬: {currentState}, potCollected: {potCollected}");
+        Debug.Log($"[SynthesisMachine] å±•ç¤ºçš„é™¶ç½è¢«ç‚¹å‡»");
 
-        if ((currentState == MachineState.Complete_LidOpen || currentState == MachineState.ResultCollecting)
-            && !potCollected)
+        if (CanCollectPot())
         {
             CollectPot();
         }
     }
 
-    /// <summary>
-    /// Õ¹Ê¾µÄË®¾§ËéÆ¬±»µã»÷£¨ÓÃÓÚÊ°È¡£©
-    /// </summary>
+    // --- å±•ç¤ºçš„æ°´æ™¶ç¢ç‰‡ ---
+    public void OnDisplayShardMouseEnter()
+    {
+        isShardHovering = true;
+        if (CanCollectShard())
+        {
+            TransitionColor(displayShardRenderer, pickupHighlightColor, ref shardColorCoroutine);
+        }
+    }
+
+    public void OnDisplayShardMouseExit()
+    {
+        isShardHovering = false;
+        TransitionColor(displayShardRenderer, normalColor, ref shardColorCoroutine);
+    }
+
     public void OnDisplayShardClicked()
     {
         if (isAnimating) return;
 
-        Debug.Log($"[SynthesisMachine] Õ¹Ê¾µÄË®¾§ËéÆ¬±»µã»÷£¬×´Ì¬: {currentState}, shardCollected: {shardCollected}");
+        Debug.Log($"[SynthesisMachine] å±•ç¤ºçš„æ°´æ™¶ç¢ç‰‡è¢«ç‚¹å‡»");
 
-        if ((currentState == MachineState.Complete_LidOpen || currentState == MachineState.ResultCollecting)
-            && !shardCollected)
+        if (CanCollectShard())
         {
             CollectShard();
         }
     }
 
-    // ============ ºËĞÄÂß¼­ ============
+    // ============ çŠ¶æ€æ£€æŸ¥ ============
+
+    private bool CanInteractWithMachine()
+    {
+        return currentState == MachineState.Idle_LidClosed ||
+               currentState == MachineState.Idle_LidOpen;
+    }
+
+    private bool CanInteractWithLid()
+    {
+        return currentState != MachineState.Processing &&
+               currentState != MachineState.Complete_LidOpen &&
+               currentState != MachineState.ResultCollecting;
+    }
+
+    private bool CanCollectPot()
+    {
+        return (currentState == MachineState.Complete_LidOpen ||
+                currentState == MachineState.ResultCollecting) && !potCollected;
+    }
+
+    private bool CanCollectShard()
+    {
+        return (currentState == MachineState.Complete_LidOpen ||
+                currentState == MachineState.ResultCollecting) && !shardCollected;
+    }
+
+    /// <summary>
+    /// æ£€æŸ¥æ˜¯å¦é€‰ä¸­äº†è£…æ»¡çš„é™¶ç½
+    /// </summary>
+    private bool HasSelectedFilledPot()
+    {
+        if (UIManager.Instance == null) return false;
+        if (filledPotItem == null) return false;
+
+        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+        return selectedItem != null && selectedItem.itemID == filledPotItem.itemID;
+    }
+
+    // ============ æ ¸å¿ƒé€»è¾‘ ============
 
     private void OpenLid()
     {
-        Debug.Log("[SynthesisMachine] ´ò¿ª¸Ç×Ó");
+        Debug.Log("[SynthesisMachine] æ‰“å¼€ç›–å­");
 
         UpdateLidVisual(true);
         PlaySFX(lidOpenSFX);
-
-        // ÏÔÊ¾»úÆ÷ÄÚ²¿
-        if (machineInterior != null)
-        {
-            machineInterior.SetActive(true);
-        }
 
         OnLidOpened?.Invoke();
     }
 
     private void CloseLid()
     {
-        Debug.Log("[SynthesisMachine] ¹Ø±Õ¸Ç×Ó");
+        Debug.Log("[SynthesisMachine] å…³é—­ç›–å­");
 
         UpdateLidVisual(false);
         PlaySFX(lidCloseSFX);
 
-        // Òş²Ø»úÆ÷ÄÚ²¿£¨Èç¹ûÃ»ÓĞÌÕ¹Ş£©
-        if (machineInterior != null && currentState == MachineState.Idle_LidOpen)
-        {
-            machineInterior.SetActive(false);
-        }
-
         OnLidClosed?.Invoke();
-    }
-
-    private void TryInsertPot()
-    {
-        if (UIManager.Instance == null)
-        {
-            Debug.LogError("[SynthesisMachine] UIManager.Instance Îª¿Õ£¡");
-            return;
-        }
-
-        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
-
-        if (selectedItem == null)
-        {
-            ShowHint(noItemHint);
-            return;
-        }
-
-        // ¼ì²éÊÇ·ñÊÇ×°ÂúµÄÌÕ¹Ş
-        if (filledPotItem == null || selectedItem.itemID != filledPotItem.itemID)
-        {
-            ShowHint(wrongItemHint);
-            return;
-        }
-
-        InsertPot();
     }
 
     private void InsertPot()
     {
-        Debug.Log("[SynthesisMachine] ·ÅÈëÌÕ¹Ş");
+        Debug.Log("[SynthesisMachine] æ”¾å…¥é™¶ç½");
 
-        // ÏûºÄ±³°üÖĞµÄÌÕ¹Ş
+        // æ¶ˆè€—èƒŒåŒ…ä¸­çš„é™¶ç½
         UIManager.Instance.ConsumeSelectedItem();
 
-        // »ñÈ¡ÌÕ¹ŞµÄÅä·½ĞÅÏ¢
+        // è·å–é™¶ç½çš„é…æ–¹ä¿¡æ¯
         if (potController != null)
         {
             currentRecipe = potController.MatchedRecipe;
         }
 
-        // ÏÔÊ¾ÌÕ¹Ş
+        // æ˜¾ç¤ºé™¶ç½
         ShowDisplayPot(true, potFilledSprite);
 
-        // ¸üĞÂ×´Ì¬
+        // æ›´æ–°çŠ¶æ€
         currentState = MachineState.PotInserted_LidOpen;
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾éŸ³æ•ˆ
         PlaySFX(potInsertSFX);
 
-        // ´¥·¢ÊÂ¼ş
+        // è§¦å‘äº‹ä»¶
         OnPotInserted?.Invoke();
 
         SaveLoadSystem.Instance?.SaveGame();
@@ -438,69 +651,73 @@ public class SynthesisMachine : MonoBehaviour
 
     private void StartSynthesis()
     {
-        Debug.Log("[SynthesisMachine] ¿ªÊ¼ºÏ³É");
+        Debug.Log("[SynthesisMachine] å¼€å§‹åˆæˆ");
 
-        // °´Å¥°´ÏÂĞ§¹û
+        // æŒ‰é’®æŒ‰ä¸‹æ•ˆæœ
         StartCoroutine(ButtonPressAnimation());
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾æŒ‰é’®éŸ³æ•ˆ
         PlaySFX(buttonPressSFX);
 
-        // ¸üĞÂ×´Ì¬
+        // æ›´æ–°çŠ¶æ€
         currentState = MachineState.Processing;
 
-        // ¸üĞÂ°´Å¥ÊÓ¾õ
+        // æ›´æ–°æŒ‰é’®è§†è§‰
         UpdateButtonVisual();
 
-        // ´¥·¢ÊÂ¼ş
+        // è§¦å‘äº‹ä»¶
         OnSynthesisStarted?.Invoke();
 
-        // Æô¶¯ºÏ³ÉĞ­³Ì
+        // å¯åŠ¨åˆæˆåç¨‹
         processingCoroutine = StartCoroutine(SynthesisProcess());
     }
 
     private IEnumerator SynthesisProcess()
     {
-        Debug.Log($"[SynthesisMachine] ºÏ³É½øĞĞÖĞ... ({synthesisTime}Ãë)");
+        Debug.Log($"[SynthesisMachine] åˆæˆè¿›è¡Œä¸­... ({synthesisTime}ç§’)");
 
-        // ²¥·Å´¦ÀíÒôĞ§
-        PlaySFX(processingSFX);
+        // å¼€å§‹æ’­æ”¾å¾ªç¯éœ‡åŠ¨éŸ³æ•ˆ
+        StartProcessingSound();
 
-        // µÈ´ıºÏ³ÉÊ±¼ä
+        // ç­‰å¾…åˆæˆæ—¶é—´
         yield return new WaitForSeconds(synthesisTime);
 
-        // ºÏ³ÉÍê³É
+        // åœæ­¢éœ‡åŠ¨éŸ³æ•ˆ
+        StopProcessingSound();
+
+        // åˆæˆå®Œæˆ
         CompleteSynthesis();
     }
 
     private void CompleteSynthesis()
     {
-        Debug.Log("[SynthesisMachine] ºÏ³ÉÍê³É£¡");
+        Debug.Log("[SynthesisMachine] åˆæˆå®Œæˆï¼");
 
-        // ²¥·ÅÍê³ÉÒôĞ§
+        // æ’­æ”¾å®ŒæˆéŸ³æ•ˆ
         PlaySFX(completeSFX);
 
-        // ¸üĞÂ×´Ì¬
+        // æ›´æ–°çŠ¶æ€
         currentState = MachineState.Complete_LidOpen;
         potCollected = false;
         shardCollected = false;
 
-        // ´ò¿ª¸Ç×Ó
+        // æ‰“å¼€ç›–å­å¹¶æ’­æ”¾å¼€ç›–éŸ³æ•ˆ
         UpdateLidVisual(true);
+        PlaySFX(lidOpenSFX);
 
-        // ±ê¼ÇÅä·½Íê³É
+        // æ ‡è®°é…æ–¹å®Œæˆ
         if (potController != null)
         {
             potController.MarkRecipeCompleted();
         }
 
-        // ÏÔÊ¾½á¹û
+        // æ˜¾ç¤ºç»“æœ
         StartCoroutine(ShowResultsAnimation());
 
-        // ¸üĞÂ°´Å¥ÊÓ¾õ
+        // æ›´æ–°æŒ‰é’®è§†è§‰
         UpdateButtonVisual();
 
-        // ´¥·¢ÊÂ¼ş
+        // è§¦å‘äº‹ä»¶
         OnSynthesisCompleted?.Invoke();
 
         SaveLoadSystem.Instance?.SaveGame();
@@ -510,10 +727,10 @@ public class SynthesisMachine : MonoBehaviour
     {
         isAnimating = true;
 
-        // ÏÔÊ¾¿ÕÌÕ¹Ş
+        // å…ˆå°†é™¶ç½å›¾ç‰‡æ›´æ¢ä¸ºç©ºé™¶ç½
         ShowDisplayPot(true, potEmptySprite);
 
-        // ÏÔÊ¾Ë®¾§ËéÆ¬
+        // æ˜¾ç¤ºæ°´æ™¶ç¢ç‰‡
         if (currentRecipe != null && currentRecipe.resultShard != null)
         {
             Sprite shardSprite = currentRecipe.shardDisplaySprite;
@@ -524,10 +741,11 @@ public class SynthesisMachine : MonoBehaviour
             ShowDisplayShard(true, shardSprite);
         }
 
-        // Ëõ·Å¶¯»­
+        // ç¼©æ”¾åŠ¨ç”»
         if (enableResultScaleAnimation)
         {
-            yield return StartCoroutine(ScaleAnimation(displayPotRenderer?.transform));
+            // åŒæ—¶æ’­æ”¾ä¸¤ä¸ªç¼©æ”¾åŠ¨ç”»
+            StartCoroutine(ScaleAnimation(displayPotRenderer?.transform));
             yield return StartCoroutine(ScaleAnimation(displayShardRenderer?.transform));
         }
 
@@ -546,8 +764,9 @@ public class SynthesisMachine : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / scaleAnimationDuration;
-            // µ¯ĞÔ»º¶¯
-            t = 1f - Mathf.Pow(1f - t, 3f);
+            // å¼¹æ€§ç¼“åŠ¨ (EaseOutBack)
+            t = 1f + 2.70158f * Mathf.Pow(t - 1f, 3f) + 1.70158f * Mathf.Pow(t - 1f, 2f);
+            t = Mathf.Clamp01(t);
             target.localScale = Vector3.Lerp(Vector3.zero, originalScale, t);
             yield return null;
         }
@@ -557,35 +776,35 @@ public class SynthesisMachine : MonoBehaviour
 
     private void CollectPot()
     {
-        Debug.Log("[SynthesisMachine] Ê°È¡¿ÕÌÕ¹Ş");
+        Debug.Log("[SynthesisMachine] æ‹¾å–ç©ºé™¶ç½");
 
         if (emptyPotItem == null)
         {
-            Debug.LogError("[SynthesisMachine] emptyPotItem Î´ÉèÖÃ£¡");
+            Debug.LogError("[SynthesisMachine] emptyPotItem æœªè®¾ç½®ï¼");
             return;
         }
 
-        // Ìí¼Óµ½±³°ü
+        // æ·»åŠ åˆ°èƒŒåŒ…
         bool added = InventorySystem.Instance.AddItem(emptyPotItem);
         if (!added)
         {
-            ShowHint("±³°üÒÑÂú");
+            ShowHint("èƒŒåŒ…å·²æ»¡");
             return;
         }
 
-        // Òş²ØÕ¹Ê¾µÄÌÕ¹Ş
+        // éšè—å±•ç¤ºçš„é™¶ç½
         ShowDisplayPot(false, null);
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾éŸ³æ•ˆ
         PlaySFX(pickupSFX);
 
-        // ±ê¼ÇÒÑÊ°È¡
+        // æ ‡è®°å·²æ‹¾å–
         potCollected = true;
 
-        // ´¥·¢ÊÂ¼ş
+        // è§¦å‘äº‹ä»¶
         OnPotCollected?.Invoke();
 
-        // ¼ì²éÊÇ·ñÈ«²¿ÊÕ¼¯Íê³É
+        // æ£€æŸ¥æ˜¯å¦å…¨éƒ¨æ”¶é›†å®Œæˆ
         CheckAllCollected();
 
         SaveLoadSystem.Instance?.SaveGame();
@@ -593,45 +812,45 @@ public class SynthesisMachine : MonoBehaviour
 
     private void CollectShard()
     {
-        Debug.Log("[SynthesisMachine] Ê°È¡Ë®¾§ËéÆ¬");
+        Debug.Log("[SynthesisMachine] æ‹¾å–æ°´æ™¶ç¢ç‰‡");
 
         if (currentRecipe == null || currentRecipe.resultShard == null)
         {
-            Debug.LogError("[SynthesisMachine] µ±Ç°Åä·½»ò½á¹ûËéÆ¬Îª¿Õ£¡");
+            Debug.LogError("[SynthesisMachine] å½“å‰é…æ–¹æˆ–ç»“æœç¢ç‰‡ä¸ºç©ºï¼");
             return;
         }
 
-        // Ìí¼Óµ½±³°ü
+        // æ·»åŠ åˆ°èƒŒåŒ…
         bool added = InventorySystem.Instance.AddItem(currentRecipe.resultShard);
         if (!added)
         {
-            ShowHint("±³°üÒÑÂú");
+            ShowHint("èƒŒåŒ…å·²æ»¡");
             return;
         }
 
-        // Òş²ØÕ¹Ê¾µÄËéÆ¬
+        // éšè—å±•ç¤ºçš„ç¢ç‰‡
         ShowDisplayShard(false, null);
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾éŸ³æ•ˆ
         PlaySFX(pickupSFX);
 
-        // ±ê¼ÇÒÑÊ°È¡
+        // æ ‡è®°å·²æ‹¾å–
         shardCollected = true;
         totalShardsCollected++;
 
-        Debug.Log($"[SynthesisMachine] ÒÑÊÕ¼¯Ë®¾§ËéÆ¬ÊıÁ¿: {totalShardsCollected}");
+        Debug.Log($"[SynthesisMachine] å·²æ”¶é›†æ°´æ™¶ç¢ç‰‡æ•°é‡: {totalShardsCollected}");
 
-        // ´¥·¢ÊÂ¼ş
+        // è§¦å‘äº‹ä»¶
         OnShardCollected?.Invoke();
 
-        // ¼ì²éÊÇ·ñÊÕ¼¯ÁËËùÓĞËéÆ¬
+        // æ£€æŸ¥æ˜¯å¦æ”¶é›†äº†æ‰€æœ‰ç¢ç‰‡
         if (potController != null && potController.AreAllRecipesCompleted())
         {
-            Debug.Log("[SynthesisMachine] ¡ï ËùÓĞË®¾§ËéÆ¬ÒÑÊÕ¼¯£¡");
+            Debug.Log("[SynthesisMachine] â˜… æ‰€æœ‰æ°´æ™¶ç¢ç‰‡å·²æ”¶é›†ï¼");
             OnAllShardsCollected?.Invoke();
         }
 
-        // ¼ì²éÊÇ·ñÈ«²¿ÊÕ¼¯Íê³É
+        // æ£€æŸ¥æ˜¯å¦å…¨éƒ¨æ”¶é›†å®Œæˆ
         CheckAllCollected();
 
         SaveLoadSystem.Instance?.SaveGame();
@@ -641,13 +860,13 @@ public class SynthesisMachine : MonoBehaviour
     {
         if (potCollected && shardCollected)
         {
-            Debug.Log("[SynthesisMachine] ËùÓĞÎïÆ·ÒÑÊÕ¼¯£¬ÖØÖÃ»úÆ÷");
+            Debug.Log("[SynthesisMachine] æ‰€æœ‰ç‰©å“å·²æ”¶é›†ï¼Œé‡ç½®æœºå™¨");
 
-            // ÖØÖÃ×´Ì¬
+            // é‡ç½®çŠ¶æ€
             currentState = MachineState.Idle_LidOpen;
             currentRecipe = null;
 
-            // ¸üĞÂ°´Å¥
+            // æ›´æ–°æŒ‰é’®
             UpdateButtonVisual();
         }
         else
@@ -656,7 +875,48 @@ public class SynthesisMachine : MonoBehaviour
         }
     }
 
-    // ============ ÊÓ¾õ¸üĞÂ ============
+    // ============ éŸ³æ•ˆç³»ç»Ÿ ============
+
+    private void StartProcessingSound()
+    {
+        if (string.IsNullOrEmpty(processingLoopSFX)) return;
+
+        // å¦‚æœ AudioManager æ”¯æŒå¾ªç¯æ’­æ”¾
+        if (AudioManager.Instance != null)
+        {
+            // åˆ›å»ºä¸´æ—¶éŸ³æºç”¨äºå¾ªç¯æ’­æ”¾
+            if (processingAudioSource == null)
+            {
+                processingAudioSource = gameObject.AddComponent<AudioSource>();
+                processingAudioSource.loop = true;
+            }
+
+            // å°è¯•ä» Resources åŠ è½½éŸ³é¢‘
+            AudioClip clip = Resources.Load<AudioClip>(processingLoopSFX);
+            if (clip != null)
+            {
+                processingAudioSource.clip = clip;
+                processingAudioSource.Play();
+                Debug.Log("[SynthesisMachine] å¼€å§‹æ’­æ”¾éœ‡åŠ¨éŸ³æ•ˆ");
+            }
+            else
+            {
+                // å¦‚æœæ‰¾ä¸åˆ°ï¼Œå°è¯•ç”¨ AudioManager æ’­æ”¾ä¸€æ¬¡
+                AudioManager.Instance.PlaySFX(processingLoopSFX);
+            }
+        }
+    }
+
+    private void StopProcessingSound()
+    {
+        if (processingAudioSource != null && processingAudioSource.isPlaying)
+        {
+            processingAudioSource.Stop();
+            Debug.Log("[SynthesisMachine] åœæ­¢éœ‡åŠ¨éŸ³æ•ˆ");
+        }
+    }
+
+    // ============ è§†è§‰æ›´æ–° ============
 
     private void UpdateLidVisual(bool isOpen)
     {
@@ -664,10 +924,6 @@ public class SynthesisMachine : MonoBehaviour
         {
             lidRenderer.sprite = isOpen ? lidOpenSprite : lidClosedSprite;
         }
-
-        // Ò²¿ÉÒÔÍ¨¹ı¼¤»î/½ûÓÃ²»Í¬µÄÎïÌåÀ´ÊµÏÖ
-        // if (lidOpenObject != null) lidOpenObject.SetActive(isOpen);
-        // if (lidClosedObject != null) lidClosedObject.SetActive(!isOpen);
     }
 
     private void UpdateButtonVisual()
@@ -677,21 +933,21 @@ public class SynthesisMachine : MonoBehaviour
         switch (currentState)
         {
             case MachineState.PotInserted_LidClosed:
-                // ¿ÉÒÔÆô¶¯
+                // å¯ä»¥å¯åŠ¨ - æ˜¾ç¤ºä¸ºå¯äº¤äº’çŠ¶æ€
                 buttonRenderer.sprite = buttonNormalSprite;
-                buttonRenderer.color = buttonHighlightColor;
+                TransitionColor(buttonRenderer, interactableColor, ref buttonColorCoroutine);
                 break;
 
             case MachineState.Processing:
-                // ÔËĞĞÖĞ
+                // è¿è¡Œä¸­
                 buttonRenderer.sprite = buttonActiveSprite ?? buttonPressedSprite;
-                // ÑÕÉ«ÔÚ Update ÖĞÉÁË¸
+                // é¢œè‰²åœ¨ Update ä¸­é—ªçƒ
                 break;
 
             default:
-                // ½ûÓÃ»òÕı³£×´Ì¬
+                // ç¦ç”¨æˆ–æ­£å¸¸çŠ¶æ€
                 buttonRenderer.sprite = buttonDisabledSprite ?? buttonNormalSprite;
-                buttonRenderer.color = Color.white;
+                TransitionColor(buttonRenderer, normalColor, ref buttonColorCoroutine);
                 break;
         }
     }
@@ -701,6 +957,7 @@ public class SynthesisMachine : MonoBehaviour
         if (displayPotRenderer != null)
         {
             displayPotRenderer.enabled = show;
+            displayPotRenderer.color = normalColor;
             if (sprite != null)
             {
                 displayPotRenderer.sprite = sprite;
@@ -713,6 +970,7 @@ public class SynthesisMachine : MonoBehaviour
         if (displayShardRenderer != null)
         {
             displayShardRenderer.enabled = show;
+            displayShardRenderer.color = normalColor;
             if (sprite != null)
             {
                 displayShardRenderer.sprite = sprite;
@@ -729,10 +987,10 @@ public class SynthesisMachine : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        // ²»»Ö¸´£¬ÒòÎª×´Ì¬»á±äÎª Processing
+        // çŠ¶æ€ä¼šå˜ä¸º Processingï¼Œæ‰€ä»¥ä¸éœ€è¦æ¢å¤
     }
 
-    // ============ ¸¨Öú·½·¨ ============
+    // ============ è¾…åŠ©æ–¹æ³• ============
 
     private void PlaySFX(string sfxName)
     {
@@ -744,12 +1002,22 @@ public class SynthesisMachine : MonoBehaviour
 
     private void ShowHint(string hint)
     {
-        Debug.Log($"[ÌáÊ¾] {hint}");
-        // Èç¹ûÓĞÌáÊ¾ÏµÍ³£º
+        Debug.Log($"[æç¤º] {hint}");
+        // å¦‚æœæœ‰æç¤ºç³»ç»Ÿï¼š
         // HintSystem.Instance?.ShowHint(hint);
     }
 
-    // ============ ´æµµ/¶Áµµ ============
+    private void OnDestroy()
+    {
+        // æ¸…ç†éŸ³æº
+        StopProcessingSound();
+        if (processingAudioSource != null)
+        {
+            Destroy(processingAudioSource);
+        }
+    }
+
+    // ============ å­˜æ¡£/è¯»æ¡£ ============
 
     [System.Serializable]
     public class MachineSaveData
@@ -784,7 +1052,7 @@ public class SynthesisMachine : MonoBehaviour
         this.shardCollected = data.shardCollected;
         this.totalShardsCollected = data.totalShardsCollected;
 
-        // »Ö¸´Åä·½
+        // æ¢å¤é…æ–¹
         this.currentRecipe = null;
         if (!string.IsNullOrEmpty(data.currentRecipeID) && availableRecipes != null)
         {
@@ -798,10 +1066,10 @@ public class SynthesisMachine : MonoBehaviour
             }
         }
 
-        // »Ö¸´ÊÓ¾õ×´Ì¬
+        // æ¢å¤è§†è§‰çŠ¶æ€
         RestoreVisualState();
 
-        Debug.Log($"[SynthesisMachine] ¼ÓÔØ´æµµ: state={currentState}, shards={totalShardsCollected}");
+        Debug.Log($"[SynthesisMachine] åŠ è½½å­˜æ¡£: state={currentState}, shards={totalShardsCollected}");
     }
 
     private void RestoreVisualState()
@@ -814,7 +1082,11 @@ public class SynthesisMachine : MonoBehaviour
         UpdateLidVisual(isLidOpen);
         UpdateButtonVisual();
 
-        // »Ö¸´Õ¹Ê¾ÎïÆ·
+        // é‡ç½®æ‰€æœ‰é¢œè‰²
+        SetRendererColor(machineRenderer, normalColor);
+        SetRendererColor(lidRenderer, normalColor);
+
+        // æ¢å¤å±•ç¤ºç‰©å“
         switch (currentState)
         {
             case MachineState.PotInserted_LidOpen:
@@ -829,10 +1101,19 @@ public class SynthesisMachine : MonoBehaviour
                 {
                     ShowDisplayPot(true, potEmptySprite);
                 }
+                else
+                {
+                    ShowDisplayPot(false, null);
+                }
+
                 if (!shardCollected && currentRecipe != null)
                 {
                     Sprite shardSprite = currentRecipe.shardDisplaySprite ?? currentRecipe.resultShard?.icon;
                     ShowDisplayShard(true, shardSprite);
+                }
+                else
+                {
+                    ShowDisplayShard(false, null);
                 }
                 break;
 
@@ -840,11 +1121,6 @@ public class SynthesisMachine : MonoBehaviour
                 ShowDisplayPot(false, null);
                 ShowDisplayShard(false, null);
                 break;
-        }
-
-        if (machineInterior != null)
-        {
-            machineInterior.SetActive(isLidOpen);
         }
     }
 }

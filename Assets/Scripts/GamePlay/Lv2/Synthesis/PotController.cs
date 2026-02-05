@@ -1,7 +1,9 @@
 ﻿// Assets/Scripts/GamePlay/Synthesis/PotController.cs
 // 陶罐控制器 - 管理陶罐的物品收集、状态和交互
+// 优化版：添加平滑颜色过渡动画
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -65,23 +67,30 @@ public class PotController : MonoBehaviour
     public Sprite filledSprite;
 
     // ============ 视觉反馈 ============
-    [Header("视觉反馈")]
-    [Tooltip("可交互时的高亮颜色")]
-    public Color highlightColor = new Color(1f, 1f, 0.7f, 1f);
-
-    [Tooltip("不可交互时的颜色")]
+    [Header("视觉反馈 - 颜色")]
+    [Tooltip("正常颜色")]
     public Color normalColor = Color.white;
 
+    [Tooltip("鼠标悬停时的高亮颜色")]
+    public Color hoverColor = new Color(1f, 1f, 0.7f, 1f);
+
     [Tooltip("物品放入成功时的闪烁颜色")]
-    public Color successFlashColor = Color.green;
+    public Color successColor = new Color(0.5f, 1f, 0.5f, 1f);
 
     [Tooltip("物品放入失败时的闪烁颜色")]
-    public Color failFlashColor = Color.red;
+    public Color failColor = new Color(1f, 0.5f, 0.5f, 1f);
 
-    [Tooltip("闪烁持续时间")]
+    [Tooltip("陶罐准备就绪时的脉冲颜色")]
+    public Color readyPulseColor = new Color(1f, 1f, 0.6f, 1f);
+
+    [Header("视觉反馈 - 过渡设置")]
+    [Tooltip("颜色过渡时间（秒）")]
+    public float colorTransitionDuration = 0.15f;
+
+    [Tooltip("闪烁持续时间（秒）")]
     public float flashDuration = 0.3f;
 
-    [Tooltip("陶罐准备就绪时的脉冲效果")]
+    [Tooltip("是否启用准备就绪时的脉冲效果")]
     public bool enableReadyPulse = true;
 
     [Tooltip("脉冲速度")]
@@ -138,9 +147,14 @@ public class PotController : MonoBehaviour
     // 缓存
     private SpriteRenderer spriteRenderer;
     private Collider2D potCollider;
-    private Color originalColor;
+
+    // 颜色过渡相关
+    private Color currentColor;
+    private Color targetColor;
+    private Coroutine colorTransitionCoroutine;
+    private Coroutine flashCoroutine;
     private bool isFlashing = false;
-    private bool isPulsing = false;
+    private bool isHovering = false;
 
     // ============ 属性 ============
     public PotState CurrentState => currentState;
@@ -155,9 +169,12 @@ public class PotController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         potCollider = GetComponent<Collider2D>();
 
+        currentColor = normalColor;
+        targetColor = normalColor;
+
         if (spriteRenderer != null)
         {
-            originalColor = spriteRenderer.color;
+            spriteRenderer.color = normalColor;
         }
     }
 
@@ -172,7 +189,15 @@ public class PotController : MonoBehaviour
         if (enableReadyPulse && currentState == PotState.OnTable_Ready && !isFlashing)
         {
             float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
-            spriteRenderer.color = Color.Lerp(normalColor, highlightColor, pulse * 0.5f);
+            Color pulseTarget = Color.Lerp(normalColor, readyPulseColor, pulse * 0.6f);
+
+            // 如果鼠标悬停，混合悬停颜色
+            if (isHovering)
+            {
+                pulseTarget = Color.Lerp(pulseTarget, hoverColor, 0.5f);
+            }
+
+            spriteRenderer.color = pulseTarget;
         }
     }
 
@@ -182,18 +207,22 @@ public class PotController : MonoBehaviour
             currentState == PotState.OnTable_Filling ||
             currentState == PotState.OnTable_Ready)
         {
-            if (!isFlashing && !isPulsing)
+            isHovering = true;
+
+            if (!isFlashing && currentState != PotState.OnTable_Ready)
             {
-                spriteRenderer.color = highlightColor;
+                TransitionToColor(hoverColor);
             }
         }
     }
 
     private void OnMouseExit()
     {
-        if (!isFlashing && !isPulsing)
+        isHovering = false;
+
+        if (!isFlashing && currentState != PotState.OnTable_Ready)
         {
-            spriteRenderer.color = normalColor;
+            TransitionToColor(normalColor);
         }
     }
 
@@ -207,6 +236,111 @@ public class PotController : MonoBehaviour
         }
 
         Interact();
+    }
+
+    // ============ 颜色过渡系统 ============
+
+    /// <summary>
+    /// 平滑过渡到目标颜色
+    /// </summary>
+    private void TransitionToColor(Color target)
+    {
+        targetColor = target;
+
+        if (colorTransitionCoroutine != null)
+        {
+            StopCoroutine(colorTransitionCoroutine);
+        }
+
+        colorTransitionCoroutine = StartCoroutine(ColorTransitionCoroutine(target));
+    }
+
+    private IEnumerator ColorTransitionCoroutine(Color target)
+    {
+        Color startColor = spriteRenderer.color;
+        float elapsed = 0f;
+
+        while (elapsed < colorTransitionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / colorTransitionDuration;
+
+            // 使用平滑的缓动函数
+            t = SmoothStep(t);
+
+            spriteRenderer.color = Color.Lerp(startColor, target, t);
+            currentColor = spriteRenderer.color;
+
+            yield return null;
+        }
+
+        spriteRenderer.color = target;
+        currentColor = target;
+        colorTransitionCoroutine = null;
+    }
+
+    /// <summary>
+    /// 闪烁效果（用于成功/失败反馈）
+    /// </summary>
+    private void FlashColor(Color flashColor)
+    {
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(flashCoroutine);
+        }
+
+        flashCoroutine = StartCoroutine(FlashColorCoroutine(flashColor));
+    }
+
+    private IEnumerator FlashColorCoroutine(Color flashColor)
+    {
+        isFlashing = true;
+
+        // 快速过渡到闪烁颜色
+        Color startColor = spriteRenderer.color;
+        float fadeInTime = flashDuration * 0.3f;
+        float holdTime = flashDuration * 0.2f;
+        float fadeOutTime = flashDuration * 0.5f;
+
+        // 淡入闪烁颜色
+        float elapsed = 0f;
+        while (elapsed < fadeInTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = SmoothStep(elapsed / fadeInTime);
+            spriteRenderer.color = Color.Lerp(startColor, flashColor, t);
+            yield return null;
+        }
+
+        spriteRenderer.color = flashColor;
+
+        // 保持
+        yield return new WaitForSeconds(holdTime);
+
+        // 淡出回到目标颜色
+        Color returnColor = isHovering ? hoverColor : normalColor;
+        elapsed = 0f;
+        while (elapsed < fadeOutTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = SmoothStep(elapsed / fadeOutTime);
+            spriteRenderer.color = Color.Lerp(flashColor, returnColor, t);
+            yield return null;
+        }
+
+        spriteRenderer.color = returnColor;
+        currentColor = returnColor;
+
+        isFlashing = false;
+        flashCoroutine = null;
+    }
+
+    /// <summary>
+    /// 平滑步进函数 (SmoothStep)
+    /// </summary>
+    private float SmoothStep(float t)
+    {
+        return t * t * (3f - 2f * t);
     }
 
     // ============ 主交互逻辑 ============
@@ -247,7 +381,7 @@ public class PotController : MonoBehaviour
         {
             Debug.Log($"[PotController] {noItemHint}");
             ShowHint(noItemHint);
-            StartCoroutine(FlashColor(failFlashColor));
+            FlashColor(failColor);
             return;
         }
 
@@ -257,7 +391,7 @@ public class PotController : MonoBehaviour
             Debug.Log($"[PotController] {wrongItemHint}: {selectedItem.displayName}");
             ShowHint(wrongItemHint);
             PlaySFX(errorSFX);
-            StartCoroutine(FlashColor(failFlashColor));
+            FlashColor(failColor);
             return;
         }
 
@@ -267,7 +401,7 @@ public class PotController : MonoBehaviour
             Debug.Log($"[PotController] 物品已在陶罐中: {selectedItem.displayName}");
             ShowHint("这个已经放进去了");
             PlaySFX(errorSFX);
-            StartCoroutine(FlashColor(failFlashColor));
+            FlashColor(failColor);
             return;
         }
 
@@ -289,7 +423,7 @@ public class PotController : MonoBehaviour
         PlaySFX(addItemSFX);
 
         // 视觉反馈
-        StartCoroutine(FlashColor(successFlashColor));
+        FlashColor(successColor);
 
         // 检查是否匹配配方
         CheckRecipeMatch();
@@ -455,6 +589,12 @@ public class PotController : MonoBehaviour
         // 播放音效
         PlaySFX(placeSFX);
 
+        // 重置颜色状态
+        isFlashing = false;
+        isHovering = false;
+        spriteRenderer.color = normalColor;
+        currentColor = normalColor;
+
         // 更新视觉
         UpdateVisuals();
 
@@ -546,24 +686,6 @@ public class PotController : MonoBehaviour
         {
             spriteRenderer.sprite = targetSprite;
         }
-
-        // 重置颜色
-        if (!isFlashing)
-        {
-            spriteRenderer.color = normalColor;
-        }
-    }
-
-    // ============ 视觉反馈协程 ============
-    private System.Collections.IEnumerator FlashColor(Color flashColor)
-    {
-        isFlashing = true;
-
-        spriteRenderer.color = flashColor;
-        yield return new WaitForSeconds(flashDuration);
-        spriteRenderer.color = normalColor;
-
-        isFlashing = false;
     }
 
     // ============ 辅助方法 ============
@@ -577,7 +699,6 @@ public class PotController : MonoBehaviour
 
     private void ShowHint(string hint)
     {
-        // 这里可以连接到你的提示系统
         Debug.Log($"[提示] {hint}");
         // 如果有提示系统：
         // HintSystem.Instance?.ShowHint(hint);
@@ -631,6 +752,16 @@ public class PotController : MonoBehaviour
         }
 
         gameObject.SetActive(data.isActive);
+
+        // 重置颜色状态
+        isFlashing = false;
+        isHovering = false;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = normalColor;
+        }
+        currentColor = normalColor;
+
         UpdateVisuals();
 
         Debug.Log($"[PotController] 加载存档: state={currentState}, items={containedItemIDs.Count}, completed={completedRecipeIDs.Count}");

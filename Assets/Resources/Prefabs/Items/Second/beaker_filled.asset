@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: beaker_filled
   displayName: "\u6709\u6C34\u70E7\u676F"
   description: 
-  icon: {fileID: 21300000, guid: 1d66ddc379747184788dbd04b02b47de, type: 3}
+  icon: {fileID: 21300000, guid: 7027f07754207c54797da648b41b2475, type: 3}
   category: 0

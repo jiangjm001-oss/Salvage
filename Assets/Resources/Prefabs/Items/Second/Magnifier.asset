@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: Magnifier
   displayName: Magnifier
   description: 
-  icon: {fileID: 21300000, guid: 68a5c8761db04b84bade6f0b56e4a2d9, type: 3}
+  icon: {fileID: 21300000, guid: 2f7edc29b5bc0f74cba45c49feb35f40, type: 3}
   category: 0

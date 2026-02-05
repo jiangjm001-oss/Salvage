@@ -34,7 +34,7 @@ public class PotRecipe : ScriptableObject
     /// <summary>
     /// 检查物品列表是否匹配此配方
     /// </summary>
-    /// <param name="items">要检查的物品ID列表</param>
+    /// <param name="itemIDs">要检查的物品ID列表</param>
     /// <returns>是否完全匹配</returns>
     public bool MatchesRecipe(System.Collections.Generic.List<string> itemIDs)
     {

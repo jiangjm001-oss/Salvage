@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: Shard4_Item
   displayName: Shard4_Item
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c0ad9abfc44fba141b2610c6b6197a19, type: 3}
   category: 0
