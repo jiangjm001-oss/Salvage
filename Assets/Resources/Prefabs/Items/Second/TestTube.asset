@@ -15,5 +15,5 @@ MonoBehaviour:
   itemID: TestTube
   displayName: "\u8BD5\u7BA1"
   description: 
-  icon: {fileID: 21300000, guid: cef7eb6c23319de4d806727d64d1f0fd, type: 3}
+  icon: {fileID: 21300000, guid: fa0847fafe2c95d44b95065cd93f50b4, type: 3}
   category: 0

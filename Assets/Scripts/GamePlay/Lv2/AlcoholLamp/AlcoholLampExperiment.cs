@@ -31,9 +31,6 @@ public class AlcoholLampExperiment : MonoBehaviour
     [Tooltip("试管物品数据")]
     public ItemData testTubeItem;
 
-    [Tooltip("肋骨粉末物品数据")]
-    public ItemData ribPowderItem;
-
     [Tooltip("烧熟的粉末物品数据（最终产物）")]
     public ItemData cookedPowderItem;
 
@@ -64,7 +61,6 @@ public class AlcoholLampExperiment : MonoBehaviour
     public string noItemHint = "需要用什么东西...";
     public string wrongItemForLampHint = "这个点不着酒精灯...";
     public string wrongItemForFlameHint = "这个东西不能放在火上加热...";
-    public string wrongItemForTubeHint = "这个东西不需要加热...";
     public string waitingHint = "正在加热中，请稍等...";
 
     [Header("音效")]
@@ -176,29 +172,28 @@ public class AlcoholLampExperiment : MonoBehaviour
     }
 
     /// <summary>
-    /// 点击试管
+    /// 点击试管（直接开始加热，无需选中物品）
     /// </summary>
     public void ClickTestTube()
     {
         Debug.Log($"[AlcoholLampExperiment] 点击试管，当前阶段: {currentStage}");
 
+        // 正在加热中
         if (isCooking)
         {
             ShowHint(waitingHint);
             return;
         }
 
+        // 只有试管放置后才能点击加热
         if (currentStage != Stage.TestTubePlaced)
         {
-            Debug.Log("[AlcoholLampExperiment] 当前阶段不能添加粉末");
+            Debug.Log("[AlcoholLampExperiment] 当前阶段不能加热");
             return;
         }
 
-        if (!TryUseItem(ribPowderItem, wrongItemForTubeHint))
-            return;
-
-        // 添加粉末并开始加热
-        Debug.Log("[AlcoholLampExperiment] ★ 添加粉末，开始加热！");
+        // 直接开始加热（不需要选中物品）
+        Debug.Log("[AlcoholLampExperiment] ★ 开始加热试管！");
         currentStage = Stage.PowderAdded;
         PlaySound(addPowderSound);
         UpdateVisibility();
