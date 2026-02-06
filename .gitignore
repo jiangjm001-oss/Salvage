@@ -1,10 +1,10 @@
 # ============================================
-# Unity项目 .gitignore 配置文件
-# 用于 Blank Salvager (空白打捞人) 项目
+# Unity Project .gitignore
+# For Blank Salvager Project
 # ============================================
 
 # --------------------------------------------
-# Unity 自动生成的文件夹（必须排除）
+# Unity Auto-Generated Folders (Must Exclude)
 # --------------------------------------------
 [Ll]ibrary/
 [Tt]emp/
@@ -15,32 +15,32 @@
 [Uu]ser[Ss]ettings/
 
 # --------------------------------------------
-# Unity 元数据文件（对代码分析无用）
+# Unity Meta Files (No Value for Code Analysis)
 # --------------------------------------------
 *.meta
 
 # --------------------------------------------
-# Unity 资源文件（通常不需要版本控制）
+# Unity Asset Files (Usually No Need for Version Control)
 # --------------------------------------------
-# Scene 文件
+# Scene files
 *.unity
 
-# Prefab 文件
+# Prefab files
 *.prefab
 
-# Asset 文件
+# Asset files
 *.asset
 
-# 动画文件
+# Animation files
 *.anim
 *.controller
 
-# 材质和着色器
+# Materials and shaders
 *.mat
 *.shader
 *.shadergraph
 
-# Light 数据
+# Light data
 *.lighting
 *.giparams
 
@@ -51,21 +51,21 @@
 *.unitypackage
 
 # --------------------------------------------
-# 音视频资源（文件大，按需排除）
+# Audio/Video Assets (Large Files, Exclude as Needed)
 # --------------------------------------------
-# 音频文件
+# Audio files
 *.wav
 *.mp3
 *.ogg
 *.aiff
 
-# 视频文件
+# Video files
 *.mp4
 *.mov
 *.avi
 
 # --------------------------------------------
-# 图像资源（文件大，按需排除）
+# Image Assets (Large Files, Exclude as Needed)
 # --------------------------------------------
 *.png
 *.jpg
@@ -78,24 +78,24 @@
 *.webp
 
 # --------------------------------------------
-# 字体文件
+# Font Files
 # --------------------------------------------
 *.ttf
 *.otf
 
 # --------------------------------------------
-# TextMesh Pro 生成文件
+# TextMesh Pro Generated Files
 # --------------------------------------------
 TextMesh Pro/
 
 # --------------------------------------------
-# Visual Studio / Rider IDE 文件
+# Visual Studio / Rider IDE Files
 # --------------------------------------------
 .vs/
 .vscode/
 .idea/
 
-# Solution 和 Project 文件（Unity会自动生成）
+# Solution and Project files (Unity auto-generates these)
 *.csproj
 *.sln
 *.suo
@@ -108,9 +108,10 @@ TextMesh Pro/
 *.mdb
 *.opendb
 *.VC.db
+.vsconfig
 
 # --------------------------------------------
-# macOS 系统文件
+# macOS System Files
 # --------------------------------------------
 .DS_Store
 .AppleDouble
@@ -118,7 +119,7 @@ TextMesh Pro/
 ._*
 
 # --------------------------------------------
-# Windows 系统文件
+# Windows System Files
 # --------------------------------------------
 Thumbs.db
 Thumbs.db.meta
@@ -129,69 +130,76 @@ ehthumbs_vista.db
 $RECYCLE.BIN/
 
 # --------------------------------------------
-# Linux 系统文件
+# Linux System Files
 # --------------------------------------------
 *~
 .directory
 .Trash-*
 
 # --------------------------------------------
-# 崩溃日志和调试文件
+# Crash Logs and Debug Files
 # --------------------------------------------
 sysinfo.txt
 *.stackdump
 *.log
 
 # --------------------------------------------
-# Unity 云构建
+# Unity Cloud Build
 # --------------------------------------------
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
 # --------------------------------------------
-# Plastic SCM（Unity版本控制）
+# Plastic SCM (Unity Version Control)
 # --------------------------------------------
 .plastic/
 
 # --------------------------------------------
-# Unity 编辑器临时资源
+# Unity Editor Temporary Assets
 # --------------------------------------------
 ExportedObj/
 .consulo/
 
 # --------------------------------------------
-# Unity 自动备份
+# Unity Auto Backup
 # --------------------------------------------
 **/AutoSave*
 *.backup
 
 # --------------------------------------------
-# 可选：大型第三方插件（按需取消注释）
+# Optional: Large Third-Party Plugins (Uncomment if Needed)
 # --------------------------------------------
 # Assets/Plugins/
 # Assets/Standard Assets/
 
 # --------------------------------------------
-# 保存数据文件（开发测试用，正式版可能要保留）
+# Temporary Development Files
 # --------------------------------------------
-# 如果不想上传本地存档，取消下面的注释
+Temp.txt
+*_FIX_GUIDE.md
+*_REFERENCE.md
+*_SUMMARY.md
+
+# --------------------------------------------
+# Save Data Files (Development Test, May Keep for Release)
+# --------------------------------------------
+# Uncomment if you don't want to upload local save files
 # PlayerPrefs.txt
 # *.sav
 # *.dat
 
 # --------------------------------------------
-# ⭐ 特别说明 ⭐
+# IMPORTANT: What Should Be Kept and Uploaded
 # --------------------------------------------
-# 本项目应该保留并上传的内容：
-# 1. Assets/Scripts/**/*.cs      ← 所有 C# 脚本（核心代码）
-# 2. ProjectSettings/            ← 项目配置
-# 3. Packages/manifest.json      ← 依赖包配置
-# 4. README.md                   ← 项目文档
-# 5. Assets/Resources/**/*.txt   ← README等文档文件
+# 1. Assets/Scripts/**/*.cs      - All C# scripts (core code)
+# 2. ProjectSettings/            - Project configuration
+# 3. Packages/manifest.json      - Dependency package configuration
+# 4. README.md                   - Project documentation
+# 5. Assets/Resources/**/*.txt   - README and other doc files
 #
-# 如果你需要上传特定的资源文件（如关键图片/音频），
-# 可以在.gitignore中添加例外规则，例如：
+# If you need to upload specific asset files (like key images/audio),
+# you can add exception rules in .gitignore, for example:
 # !Assets/Resources/Audio/BGM.mp3
 # !Assets/Sprites/Logo.png
 # ============================================
