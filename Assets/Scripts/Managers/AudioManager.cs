@@ -1,28 +1,82 @@
-// Assets/Scripts/Managers/AudioManager.cs - ���°汾
-// ��ԭ��AudioManager.cs�Ļ������������·���
+// Assets/Scripts/Managers/AudioManager.cs - 完整升级版
+// 新增功能：
+// 1. BGM 淡入淡出切换
+// 2. SFX Library 支持（拖拽配置音效）
+// 【重要】完全兼容现有代码，无需修改任何谜题脚本
 
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("��ƵԴ")]
+    // ============ 音频源 ============
+    [Header("音频源")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
-    [Header("��Ƶ״̬")]
+    // ============ 音效库 ============
+    [Header("音效库（拖入 SFXLibrary 资产）")]
+    [Tooltip("拖入 SFXLibrary.asset，可在其中集中配置所有音效")]
+    public SFXLibrary sfxLibrary;
+
+    // ============ BGM 配置 ============
+    [Header("BGM 配置（直接拖入音频文件）")]
+    [Tooltip("主菜单 BGM")]
+    public AudioClip bgm1_MainMenu;
+
+    [Tooltip("第一关过渡动画 BGM")]
+    public AudioClip bgm2_Level1Transition;
+
+    [Tooltip("第二关 BGM")]
+    public AudioClip bgm3_Level2;
+
+    [Tooltip("第二关 Dream ZoomView BGM")]
+    public AudioClip bgm4_Dream;
+
+    [Tooltip("水晶谜题完成后 BGM")]
+    public AudioClip bgm5_CrystalComplete;
+
+    [Header("BGM 切换设置")]
+    [Tooltip("淡入淡出时长")]
+    [Range(0.5f, 3f)]
+    public float fadeDuration = 1.5f;
+
+    [Tooltip("BGM 音量")]
+    [Range(0f, 1f)]
+    public float musicVolume = 0.7f;
+
+    // ============ 状态追踪 ============
+    [Header("状态（只读）")]
+    [SerializeField] private string currentBGMName = "None";
+    [SerializeField] private bool isTransitioning = false;
+
+    private AudioClip currentBGM = null;
+    private Coroutine fadeCoroutine = null;
     private bool isMusicEnabled = true;
     private bool isSFXEnabled = true;
 
-    [Header("��Ч��Դ����")]
+    // 音效缓存（Resources 加载的音效）
     private Dictionary<string, AudioClip> sfxCache = new Dictionary<string, AudioClip>();
 
-    // �¼�
+    // 事件
     public UnityEvent<bool> OnMusicToggled = new UnityEvent<bool>();
     public UnityEvent<bool> OnSFXToggled = new UnityEvent<bool>();
+    public UnityEvent<string> OnBGMChanged = new UnityEvent<string>();
+
+    // ============ BGM 枚举 ============
+    public enum BGMType
+    {
+        None,
+        BGM1_MainMenu,
+        BGM2_Level1Transition,
+        BGM3_Level2,
+        BGM4_Dream,
+        BGM5_CrystalComplete
+    }
 
     private void Awake()
     {
@@ -33,16 +87,205 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[AudioManager] Duplicate AudioManager detected on {gameObject.name}! Destroying this component only.");
-            Destroy(this);  // 只销毁组件，不销毁整个 GameObject
+            Debug.LogWarning($"[AudioManager] Duplicate detected on {gameObject.name}! Destroying this component.");
+            Destroy(this);
             return;
         }
 
         LoadSettings();
         ApplySettings();
+
+        // 验证 SFXLibrary
+        if (sfxLibrary == null)
+        {
+            Debug.LogWarning("[AudioManager] SFXLibrary not assigned! Sound effects will use Resources.Load as fallback.");
+        }
+        else
+        {
+            Debug.Log("[AudioManager] SFXLibrary loaded successfully.");
+        }
     }
 
-    // ============ ���ֿ��� ============
+    // ============ 🎵 BGM 快捷播放方法 ============
+
+    public void PlayBGM_MainMenu()
+    {
+        SwitchBGM(bgm1_MainMenu, "BGM1_MainMenu");
+    }
+
+    public void PlayBGM_Level1Transition()
+    {
+        SwitchBGM(bgm2_Level1Transition, "BGM2_Level1Transition");
+    }
+
+    public void PlayBGM_Level2()
+    {
+        SwitchBGM(bgm3_Level2, "BGM3_Level2");
+    }
+
+    public void PlayBGM_Dream()
+    {
+        SwitchBGM(bgm4_Dream, "BGM4_Dream");
+    }
+
+    public void PlayBGM_CrystalComplete()
+    {
+        SwitchBGM(bgm5_CrystalComplete, "BGM5_CrystalComplete");
+    }
+
+    public void PlayBGM(BGMType bgmType)
+    {
+        switch (bgmType)
+        {
+            case BGMType.BGM1_MainMenu:
+                PlayBGM_MainMenu();
+                break;
+            case BGMType.BGM2_Level1Transition:
+                PlayBGM_Level1Transition();
+                break;
+            case BGMType.BGM3_Level2:
+                PlayBGM_Level2();
+                break;
+            case BGMType.BGM4_Dream:
+                PlayBGM_Dream();
+                break;
+            case BGMType.BGM5_CrystalComplete:
+                PlayBGM_CrystalComplete();
+                break;
+            case BGMType.None:
+                StopBGMWithFade();
+                break;
+        }
+    }
+
+    // ============ 🎵 BGM 核心切换逻辑 ============
+
+    public void SwitchBGM(AudioClip newClip, string clipName = "")
+    {
+        if (newClip == null)
+        {
+            Debug.LogWarning($"[AudioManager] BGM clip is null: {clipName}");
+            return;
+        }
+
+        if (currentBGM == newClip && musicSource.isPlaying)
+        {
+            Debug.Log($"[AudioManager] BGM already playing: {clipName}");
+            return;
+        }
+
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+        }
+
+        fadeCoroutine = StartCoroutine(CrossfadeBGM(newClip, clipName));
+    }
+
+    public void StopBGMWithFade()
+    {
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+        }
+
+        fadeCoroutine = StartCoroutine(FadeOutBGM());
+    }
+
+    public void StopBGMImmediate()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+            musicSource.clip = null;
+            currentBGM = null;
+            currentBGMName = "None";
+        }
+    }
+
+    private IEnumerator CrossfadeBGM(AudioClip newClip, string clipName)
+    {
+        isTransitioning = true;
+        float halfDuration = fadeDuration / 2f;
+
+        // 淡出
+        if (musicSource.isPlaying && musicSource.volume > 0)
+        {
+            float startVolume = musicSource.volume;
+            float elapsed = 0f;
+
+            while (elapsed < halfDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / halfDuration;
+                float smoothT = Mathf.SmoothStep(0, 1, t);
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, smoothT);
+                yield return null;
+            }
+
+            musicSource.Stop();
+        }
+
+        // 切换并淡入
+        currentBGM = newClip;
+        currentBGMName = string.IsNullOrEmpty(clipName) ? newClip.name : clipName;
+
+        musicSource.clip = newClip;
+        musicSource.loop = true;
+        musicSource.volume = 0f;
+
+        if (isMusicEnabled)
+        {
+            musicSource.Play();
+
+            float elapsed = 0f;
+            while (elapsed < halfDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / halfDuration;
+                float smoothT = Mathf.SmoothStep(0, 1, t);
+                musicSource.volume = Mathf.Lerp(0f, musicVolume, smoothT);
+                yield return null;
+            }
+
+            musicSource.volume = musicVolume;
+        }
+
+        isTransitioning = false;
+        OnBGMChanged?.Invoke(currentBGMName);
+        Debug.Log($"[AudioManager] ♫ BGM switched to: {currentBGMName}");
+    }
+
+    private IEnumerator FadeOutBGM()
+    {
+        isTransitioning = true;
+
+        if (musicSource.isPlaying)
+        {
+            float startVolume = musicSource.volume;
+            float elapsed = 0f;
+
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / fadeDuration;
+                float smoothT = Mathf.SmoothStep(0, 1, t);
+                musicSource.volume = Mathf.Lerp(startVolume, 0f, smoothT);
+                yield return null;
+            }
+
+            musicSource.Stop();
+            musicSource.clip = null;
+        }
+
+        currentBGM = null;
+        currentBGMName = "None";
+        isTransitioning = false;
+        OnBGMChanged?.Invoke("None");
+        Debug.Log("[AudioManager] ♫ BGM stopped");
+    }
+
+    // ============ 音乐开关 ============
 
     public void ToggleMusic()
     {
@@ -71,21 +314,12 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        musicSource.clip = clip;
-        musicSource.loop = loop;
-        if (isMusicEnabled)
-        {
-            musicSource.Play();
-            Debug.Log($"[AudioManager] Playing music: {clip.name}");
-        }
+        SwitchBGM(clip, clip?.name ?? "Unknown");
     }
 
     public void StopMusic()
     {
-        if (musicSource != null)
-        {
-            musicSource.Stop();
-        }
+        StopBGMWithFade();
     }
 
     private void ApplyMusicSettings()
@@ -98,6 +332,10 @@ public class AudioManager : MonoBehaviour
                 {
                     musicSource.Play();
                 }
+                if (!isTransitioning)
+                {
+                    musicSource.volume = musicVolume;
+                }
             }
             else
             {
@@ -106,7 +344,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ============ ��Ч���� ============
+    // ============ 🔊 音效控制 ============
 
     public void ToggleSFX()
     {
@@ -128,7 +366,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ������Ч - AudioClip�汾
+    /// 播放音效 - AudioClip 版本
     /// </summary>
     public void PlaySFX(AudioClip clip)
     {
@@ -150,8 +388,9 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ������Ч - �ַ���·���汾(���ݾɴ���)
-    /// ��Resources�ļ��м�����Ч
+    /// 播放音效 - 字符串路径版本
+    /// 【核心改进】优先从 SFXLibrary 查找，找不到再用 Resources 加载
+    /// 完全兼容现有代码！
     /// </summary>
     public void PlaySFX(string sfxPath)
     {
@@ -163,24 +402,37 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // ���Դӻ����ȡ
-        if (sfxCache.ContainsKey(sfxPath))
+        AudioClip clip = null;
+
+        // ⭐ 优先从 SFXLibrary 查找
+        if (sfxLibrary != null)
         {
-            PlaySFX(sfxCache[sfxPath]);
+            clip = sfxLibrary.GetClip(sfxPath);
+            if (clip != null)
+            {
+                PlaySFX(clip);
+                return;
+            }
+        }
+
+        // 尝试从缓存获取
+        if (sfxCache.TryGetValue(sfxPath, out clip))
+        {
+            PlaySFX(clip);
             return;
         }
 
-        // ��Resources����
-        AudioClip clip = Resources.Load<AudioClip>(sfxPath);
+        // 从 Resources 加载（兜底方案）
+        clip = Resources.Load<AudioClip>(sfxPath);
         if (clip != null)
         {
-            sfxCache[sfxPath] = clip; // ��������
+            sfxCache[sfxPath] = clip;
             PlaySFX(clip);
-            Debug.Log($"[AudioManager] Loaded and cached SFX: {sfxPath}");
+            Debug.Log($"[AudioManager] Loaded SFX from Resources: {sfxPath}");
         }
         else
         {
-            Debug.LogWarning($"[AudioManager] Failed to load SFX from Resources: {sfxPath}. Audio file not found (this is optional).");
+            Debug.LogWarning($"[AudioManager] SFX not found: {sfxPath} (Check SFXLibrary or Resources folder)");
         }
     }
 
@@ -192,12 +444,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ============ ��ȡ״̬ ============
+    // ============ 获取状态 ============
 
     public bool IsMusicEnabled() => isMusicEnabled;
     public bool IsSFXEnabled() => isSFXEnabled;
+    public string GetCurrentBGMName() => currentBGMName;
+    public bool IsTransitioning() => isTransitioning;
 
-    // ============ ���ݳ־û� ============
+    // ============ 数据持久化 ============
 
     private void LoadSettings()
     {
@@ -220,9 +474,6 @@ public class AudioManager : MonoBehaviour
         ApplySFXSettings();
     }
 
-    /// <summary>
-    /// �����Ч����(��ѡ,�����ڴ����)
-    /// </summary>
     public void ClearSFXCache()
     {
         sfxCache.Clear();

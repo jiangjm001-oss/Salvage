@@ -1,16 +1,18 @@
 // Assets/Scripts/GamePlay/InteractableObject.cs
-// 简化版 - 支持直接拖入放大视图 GameObject，无需改枚举
+// 增强版 - 支持跨视图物品状态同步
+// v1.1 - 修复：处理 GameObject 已经 inactive 的情况
 using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
 /// 可交互物体组件
 /// 支持八种交互类型：拾取、放大、触发、需要物品、物品合成、状态切换、物体切换、容器
+/// ★ 新增：跨视图状态同步功能
 /// </summary>
 public class InteractableObject : MonoBehaviour
 {
     [Header("基本信息")]
-    [Tooltip("物体的唯一标识符（用于存档）")]
+    [Tooltip("物体的唯一标识符（用于存档和跨视图同步）")]
     public string objectID;
 
     [Tooltip("物体的显示名称")]
@@ -19,6 +21,18 @@ public class InteractableObject : MonoBehaviour
     [Header("交互设置")]
     [Tooltip("选择物体的交互类型")]
     public InteractionType interactionType = InteractionType.Pickup;
+
+    // ============ ★ 跨视图同步设置 ============
+    [Header("跨视图同步设置")]
+    [Tooltip("是否监听其他同ID物品的状态变化（用于同一物品在不同视图中的同步）")]
+    public bool syncWithSameID = true;
+
+    [Tooltip("消失时是否播放动画")]
+    public bool useDisappearAnimation = true;
+
+    [Tooltip("消失动画持续时间")]
+    [Range(0.1f, 1f)]
+    public float disappearDuration = 0.25f;
 
     // ============ 拾取物品设置 (Pickup) ============
     [Header("拾取物品设置 (Pickup)")]
@@ -171,9 +185,13 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("关闭容器的音效")]
     public string containerCloseSound = "Audio/SFX/container_close";
 
-    // 缓存
+    // ============ 私有变量 ============
     private Sprite originalSprite;
     private SpriteRenderer spriteRenderer;
+    private bool isDisappearing = false;
+    private bool hasSyncedHidden = false;  // ★ 新增：标记是否已通过同步被隐藏
+    private Vector3 originalScale;
+    private Color originalColor;
 
     /// <summary>
     /// 交互类型枚举
@@ -190,14 +208,211 @@ public class InteractableObject : MonoBehaviour
         Container    // 容器（单物体，开关状态 + 内部物品）
     }
 
+    // ============ 生命周期 ============
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             originalSprite = spriteRenderer.sprite;
+            originalColor = spriteRenderer.color;
+        }
+        originalScale = transform.localScale;
+    }
+
+    private void Start()
+    {
+        // ★ 注册到状态管理器并订阅事件
+        if (!string.IsNullOrEmpty(objectID) && syncWithSameID)
+        {
+            // 注册初始状态
+            if (WorldObjectStateManager.Instance != null)
+            {
+                WorldObjectStateManager.Instance.RegisterObject(objectID, gameObject.activeSelf);
+            }
+
+            // 订阅状态改变事件
+            WorldObjectStateManager.OnObjectStateChanged += OnObjectStateChanged;
+
+            // 检查初始状态（处理存档读取后的情况）
+            CheckInitialState();
         }
     }
+
+    private void OnDestroy()
+    {
+        // 取消订阅事件
+        if (syncWithSameID)
+        {
+            WorldObjectStateManager.OnObjectStateChanged -= OnObjectStateChanged;
+        }
+    }
+
+    /// <summary>
+    /// ★ 关键：当物体被激活时检查是否应该隐藏
+    /// 这处理了物体在 inactive 时收到拾取事件的情况
+    /// </summary>
+    private void OnEnable()
+    {
+        // 如果已被标记为同步隐藏，立即隐藏自己
+        if (hasSyncedHidden || hasBeenPickedUp)
+        {
+            // 检查是否确实需要隐藏（可能是 Pickup 类型被拾取了）
+            if (interactionType == InteractionType.Pickup)
+            {
+                Debug.Log($"[InteractableObject] '{displayName}' OnEnable 检测到已被拾取，隐藏自己");
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+
+        // 额外检查：从 WorldObjectStateManager 获取最新状态
+        if (syncWithSameID && !string.IsNullOrEmpty(objectID) && WorldObjectStateManager.Instance != null)
+        {
+            if (WorldObjectStateManager.Instance.IsObjectPickedUp(objectID))
+            {
+                Debug.Log($"[InteractableObject] '{displayName}' OnEnable 从状态管理器检测到已被拾取，隐藏自己");
+                hasBeenPickedUp = true;
+                hasSyncedHidden = true;
+                gameObject.SetActive(false);
+            }
+        }
+    }
+
+    // ============ ★ 状态同步 ============
+
+    /// <summary>
+    /// 检查初始状态（用于处理存档读取）
+    /// </summary>
+    private void CheckInitialState()
+    {
+        if (string.IsNullOrEmpty(objectID)) return;
+        if (WorldObjectStateManager.Instance == null) return;
+
+        // 如果状态管理器记录该物品已被拾取，标记自己
+        if (WorldObjectStateManager.Instance.IsObjectPickedUp(objectID))
+        {
+            hasBeenPickedUp = true;
+            hasSyncedHidden = true;
+
+            // 如果当前是激活状态，隐藏自己
+            if (gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+            }
+
+            Debug.Log($"[InteractableObject] '{displayName}' 检测到已被拾取，标记为隐藏");
+        }
+    }
+
+    /// <summary>
+    /// 响应物品状态改变事件
+    /// </summary>
+    private void OnObjectStateChanged(string changedObjectID, bool isActive)
+    {
+        // 只响应相同ID的状态变化
+        if (changedObjectID != objectID) return;
+
+        // ★ 如果已经被处理过，直接返回
+        if (hasSyncedHidden && !isActive) return;
+        if (isDisappearing) return;
+
+        Debug.Log($"[InteractableObject] '{displayName}' 收到同步事件: {changedObjectID} → {(isActive ? "激活" : "隐藏")}");
+
+        if (!isActive)
+        {
+            // 物品被拾取/隐藏，同步隐藏自己
+            hasBeenPickedUp = true;
+            hasSyncedHidden = true;
+            StartDisappear();
+        }
+        else
+        {
+            // 物品被激活（特殊情况）
+            hasSyncedHidden = false;
+            gameObject.SetActive(true);
+            ResetAppearance();
+        }
+    }
+
+    /// <summary>
+    /// 开始消失动画
+    /// </summary>
+    private void StartDisappear()
+    {
+        if (isDisappearing) return;
+
+        // ★ 关键修复：检查 GameObject 是否处于激活状态
+        // 如果已经是 inactive，直接标记并返回，不尝试启动协程
+        if (!gameObject.activeInHierarchy)
+        {
+            Debug.Log($"[InteractableObject] '{displayName}' 已经是 inactive 状态，直接标记为已隐藏");
+            hasBeenPickedUp = true;
+            hasSyncedHidden = true;
+            return;
+        }
+
+        isDisappearing = true;
+
+        if (useDisappearAnimation && spriteRenderer != null)
+        {
+            StartCoroutine(DisappearAnimation());
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            isDisappearing = false;
+        }
+    }
+
+    /// <summary>
+    /// 消失动画协程
+    /// </summary>
+    private System.Collections.IEnumerator DisappearAnimation()
+    {
+        float elapsed = 0f;
+        Vector3 startScale = transform.localScale;
+        Color startColor = spriteRenderer != null ? spriteRenderer.color : Color.white;
+
+        while (elapsed < disappearDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / disappearDuration);
+
+            // 使用缓入曲线
+            float easeT = t * t;
+
+            // 淡出 + 缩小
+            if (spriteRenderer != null)
+            {
+                Color c = startColor;
+                c.a = startColor.a * (1f - easeT);
+                spriteRenderer.color = c;
+            }
+            transform.localScale = Vector3.Lerp(startScale, Vector3.zero, easeT);
+
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+        ResetAppearance();
+        isDisappearing = false;
+    }
+
+    /// <summary>
+    /// 重置外观
+    /// </summary>
+    private void ResetAppearance()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = originalColor;
+        }
+        transform.localScale = originalScale;
+    }
+
+    // ============ 交互入口 ============
 
     /// <summary>
     /// 执行交互
@@ -256,6 +471,15 @@ public class InteractableObject : MonoBehaviour
             }
 
             hasBeenPickedUp = true;
+            hasSyncedHidden = true;
+
+            // ★ 通知状态管理器（会同步到其他同ID物品）
+            if (!string.IsNullOrEmpty(objectID) && WorldObjectStateManager.Instance != null)
+            {
+                WorldObjectStateManager.Instance.MarkAsPickedUp(objectID);
+            }
+
+            // 隐藏自己
             gameObject.SetActive(false);
 
             if (SaveLoadSystem.Instance != null)
@@ -638,6 +862,7 @@ public class InteractableObject : MonoBehaviour
     public void MarkAsPickedUp()
     {
         hasBeenPickedUp = true;
+        hasSyncedHidden = true;
     }
 
     protected virtual void OnTriggered() { }

@@ -197,9 +197,26 @@ public class SynthesisMachine : MonoBehaviour
 
         potDisplayObject.SetActive(show);
 
-        if (show && sprite != null && potSpriteRenderer != null)
+        if (potSpriteRenderer != null)
         {
-            potSpriteRenderer.sprite = sprite;
+            if (show)
+            {
+                // 显示时设置sprite并确保完全不透明
+                if (sprite != null)
+                {
+                    potSpriteRenderer.sprite = sprite;
+                }
+
+                // 确保alpha为1（完全不透明）
+                Color color = potSpriteRenderer.color;
+                color.a = 1f;
+                potSpriteRenderer.color = color;
+            }
+            else
+            {
+                // 隐藏时可以选择清空sprite（可选）
+                potSpriteRenderer.sprite = null;
+            }
         }
 
         Debug.Log($"[SynthesisMachine] {(show ? "显示" : "隐藏")}陶罐");
@@ -211,9 +228,26 @@ public class SynthesisMachine : MonoBehaviour
 
         shardDisplayObject.SetActive(show);
 
-        if (show && sprite != null && shardSpriteRenderer != null)
+        if (shardSpriteRenderer != null)
         {
-            shardSpriteRenderer.sprite = sprite;
+            if (show)
+            {
+                // 显示时设置sprite并确保完全不透明
+                if (sprite != null)
+                {
+                    shardSpriteRenderer.sprite = sprite;
+                }
+
+                // 确保alpha为1（完全不透明）
+                Color color = shardSpriteRenderer.color;
+                color.a = 1f;
+                shardSpriteRenderer.color = color;
+            }
+            else
+            {
+                // 隐藏时可以选择清空sprite（可选）
+                shardSpriteRenderer.sprite = null;
+            }
         }
 
         Debug.Log($"[SynthesisMachine] {(show ? "显示" : "隐藏")}水晶碎片");

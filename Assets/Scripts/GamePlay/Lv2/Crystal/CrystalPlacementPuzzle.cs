@@ -1,12 +1,16 @@
-﻿// Assets/Scripts/GamePlay/CrystalPlacementPuzzle.cs
+﻿// Assets/Scripts/GamePlay/Lv2/Crystal/CrystalPlacementPuzzle_Updated.cs
+// 水晶碎片放置谜题 - 更新版
+// ⭐ 新增：第五水晶点击后触发结局演出而非拾取
+
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// 水晶碎片放置谜题 - 主控制器
-/// 管理4个放置槽位，全部放置后浮现第5个可拾取的水晶
+/// 水晶碎片放置谜题 - 主控制器（更新版）
+/// 管理4个放置槽位，全部放置后浮现第5个水晶
+/// 第5个水晶点击后触发结局演出
 /// </summary>
 public class CrystalPlacementPuzzle : MonoBehaviour
 {
@@ -22,11 +26,11 @@ public class CrystalPlacementPuzzle : MonoBehaviour
     [Tooltip("第五水晶的显示物体")]
     public GameObject fifthCrystalObject;
 
-    [Tooltip("第五水晶的物品数据（用于拾取）")]
-    public ItemData fifthCrystalItem;
-
     [Tooltip("第五水晶的SpriteRenderer（用于动画）")]
     public SpriteRenderer fifthCrystalRenderer;
+
+    [Tooltip("⭐ 第五水晶结局触发器（新增）")]
+    public FifthCrystalEndingTrigger fifthCrystalEndingTrigger;
 
     [Header("第五水晶浮现动画")]
     [Tooltip("浮现动画持续时间")]
@@ -48,17 +52,6 @@ public class CrystalPlacementPuzzle : MonoBehaviour
     [Range(1f, 5f)]
     public float glowIntensity = 2f;
 
-    [Header("第五水晶发光循环")]
-    [Tooltip("可拾取时是否持续发光")]
-    public bool pulseWhenPickable = true;
-
-    [Tooltip("发光脉冲速度")]
-    public float pulseSpeed = 2f;
-
-    [Tooltip("脉冲最小亮度")]
-    [Range(0f, 1f)]
-    public float pulseMinBrightness = 0.6f;
-
     [Header("音效")]
     [Tooltip("放置水晶音效")]
     public string placeSoundPath = "Audio/SFX/crystal_place";
@@ -66,23 +59,17 @@ public class CrystalPlacementPuzzle : MonoBehaviour
     [Tooltip("第五水晶浮现音效")]
     public string appearSoundPath = "Audio/SFX/crystal_appear";
 
-    [Tooltip("拾取第五水晶音效")]
-    public string pickupSoundPath = "Audio/SFX/item_pickup";
-
     [Header("事件")]
     public UnityEvent OnAllPlaced;
     public UnityEvent OnFifthCrystalAppear;
-    public UnityEvent OnFifthCrystalPickup;
 
     [Header("状态（只读）")]
     [SerializeField] private int placedCount = 0;
     [SerializeField] private bool allPlaced = false;
     [SerializeField] private bool fifthCrystalAvailable = false;
-    [SerializeField] private bool fifthCrystalPickedUp = false;
 
     // 私有变量
     private Color originalFifthColor;
-    private Coroutine pulseCoroutine;
     private Collider2D fifthCrystalCollider;
     private bool isInitialized = false;
 
@@ -114,18 +101,23 @@ public class CrystalPlacementPuzzle : MonoBehaviour
         {
             fifthCrystalObject.SetActive(false);
 
-            // 获取或添加碰撞器
+            // 获取碰撞器
             fifthCrystalCollider = fifthCrystalObject.GetComponent<Collider2D>();
-            if (fifthCrystalCollider == null)
+            if (fifthCrystalCollider != null)
             {
-                fifthCrystalCollider = fifthCrystalObject.AddComponent<BoxCollider2D>();
+                fifthCrystalCollider.enabled = false;
             }
-            fifthCrystalCollider.enabled = false;
 
             // 保存原始颜色
             if (fifthCrystalRenderer != null)
             {
                 originalFifthColor = fifthCrystalRenderer.color;
+            }
+
+            // ⭐ 自动获取FifthCrystalEndingTrigger
+            if (fifthCrystalEndingTrigger == null)
+            {
+                fifthCrystalEndingTrigger = fifthCrystalObject.GetComponent<FifthCrystalEndingTrigger>();
             }
         }
 
@@ -232,139 +224,28 @@ public class CrystalPlacementPuzzle : MonoBehaviour
             fifthCrystalRenderer.color = originalFifthColor;
         }
 
-        // 启用可拾取
+        // 启用可交互
         fifthCrystalAvailable = true;
-        if (fifthCrystalCollider != null)
+
+        // ⭐ 激活结局触发器（替代原有的拾取逻辑）
+        if (fifthCrystalEndingTrigger != null)
         {
+            fifthCrystalEndingTrigger.Activate();
+            Debug.Log("[CrystalPlacementPuzzle] ✓ 第五水晶结局触发器已激活");
+        }
+        else if (fifthCrystalCollider != null)
+        {
+            // 兼容：如果没有EndingTrigger，启用碰撞器（旧逻辑）
             fifthCrystalCollider.enabled = true;
+            Debug.LogWarning("[CrystalPlacementPuzzle] 未找到FifthCrystalEndingTrigger，使用旧版碰撞器");
         }
 
         OnFifthCrystalAppear?.Invoke();
 
-        Debug.Log("[CrystalPlacementPuzzle] ✓ 第五水晶已浮现，可以拾取");
-
-        // 开始发光脉冲
-        if (pulseWhenPickable)
-        {
-            pulseCoroutine = StartCoroutine(PulseGlowCoroutine());
-        }
+        Debug.Log("[CrystalPlacementPuzzle] ✓ 第五水晶已浮现，点击将触发结局演出");
 
         // 保存状态
         SaveState();
-    }
-
-    /// <summary>
-    /// 发光脉冲协程（可拾取提示）
-    /// </summary>
-    private IEnumerator PulseGlowCoroutine()
-    {
-        if (fifthCrystalRenderer == null) yield break;
-
-        while (fifthCrystalAvailable && !fifthCrystalPickedUp)
-        {
-            float t = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f; // 0~1
-            float brightness = Mathf.Lerp(pulseMinBrightness, 1f, t);
-
-            Color pulseColor = new Color(
-                originalFifthColor.r * brightness + glowColor.r * (1f - brightness) * 0.3f,
-                originalFifthColor.g * brightness + glowColor.g * (1f - brightness) * 0.3f,
-                originalFifthColor.b * brightness + glowColor.b * (1f - brightness) * 0.3f,
-                originalFifthColor.a
-            );
-
-            fifthCrystalRenderer.color = pulseColor;
-
-            yield return null;
-        }
-
-        // 恢复原始颜色
-        if (fifthCrystalRenderer != null)
-        {
-            fifthCrystalRenderer.color = originalFifthColor;
-        }
-    }
-
-    /// <summary>
-    /// 尝试拾取第五水晶（由点击检测调用）
-    /// </summary>
-    public void TryPickupFifthCrystal()
-    {
-        if (!fifthCrystalAvailable || fifthCrystalPickedUp)
-        {
-            Debug.Log("[CrystalPlacementPuzzle] 第五水晶不可拾取");
-            return;
-        }
-
-        if (fifthCrystalItem == null)
-        {
-            Debug.LogError("[CrystalPlacementPuzzle] 未设置第五水晶的ItemData！");
-            return;
-        }
-
-        // 添加到背包
-        bool added = InventorySystem.Instance.AddItem(fifthCrystalItem);
-        if (added)
-        {
-            fifthCrystalPickedUp = true;
-            fifthCrystalAvailable = false;
-
-            // 停止发光脉冲
-            if (pulseCoroutine != null)
-            {
-                StopCoroutine(pulseCoroutine);
-                pulseCoroutine = null;
-            }
-
-            // 播放拾取音效
-            PlaySound(pickupSoundPath);
-
-            // 隐藏水晶
-            StartCoroutine(PickupFadeOutCoroutine());
-
-            OnFifthCrystalPickup?.Invoke();
-
-            Debug.Log($"[CrystalPlacementPuzzle] ✓ 拾取第五水晶: {fifthCrystalItem.displayName}");
-
-            // 保存状态
-            SaveState();
-            SaveLoadSystem.Instance?.SaveGame();
-        }
-    }
-
-    /// <summary>
-    /// 拾取时淡出动画
-    /// </summary>
-    private IEnumerator PickupFadeOutCoroutine()
-    {
-        if (fifthCrystalRenderer == null)
-        {
-            fifthCrystalObject.SetActive(false);
-            yield break;
-        }
-
-        float duration = 0.3f;
-        float elapsed = 0f;
-        Color startColor = fifthCrystalRenderer.color;
-
-        // 禁用碰撞
-        if (fifthCrystalCollider != null)
-        {
-            fifthCrystalCollider.enabled = false;
-        }
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-
-            // 淡出 + 缩小
-            fifthCrystalRenderer.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
-            fifthCrystalObject.transform.localScale = Vector3.one * endScale * (1f - t * 0.5f);
-
-            yield return null;
-        }
-
-        fifthCrystalObject.SetActive(false);
     }
 
     /// <summary>
@@ -395,8 +276,7 @@ public class CrystalPlacementPuzzle : MonoBehaviour
 
         string data = string.Join(",", slotStates) +
                       $"|{(allPlaced ? 1 : 0)}" +
-                      $"|{(fifthCrystalAvailable ? 1 : 0)}" +
-                      $"|{(fifthCrystalPickedUp ? 1 : 0)}";
+                      $"|{(fifthCrystalAvailable ? 1 : 0)}";
 
         PlayerPrefs.SetString(key, data);
         PlayerPrefs.Save();
@@ -412,7 +292,7 @@ public class CrystalPlacementPuzzle : MonoBehaviour
         string data = PlayerPrefs.GetString(key);
         string[] parts = data.Split('|');
 
-        if (parts.Length >= 4)
+        if (parts.Length >= 3)
         {
             // 恢复槽位状态
             string[] slotStates = parts[0].Split(',');
@@ -428,51 +308,41 @@ public class CrystalPlacementPuzzle : MonoBehaviour
             // 恢复整体状态
             allPlaced = parts[1] == "1";
             fifthCrystalAvailable = parts[2] == "1";
-            fifthCrystalPickedUp = parts[3] == "1";
 
             // 恢复第五水晶显示状态
-            if (fifthCrystalObject != null)
+            if (fifthCrystalObject != null && fifthCrystalAvailable)
             {
-                if (fifthCrystalPickedUp)
-                {
-                    fifthCrystalObject.SetActive(false);
-                }
-                else if (fifthCrystalAvailable)
-                {
-                    fifthCrystalObject.SetActive(true);
-                    fifthCrystalObject.transform.localScale = Vector3.one * endScale;
-                    if (fifthCrystalCollider != null)
-                    {
-                        fifthCrystalCollider.enabled = true;
-                    }
+                fifthCrystalObject.SetActive(true);
+                fifthCrystalObject.transform.localScale = Vector3.one * endScale;
 
-                    // 开始发光脉冲
-                    if (pulseWhenPickable)
-                    {
-                        pulseCoroutine = StartCoroutine(PulseGlowCoroutine());
-                    }
+                // 激活结局触发器
+                if (fifthCrystalEndingTrigger != null)
+                {
+                    fifthCrystalEndingTrigger.Activate();
+                }
+                else if (fifthCrystalCollider != null)
+                {
+                    fifthCrystalCollider.enabled = true;
                 }
             }
 
-            Debug.Log($"[CrystalPlacementPuzzle] 状态已恢复: placed={placedCount}, allPlaced={allPlaced}, available={fifthCrystalAvailable}, pickedUp={fifthCrystalPickedUp}");
+            Debug.Log($"[CrystalPlacementPuzzle] 状态已恢复: placed={placedCount}, allPlaced={allPlaced}, available={fifthCrystalAvailable}");
         }
     }
 
     /// <summary>
-    /// 重置谜题（用于调试）
+    /// 重置谜题（用于调试或新游戏）
     /// </summary>
     [ContextMenu("重置谜题")]
     public void ResetPuzzle()
     {
         // 停止协程
         StopAllCoroutines();
-        pulseCoroutine = null;
 
         // 重置状态
         placedCount = 0;
         allPlaced = false;
         fifthCrystalAvailable = false;
-        fifthCrystalPickedUp = false;
 
         // 重置所有槽位
         foreach (var slot in crystalSlots)
@@ -493,6 +363,12 @@ public class CrystalPlacementPuzzle : MonoBehaviour
             {
                 fifthCrystalRenderer.color = originalFifthColor;
             }
+        }
+
+        // 重置结局触发器
+        if (fifthCrystalEndingTrigger != null)
+        {
+            fifthCrystalEndingTrigger.ResetState();
         }
 
         // 删除存档
