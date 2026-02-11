@@ -102,7 +102,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("[AudioManager] SFXLibrary loaded successfully.");
+            sfxLibrary.BuildCache();
+            Debug.Log($"[AudioManager] SFXLibrary loaded with {sfxLibrary.sfxEntries.Count} entries.");
         }
     }
 
@@ -388,6 +389,28 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 播放音效 - 带音量版本
+    /// </summary>
+    public void PlaySFX(AudioClip clip, float volumeScale)
+    {
+        if (!isSFXEnabled) return;
+
+        if (sfxSource == null)
+        {
+            Debug.LogError("[AudioManager] SFX AudioSource is null!");
+            return;
+        }
+
+        if (clip == null)
+        {
+            Debug.LogWarning("[AudioManager] AudioClip is null!");
+            return;
+        }
+
+        sfxSource.PlayOneShot(clip, volumeScale);
+    }
+
+    /// <summary>
     /// 播放音效 - 字符串路径版本
     /// 【核心改进】优先从 SFXLibrary 查找，找不到再用 Resources 加载
     /// 完全兼容现有代码！
@@ -410,7 +433,8 @@ public class AudioManager : MonoBehaviour
             clip = sfxLibrary.GetClip(sfxPath);
             if (clip != null)
             {
-                PlaySFX(clip);
+                float volume = sfxLibrary.GetVolume(sfxPath);
+                PlaySFX(clip, volume);
                 return;
             }
         }
@@ -434,6 +458,51 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning($"[AudioManager] SFX not found: {sfxPath} (Check SFXLibrary or Resources folder)");
         }
+    }
+
+    /// <summary>
+    /// 播放音效 - 带音量的字符串版本
+    /// </summary>
+    public void PlaySFXWithVolume(string sfxPath, float volumeScale)
+    {
+        if (!isSFXEnabled) return;
+
+        if (string.IsNullOrEmpty(sfxPath))
+        {
+            Debug.LogWarning("[AudioManager] SFX path is null or empty!");
+            return;
+        }
+
+        // 从 SFXLibrary 查找
+        if (sfxLibrary != null)
+        {
+            var clip = sfxLibrary.GetClip(sfxPath);
+            if (clip != null)
+            {
+                PlaySFX(clip, volumeScale);
+                return;
+            }
+        }
+
+        Debug.LogWarning($"[AudioManager] SFX not found for volume playback: '{sfxPath}'");
+    }
+
+    /// <summary>
+    /// 检查音效是否存在
+    /// </summary>
+    public bool HasSFX(string sfxName)
+    {
+        if (sfxLibrary != null && sfxLibrary.HasSFX(sfxName))
+        {
+            return true;
+        }
+
+        if (sfxCache.ContainsKey(sfxName))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void ApplySFXSettings()
@@ -478,5 +547,30 @@ public class AudioManager : MonoBehaviour
     {
         sfxCache.Clear();
         Debug.Log("[AudioManager] SFX cache cleared");
+    }
+
+    /// <summary>
+    /// 重新加载音效库（编辑器中修改后调用）
+    /// </summary>
+    public void ReloadSFXLibrary()
+    {
+        if (sfxLibrary != null)
+        {
+            sfxLibrary.ClearCache();
+            sfxLibrary.BuildCache();
+            Debug.Log("[AudioManager] SFX Library reloaded");
+        }
+    }
+
+    /// <summary>
+    /// 获取音效库中所有音效名称（用于调试）
+    /// </summary>
+    public List<string> GetAllSFXNames()
+    {
+        if (sfxLibrary != null)
+        {
+            return sfxLibrary.GetAllSFXNames();
+        }
+        return new List<string>();
     }
 }

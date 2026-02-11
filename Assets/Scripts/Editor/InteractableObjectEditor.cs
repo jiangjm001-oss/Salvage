@@ -1,13 +1,14 @@
-// Assets/Scripts/Editor/InteractableObjectEditor.cs
-// ×Ô¶¨Òå±à¼­Æ÷ - ¸ù¾İ½»»¥ÀàĞÍ¶¯Ì¬ÏÔÊ¾¶ÔÓ¦ÉèÖÃ
-// ĞŞ¸´°æ - ËùÓĞÊôĞÔÃûÓë InteractableObject.cs ÍêÈ«Æ¥Åä
+ï»¿// Assets/Scripts/Editor/InteractableObjectEditor.cs
+// è‡ªå®šä¹‰ç¼–è¾‘å™¨ - æ ¹æ®äº¤äº’ç±»å‹åŠ¨æ€æ˜¾ç¤ºå¯¹åº”è®¾ç½®
+// å‡çº§ç‰ˆ - é›†æˆ SFX å­—æ®µæ‹–æ‹½åŠŸèƒ½
 using UnityEngine;
 using UnityEditor;
+using System.Reflection;
 
 [CustomEditor(typeof(InteractableObject))]
 public class InteractableObjectEditor : Editor
 {
-    // ========== »ù±¾ĞÅÏ¢ ==========
+    // ========== åŸºæœ¬ä¿¡æ¯ ==========
     SerializedProperty objectID;
     SerializedProperty displayName;
     SerializedProperty interactionType;
@@ -37,9 +38,9 @@ public class InteractableObjectEditor : Editor
 
     // ========== ItemCombine ==========
     SerializedProperty combineRequiredItem;
-    SerializedProperty combineResultItem;      // ĞŞÕı£ºÔ­À´Ğ´³ÉÁË resultItem
+    SerializedProperty combineResultItem;
     SerializedProperty consumeCombineItem;
-    SerializedProperty disableAfterCombine;    // ĞÂÔö£ºÖ®Ç°È±Ê§
+    SerializedProperty disableAfterCombine;
     SerializedProperty OnCombineSuccess;
     SerializedProperty combineSoundName;
 
@@ -72,7 +73,7 @@ public class InteractableObjectEditor : Editor
 
     private void OnEnable()
     {
-        // »ù±¾ĞÅÏ¢
+        // åŸºæœ¬ä¿¡æ¯
         objectID = serializedObject.FindProperty("objectID");
         displayName = serializedObject.FindProperty("displayName");
         interactionType = serializedObject.FindProperty("interactionType");
@@ -100,11 +101,11 @@ public class InteractableObjectEditor : Editor
         OnItemUsedSuccess = serializedObject.FindProperty("OnItemUsedSuccess");
         itemUsedSoundName = serializedObject.FindProperty("itemUsedSoundName");
 
-        // ItemCombine - ĞŞÕıÊôĞÔÃû
+        // ItemCombine
         combineRequiredItem = serializedObject.FindProperty("combineRequiredItem");
-        combineResultItem = serializedObject.FindProperty("combineResultItem");  // ĞŞÕı
+        combineResultItem = serializedObject.FindProperty("combineResultItem");
         consumeCombineItem = serializedObject.FindProperty("consumeCombineItem");
-        disableAfterCombine = serializedObject.FindProperty("disableAfterCombine");  // ĞÂÔö
+        disableAfterCombine = serializedObject.FindProperty("disableAfterCombine");
         OnCombineSuccess = serializedObject.FindProperty("OnCombineSuccess");
         combineSoundName = serializedObject.FindProperty("combineSoundName");
 
@@ -140,8 +141,8 @@ public class InteractableObjectEditor : Editor
     {
         serializedObject.Update();
 
-        // ===== »ù±¾ĞÅÏ¢ =====
-        EditorGUILayout.LabelField("»ù±¾ĞÅÏ¢", EditorStyles.boldLabel);
+        // ===== åŸºæœ¬ä¿¡æ¯ =====
+        EditorGUILayout.LabelField("åŸºæœ¬ä¿¡æ¯", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.PropertyField(objectID, new GUIContent("Object ID"));
         EditorGUILayout.PropertyField(displayName, new GUIContent("Display Name"));
@@ -149,15 +150,15 @@ public class InteractableObjectEditor : Editor
 
         EditorGUILayout.Space(10);
 
-        // ===== ½»»¥ÀàĞÍÑ¡Ôñ =====
-        EditorGUILayout.LabelField("½»»¥ÉèÖÃ", EditorStyles.boldLabel);
+        // ===== äº¤äº’ç±»å‹é€‰æ‹© =====
+        EditorGUILayout.LabelField("äº¤äº’è®¾ç½®", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.PropertyField(interactionType, new GUIContent("Interaction Type"));
         EditorGUI.indentLevel--;
 
         EditorGUILayout.Space(10);
 
-        // ===== ¸ù¾İÀàĞÍÏÔÊ¾¶ÔÓ¦ÉèÖÃ =====
+        // ===== æ ¹æ®ç±»å‹æ˜¾ç¤ºå¯¹åº”è®¾ç½® =====
         InteractableObject.InteractionType type =
             (InteractableObject.InteractionType)interactionType.enumValueIndex;
 
@@ -192,11 +193,11 @@ public class InteractableObjectEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    // ========== ¸÷ÀàĞÍ»æÖÆ·½·¨ ==========
+    // ========== å„ç±»å‹ç»˜åˆ¶æ–¹æ³• ==========
 
     private void DrawPickupSettings()
     {
-        EditorGUILayout.LabelField("Ê°È¡ÎïÆ·ÉèÖÃ (Pickup)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("æ‹¾å–ç‰©å“è®¾ç½® (Pickup)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.PropertyField(item, new GUIContent("Item Data"));
         EditorGUILayout.PropertyField(isPickupable, new GUIContent("Is Pickupable"));
@@ -207,10 +208,10 @@ public class InteractableObjectEditor : Editor
 
     private void DrawZoomViewSettings()
     {
-        EditorGUILayout.LabelField("·Å´óÊÓÍ¼ÉèÖÃ (ZoomView)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("æ”¾å¤§è§†å›¾è®¾ç½® (ZoomView)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-        EditorGUILayout.PropertyField(zoomViewTarget, new GUIContent("Zoom View Target (ÍÆ¼ö)"));
-        EditorGUILayout.PropertyField(associatedZoomView, new GUIContent("Associated Zoom View (¾É°æ¼æÈİ)"));
+        EditorGUILayout.PropertyField(zoomViewTarget, new GUIContent("Zoom View Target (æ¨è)"));
+        EditorGUILayout.PropertyField(associatedZoomView, new GUIContent("Associated Zoom View (æ—§ç‰ˆå…¼å®¹)"));
         EditorGUI.indentLevel--;
 
         DrawSoundSection(zoomSoundName, "Zoom Sound Name");
@@ -218,7 +219,7 @@ public class InteractableObjectEditor : Editor
 
     private void DrawTriggerSettings()
     {
-        EditorGUILayout.LabelField("´¥·¢ÊÂ¼şÉèÖÃ (Trigger)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("è§¦å‘äº‹ä»¶è®¾ç½® (Trigger)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
         EditorGUILayout.PropertyField(disableAfterTrigger, new GUIContent("Disable After Trigger"));
         EditorGUILayout.PropertyField(OnTrigger, new GUIContent("On Trigger ()"));
@@ -229,21 +230,21 @@ public class InteractableObjectEditor : Editor
 
     private void DrawRequireItemSettings()
     {
-        EditorGUILayout.LabelField("Ìõ¼ş´¥·¢ÉèÖÃ (RequireItem)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("æ¡ä»¶è§¦å‘è®¾ç½® (RequireItem)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        EditorGUILayout.LabelField("ÎïÆ·Ìõ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("ç‰©å“æ¡ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(requiredItem, new GUIContent("Required Item"));
         EditorGUILayout.PropertyField(consumeItemOnUse, new GUIContent("Consume Item On Use"));
         EditorGUILayout.PropertyField(disableAfterTrigger, new GUIContent("Disable After Trigger"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÌáÊ¾ĞÅÏ¢", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("æç¤ºä¿¡æ¯", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(noItemHint, new GUIContent("No Item Hint"));
         EditorGUILayout.PropertyField(wrongItemHint, new GUIContent("Wrong Item Hint"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÊÂ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("äº‹ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(OnItemUsedSuccess, new GUIContent("On Item Used Success ()"));
         EditorGUI.indentLevel--;
 
@@ -252,20 +253,20 @@ public class InteractableObjectEditor : Editor
 
     private void DrawItemCombineSettings()
     {
-        EditorGUILayout.LabelField("ÎïÆ·ºÏ³ÉÉèÖÃ (ItemCombine)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("ç‰©å“åˆæˆè®¾ç½® (ItemCombine)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        EditorGUILayout.LabelField("ºÏ³ÉÅä·½", EditorStyles.miniBoldLabel);
-        EditorGUILayout.PropertyField(combineRequiredItem, new GUIContent("ĞèÒªµÄÎïÆ· (ÊÖ³Ö)"));
-        EditorGUILayout.PropertyField(combineResultItem, new GUIContent("²ú³öµÄÎïÆ·"));
+        EditorGUILayout.LabelField("åˆæˆé…æ–¹", EditorStyles.miniBoldLabel);
+        EditorGUILayout.PropertyField(combineRequiredItem, new GUIContent("éœ€è¦çš„ç‰©å“ (æ‰‹æŒ)"));
+        EditorGUILayout.PropertyField(combineResultItem, new GUIContent("äº§å‡ºçš„ç‰©å“"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ºÏ³ÉÑ¡Ïî", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("åˆæˆé€‰é¡¹", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(consumeCombineItem, new GUIContent("Consume Combine Item"));
         EditorGUILayout.PropertyField(disableAfterCombine, new GUIContent("Disable After Combine"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÊÂ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("äº‹ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(OnCombineSuccess, new GUIContent("On Combine Success ()"));
         EditorGUI.indentLevel--;
 
@@ -274,23 +275,23 @@ public class InteractableObjectEditor : Editor
 
     private void DrawStateSwitchSettings()
     {
-        EditorGUILayout.LabelField("×´Ì¬ÇĞ»»ÉèÖÃ (StateSwitch)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("çŠ¶æ€åˆ‡æ¢è®¾ç½® (StateSwitch)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        EditorGUILayout.LabelField("ÇĞ»»Ìõ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("åˆ‡æ¢æ¡ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(switchRequiredItem, new GUIContent("Switch Required Item"));
         EditorGUILayout.PropertyField(consumeSwitchItem, new GUIContent("Consume Switch Item"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("Íâ¹Û", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("å¤–è§‚", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(switchedSprite, new GUIContent("Switched Sprite"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("×´Ì¬", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("çŠ¶æ€", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(hasStateSwitch, new GUIContent("Has State Switch"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÊÂ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("äº‹ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(OnStateSwitchSuccess, new GUIContent("On State Switch Success ()"));
         EditorGUI.indentLevel--;
 
@@ -299,23 +300,23 @@ public class InteractableObjectEditor : Editor
 
     private void DrawObjectSwapSettings()
     {
-        EditorGUILayout.LabelField("ÎïÌåÇĞ»»ÉèÖÃ (ObjectSwap)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("ç‰©ä½“åˆ‡æ¢è®¾ç½® (ObjectSwap)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        EditorGUILayout.LabelField("ÇĞ»»Ä¿±ê", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("åˆ‡æ¢ç›®æ ‡", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(swapTargetObject, new GUIContent("Swap Target Object"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("½âËøÌõ¼ş£¨¿ÉÑ¡£©", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("è§£é”æ¡ä»¶ï¼ˆå¯é€‰ï¼‰", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(swapRequiredItem, new GUIContent("Swap Required Item"));
         EditorGUILayout.PropertyField(consumeSwapItem, new GUIContent("Consume Swap Item"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("×´Ì¬", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("çŠ¶æ€", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(isSwapUnlocked, new GUIContent("Is Swap Unlocked"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÊÂ¼ş", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("äº‹ä»¶", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(OnSwapSuccess, new GUIContent("On Swap Success ()"));
         EditorGUI.indentLevel--;
 
@@ -324,44 +325,165 @@ public class InteractableObjectEditor : Editor
 
     private void DrawContainerSettings()
     {
-        EditorGUILayout.LabelField("ÈİÆ÷ÉèÖÃ (Container)", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("å®¹å™¨è®¾ç½® (Container)", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
 
-        EditorGUILayout.LabelField("½âËøÌõ¼ş£¨¿ÉÑ¡£©", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("è§£é”æ¡ä»¶ï¼ˆå¯é€‰ï¼‰", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(containerRequiredItem, new GUIContent("Container Required Item"));
         EditorGUILayout.PropertyField(consumeContainerItem, new GUIContent("Consume Container Item"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("×´Ì¬", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("çŠ¶æ€", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(isContainerUnlocked, new GUIContent("Is Container Unlocked"));
         EditorGUILayout.PropertyField(isContainerOpen, new GUIContent("Is Container Open"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("Íâ¹Û", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("å¤–è§‚", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(containerClosedSprite, new GUIContent("Closed Sprite"));
         EditorGUILayout.PropertyField(containerOpenedSprite, new GUIContent("Opened Sprite"));
 
         EditorGUILayout.Space(5);
-        EditorGUILayout.LabelField("ÄÚÈİÎï", EditorStyles.miniBoldLabel);
+        EditorGUILayout.LabelField("å†…å®¹ç‰©", EditorStyles.miniBoldLabel);
         EditorGUILayout.PropertyField(containedObjects, new GUIContent("Contained Objects"), true);
         EditorGUI.indentLevel--;
 
+        // å®¹å™¨æœ‰ä¸¤ä¸ªéŸ³æ•ˆå­—æ®µ
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("ÒôĞ§ÉèÖÃ£¨¿ÉÑ¡£©", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("éŸ³æ•ˆè®¾ç½®ï¼ˆå¯é€‰ï¼‰", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-        EditorGUILayout.PropertyField(containerOpenSound, new GUIContent("Container Open Sound"));
-        EditorGUILayout.PropertyField(containerCloseSound, new GUIContent("Container Close Sound"));
+        DrawSFXField(containerOpenSound, "Container Open Sound");
+        DrawSFXField(containerCloseSound, "Container Close Sound");
         EditorGUI.indentLevel--;
     }
 
-    // ========== ¸¨Öú·½·¨ ==========
+    // ========== SFX å­—æ®µç»˜åˆ¶æ–¹æ³• ==========
 
+    /// <summary>
+    /// ç»˜åˆ¶éŸ³æ•ˆé…ç½®åŒºåŸŸï¼ˆå•ä¸ªéŸ³æ•ˆï¼‰
+    /// </summary>
     private void DrawSoundSection(SerializedProperty soundProperty, string label)
     {
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("ÒôĞ§ÉèÖÃ£¨¿ÉÑ¡£©", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("éŸ³æ•ˆè®¾ç½®ï¼ˆå¯é€‰ï¼‰", EditorStyles.boldLabel);
         EditorGUI.indentLevel++;
-        EditorGUILayout.PropertyField(soundProperty, new GUIContent(label));
+        DrawSFXField(soundProperty, label);
         EditorGUI.indentLevel--;
+    }
+
+    /// <summary>
+    /// ç»˜åˆ¶å•ä¸ª SFX å­—æ®µ - æ”¯æŒ AudioClip æ‹–æ‹½
+    /// </summary>
+    private void DrawSFXField(SerializedProperty property, string label)
+    {
+        if (property == null) return;
+
+        string currentValue = property.stringValue;
+        AudioClip currentClip = SFXFieldAutoDrawer.FindClip(currentValue);
+        bool hasValue = !string.IsNullOrEmpty(currentValue);
+        bool clipFound = currentClip != null;
+
+        // è®¾ç½®èƒŒæ™¯è‰²åé¦ˆ
+        Color originalBg = GUI.backgroundColor;
+        if (hasValue && !clipFound)
+        {
+            GUI.backgroundColor = new Color(1f, 0.8f, 0.6f); // æ©™è‰²è­¦å‘Š
+        }
+        else if (clipFound)
+        {
+            GUI.backgroundColor = new Color(0.75f, 1f, 0.75f); // ç»¿è‰²æˆåŠŸ
+        }
+
+        EditorGUILayout.BeginHorizontal();
+
+        // AudioClip æ‹–æ‹½å­—æ®µ
+        EditorGUI.BeginChangeCheck();
+        AudioClip newClip = (AudioClip)EditorGUILayout.ObjectField(
+            new GUIContent(label, property.tooltip),
+            currentClip,
+            typeof(AudioClip),
+            false
+        );
+
+        GUI.backgroundColor = originalBg;
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (newClip != null)
+            {
+                property.stringValue = SFXFieldAutoDrawer.GetResourcesPath(newClip);
+            }
+            else
+            {
+                property.stringValue = "";
+            }
+        }
+
+        // è¯•å¬æŒ‰é’®
+        if (clipFound)
+        {
+            if (GUILayout.Button(new GUIContent("â–¶", "è¯•å¬"), GUILayout.Width(25), GUILayout.Height(18)))
+            {
+                PlayClipPreview(currentClip);
+            }
+        }
+
+        // åˆ·æ–°æŒ‰é’®
+        if (GUILayout.Button(new GUIContent("â†»", "åˆ·æ–°éŸ³æ•ˆç¼“å­˜"), GUILayout.Width(25), GUILayout.Height(18)))
+        {
+            SFXFieldAutoDrawer.RefreshCache();
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        // è­¦å‘Šæç¤º
+        if (hasValue && !clipFound)
+        {
+            EditorGUILayout.HelpBox($"æ‰¾ä¸åˆ°éŸ³æ•ˆæ–‡ä»¶: {currentValue}", MessageType.Warning);
+        }
+    }
+
+    /// <summary>
+    /// åœ¨ç¼–è¾‘å™¨ä¸­é¢„è§ˆæ’­æ”¾éŸ³æ•ˆ
+    /// </summary>
+    private void PlayClipPreview(AudioClip clip)
+    {
+        if (clip == null) return;
+
+        // ä½¿ç”¨åå°„è°ƒç”¨ Unity å†…éƒ¨çš„éŸ³é¢‘é¢„è§ˆ API
+        System.Type audioUtilType = typeof(AudioImporter).Assembly.GetType("UnityEditor.AudioUtil");
+        if (audioUtilType != null)
+        {
+            // å°è¯•æ–°ç‰ˆ API (Unity 2020+)
+            MethodInfo playMethod = audioUtilType.GetMethod(
+                "PlayPreviewClip",
+                BindingFlags.Static | BindingFlags.Public,
+                null,
+                new System.Type[] { typeof(AudioClip), typeof(int), typeof(bool) },
+                null
+            );
+
+            if (playMethod != null)
+            {
+                playMethod.Invoke(null, new object[] { clip, 0, false });
+                return;
+            }
+
+            // å°è¯•æ—§ç‰ˆ API
+            playMethod = audioUtilType.GetMethod(
+                "PlayClip",
+                BindingFlags.Static | BindingFlags.Public,
+                null,
+                new System.Type[] { typeof(AudioClip) },
+                null
+            );
+
+            if (playMethod != null)
+            {
+                playMethod.Invoke(null, new object[] { clip });
+                return;
+            }
+        }
+
+        Debug.Log($"[SFX Preview] {clip.name} ({clip.length:F2}s)");
     }
 }
