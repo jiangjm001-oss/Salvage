@@ -95,15 +95,15 @@ public class AudioManager : MonoBehaviour
         LoadSettings();
         ApplySettings();
 
-        // 验证 SFXLibrary
+        // 验证并初始化 SFXLibrary
         if (sfxLibrary == null)
         {
-            Debug.LogWarning("[AudioManager] SFXLibrary not assigned! Sound effects will use Resources.Load as fallback.");
+            Debug.LogWarning("[AudioManager] ⚠️ SFXLibrary not assigned! Sound effects will use Resources.Load as fallback.");
         }
         else
         {
             sfxLibrary.BuildCache();
-            Debug.Log($"[AudioManager] SFXLibrary loaded with {sfxLibrary.sfxEntries.Count} entries.");
+            Debug.Log($"[AudioManager] ✓ SFXLibrary loaded with {sfxLibrary.sfxEntries.Count} entries.");
         }
     }
 
@@ -413,7 +413,9 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// 播放音效 - 字符串路径版本
     /// 【核心改进】优先从 SFXLibrary 查找，找不到再用 Resources 加载
-    /// 完全兼容现有代码！
+    /// 支持格式：
+    /// - "TowelSwap" (直接名称 - 推荐)
+    /// - "Audio/SFX/item_pickup" (旧版路径格式 - 兼容)
     /// </summary>
     public void PlaySFX(string sfxPath)
     {
@@ -453,11 +455,40 @@ public class AudioManager : MonoBehaviour
             sfxCache[sfxPath] = clip;
             PlaySFX(clip);
             Debug.Log($"[AudioManager] Loaded SFX from Resources: {sfxPath}");
+            return;
         }
-        else
+
+        // 【最后尝试】如果是路径格式，提取文件名再查找
+        string fileName = ExtractFileName(sfxPath);
+        if (fileName != sfxPath && sfxLibrary != null)
         {
-            Debug.LogWarning($"[AudioManager] SFX not found: {sfxPath} (Check SFXLibrary or Resources folder)");
+            clip = sfxLibrary.GetClip(fileName);
+            if (clip != null)
+            {
+                float volume = sfxLibrary.GetVolume(fileName);
+                PlaySFX(clip, volume);
+                return;
+            }
         }
+
+        // 未找到音效 - 输出警告但不崩溃
+        Debug.LogWarning($"[AudioManager] SFX not found: {sfxPath} (Check SFXLibrary or Resources folder)");
+    }
+
+    /// <summary>
+    /// 从路径中提取文件名
+    /// </summary>
+    private string ExtractFileName(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return path;
+
+        int lastSlash = path.LastIndexOf('/');
+        if (lastSlash >= 0 && lastSlash < path.Length - 1)
+        {
+            return path.Substring(lastSlash + 1);
+        }
+
+        return path;
     }
 
     /// <summary>
@@ -572,5 +603,20 @@ public class AudioManager : MonoBehaviour
             return sfxLibrary.GetAllSFXNames();
         }
         return new List<string>();
+    }
+
+    /// <summary>
+    /// 【调试用】打印 SFXLibrary 中所有注册的键
+    /// </summary>
+    public void DebugPrintSFXKeys()
+    {
+        if (sfxLibrary != null)
+        {
+            sfxLibrary.DebugPrintAllKeys();
+        }
+        else
+        {
+            Debug.Log("[AudioManager] SFXLibrary is not assigned");
+        }
     }
 }

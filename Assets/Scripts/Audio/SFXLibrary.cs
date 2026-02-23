@@ -1,11 +1,14 @@
 // Assets/Scripts/Audio/SFXLibrary.cs
-// 音效库 - 通过名称或拖拽管理所有游戏音效
+// 音效库 - ScriptableObject
+// 支持两种调用方式：
+// 1. 完整路径: PlaySFX("Audio/SFX/lv1_wallA/Towel_Water")
+// 2. 纯文件名: PlaySFX("Towel_Water") 或 PlaySFX("item_pickup")
 
 using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// 音效条目 - 将名称映射到AudioClip
+/// 音效条目
 /// </summary>
 [System.Serializable]
 public class SFXEntry
@@ -13,113 +16,116 @@ public class SFXEntry
     [Tooltip("音效名称（用于代码中调用）")]
     public string name;
 
-    [Tooltip("音效文件（直接拖拽）")]
+    [Tooltip("音频文件")]
     public AudioClip clip;
 
-    [Tooltip("音量（0-1）")]
-    [Range(0f, 1f)]
+    [Tooltip("音量倍数")]
+    [Range(0f, 2f)]
     public float volume = 1f;
 
-    [Tooltip("备注说明")]
-    public string description;
+    [Tooltip("备注")]
+    public string note;
 }
 
 /// <summary>
-/// 音效库 - ScriptableObject
-/// 在Project窗口右键 -> Create -> Audio -> SFX Library 创建
+/// 音效库 ScriptableObject
 /// </summary>
 [CreateAssetMenu(fileName = "SFXLibrary", menuName = "Audio/SFX Library", order = 1)]
 public class SFXLibrary : ScriptableObject
 {
     [Header("音效列表")]
-    [Tooltip("所有音效条目，名称用于代码调用")]
+    [Tooltip("在这里配置所有游戏音效")]
     public List<SFXEntry> sfxEntries = new List<SFXEntry>();
 
-    // 运行时缓存（名称 -> 条目）
-    private Dictionary<string, SFXEntry> _cache;
+    // 运行时缓存 - 同时存储完整路径和纯文件名
+    private Dictionary<string, SFXEntry> sfxCache = new Dictionary<string, SFXEntry>();
+    private bool isCacheBuilt = false;
 
     /// <summary>
-    /// 获取缓存字典（懒加载）
-    /// </summary>
-    private Dictionary<string, SFXEntry> Cache
-    {
-        get
-        {
-            if (_cache == null)
-            {
-                BuildCache();
-            }
-            return _cache;
-        }
-    }
-
-    /// <summary>
-    /// 构建查找缓存
+    /// 构建缓存
+    /// 【关键改进】每个音效同时注册：完整路径 + 纯文件名 + clip名称
     /// </summary>
     public void BuildCache()
     {
-        _cache = new Dictionary<string, SFXEntry>();
+        sfxCache.Clear();
 
         foreach (var entry in sfxEntries)
         {
-            if (entry == null || entry.clip == null) continue;
-
-            string key = entry.name;
-
-            // 如果名称为空，使用AudioClip的名称
-            if (string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(entry.name))
             {
-                key = entry.clip.name;
-                entry.name = key; // 自动填充名称
+                Debug.LogWarning("[SFXLibrary] 发现空名称的音效条目，已跳过");
+                continue;
             }
 
-            // 转为小写以支持大小写不敏感查找
-            string lowerKey = key.ToLower();
-
-            if (!_cache.ContainsKey(lowerKey))
+            // 1. 注册完整路径（小写）
+            string fullPathKey = entry.name.ToLower();
+            if (!sfxCache.ContainsKey(fullPathKey))
             {
-                _cache[lowerKey] = entry;
+                sfxCache[fullPathKey] = entry;
             }
-            else
+
+            // 2. 同时注册纯文件名（小写）
+            string fileNameKey = ExtractFileName(entry.name).ToLower();
+            if (fileNameKey != fullPathKey && !sfxCache.ContainsKey(fileNameKey))
             {
-                Debug.LogWarning($"[SFXLibrary] 重复的音效名称: {key}");
+                sfxCache[fileNameKey] = entry;
+            }
+
+            // 3. 如果有 AudioClip，也用 clip 的名称注册（兜底）
+            if (entry.clip != null)
+            {
+                string clipNameKey = entry.clip.name.ToLower();
+                if (!sfxCache.ContainsKey(clipNameKey))
+                {
+                    sfxCache[clipNameKey] = entry;
+                }
             }
         }
 
-        Debug.Log($"[SFXLibrary] 缓存已构建，共 {_cache.Count} 个音效");
+        isCacheBuilt = true;
+        Debug.Log($"[SFXLibrary] 缓存构建完成，共 {sfxEntries.Count} 个音效，{sfxCache.Count} 个查找键");
+    }
+
+    public void ClearCache()
+    {
+        sfxCache.Clear();
+        isCacheBuilt = false;
     }
 
     /// <summary>
-    /// 通过名称获取音效条目
+    /// 获取音效 Clip
+    /// 支持多种查找方式：完整路径、纯文件名、clip名称
     /// </summary>
-    /// <param name="sfxName">音效名称（大小写不敏感）</param>
-    /// <returns>音效条目，未找到返回null</returns>
-    public SFXEntry GetEntry(string sfxName)
+    public AudioClip GetClip(string sfxName)
     {
+        if (!isCacheBuilt) BuildCache();
         if (string.IsNullOrEmpty(sfxName)) return null;
 
-        // 处理可能的路径格式（兼容旧代码）
-        // 例如 "Audio/SFX/lv1_wallA/Burn" -> "Burn"
-        string cleanName = ExtractClipName(sfxName);
-        string lowerName = cleanName.ToLower();
-
-        if (Cache.TryGetValue(lowerName, out SFXEntry entry))
+        // 尝试直接查找（小写）
+        string key = sfxName.ToLower();
+        if (sfxCache.TryGetValue(key, out SFXEntry entry))
         {
-            return entry;
+            return entry.clip;
+        }
+
+        // 尝试提取文件名后查找
+        string fileName = ExtractFileName(sfxName).ToLower();
+        if (fileName != key && sfxCache.TryGetValue(fileName, out entry))
+        {
+            return entry.clip;
+        }
+
+        // 尝试去掉下划线和连字符后模糊匹配
+        string normalizedKey = NormalizeKey(sfxName);
+        foreach (var kvp in sfxCache)
+        {
+            if (NormalizeKey(kvp.Key) == normalizedKey)
+            {
+                return kvp.Value.clip;
+            }
         }
 
         return null;
-    }
-
-    /// <summary>
-    /// 通过名称获取AudioClip
-    /// </summary>
-    /// <param name="sfxName">音效名称</param>
-    /// <returns>AudioClip，未找到返回null</returns>
-    public AudioClip GetClip(string sfxName)
-    {
-        var entry = GetEntry(sfxName);
-        return entry?.clip;
     }
 
     /// <summary>
@@ -127,82 +133,99 @@ public class SFXLibrary : ScriptableObject
     /// </summary>
     public float GetVolume(string sfxName)
     {
-        var entry = GetEntry(sfxName);
-        return entry?.volume ?? 1f;
+        if (!isCacheBuilt) BuildCache();
+        if (string.IsNullOrEmpty(sfxName)) return 1f;
+
+        string key = sfxName.ToLower();
+        if (sfxCache.TryGetValue(key, out SFXEntry entry))
+        {
+            return entry.volume;
+        }
+
+        string fileName = ExtractFileName(sfxName).ToLower();
+        if (fileName != key && sfxCache.TryGetValue(fileName, out entry))
+        {
+            return entry.volume;
+        }
+
+        return 1f;
     }
 
     /// <summary>
-    /// 检查是否存在指定音效
+    /// 检查音效是否存在
     /// </summary>
     public bool HasSFX(string sfxName)
     {
-        return GetEntry(sfxName) != null;
+        if (!isCacheBuilt) BuildCache();
+        if (string.IsNullOrEmpty(sfxName)) return false;
+
+        string key = sfxName.ToLower();
+        if (sfxCache.ContainsKey(key)) return true;
+
+        string fileName = ExtractFileName(sfxName).ToLower();
+        return fileName != key && sfxCache.ContainsKey(fileName);
     }
 
     /// <summary>
-    /// 从路径中提取音效名称
-    /// 支持格式：
-    /// - "Burn" (直接名称)
-    /// - "Audio/SFX/lv1_wallA/Burn" (完整路径)
-    /// - "lv1_wallA/Burn" (部分路径)
-    /// </summary>
-    private string ExtractClipName(string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-
-        // 移除可能的文件扩展名
-        int extIndex = input.LastIndexOf('.');
-        if (extIndex > 0)
-        {
-            input = input.Substring(0, extIndex);
-        }
-
-        // 获取最后一个路径段
-        int lastSlash = input.LastIndexOf('/');
-        if (lastSlash >= 0 && lastSlash < input.Length - 1)
-        {
-            return input.Substring(lastSlash + 1);
-        }
-
-        int lastBackslash = input.LastIndexOf('\\');
-        if (lastBackslash >= 0 && lastBackslash < input.Length - 1)
-        {
-            return input.Substring(lastBackslash + 1);
-        }
-
-        return input;
-    }
-
-    /// <summary>
-    /// 清除缓存（编辑器中修改后调用）
-    /// </summary>
-    public void ClearCache()
-    {
-        _cache = null;
-    }
-
-    /// <summary>
-    /// 在编辑器中验证时自动构建缓存
-    /// </summary>
-    private void OnValidate()
-    {
-        // 编辑器中修改时清除缓存
-        _cache = null;
-    }
-
-    /// <summary>
-    /// 获取所有音效名称（用于调试或编辑器）
+    /// 获取所有音效名称
     /// </summary>
     public List<string> GetAllSFXNames()
     {
         List<string> names = new List<string>();
         foreach (var entry in sfxEntries)
         {
-            if (entry != null && entry.clip != null)
+            if (!string.IsNullOrEmpty(entry.name))
             {
-                names.Add(string.IsNullOrEmpty(entry.name) ? entry.clip.name : entry.name);
+                names.Add(entry.name);
             }
         }
         return names;
+    }
+
+    /// <summary>
+    /// 调试：打印所有注册的查找键
+    /// </summary>
+    public void DebugPrintAllKeys()
+    {
+        if (!isCacheBuilt) BuildCache();
+
+        Debug.Log("=== [SFXLibrary] 所有注册的查找键 ===");
+        foreach (var kvp in sfxCache)
+        {
+            string clipName = kvp.Value.clip != null ? kvp.Value.clip.name : "NULL";
+            Debug.Log($"  [{kvp.Key}] → {clipName}");
+        }
+        Debug.Log($"=== 共 {sfxCache.Count} 个查找键 ===");
+    }
+
+    /// <summary>
+    /// 从路径中提取文件名
+    /// </summary>
+    private string ExtractFileName(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return path;
+
+        int lastSlash = path.LastIndexOf('/');
+        if (lastSlash >= 0 && lastSlash < path.Length - 1)
+        {
+            return path.Substring(lastSlash + 1);
+        }
+
+        int lastBackSlash = path.LastIndexOf('\\');
+        if (lastBackSlash >= 0 && lastBackSlash < path.Length - 1)
+        {
+            return path.Substring(lastBackSlash + 1);
+        }
+
+        return path;
+    }
+
+    /// <summary>
+    /// 标准化键（用于模糊匹配）
+    /// </summary>
+    private string NormalizeKey(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return key;
+        return key.ToLower().Replace("_", "").Replace("-", "").Replace(" ", "");
     }
 }

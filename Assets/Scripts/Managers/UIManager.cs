@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿// Assets/Scripts/Managers/UIManager.cs
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,6 +19,10 @@ public class UIManager : MonoBehaviour
     [Header("Inventory Settings")]
     [SerializeField] private float expandAnimationDuration = 0.3f;
     [SerializeField] private AnimationCurve expandCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("选中状态颜色设置")]
+    [Tooltip("物品选中时的变暗颜色")]
+    [SerializeField] private Color selectedItemColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
     [Header("Navigation Buttons")]
     [SerializeField] private GameObject leftArrowButton;
@@ -130,7 +136,7 @@ public class UIManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"[UIManager] Duplicate UIManager detected on {gameObject.name}! Destroying this component only.");
-            Destroy(this);  // 只销毁组件，不销毁整个 GameObject
+            Destroy(this);
             return;
         }
     }
@@ -192,6 +198,12 @@ public class UIManager : MonoBehaviour
         Debug.Log("[UIManager] Initialization complete");
     }
 
+    private void Update()
+    {
+        // ⭐ 新增：检测点击背包外部区域，自动收起背包
+        HandleClickOutsideInventory();
+    }
+
     private void OnDestroy()
     {
         if (InventorySystem.Instance != null)
@@ -210,6 +222,95 @@ public class UIManager : MonoBehaviour
         {
             expButton.onClick.RemoveListener(ToggleInventoryExpansion);
         }
+    }
+
+    // ============ 点击背包外部检测（新增） ============
+
+    /// <summary>
+    /// 检测鼠标是否点击了背包区域外部，如果是则自动收起背包
+    /// </summary>
+    private void HandleClickOutsideInventory()
+    {
+        // 只有在背包展开状态下才需要检测
+        if (!isExpanded) return;
+
+        // 动画进行中不处理
+        if (isAnimating) return;
+
+        // 检测鼠标左键点击
+        if (!Input.GetMouseButtonDown(0)) return;
+
+        // 检查是否点击在UI上
+        if (EventSystem.current == null) return;
+
+        // 使用 Raycast 检测点击的UI元素
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        // 检查点击是否在背包相关UI上
+        bool clickedOnInventory = false;
+
+        foreach (var result in raycastResults)
+        {
+            // 检查点击的对象是否属于背包面板
+            if (IsPartOfInventory(result.gameObject))
+            {
+                clickedOnInventory = true;
+                break;
+            }
+        }
+
+        // 如果点击不在背包区域内，则收起背包
+        if (!clickedOnInventory)
+        {
+            Debug.Log("[UIManager] Clicked outside inventory, collapsing...");
+            CollapseInventory();
+        }
+    }
+
+    /// <summary>
+    /// 判断一个GameObject是否属于背包UI的一部分
+    /// </summary>
+    private bool IsPartOfInventory(GameObject obj)
+    {
+        if (obj == null) return false;
+
+        // 检查是否是 InventoryPanel 或其子对象
+        if (InventoryPanel != null)
+        {
+            if (obj == InventoryPanel || obj.transform.IsChildOf(InventoryPanel.transform))
+            {
+                return true;
+            }
+        }
+
+        // 检查是否是 SecondColumnPanel 或其子对象
+        if (SecondColumnPanel != null)
+        {
+            if (obj == SecondColumnPanel || obj.transform.IsChildOf(SecondColumnPanel.transform))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 收起背包（仅当展开时）
+    /// </summary>
+    public void CollapseInventory()
+    {
+        if (!isExpanded || isAnimating) return;
+
+        isExpanded = false;
+        Debug.Log("[UIManager] Collapsing inventory");
+        StartCoroutine(AnimateInventorySlide());
     }
 
     // ============ 游戏状态响应 ============
@@ -364,20 +465,29 @@ public class UIManager : MonoBehaviour
             if (!slots[i].IsEmpty)
             {
                 iconImage.sprite = slots[i].item.icon;
-                iconImage.color = Color.white;
+
+                // ⭐ 修改：检查是否是选中状态，应用对应颜色
+                if (i == selectedIndex)
+                {
+                    iconImage.color = selectedItemColor; // 选中态为变暗颜色
+                }
+                else
+                {
+                    iconImage.color = Color.white; // 未选中为正常颜色
+                }
 
                 // 强制设置图标尺寸和缩放
                 iconImage.rectTransform.sizeDelta = new Vector2(64, 64);
-                iconImage.rectTransform.localScale = Vector3.one;  // 确保缩放为1
-                iconImage.SetNativeSize();  // 先设为原始大小
-                iconImage.rectTransform.sizeDelta = new Vector2(128, 128);  // 再强制设为64x64
+                iconImage.rectTransform.localScale = Vector3.one;
+                iconImage.SetNativeSize();
+                iconImage.rectTransform.sizeDelta = new Vector2(128, 128);
             }
             else
             {
                 iconImage.sprite = null;
                 iconImage.color = new Color(1, 1, 1, 0);
             }
-            
+
             // 绑定点击事件
             int currentIndex = i;
             slotButton.onClick.AddListener(() => OnSlotClicked(currentIndex));
@@ -386,30 +496,52 @@ public class UIManager : MonoBehaviour
         Debug.Log($"[UIManager] Created {slotUIObjects.Count} slot UI objects");
     }
 
+    // ============ 槽位点击处理（已优化） ============
+
     private void OnSlotClicked(int clickedIndex)
     {
         List<InventorySlot> slots = InventorySystem.Instance.GetSlots();
 
+        // 情况1：当前没有选中任何物品
         if (selectedIndex == -1)
         {
+            // 如果点击的槽位有物品，则选中它
             if (!slots[clickedIndex].IsEmpty)
             {
                 SelectItem(clickedIndex);
             }
         }
+        // 情况2：当前已有选中的物品
         else
         {
+            // 2a：点击的是已选中的槽位 → 取消选中
             if (clickedIndex == selectedIndex)
             {
                 DeselectItem();
             }
+            // 2b：点击的是其他槽位
             else
             {
-                InventorySystem.Instance.SwapItems(selectedIndex, clickedIndex);
-                DeselectItem();
+                // ⭐ 修改：检查目标槽位是否为空
+                if (slots[clickedIndex].IsEmpty)
+                {
+                    // 目标槽位为空 → 交换位置（实际上是移动物品）
+                    InventorySystem.Instance.SwapItems(selectedIndex, clickedIndex);
+                    DeselectItem();
+                }
+                else
+                {
+                    // 目标槽位有物品 → 切换选中状态
+                    // 先取消当前选中（恢复颜色）
+                    DeselectItem();
+                    // 再选中新的物品
+                    SelectItem(clickedIndex);
+                }
             }
         }
     }
+
+    // ============ 选中/取消选中 ============
 
     private void SelectItem(int index)
     {
@@ -420,9 +552,11 @@ public class UIManager : MonoBehaviour
             if (iconTransform != null)
             {
                 Image selectedIcon = iconTransform.GetComponent<Image>();
-                selectedIcon.color = Color.yellow; // 高亮显示
+                // ⭐ 修改：选中态改为变暗颜色而非黄色高亮
+                selectedIcon.color = selectedItemColor;
             }
         }
+        Debug.Log($"[UIManager] Selected item at index {index}");
     }
 
     public void DeselectItem()
@@ -436,52 +570,38 @@ public class UIManager : MonoBehaviour
                 Image deselectedIcon = iconTransform.GetComponent<Image>();
                 if (!slots[selectedIndex].IsEmpty)
                 {
-                    deselectedIcon.color = Color.white;
+                    deselectedIcon.color = Color.white; // 恢复正常颜色
                 }
                 else
                 {
-                    deselectedIcon.color = new Color(1, 1, 1, 0);
+                    deselectedIcon.color = new Color(1, 1, 1, 0); // 空槽位透明
                 }
             }
         }
+        Debug.Log($"[UIManager] Deselected item at index {selectedIndex}");
         selectedIndex = -1;
     }
-    // ============================================================
-    // UIManager 补丁 - 添加物品选中状态访问方法
-    // ============================================================
-    // 
-    // 将以下代码添加到 UIManager.cs 文件中
-    // 位置建议：在 DeselectItem() 方法后面添加
-    //
-    // ============================================================
 
-    // ============ 物品选中状态访问（新增） ============
+    // ============ 物品选中状态访问 ============
 
     /// <summary>
     /// 获取当前选中的物品（如果有）
-    /// 供其他系统（如 InteractableObject）查询玩家手中持有的物品
     /// </summary>
-    /// <returns>选中的 ItemData，如果没有选中则返回 null</returns>
     public ItemData GetSelectedItem()
     {
-        // 没有选中任何槽位
         if (selectedIndex < 0) return null;
 
-        // 获取槽位列表
         var slots = InventorySystem.Instance?.GetSlots();
         if (slots == null) return null;
 
-        // 索引越界检查
         if (selectedIndex >= slots.Count) return null;
 
-        // 返回选中槽位的物品（可能为空）
         return slots[selectedIndex].item;
     }
 
     /// <summary>
     /// 获取当前选中物品的槽位索引
     /// </summary>
-    /// <returns>选中的槽位索引，-1 表示没有选中任何物品</returns>
     public int GetSelectedIndex()
     {
         return selectedIndex;
@@ -497,7 +617,6 @@ public class UIManager : MonoBehaviour
 
     /// <summary>
     /// 使用（消耗）当前选中的物品
-    /// 物品会从背包中移除，并取消选中状态
     /// </summary>
     public void ConsumeSelectedItem()
     {
@@ -511,28 +630,13 @@ public class UIManager : MonoBehaviour
             string itemName = slots[selectedIndex].item.displayName;
             string itemID = slots[selectedIndex].item.itemID;
 
-            // 从背包移除物品
             InventorySystem.Instance.RemoveItemByID(itemID);
 
             Debug.Log($"[UIManager] 消耗了物品: {itemName}");
         }
 
-        // 取消选中状态
         DeselectItem();
     }
-
-    // ============================================================
-    // 重要：需要将 DeselectItem() 方法改为 public
-    // ============================================================
-    // 
-    // 找到原来的：
-    //     private void DeselectItem()
-    // 
-    // 改为：
-    //     public void DeselectItem()
-    // 
-    // 这样其他系统可以在使用物品后取消选中状态
-    // ============================================================
 
     // ============ 背包展开/收起 ============
 
@@ -572,15 +676,15 @@ public class UIManager : MonoBehaviour
 
         if (isExpanded)
         {
-            // 展开:InventoryPanel 向左移,SecondColumnPanel 滑入屏幕
-            inventoryTargetX = -200f; // InventoryPanel 向左移动一列的宽度
-            secondTargetX = 0f;       // SecondColumnPanel 移到右侧
+            // 展开: InventoryPanel 向左移, SecondColumnPanel 滑入屏幕
+            inventoryTargetX = -200f;
+            secondTargetX = 0f;
         }
         else
         {
-            // 收起:两者都向右移回原位
-            inventoryTargetX = 0f;    // InventoryPanel 回到右侧
-            secondTargetX = 200f;     // SecondColumnPanel 移出屏幕
+            // 收起: 两者都向右移回原位
+            inventoryTargetX = 0f;
+            secondTargetX = 200f;
         }
 
         float elapsedTime = 0f;

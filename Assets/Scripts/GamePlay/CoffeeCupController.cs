@@ -6,6 +6,11 @@ using UnityEngine;
 /// 
 /// 阶段流程：
 /// A(empty) --[咖啡粉]--> B(powder) --[热水]--> C(water) --[牛奶]--> D(milk) --[滤纸B存在]--> 拾取
+/// 
+/// 音效逻辑：
+/// - 咖啡粉 → 播放 powderSoundName (coffee_powder)
+/// - 热水   → 播放 waterSoundName (coffee_pour)
+/// - 牛奶   → 播放 milkSoundName (coffee_pour)
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
@@ -58,7 +63,16 @@ public class CoffeeCupController : MonoBehaviour
     public GameObject objectToShowOnMilk;
 
     [Header("音效设置")]
-    public string pourSoundName = "";
+    [Tooltip("添加咖啡粉时的音效")]
+    public string powderSoundName = "coffee_powder";
+
+    [Tooltip("添加热水时的音效")]
+    public string waterSoundName = "coffee_pour";
+
+    [Tooltip("添加牛奶时的音效")]
+    public string milkSoundName = "coffee_pour";
+
+    [Tooltip("拾取咖啡杯时的音效")]
     public string collectSoundName = "Audio/SFX/item_pickup";
 
     private SpriteRenderer spriteRenderer;
@@ -87,11 +101,11 @@ public class CoffeeCupController : MonoBehaviour
         switch (currentState)
         {
             case CupState.Empty:
-                TryAddItem(itemForPowder, CupState.Powder, "咖啡粉");
+                TryAddPowder();
                 break;
 
             case CupState.Powder:
-                TryAddItem(itemForWater, CupState.Water, "热水");
+                TryAddWater();
                 break;
 
             case CupState.Water:
@@ -109,13 +123,13 @@ public class CoffeeCupController : MonoBehaviour
     }
 
     /// <summary>
-    /// 通用：尝试添加物品并切换状态
+    /// 尝试添加咖啡粉 (Empty → Powder)
     /// </summary>
-    private void TryAddItem(ItemData requiredItem, CupState nextState, string itemName)
+    private void TryAddPowder()
     {
-        if (requiredItem == null)
+        if (itemForPowder == null)
         {
-            Debug.LogError($"[CoffeeCupController] 未设置 {itemName} 的 ItemData!");
+            Debug.LogError("[CoffeeCupController] 未设置咖啡粉的 ItemData!");
             return;
         }
 
@@ -124,29 +138,66 @@ public class CoffeeCupController : MonoBehaviour
         ItemData selectedItem = UIManager.Instance.GetSelectedItem();
         if (selectedItem == null)
         {
-            Debug.Log($"[CoffeeCupController] 需要选中{itemName}");
+            Debug.Log("[CoffeeCupController] 需要选中咖啡粉");
             return;
         }
 
-        if (selectedItem.itemID != requiredItem.itemID)
+        if (selectedItem.itemID != itemForPowder.itemID)
         {
-            Debug.Log($"[CoffeeCupController] 需要{itemName}，不是 {selectedItem.displayName}");
+            Debug.Log($"[CoffeeCupController] 需要咖啡粉，不是 {selectedItem.displayName}");
             return;
         }
 
         // 消耗物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 播放音效
-        PlaySound(pourSoundName);
+        // 播放咖啡粉音效
+        PlaySound(powderSoundName);
 
         // 切换状态
-        SetState(nextState);
-        Debug.Log($"[CoffeeCupController] 添加{itemName}成功 → {nextState}");
+        SetState(CupState.Powder);
+        Debug.Log("[CoffeeCupController] 添加咖啡粉成功 → Powder");
     }
 
     /// <summary>
-    /// 特殊：添加牛奶（同时触发滤纸出现）
+    /// 尝试添加热水 (Powder → Water)
+    /// </summary>
+    private void TryAddWater()
+    {
+        if (itemForWater == null)
+        {
+            Debug.LogError("[CoffeeCupController] 未设置热水的 ItemData!");
+            return;
+        }
+
+        if (UIManager.Instance == null) return;
+
+        ItemData selectedItem = UIManager.Instance.GetSelectedItem();
+        if (selectedItem == null)
+        {
+            Debug.Log("[CoffeeCupController] 需要选中热水");
+            return;
+        }
+
+        if (selectedItem.itemID != itemForWater.itemID)
+        {
+            Debug.Log($"[CoffeeCupController] 需要热水，不是 {selectedItem.displayName}");
+            return;
+        }
+
+        // 消耗物品
+        UIManager.Instance.ConsumeSelectedItem();
+
+        // 播放热水音效
+        PlaySound(waterSoundName);
+
+        // 切换状态
+        SetState(CupState.Water);
+        Debug.Log("[CoffeeCupController] 添加热水成功 → Water");
+    }
+
+    /// <summary>
+    /// 尝试添加牛奶 (Water → Milk)，同时触发滤纸出现
     /// </summary>
     private void TryAddMilk()
     {
@@ -174,13 +225,13 @@ public class CoffeeCupController : MonoBehaviour
         // 消耗物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 播放音效
-        PlaySound(pourSoundName);
+        // 播放牛奶音效
+        PlaySound(milkSoundName);
 
         // 切换状态
         SetState(CupState.Milk);
 
-        // ⭐ 显示滤纸A
+        // 显示滤纸A
         if (objectToShowOnMilk != null)
         {
             objectToShowOnMilk.SetActive(true);
@@ -220,7 +271,7 @@ public class CoffeeCupController : MonoBehaviour
             return;
         }
 
-        // 播放音效
+        // 播放拾取音效
         PlaySound(collectSoundName);
 
         // 隐藏自己

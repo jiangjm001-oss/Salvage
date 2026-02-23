@@ -1,8 +1,9 @@
 // Assets/Scripts/UI/LandingPage/MenuButtonAnimator.cs
-// 菜单按钮动画控制器 - 悬停、点击效果 + 入场动画
+// 菜单按钮动画控制器 - 悬停点击效果 + 入场/退出动画
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 using System.Collections;
 
 [RequireComponent(typeof(Button))]
@@ -26,25 +27,36 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
     [SerializeField] private float clickScale = 0.95f;
     [SerializeField] private float clickDuration = 0.08f;
 
-    [Header("=== 入场动画（由父级控制）===")]
-    [SerializeField] private float entranceDelay = 0f; // 相对于整体动画的延迟
-    [SerializeField] private float entranceOffset = 50f; // 单独的入场偏移
+    [Header("=== 入场动画（渐显上移）===")]
+    [SerializeField] private float entranceDelay = 0f; // 入场动画的延迟
+    [SerializeField] private float entranceOffset = 50f; // 入场时的Y轴偏移
 
-    [Header("=== 闲置动画 ===")]
+    [Header("=== 退出动画（渐隐下移）===")]
+    [SerializeField] private float exitDuration = 0.4f; // 退出动画时长
+    [SerializeField] private float exitOffset = 30f; // 退出时的Y轴偏移
+    [SerializeField] private AnimationCurve exitCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("=== 待机动画 ===")]
     [SerializeField] private bool enableIdleAnimation = true;
     [SerializeField] private float idleFloatSpeed = 1.5f;
     [SerializeField] private float idleFloatAmplitude = 2f;
 
     // 私有变量
     private Button button;
+    private CanvasGroup canvasGroup;
     private Vector3 originalScale;
     private Color originalTextColor;
     private Color originalImageColor;
     private Vector2 originalPosition;
     private bool isHovering = false;
     private bool isPressed = false;
+    private bool isExiting = false; // 是否正在播放退出动画
     private Coroutine currentAnimation;
+    private Coroutine exitCoroutine;
     private float idleTimeOffset;
+
+    // 事件
+    public event Action OnExitAnimationComplete;
 
     private void Awake()
     {
@@ -66,6 +78,13 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
             }
         }
 
+        // 获取或添加 CanvasGroup
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
         // 保存原始状态
         originalScale = buttonTransform.localScale;
         originalPosition = buttonTransform.anchoredPosition;
@@ -78,14 +97,14 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (buttonImage != null)
             originalImageColor = buttonImage.color;
 
-        // 随机闲置动画相位
-        idleTimeOffset = Random.Range(0f, Mathf.PI * 2f);
+        // 随机待机动画相位
+        idleTimeOffset = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
     }
 
     private void Update()
     {
-        // 闲置浮动动画（只在非悬停/点击状态下）
-        if (enableIdleAnimation && !isHovering && !isPressed)
+        // 待机浮动动画（只在非悬停/非按下/非退出状态下）
+        if (enableIdleAnimation && !isHovering && !isPressed && !isExiting)
         {
             float yOffset = Mathf.Sin((Time.time + idleTimeOffset) * idleFloatSpeed) * idleFloatAmplitude;
             buttonTransform.anchoredPosition = originalPosition + new Vector2(0, yOffset);
@@ -96,7 +115,7 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!button.interactable) return;
+        if (!button.interactable || isExiting) return;
 
         isHovering = true;
         PlayHoverEnter();
@@ -104,6 +123,8 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isExiting) return;
+
         isHovering = false;
         if (!isPressed)
         {
@@ -113,7 +134,7 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!button.interactable) return;
+        if (!button.interactable || isExiting) return;
 
         isPressed = true;
         PlayClickDown();
@@ -121,6 +142,8 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (isExiting) return;
+
         isPressed = false;
 
         if (isHovering)
@@ -133,7 +156,7 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
-    // ============ 动画方法 ============
+    // ============ 动画触发 ============
 
     private void PlayHoverEnter()
     {
@@ -266,7 +289,7 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
         buttonTransform.localScale = targetScale;
     }
 
-    // ============ 入场动画（供外部调用）============
+    // ============ 入场动画（外部调用）============
 
     /// <summary>
     /// 播放入场动画
@@ -274,11 +297,7 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
     public IEnumerator PlayEntranceAnimation(float duration)
     {
         // 初始状态：透明 + 下方偏移
-        CanvasGroup cg = GetComponent<CanvasGroup>();
-        if (cg == null)
-            cg = gameObject.AddComponent<CanvasGroup>();
-
-        cg.alpha = 0f;
+        canvasGroup.alpha = 0f;
         Vector2 startPos = originalPosition + new Vector2(0, -entranceOffset);
         buttonTransform.anchoredPosition = startPos;
 
@@ -293,14 +312,90 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
             elapsed += Time.deltaTime;
             float t = EaseOutBack(Mathf.Clamp01(elapsed / duration));
 
-            cg.alpha = t;
+            canvasGroup.alpha = t;
             buttonTransform.anchoredPosition = Vector2.Lerp(startPos, originalPosition, t);
 
             yield return null;
         }
 
-        cg.alpha = 1f;
+        canvasGroup.alpha = 1f;
         buttonTransform.anchoredPosition = originalPosition;
+    }
+
+    // ============ 退出动画（新增）============
+
+    /// <summary>
+    /// 播放退出动画（渐隐 + 下移）
+    /// </summary>
+    /// <param name="onComplete">动画完成回调</param>
+    public void PlayExitAnimation(Action onComplete = null)
+    {
+        if (exitCoroutine != null)
+        {
+            StopCoroutine(exitCoroutine);
+        }
+        exitCoroutine = StartCoroutine(ExitAnimationCoroutine(onComplete));
+    }
+
+    /// <summary>
+    /// 播放退出动画（协程版本，可await）
+    /// </summary>
+    public IEnumerator PlayExitAnimationCoroutine()
+    {
+        yield return ExitAnimationCoroutine(null);
+    }
+
+    private IEnumerator ExitAnimationCoroutine(Action onComplete)
+    {
+        isExiting = true;
+
+        // 停止其他动画
+        if (currentAnimation != null)
+        {
+            StopCoroutine(currentAnimation);
+            currentAnimation = null;
+        }
+
+        // 禁用按钮交互
+        button.interactable = false;
+
+        float elapsed = 0f;
+        Vector2 startPos = buttonTransform.anchoredPosition;
+        Vector2 endPos = originalPosition + new Vector2(0, -exitOffset);
+        float startAlpha = canvasGroup.alpha;
+
+        while (elapsed < exitDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / exitDuration);
+            float curvedT = exitCurve.Evaluate(t);
+
+            // 渐隐
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, curvedT);
+
+            // 下移
+            buttonTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, curvedT);
+
+            yield return null;
+        }
+
+        // 确保最终状态
+        canvasGroup.alpha = 0f;
+        buttonTransform.anchoredPosition = endPos;
+
+        // 触发事件和回调
+        OnExitAnimationComplete?.Invoke();
+        onComplete?.Invoke();
+
+        Debug.Log($"[MenuButtonAnimator] Exit animation complete: {gameObject.name}");
+    }
+
+    /// <summary>
+    /// 获取退出动画时长
+    /// </summary>
+    public float GetExitDuration()
+    {
+        return exitDuration;
     }
 
     // ============ 辅助方法 ============
@@ -346,6 +441,9 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (currentAnimation != null)
             StopCoroutine(currentAnimation);
 
+        if (exitCoroutine != null)
+            StopCoroutine(exitCoroutine);
+
         buttonTransform.localScale = originalScale;
         buttonTransform.anchoredPosition = originalPosition;
         SetTextColor(originalTextColor);
@@ -353,15 +451,28 @@ public class MenuButtonAnimator : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (buttonImage != null)
             buttonImage.color = originalImageColor;
 
+        if (canvasGroup != null)
+            canvasGroup.alpha = 1f;
+
         isHovering = false;
         isPressed = false;
+        isExiting = false;
+        button.interactable = true;
     }
 
     /// <summary>
-    /// 设置入场延迟（用于错开动画）
+    /// 设置入场延迟（用于创建交错动画）
     /// </summary>
     public void SetEntranceDelay(float delay)
     {
         entranceDelay = delay;
+    }
+
+    /// <summary>
+    /// 设置退出动画时长
+    /// </summary>
+    public void SetExitDuration(float duration)
+    {
+        exitDuration = duration;
     }
 }
