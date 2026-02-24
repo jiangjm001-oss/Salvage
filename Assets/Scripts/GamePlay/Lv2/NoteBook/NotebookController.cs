@@ -1,198 +1,167 @@
-// Assets/Scripts/GamePlay/Notebook/NotebookController.cs
-// ±Ê¼Ç±¾·­Ò³¿ØÖÆÆ÷ - Ö§³Ö×óÓÒ·­Ò³ºÍ·­Ò³¶¯»­
-// ¸üĞÂ£ºÖ§³ÖÒ³ÃæÎ»ÖÃ¡¢´óĞ¡µ÷Õû
+ï»¿// Assets/Scripts/GamePlay/Notebook/NotebookController.cs
+// ç¬”è®°æœ¬ç¿»é¡µæ§åˆ¶å™¨ - ä¿®å¤ç‰ˆ
+// ä¿®å¤ï¼šç¡®ä¿OnEnableæ—¶æ­£ç¡®æ˜¾ç¤ºé¡µé¢å†…å®¹
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// ±Ê¼Ç±¾·­Ò³¿ØÖÆÆ÷
-/// ¹ÜÀí¶àÒ³±Ê¼Ç±¾µÄ·­Ò³Âß¼­ºÍ¶¯»­
+/// ç¬”è®°æœ¬ç¿»é¡µæ§åˆ¶å™¨
+/// ç®¡ç†å¤šé¡µç¬”è®°æœ¬çš„ç¿»é¡µé€»è¾‘å’ŒåŠ¨ç”»
 /// </summary>
 public class NotebookController : MonoBehaviour
 {
-    // ============ Ò³ÃæÄÚÈİÅäÖÃ ============
+    // ============ é¡µé¢å†…å®¹é…ç½® ============
     [System.Serializable]
     public class PageSpread
     {
-        [Tooltip("×óÒ³ÄÚÈİ¾«Áé")]
+        [Tooltip("å·¦é¡µå†…å®¹ç²¾çµ")]
         public Sprite leftPageSprite;
 
-        [Tooltip("ÓÒÒ³ÄÚÈİ¾«Áé")]
+        [Tooltip("å³é¡µå†…å®¹ç²¾çµ")]
         public Sprite rightPageSprite;
 
-        [Tooltip("×óÒ³ÃèÊö£¨¿ÉÑ¡£¬ÓÃÓÚµ÷ÊÔ£©")]
+        [Tooltip("å·¦é¡µæè¿°ï¼ˆå¯é€‰ï¼Œç”¨äºè°ƒè¯•ï¼‰")]
         public string leftPageDescription;
 
-        [Tooltip("ÓÒÒ³ÃèÊö£¨¿ÉÑ¡£¬ÓÃÓÚµ÷ÊÔ£©")]
+        [Tooltip("å³é¡µæè¿°ï¼ˆå¯é€‰ï¼Œç”¨äºè°ƒè¯•ï¼‰")]
         public string rightPageDescription;
     }
 
-    [Header("Ò³ÃæÅäÖÃ")]
-    [Tooltip("ËùÓĞÒ³ÃæÄÚÈİ£¨Ã¿×é°üº¬×óÓÒÁ½Ò³£©")]
+    [Header("é¡µé¢é…ç½®")]
+    [Tooltip("æ‰€æœ‰é¡µé¢å†…å®¹ï¼ˆæ¯ç»„åŒ…å«å·¦å³ä¸¤é¡µï¼‰")]
     public List<PageSpread> pageSpreads = new List<PageSpread>();
 
-    [Tooltip("µ±Ç°ÏÔÊ¾µÄÒ³Ãæ×éË÷Òı")]
+    [Tooltip("å½“å‰æ˜¾ç¤ºçš„é¡µé¢ç»„ç´¢å¼•")]
     [SerializeField]
     private int currentSpreadIndex = 0;
 
-    // ============ ÏÔÊ¾×é¼şÒıÓÃ ============
-    [Header("ÏÔÊ¾×é¼ş")]
-    [Tooltip("×óÒ³ SpriteRenderer")]
+    // ============ æ˜¾ç¤ºç»„ä»¶å¼•ç”¨ ============
+    [Header("æ˜¾ç¤ºç»„ä»¶")]
+    [Tooltip("å·¦é¡µ SpriteRenderer")]
     public SpriteRenderer leftPageRenderer;
 
-    [Tooltip("ÓÒÒ³ SpriteRenderer")]
+    [Tooltip("å³é¡µ SpriteRenderer")]
     public SpriteRenderer rightPageRenderer;
 
-    [Tooltip("·­Ò³¶¯»­ÓÃµÄÒ³Ãæ£¨¿ÉÑ¡£©")]
+    [Tooltip("ç¿»é¡µåŠ¨ç”»ç”¨çš„é¡µé¢ï¼ˆå¯é€‰ï¼Œä¸å½±å“åŸºæœ¬åŠŸèƒ½ï¼‰")]
     public SpriteRenderer flipPageRenderer;
 
-    // ============ Ò³ÃæÎ»ÖÃºÍ´óĞ¡µ÷Õû ============
-    [Header("Ò³ÃæÎ»ÖÃµ÷Õû")]
-    [Tooltip("×óÒ³Î»ÖÃÆ«ÒÆ£¨Ïà¶ÔÓÚ±Ê¼Ç±¾ÖĞĞÄ£©")]
-    public Vector2 leftPageOffset = new Vector2(-150f, 0f);
+    // ============ é¡µé¢ä½ç½®è°ƒæ•´ ============
+    [Header("é¡µé¢ä½ç½®è°ƒæ•´")]
+    [Tooltip("å·¦é¡µä½ç½®åç§»ï¼ˆç›¸å¯¹äºç¬”è®°æœ¬ä¸­å¿ƒï¼‰")]
+    public Vector2 leftPageOffset = new Vector2(-160.3f, 0f);
 
-    [Tooltip("ÓÒÒ³Î»ÖÃÆ«ÒÆ£¨Ïà¶ÔÓÚ±Ê¼Ç±¾ÖĞĞÄ£©")]
-    public Vector2 rightPageOffset = new Vector2(150f, 0f);
+    [Tooltip("å³é¡µä½ç½®åç§»ï¼ˆç›¸å¯¹äºç¬”è®°æœ¬ä¸­å¿ƒï¼‰")]
+    public Vector2 rightPageOffset = new Vector2(170.8f, 0f);
 
-    [Tooltip("×óÒ³Ëõ·Å")]
-    public Vector2 leftPageScale = Vector2.one;
+    [Tooltip("å·¦é¡µç¼©æ”¾")]
+    public Vector2 leftPageScale = new Vector2(0.5f, 0.5f);
 
-    [Tooltip("ÓÒÒ³Ëõ·Å")]
-    public Vector2 rightPageScale = Vector2.one;
+    [Tooltip("å³é¡µç¼©æ”¾")]
+    public Vector2 rightPageScale = new Vector2(0.5f, 0.5f);
 
-    [Header("Ò³Ãæ´óĞ¡µ÷Õû£¨¿ÉÑ¡£©")]
-    [Tooltip("ÆôÓÃÍ³Ò»Ëõ·Å£¨Í¬Ê±µ÷Õû×óÓÒÒ³£©")]
+    // ============ é¡µé¢å¤§å°è°ƒæ•´ï¼ˆå¯é€‰ï¼‰ ============
+    [Header("é¡µé¢å¤§å°è°ƒæ•´ï¼ˆå¯é€‰ï¼‰")]
+    [Tooltip("å¯ç”¨åä½¿ç”¨ç»Ÿä¸€ç¼©æ”¾")]
     public bool useUniformScale = false;
 
-    [Tooltip("Í³Ò»Ëõ·ÅÖµ")]
+    [Tooltip("ç»Ÿä¸€ç¼©æ”¾å€¼")]
     public float uniformScale = 1f;
 
-    [Tooltip("ÔÚ±à¼­Æ÷ÖĞÊµÊ±Ô¤ÀÀÎ»ÖÃ±ä»¯")]
+    [Tooltip("ç¼–è¾‘æ—¶å®æ—¶é¢„è§ˆ")]
     public bool livePreview = true;
 
-    // ============ µã»÷ÇøÓò ============
-    [Header("µã»÷ÇøÓò")]
-    [Tooltip("×ó²à·­Ò³ÇøÓò Collider")]
-    public Collider2D leftClickArea;
+    // ============ ç‚¹å‡»åŒºåŸŸ ============
+    [Header("ç‚¹å‡»åŒºåŸŸ")]
+    [Tooltip("å·¦ä¾§ç‚¹å‡»åŒºåŸŸ Collider")]
+    public BoxCollider2D leftClickArea;
 
-    [Tooltip("ÓÒ²à·­Ò³ÇøÓò Collider")]
-    public Collider2D rightClickArea;
+    [Tooltip("å³ä¾§ç‚¹å‡»åŒºåŸŸ Collider")]
+    public BoxCollider2D rightClickArea;
 
-    [Tooltip("µã»÷ÇøÓò¸úËæÒ³ÃæÎ»ÖÃ")]
+    [Tooltip("ç‚¹å‡»åŒºåŸŸæ˜¯å¦è·Ÿéšé¡µé¢ä½ç½®")]
     public bool clickAreaFollowsPage = true;
 
-    [Tooltip("×ó²àµã»÷ÇøÓò´óĞ¡")]
+    [Tooltip("å·¦ä¾§ç‚¹å‡»åŒºåŸŸå¤§å°")]
     public Vector2 leftClickAreaSize = new Vector2(200f, 300f);
 
-    [Tooltip("ÓÒ²àµã»÷ÇøÓò´óĞ¡")]
+    [Tooltip("å³ä¾§ç‚¹å‡»åŒºåŸŸå¤§å°")]
     public Vector2 rightClickAreaSize = new Vector2(200f, 300f);
 
-    // ============ ·­Ò³¶¯»­ÉèÖÃ ============
-    [Header("·­Ò³¶¯»­")]
-    [Tooltip("ÆôÓÃ·­Ò³¶¯»­")]
-    public bool enableFlipAnimation = true;
-
-    [Tooltip("·­Ò³¶¯»­Ê±¼ä")]
-    [Range(0.1f, 1f)]
+    // ============ ç¿»é¡µåŠ¨ç”» ============
+    [Header("ç¿»é¡µåŠ¨ç”»")]
+    [Tooltip("ç¿»é¡µåŠ¨ç”»æŒç»­æ—¶é—´")]
     public float flipDuration = 0.4f;
 
-    [Tooltip("·­Ò³¶¯»­ÇúÏß")]
+    [Tooltip("ç¿»é¡µåŠ¨ç”»æ›²çº¿")]
     public AnimationCurve flipCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    [Tooltip("·­Ò³Ê±µÄ×î´óÇãĞ±½Ç¶È")]
-    [Range(0f, 45f)]
-    public float maxTiltAngle = 15f;
-
-    [Tooltip("·­Ò³Ê±µÄÒõÓ°µ­Èëµ­³ö")]
-    public bool enableShadowEffect = true;
-
-    [Tooltip("ÒõÓ°¾«Áé£¨¿ÉÑ¡£©")]
-    public SpriteRenderer shadowRenderer;
-
-    [Tooltip("ÒõÓ°×î´óÍ¸Ã÷¶È")]
-    [Range(0f, 1f)]
-    public float maxShadowAlpha = 0.3f;
-
-    // ============ Ò³Ãæµ­Èëµ­³öÉèÖÃ ============
-    [Header("Ò³Ãæµ­Èëµ­³ö")]
-    [Tooltip("ÆôÓÃÒ³Ãæµ­Èëµ­³ö")]
+    [Tooltip("å¯ç”¨æ·¡å…¥æ·¡å‡ºæ•ˆæœ")]
     public bool enableFadeEffect = true;
 
-    [Tooltip("µ­Èëµ­³öÊ±¼ä")]
-    [Range(0.1f, 0.5f)]
-    public float fadeDuration = 0.2f;
+    [Tooltip("å¯ç”¨é˜´å½±æ•ˆæœ")]
+    public bool enableShadowEffect = false;
 
-    // ============ Ò³ÂëÖ¸Ê¾Æ÷ ============
-    [Header("Ò³ÂëÖ¸Ê¾Æ÷£¨¿ÉÑ¡£©")]
-    [Tooltip("Ò³ÂëÎÄ±¾×é¼ş")]
-    public TMPro.TextMeshPro pageNumberText;
+    [Tooltip("é˜´å½±æ¸²æŸ“å™¨ï¼ˆå¯é€‰ï¼‰")]
+    public SpriteRenderer shadowRenderer;
 
-    [Tooltip("Ò³Âë¸ñÊ½£¬Èç '{0}/{1}'")]
-    public string pageNumberFormat = "{0}/{1}";
-
-    // ============ ÒôĞ§ÉèÖÃ ============
-    [Header("ÒôĞ§ÉèÖÃ")]
-    [Tooltip("·­Ò³ÒôĞ§")]
+    // ============ éŸ³æ•ˆ ============
+    [Header("éŸ³æ•ˆ")]
+    [Tooltip("ç¿»é¡µéŸ³æ•ˆåç§°")]
     public string flipSoundName = "Audio/SFX/page_flip";
 
-    [Tooltip("µ½´ïÊ×Ò³/Ä©Ò³Ê±µÄÒôĞ§")]
+    [Tooltip("åˆ°è¾¾è¾¹ç•ŒéŸ³æ•ˆ")]
     public string edgeSoundName = "Audio/SFX/page_edge";
 
-    // ============ ÊÂ¼ş ============
-    [Header("ÊÂ¼ş")]
-    [Tooltip("·­Ò³Ê±´¥·¢")]
+    // ============ äº‹ä»¶ ============
+    [Header("äº‹ä»¶")]
+    [Tooltip("é¡µé¢å˜åŒ–æ—¶è§¦å‘")]
     public UnityEvent<int> OnPageChanged;
 
-    [Tooltip("µ½´ïÊ×Ò³Ê±´¥·¢")]
+    [Tooltip("åˆ°è¾¾é¦–é¡µæ—¶è§¦å‘")]
     public UnityEvent OnFirstPage;
 
-    [Tooltip("µ½´ïÄ©Ò³Ê±´¥·¢")]
+    [Tooltip("åˆ°è¾¾æœ«é¡µæ—¶è§¦å‘")]
     public UnityEvent OnLastPage;
 
-    // ============ µ÷ÊÔÏÔÊ¾ ============
-    [Header("µ÷ÊÔÏÔÊ¾")]
-    [Tooltip("ÔÚSceneÊÓÍ¼ÏÔÊ¾Ò³Ãæ±ß½ç")]
+    // ============ è°ƒè¯•æ˜¾ç¤º ============
+    [Header("è°ƒè¯•")]
+    [Tooltip("åœ¨Sceneè§†å›¾æ˜¾ç¤ºé¡µé¢è¾¹ç•Œ")]
     public bool showPageBounds = true;
 
-    [Tooltip("ÔÚSceneÊÓÍ¼ÏÔÊ¾µã»÷ÇøÓò")]
+    [Tooltip("åœ¨Sceneè§†å›¾æ˜¾ç¤ºç‚¹å‡»åŒºåŸŸ")]
     public bool showClickAreas = true;
 
-    // ============ ÄÚ²¿×´Ì¬ ============
+    [Tooltip("å¯ç”¨è°ƒè¯•æ—¥å¿—")]
+    public bool enableDebugLog = true;
+
+    // ============ å†…éƒ¨çŠ¶æ€ ============
     private bool isFlipping = false;
     private Coroutine flipCoroutine;
-    private Vector3 leftPageBasePosition;
-    private Vector3 rightPageBasePosition;
+    private bool isInitialized = false;
 
-    // ============ ÊôĞÔ ============
+    // ============ å±æ€§ ============
     public int CurrentSpreadIndex => currentSpreadIndex;
     public int TotalSpreads => pageSpreads.Count;
     public bool IsFirstSpread => currentSpreadIndex == 0;
     public bool IsLastSpread => currentSpreadIndex >= pageSpreads.Count - 1;
     public bool IsFlipping => isFlipping;
 
-    // ============ ÉúÃüÖÜÆÚ ============
+    // ============ ç”Ÿå‘½å‘¨æœŸ ============
 
     private void Awake()
     {
-        // ¼ÇÂ¼»ù´¡Î»ÖÃ
-        if (leftPageRenderer != null)
-        {
-            leftPageBasePosition = leftPageRenderer.transform.localPosition;
-        }
-        if (rightPageRenderer != null)
-        {
-            rightPageBasePosition = rightPageRenderer.transform.localPosition;
-        }
+        LogDebug("Awake called");
 
-        // ³õÊ¼»¯ÒõÓ°
+        // åˆå§‹åŒ–é˜´å½±
         if (shadowRenderer != null)
         {
             SetSpriteAlpha(shadowRenderer, 0f);
         }
 
-        // ³õÊ¼»¯·­Ò³Ò³Ãæ
+        // åˆå§‹åŒ–ç¿»é¡µé¡µé¢
         if (flipPageRenderer != null)
         {
             flipPageRenderer.gameObject.SetActive(false);
@@ -201,706 +170,809 @@ public class NotebookController : MonoBehaviour
 
     private void Start()
     {
-        // Ó¦ÓÃ³õÊ¼Î»ÖÃºÍ´óĞ¡
+        LogDebug("Start called");
+        Initialize();
+    }
+
+    /// <summary>
+    /// æ¯æ¬¡å¯ç”¨æ—¶é‡æ–°åˆå§‹åŒ–æ˜¾ç¤º
+    /// è¿™æ˜¯ä¿®å¤è¿›å…¥ZoomViewåä¸æ˜¾ç¤ºçš„å…³é”®ï¼
+    /// </summary>
+    private void OnEnable()
+    {
+        LogDebug("OnEnable called - Reinitializing display");
+
+        // å»¶è¿Ÿä¸€å¸§åˆå§‹åŒ–ï¼Œç¡®ä¿æ‰€æœ‰ç»„ä»¶éƒ½å·²å°±ç»ª
+        StartCoroutine(DelayedInitialize());
+    }
+
+    private IEnumerator DelayedInitialize()
+    {
+        // ç­‰å¾…ä¸€å¸§ï¼Œç¡®ä¿æ‰€æœ‰ç»„ä»¶æ¿€æ´»
+        yield return null;
+
+        Initialize();
+
+        // å¼ºåˆ¶åˆ·æ–°æ˜¾ç¤º
+        ForceRefreshDisplay();
+    }
+
+    /// <summary>
+    /// åˆå§‹åŒ–
+    /// </summary>
+    private void Initialize()
+    {
+        // éªŒè¯é…ç½®
+        if (!ValidateConfiguration())
+        {
+            LogDebug("Configuration validation failed!");
+            return;
+        }
+
+        // â­ é¦–å…ˆé‡ç½®é€æ˜åº¦ï¼ˆä¿®å¤ç¼–è¾‘å™¨ä¸­ Alpha=0 çš„é—®é¢˜ï¼‰
+        ResetPageAlpha();
+
+        // åº”ç”¨é¡µé¢ä½ç½®å’Œå¤§å°
         ApplyPageTransforms();
 
-        // ¸üĞÂµã»÷ÇøÓò
+        // æ›´æ–°ç‚¹å‡»åŒºåŸŸ
         UpdateClickAreas();
 
-        // ÏÔÊ¾³õÊ¼Ò³Ãæ
+        // æ˜¾ç¤ºå½“å‰é¡µé¢
         UpdatePageDisplay();
-        UpdatePageNumber();
+
+        isInitialized = true;
+        LogDebug($"Initialized successfully. Current spread: {currentSpreadIndex}, Total spreads: {pageSpreads.Count}");
+    }
+
+    /// <summary>
+    /// é‡ç½®é¡µé¢é€æ˜åº¦ä¸º1ï¼ˆä¿®å¤ç¼–è¾‘å™¨ä¸­è¯¯è®¾ä¸º0çš„é—®é¢˜ï¼‰
+    /// </summary>
+    private void ResetPageAlpha()
+    {
+        if (leftPageRenderer != null)
+        {
+            Color c = leftPageRenderer.color;
+            if (c.a < 1f)
+            {
+                c.a = 1f;
+                leftPageRenderer.color = c;
+                LogDebug($"Reset left page alpha from {leftPageRenderer.color.a} to 1");
+            }
+        }
+
+        if (rightPageRenderer != null)
+        {
+            Color c = rightPageRenderer.color;
+            if (c.a < 1f)
+            {
+                c.a = 1f;
+                rightPageRenderer.color = c;
+                LogDebug($"Reset right page alpha from {rightPageRenderer.color.a} to 1");
+            }
+        }
+    }
+
+    /// <summary>
+    /// å¼ºåˆ¶åˆ·æ–°æ˜¾ç¤º
+    /// </summary>
+    public void ForceRefreshDisplay()
+    {
+        LogDebug("ForceRefreshDisplay called");
+
+        ApplyPageTransforms();
+        UpdatePageDisplay();
+
+        // ç¡®ä¿æ¸²æŸ“å™¨å·²å¯ç”¨ï¼Œå¹¶é‡ç½®é€æ˜åº¦ä¸º1ï¼ˆä¿®å¤ Alpha=0 çš„é—®é¢˜ï¼‰
+        if (leftPageRenderer != null)
+        {
+            leftPageRenderer.enabled = true;
+            // â­ å¼ºåˆ¶é‡ç½®é¢œè‰²é€æ˜åº¦ä¸º1
+            Color leftColor = leftPageRenderer.color;
+            leftColor.a = 1f;
+            leftPageRenderer.color = leftColor;
+            LogDebug($"Left page renderer enabled: {leftPageRenderer.enabled}, sprite: {leftPageRenderer.sprite?.name ?? "null"}, alpha: {leftPageRenderer.color.a}");
+        }
+
+        if (rightPageRenderer != null)
+        {
+            rightPageRenderer.enabled = true;
+            // â­ å¼ºåˆ¶é‡ç½®é¢œè‰²é€æ˜åº¦ä¸º1
+            Color rightColor = rightPageRenderer.color;
+            rightColor.a = 1f;
+            rightPageRenderer.color = rightColor;
+            LogDebug($"Right page renderer enabled: {rightPageRenderer.enabled}, sprite: {rightPageRenderer.sprite?.name ?? "null"}, alpha: {rightPageRenderer.color.a}");
+        }
     }
 
     private void Update()
     {
-        // ¼ì²âÊó±êµã»÷
+        // æ£€æµ‹é¼ æ ‡ç‚¹å‡»
         if (Input.GetMouseButtonDown(0) && !isFlipping)
         {
             CheckClickArea();
         }
     }
 
-    // ============ Ò³ÃæÎ»ÖÃºÍ´óĞ¡Ó¦ÓÃ ============
+    // ============ é…ç½®éªŒè¯ ============
 
     /// <summary>
-    /// Ó¦ÓÃÒ³ÃæÎ»ÖÃºÍ´óĞ¡ÉèÖÃ
+    /// éªŒè¯é…ç½®æ˜¯å¦æ­£ç¡®
+    /// </summary>
+    private bool ValidateConfiguration()
+    {
+        bool isValid = true;
+
+        if (leftPageRenderer == null)
+        {
+            Debug.LogError("[NotebookController] âš ï¸ leftPageRenderer æœªé…ç½®ï¼è¯·åœ¨ Inspector ä¸­æ‹–å…¥å·¦é¡µ SpriteRenderer");
+            isValid = false;
+        }
+
+        if (rightPageRenderer == null)
+        {
+            Debug.LogError("[NotebookController] âš ï¸ rightPageRenderer æœªé…ç½®ï¼è¯·åœ¨ Inspector ä¸­æ‹–å…¥å³é¡µ SpriteRenderer");
+            isValid = false;
+        }
+
+        if (pageSpreads == null || pageSpreads.Count == 0)
+        {
+            Debug.LogError("[NotebookController] âš ï¸ pageSpreads ä¸ºç©ºï¼è¯·é…ç½®é¡µé¢å†…å®¹");
+            isValid = false;
+        }
+        else
+        {
+            // æ£€æŸ¥æ¯ä¸ªé¡µé¢é…ç½®
+            for (int i = 0; i < pageSpreads.Count; i++)
+            {
+                var spread = pageSpreads[i];
+                if (spread.leftPageSprite == null && spread.rightPageSprite == null)
+                {
+                    Debug.LogWarning($"[NotebookController] âš ï¸ PageSpread[{i}] å·¦å³é¡µéƒ½æ²¡æœ‰é…ç½®ç²¾çµï¼");
+                }
+            }
+        }
+
+        if (leftClickArea == null)
+        {
+            Debug.LogWarning("[NotebookController] leftClickArea æœªé…ç½®ï¼Œå°†ä½¿ç”¨å°„çº¿æ£€æµ‹");
+        }
+
+        if (rightClickArea == null)
+        {
+            Debug.LogWarning("[NotebookController] rightClickArea æœªé…ç½®ï¼Œå°†ä½¿ç”¨å°„çº¿æ£€æµ‹");
+        }
+
+        return isValid;
+    }
+
+    // ============ é¡µé¢ä½ç½®å’Œå¤§å°åº”ç”¨ ============
+
+    /// <summary>
+    /// åº”ç”¨é¡µé¢ä½ç½®å’Œå¤§å°è®¾ç½®
     /// </summary>
     public void ApplyPageTransforms()
     {
-        // ¼ÆËãÊµ¼ÊËõ·Å
+        // è®¡ç®—å®é™…ç¼©æ”¾
         Vector2 leftScale = useUniformScale ? Vector2.one * uniformScale : leftPageScale;
         Vector2 rightScale = useUniformScale ? Vector2.one * uniformScale : rightPageScale;
 
-        // Ó¦ÓÃ×óÒ³±ä»»
+        // åº”ç”¨å·¦é¡µå˜æ¢
         if (leftPageRenderer != null)
         {
-            leftPageRenderer.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
-            leftPageRenderer.transform.localScale = new Vector3(leftScale.x, leftScale.y, 1f);
+            leftPageRenderer.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0);
+            leftPageRenderer.transform.localScale = new Vector3(leftScale.x, leftScale.y, 1);
+            LogDebug($"Left page position: {leftPageRenderer.transform.localPosition}, scale: {leftPageRenderer.transform.localScale}");
         }
 
-        // Ó¦ÓÃÓÒÒ³±ä»»
+        // åº”ç”¨å³é¡µå˜æ¢
         if (rightPageRenderer != null)
         {
-            rightPageRenderer.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
-            rightPageRenderer.transform.localScale = new Vector3(rightScale.x, rightScale.y, 1f);
-        }
-
-        // ¸üĞÂ·­Ò³Ò³ÃæÎ»ÖÃ£¨Èç¹ûÓĞ£©
-        if (flipPageRenderer != null)
-        {
-            flipPageRenderer.transform.localScale = new Vector3(rightScale.x, rightScale.y, 1f);
+            rightPageRenderer.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0);
+            rightPageRenderer.transform.localScale = new Vector3(rightScale.x, rightScale.y, 1);
+            LogDebug($"Right page position: {rightPageRenderer.transform.localPosition}, scale: {rightPageRenderer.transform.localScale}");
         }
     }
 
     /// <summary>
-    /// ¸üĞÂµã»÷ÇøÓòÎ»ÖÃºÍ´óĞ¡
+    /// æ›´æ–°ç‚¹å‡»åŒºåŸŸä½ç½®å’Œå¤§å°
     /// </summary>
     public void UpdateClickAreas()
     {
         if (clickAreaFollowsPage)
         {
-            // ×ó²àµã»÷ÇøÓò¸úËæ×óÒ³
+            // å·¦ä¾§ç‚¹å‡»åŒºåŸŸ
             if (leftClickArea != null)
             {
-                leftClickArea.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
-
-                BoxCollider2D leftBox = leftClickArea as BoxCollider2D;
-                if (leftBox != null)
-                {
-                    leftBox.size = leftClickAreaSize;
-                }
+                leftClickArea.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0);
+                leftClickArea.size = leftClickAreaSize;
             }
 
-            // ÓÒ²àµã»÷ÇøÓò¸úËæÓÒÒ³
+            // å³ä¾§ç‚¹å‡»åŒºåŸŸ
             if (rightClickArea != null)
             {
-                rightClickArea.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
-
-                BoxCollider2D rightBox = rightClickArea as BoxCollider2D;
-                if (rightBox != null)
-                {
-                    rightBox.size = rightClickAreaSize;
-                }
+                rightClickArea.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0);
+                rightClickArea.size = rightClickAreaSize;
             }
         }
     }
 
-    /// <summary>
-    /// ÖØÖÃÒ³Ãæµ½Ä¬ÈÏÎ»ÖÃ
-    /// </summary>
-    [ContextMenu("ÖØÖÃÒ³ÃæÎ»ÖÃ")]
-    public void ResetPagePositions()
-    {
-        leftPageOffset = new Vector2(-150f, 0f);
-        rightPageOffset = new Vector2(150f, 0f);
-        leftPageScale = Vector2.one;
-        rightPageScale = Vector2.one;
-        uniformScale = 1f;
-
-        ApplyPageTransforms();
-        UpdateClickAreas();
-    }
+    // ============ é¡µé¢æ˜¾ç¤ºæ›´æ–° ============
 
     /// <summary>
-    /// ¸ù¾İ¾«Áé´óĞ¡×Ô¶¯¼ÆËãÎ»ÖÃ
+    /// æ›´æ–°å½“å‰é¡µé¢æ˜¾ç¤º
     /// </summary>
-    [ContextMenu("×Ô¶¯¼ÆËãÒ³ÃæÎ»ÖÃ")]
-    public void AutoCalculatePositions()
+    private void UpdatePageDisplay()
     {
-        if (leftPageRenderer != null && leftPageRenderer.sprite != null)
+        if (pageSpreads == null || pageSpreads.Count == 0)
         {
-            float leftWidth = leftPageRenderer.sprite.bounds.size.x * leftPageScale.x;
-            leftPageOffset.x = -leftWidth / 2f - 5f; // 5ÏñËØ¼äÏ¶
+            LogDebug("No page spreads configured!");
+            return;
         }
 
-        if (rightPageRenderer != null && rightPageRenderer.sprite != null)
+        // ç¡®ä¿ç´¢å¼•åœ¨æœ‰æ•ˆèŒƒå›´å†…
+        currentSpreadIndex = Mathf.Clamp(currentSpreadIndex, 0, pageSpreads.Count - 1);
+
+        PageSpread currentSpread = pageSpreads[currentSpreadIndex];
+
+        // æ›´æ–°å·¦é¡µ
+        if (leftPageRenderer != null)
         {
-            float rightWidth = rightPageRenderer.sprite.bounds.size.x * rightPageScale.x;
-            rightPageOffset.x = rightWidth / 2f + 5f; // 5ÏñËØ¼äÏ¶
+            leftPageRenderer.sprite = currentSpread.leftPageSprite;
+            leftPageRenderer.enabled = currentSpread.leftPageSprite != null;
+
+            // â­ å¼ºåˆ¶é‡ç½®é€æ˜åº¦ä¸º1ï¼ˆä¿®å¤ Alpha=0 çš„é—®é¢˜ï¼‰
+            Color leftColor = leftPageRenderer.color;
+            leftColor.a = 1f;
+            leftPageRenderer.color = leftColor;
+
+            LogDebug($"Updated left page: {currentSpread.leftPageSprite?.name ?? "null"}, enabled: {leftPageRenderer.enabled}, alpha: {leftPageRenderer.color.a}");
         }
 
-        ApplyPageTransforms();
-        UpdateClickAreas();
+        // æ›´æ–°å³é¡µ
+        if (rightPageRenderer != null)
+        {
+            rightPageRenderer.sprite = currentSpread.rightPageSprite;
+            rightPageRenderer.enabled = currentSpread.rightPageSprite != null;
+
+            // â­ å¼ºåˆ¶é‡ç½®é€æ˜åº¦ä¸º1ï¼ˆä¿®å¤ Alpha=0 çš„é—®é¢˜ï¼‰
+            Color rightColor = rightPageRenderer.color;
+            rightColor.a = 1f;
+            rightPageRenderer.color = rightColor;
+
+            LogDebug($"Updated right page: {currentSpread.rightPageSprite?.name ?? "null"}, enabled: {rightPageRenderer.enabled}, alpha: {rightPageRenderer.color.a}");
+        }
+
+        LogDebug($"Page display updated: Spread {currentSpreadIndex + 1}/{pageSpreads.Count}");
     }
 
-    // ============ µã»÷¼ì²â ============
+    // ============ ç‚¹å‡»æ£€æµ‹ ============
 
     /// <summary>
-    /// ¼ì²âµã»÷ÇøÓò
+    /// æ£€æµ‹ç‚¹å‡»åŒºåŸŸ
     /// </summary>
     private void CheckClickArea()
     {
-        // ¼ì²éÊÇ·ñµã»÷ÔÚUIÉÏ
-        if (UnityEngine.EventSystems.EventSystem.current != null &&
-            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
+        if (Camera.main == null) return;
 
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // ¼ì²éÓÒ²àµã»÷ÇøÓò£¨·­µ½ÏÂÒ»Ò³£©
-        if (rightClickArea != null && rightClickArea.OverlapPoint(mouseWorldPos))
+        // ä¼˜å…ˆä½¿ç”¨Collideræ£€æµ‹
+        if (leftClickArea != null && rightClickArea != null)
         {
-            TryFlipNext();
-            return;
-        }
+            if (leftClickArea.OverlapPoint(mouseWorldPos))
+            {
+                LogDebug("Left click area clicked - Previous page");
+                TryFlipToPrevious();
+                return;
+            }
 
-        // ¼ì²é×ó²àµã»÷ÇøÓò£¨·­µ½ÉÏÒ»Ò³£©
-        if (leftClickArea != null && leftClickArea.OverlapPoint(mouseWorldPos))
+            if (rightClickArea.OverlapPoint(mouseWorldPos))
+            {
+                LogDebug("Right click area clicked - Next page");
+                TryFlipToNext();
+                return;
+            }
+        }
+        else
         {
-            TryFlipPrevious();
-            return;
+            // å¤‡ç”¨ï¼šåŸºäºé¡µé¢ä½ç½®çš„ç®€å•æ£€æµ‹
+            Vector3 localPos = transform.InverseTransformPoint(mouseWorldPos);
+
+            // æ£€æµ‹æ˜¯å¦åœ¨ä¹¦æœ¬åŒºåŸŸå†…ï¼ˆç®€åŒ–åˆ¤æ–­ï¼‰
+            float bookHalfWidth = Mathf.Max(Mathf.Abs(leftPageOffset.x), Mathf.Abs(rightPageOffset.x)) + 100f;
+            float bookHalfHeight = 200f;
+
+            if (Mathf.Abs(localPos.x) < bookHalfWidth && Mathf.Abs(localPos.y) < bookHalfHeight)
+            {
+                if (localPos.x < 0)
+                {
+                    LogDebug("Left side clicked (fallback detection) - Previous page");
+                    TryFlipToPrevious();
+                }
+                else
+                {
+                    LogDebug("Right side clicked (fallback detection) - Next page");
+                    TryFlipToNext();
+                }
+            }
         }
     }
 
-    // ============ ·­Ò³Âß¼­ ============
+    // ============ ç¿»é¡µé€»è¾‘ ============
 
     /// <summary>
-    /// ³¢ÊÔ·­µ½ÏÂÒ»Ò³
+    /// å°è¯•ç¿»åˆ°ä¸‹ä¸€é¡µ
     /// </summary>
-    public void TryFlipNext()
+    public void TryFlipToNext()
     {
-        if (isFlipping) return;
+        if (isFlipping)
+        {
+            LogDebug("Already flipping, ignoring");
+            return;
+        }
 
         if (IsLastSpread)
         {
-            // ÒÑ¾­ÊÇ×îºóÒ»Ò³
-            PlaySound(edgeSoundName);
+            LogDebug("Already at last spread");
+            PlayEdgeFeedback();
             OnLastPage?.Invoke();
-
-            // ²¥·ÅÇáÎ¢Õğ¶¯·´À¡
-            StartCoroutine(EdgeBounceEffect(false));
             return;
         }
 
-        // Ö´ĞĞ·­Ò³
-        if (enableFlipAnimation)
-        {
-            flipCoroutine = StartCoroutine(FlipToNextAnimation());
-        }
-        else
-        {
-            currentSpreadIndex++;
-            UpdatePageDisplay();
-            UpdatePageNumber();
-            PlaySound(flipSoundName);
-            OnPageChanged?.Invoke(currentSpreadIndex);
-        }
+        flipCoroutine = StartCoroutine(FlipToPage(currentSpreadIndex + 1, true));
     }
 
     /// <summary>
-    /// ³¢ÊÔ·­µ½ÉÏÒ»Ò³
+    /// å°è¯•ç¿»åˆ°ä¸Šä¸€é¡µ
     /// </summary>
-    public void TryFlipPrevious()
+    public void TryFlipToPrevious()
     {
-        if (isFlipping) return;
+        if (isFlipping)
+        {
+            LogDebug("Already flipping, ignoring");
+            return;
+        }
 
         if (IsFirstSpread)
         {
-            // ÒÑ¾­ÊÇµÚÒ»Ò³
-            PlaySound(edgeSoundName);
+            LogDebug("Already at first spread");
+            PlayEdgeFeedback();
             OnFirstPage?.Invoke();
-
-            // ²¥·ÅÇáÎ¢Õğ¶¯·´À¡
-            StartCoroutine(EdgeBounceEffect(true));
             return;
         }
 
-        // Ö´ĞĞ·­Ò³
-        if (enableFlipAnimation)
-        {
-            flipCoroutine = StartCoroutine(FlipToPreviousAnimation());
-        }
-        else
-        {
-            currentSpreadIndex--;
-            UpdatePageDisplay();
-            UpdatePageNumber();
-            PlaySound(flipSoundName);
-            OnPageChanged?.Invoke(currentSpreadIndex);
-        }
+        flipCoroutine = StartCoroutine(FlipToPage(currentSpreadIndex - 1, false));
     }
 
     /// <summary>
-    /// Ö±½ÓÌø×ªµ½Ö¸¶¨Ò³
+    /// ç›´æ¥è·³è½¬åˆ°æŒ‡å®šé¡µé¢ï¼ˆæ— åŠ¨ç”»ï¼‰
     /// </summary>
-    public void GoToSpread(int index)
+    public void GoToPage(int spreadIndex)
     {
-        if (isFlipping) return;
-        if (index < 0 || index >= pageSpreads.Count) return;
-        if (index == currentSpreadIndex) return;
+        if (spreadIndex < 0 || spreadIndex >= pageSpreads.Count) return;
 
-        currentSpreadIndex = index;
+        currentSpreadIndex = spreadIndex;
         UpdatePageDisplay();
-        UpdatePageNumber();
-        PlaySound(flipSoundName);
         OnPageChanged?.Invoke(currentSpreadIndex);
     }
 
-    // ============ ·­Ò³¶¯»­ ============
-
     /// <summary>
-    /// Ïòºó·­Ò³¶¯»­£¨ÓÒ¡ú×ó£©
+    /// ç¿»é¡µåç¨‹
     /// </summary>
-    private IEnumerator FlipToNextAnimation()
+    private IEnumerator FlipToPage(int targetIndex, bool isForward)
     {
         isFlipping = true;
-        PlaySound(flipSoundName);
 
-        int nextIndex = currentSpreadIndex + 1;
-        PageSpread currentSpread = pageSpreads[currentSpreadIndex];
-        PageSpread nextSpread = pageSpreads[nextIndex];
+        // æ’­æ”¾ç¿»é¡µéŸ³æ•ˆ
+        PlayFlipSound();
 
-        // ÉèÖÃ·­Ò³Ò³Ãæ³õÊ¼×´Ì¬£¨ÏÔÊ¾µ±Ç°ÓÒÒ³£©
-        if (flipPageRenderer != null)
+        if (enableFadeEffect)
         {
-            flipPageRenderer.sprite = currentSpread.rightPageSprite;
-            flipPageRenderer.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
-            flipPageRenderer.transform.localScale = new Vector3(
-                useUniformScale ? uniformScale : rightPageScale.x,
-                useUniformScale ? uniformScale : rightPageScale.y,
-                1f
-            );
-            flipPageRenderer.transform.localEulerAngles = Vector3.zero;
-            flipPageRenderer.gameObject.SetActive(true);
-            SetSpriteAlpha(flipPageRenderer, 1f);
+            // æ·¡å…¥æ·¡å‡ºåŠ¨ç”»
+            yield return StartCoroutine(FadeFlipAnimation(targetIndex, isForward));
+        }
+        else
+        {
+            // ç®€å•åˆ‡æ¢
+            yield return new WaitForSeconds(flipDuration * 0.5f);
+            currentSpreadIndex = targetIndex;
+            UpdatePageDisplay();
+            yield return new WaitForSeconds(flipDuration * 0.5f);
         }
 
-        float elapsed = 0f;
+        OnPageChanged?.Invoke(currentSpreadIndex);
 
-        while (elapsed < flipDuration)
+        // æ£€æŸ¥æ˜¯å¦åˆ°è¾¾è¾¹ç•Œ
+        if (IsFirstSpread)
+        {
+            OnFirstPage?.Invoke();
+        }
+        else if (IsLastSpread)
+        {
+            OnLastPage?.Invoke();
+        }
+
+        isFlipping = false;
+    }
+
+    /// <summary>
+    /// æ·¡å…¥æ·¡å‡ºç¿»é¡µåŠ¨ç”»
+    /// </summary>
+    private IEnumerator FadeFlipAnimation(int targetIndex, bool isForward)
+    {
+        float halfDuration = flipDuration * 0.5f;
+
+        // æ·¡å‡ºå½“å‰é¡µé¢
+        float elapsed = 0f;
+        while (elapsed < halfDuration)
         {
             elapsed += Time.deltaTime;
-            float t = flipCurve.Evaluate(elapsed / flipDuration);
+            float t = flipCurve.Evaluate(elapsed / halfDuration);
+            float alpha = 1f - t;
 
-            // ·­Ò³Ò³Ãæ¶¯»­£ºËõ·ÅXÖáÄ£Äâ·­×ª
-            if (flipPageRenderer != null)
-            {
-                float baseScaleX = useUniformScale ? uniformScale : rightPageScale.x;
-                float baseScaleY = useUniformScale ? uniformScale : rightPageScale.y;
+            if (leftPageRenderer != null) SetSpriteAlpha(leftPageRenderer, alpha);
+            if (rightPageRenderer != null) SetSpriteAlpha(rightPageRenderer, alpha);
 
-                if (t < 0.5f)
-                {
-                    // Ç°°ë¶Î£ºÏÔÊ¾µ±Ç°ÓÒÒ³£¨ËõĞ¡£©
-                    float scaleX = Mathf.Lerp(baseScaleX, 0f, t * 2f);
-                    flipPageRenderer.transform.localScale = new Vector3(scaleX, baseScaleY, 1f);
-
-                    // ÇãĞ±Ğ§¹û
-                    float tilt = Mathf.Sin(t * Mathf.PI) * maxTiltAngle;
-                    flipPageRenderer.transform.localEulerAngles = new Vector3(0f, 0f, -tilt);
-
-                    // Î»ÖÃ´ÓÓÒÏòÖĞ¼äÒÆ¶¯
-                    float posX = Mathf.Lerp(rightPageOffset.x, 0f, t * 2f);
-                    flipPageRenderer.transform.localPosition = new Vector3(posX, rightPageOffset.y, 0f);
-                }
-                else
-                {
-                    // ÇĞ»»µ½ÏÂÒ»Ò³µÄ×óÒ³ÄÚÈİ
-                    if (flipPageRenderer.transform.localScale.x < 0.1f)
-                    {
-                        flipPageRenderer.sprite = nextSpread.leftPageSprite;
-                        baseScaleX = useUniformScale ? uniformScale : leftPageScale.x;
-                        baseScaleY = useUniformScale ? uniformScale : leftPageScale.y;
-                    }
-
-                    // ºó°ë¶Î£ºÏÔÊ¾ÏÂÒ»Ò³×óÒ³£¨·Å´ó£©
-                    float scaleX = Mathf.Lerp(0f, baseScaleX, (t - 0.5f) * 2f);
-                    flipPageRenderer.transform.localScale = new Vector3(scaleX, baseScaleY, 1f);
-
-                    // ÇãĞ±Ğ§¹û
-                    float tilt = Mathf.Sin(t * Mathf.PI) * maxTiltAngle;
-                    flipPageRenderer.transform.localEulerAngles = new Vector3(0f, 0f, tilt);
-
-                    // Î»ÖÃ´ÓÖĞ¼äÏò×óÒÆ¶¯
-                    float posX = Mathf.Lerp(0f, leftPageOffset.x, (t - 0.5f) * 2f);
-                    flipPageRenderer.transform.localPosition = new Vector3(posX, leftPageOffset.y, 0f);
-                }
-            }
-
-            // ÒõÓ°Ğ§¹û
+            // é˜´å½±æ•ˆæœ
             if (enableShadowEffect && shadowRenderer != null)
             {
-                float shadowAlpha = Mathf.Sin(t * Mathf.PI) * maxShadowAlpha;
-                SetSpriteAlpha(shadowRenderer, shadowAlpha);
-            }
-
-            // Ò³Ãæµ­Èëµ­³ö
-            if (enableFadeEffect)
-            {
-                if (t < 0.5f)
-                {
-                    float alpha = Mathf.Lerp(1f, 0.5f, t * 2f);
-                    SetSpriteAlpha(rightPageRenderer, alpha);
-                }
-                else
-                {
-                    float alpha = Mathf.Lerp(0.5f, 1f, (t - 0.5f) * 2f);
-                    SetSpriteAlpha(leftPageRenderer, alpha);
-                    SetSpriteAlpha(rightPageRenderer, alpha);
-                }
+                SetSpriteAlpha(shadowRenderer, t * 0.3f);
             }
 
             yield return null;
         }
 
-        // ¸üĞÂÒ³ÃæË÷ÒıºÍÏÔÊ¾
-        currentSpreadIndex = nextIndex;
+        // åˆ‡æ¢é¡µé¢
+        currentSpreadIndex = targetIndex;
         UpdatePageDisplay();
-        UpdatePageNumber();
 
-        // Òş²Ø·­Ò³Ò³Ãæ
-        if (flipPageRenderer != null)
-        {
-            flipPageRenderer.gameObject.SetActive(false);
-        }
-
-        // ÖØÖÃÒõÓ°
-        if (shadowRenderer != null)
-        {
-            SetSpriteAlpha(shadowRenderer, 0f);
-        }
-
-        // ÖØÖÃÒ³ÃæÍ¸Ã÷¶È
-        SetSpriteAlpha(leftPageRenderer, 1f);
-        SetSpriteAlpha(rightPageRenderer, 1f);
-
-        isFlipping = false;
-        OnPageChanged?.Invoke(currentSpreadIndex);
-
-        if (IsLastSpread)
-        {
-            OnLastPage?.Invoke();
-        }
-    }
-
-    /// <summary>
-    /// ÏòÇ°·­Ò³¶¯»­£¨×ó¡úÓÒ£©
-    /// </summary>
-    private IEnumerator FlipToPreviousAnimation()
-    {
-        isFlipping = true;
-        PlaySound(flipSoundName);
-
-        int prevIndex = currentSpreadIndex - 1;
-        PageSpread currentSpread = pageSpreads[currentSpreadIndex];
-        PageSpread prevSpread = pageSpreads[prevIndex];
-
-        // ÉèÖÃ·­Ò³Ò³Ãæ³õÊ¼×´Ì¬£¨ÏÔÊ¾µ±Ç°×óÒ³£©
-        if (flipPageRenderer != null)
-        {
-            flipPageRenderer.sprite = currentSpread.leftPageSprite;
-            flipPageRenderer.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
-            flipPageRenderer.transform.localScale = new Vector3(
-                useUniformScale ? uniformScale : leftPageScale.x,
-                useUniformScale ? uniformScale : leftPageScale.y,
-                1f
-            );
-            flipPageRenderer.transform.localEulerAngles = Vector3.zero;
-            flipPageRenderer.gameObject.SetActive(true);
-            SetSpriteAlpha(flipPageRenderer, 1f);
-        }
-
-        float elapsed = 0f;
-
-        while (elapsed < flipDuration)
+        // æ·¡å…¥æ–°é¡µé¢
+        elapsed = 0f;
+        while (elapsed < halfDuration)
         {
             elapsed += Time.deltaTime;
-            float t = flipCurve.Evaluate(elapsed / flipDuration);
+            float t = flipCurve.Evaluate(elapsed / halfDuration);
+            float alpha = t;
 
-            if (flipPageRenderer != null)
-            {
-                float baseScaleX = useUniformScale ? uniformScale : leftPageScale.x;
-                float baseScaleY = useUniformScale ? uniformScale : leftPageScale.y;
+            if (leftPageRenderer != null) SetSpriteAlpha(leftPageRenderer, alpha);
+            if (rightPageRenderer != null) SetSpriteAlpha(rightPageRenderer, alpha);
 
-                if (t < 0.5f)
-                {
-                    // Ç°°ë¶Î£ºµ±Ç°×óÒ³ËõĞ¡
-                    float scaleX = Mathf.Lerp(baseScaleX, 0f, t * 2f);
-                    flipPageRenderer.transform.localScale = new Vector3(scaleX, baseScaleY, 1f);
-
-                    float tilt = Mathf.Sin(t * Mathf.PI) * maxTiltAngle;
-                    flipPageRenderer.transform.localEulerAngles = new Vector3(0f, 0f, tilt);
-
-                    // Î»ÖÃ´Ó×óÏòÖĞ¼äÒÆ¶¯
-                    float posX = Mathf.Lerp(leftPageOffset.x, 0f, t * 2f);
-                    flipPageRenderer.transform.localPosition = new Vector3(posX, leftPageOffset.y, 0f);
-                }
-                else
-                {
-                    // ÇĞ»»µ½ÉÏÒ»Ò³µÄÓÒÒ³ÄÚÈİ
-                    if (flipPageRenderer.transform.localScale.x < 0.1f)
-                    {
-                        flipPageRenderer.sprite = prevSpread.rightPageSprite;
-                        baseScaleX = useUniformScale ? uniformScale : rightPageScale.x;
-                        baseScaleY = useUniformScale ? uniformScale : rightPageScale.y;
-                    }
-
-                    // ºó°ë¶Î£ºÉÏÒ»Ò³ÓÒÒ³·Å´ó
-                    float scaleX = Mathf.Lerp(0f, baseScaleX, (t - 0.5f) * 2f);
-                    flipPageRenderer.transform.localScale = new Vector3(scaleX, baseScaleY, 1f);
-
-                    float tilt = Mathf.Sin(t * Mathf.PI) * maxTiltAngle;
-                    flipPageRenderer.transform.localEulerAngles = new Vector3(0f, 0f, -tilt);
-
-                    // Î»ÖÃ´ÓÖĞ¼äÏòÓÒÒÆ¶¯
-                    float posX = Mathf.Lerp(0f, rightPageOffset.x, (t - 0.5f) * 2f);
-                    flipPageRenderer.transform.localPosition = new Vector3(posX, rightPageOffset.y, 0f);
-                }
-            }
-
-            // ÒõÓ°Ğ§¹û
+            // é˜´å½±æ•ˆæœ
             if (enableShadowEffect && shadowRenderer != null)
             {
-                float shadowAlpha = Mathf.Sin(t * Mathf.PI) * maxShadowAlpha;
-                SetSpriteAlpha(shadowRenderer, shadowAlpha);
-            }
-
-            // Ò³Ãæµ­Èëµ­³ö
-            if (enableFadeEffect)
-            {
-                if (t < 0.5f)
-                {
-                    float alpha = Mathf.Lerp(1f, 0.5f, t * 2f);
-                    SetSpriteAlpha(leftPageRenderer, alpha);
-                }
-                else
-                {
-                    float alpha = Mathf.Lerp(0.5f, 1f, (t - 0.5f) * 2f);
-                    SetSpriteAlpha(leftPageRenderer, alpha);
-                    SetSpriteAlpha(rightPageRenderer, alpha);
-                }
+                SetSpriteAlpha(shadowRenderer, (1f - t) * 0.3f);
             }
 
             yield return null;
         }
 
-        // ¸üĞÂÒ³ÃæË÷ÒıºÍÏÔÊ¾
-        currentSpreadIndex = prevIndex;
-        UpdatePageDisplay();
-        UpdatePageNumber();
+        // ç¡®ä¿æœ€ç»ˆçŠ¶æ€æ­£ç¡®
+        if (leftPageRenderer != null) SetSpriteAlpha(leftPageRenderer, 1f);
+        if (rightPageRenderer != null) SetSpriteAlpha(rightPageRenderer, 1f);
+        if (shadowRenderer != null) SetSpriteAlpha(shadowRenderer, 0f);
+    }
 
-        // Òş²Ø·­Ò³Ò³Ãæ
-        if (flipPageRenderer != null)
+    // ============ è¾…åŠ©æ–¹æ³• ============
+
+    /// <summary>
+    /// è®¾ç½®ç²¾çµé€æ˜åº¦
+    /// </summary>
+    private void SetSpriteAlpha(SpriteRenderer renderer, float alpha)
+    {
+        if (renderer == null) return;
+        Color color = renderer.color;
+        color.a = alpha;
+        renderer.color = color;
+    }
+
+    /// <summary>
+    /// æ’­æ”¾ç¿»é¡µéŸ³æ•ˆ
+    /// </summary>
+    private void PlayFlipSound()
+    {
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(flipSoundName))
         {
-            flipPageRenderer.gameObject.SetActive(false);
-        }
-
-        // ÖØÖÃÒõÓ°ºÍÍ¸Ã÷¶È
-        if (shadowRenderer != null)
-        {
-            SetSpriteAlpha(shadowRenderer, 0f);
-        }
-
-        SetSpriteAlpha(leftPageRenderer, 1f);
-        SetSpriteAlpha(rightPageRenderer, 1f);
-
-        isFlipping = false;
-        OnPageChanged?.Invoke(currentSpreadIndex);
-
-        if (IsFirstSpread)
-        {
-            OnFirstPage?.Invoke();
+            AudioManager.Instance.PlaySFX(flipSoundName);
         }
     }
 
     /// <summary>
-    /// µ½´ï±ß½çÊ±µÄµ¯ÌøĞ§¹û
+    /// æ’­æ”¾è¾¹ç•Œåé¦ˆ
     /// </summary>
-    private IEnumerator EdgeBounceEffect(bool isLeft)
+    private void PlayEdgeFeedback()
     {
-        SpriteRenderer targetRenderer = isLeft ? leftPageRenderer : rightPageRenderer;
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(edgeSoundName))
+        {
+            AudioManager.Instance.PlaySFX(edgeSoundName);
+        }
+
+        // å¯ä»¥æ·»åŠ æŠ–åŠ¨æ•ˆæœ
+        StartCoroutine(EdgeBounceEffect());
+    }
+
+    /// <summary>
+    /// è¾¹ç•Œå¼¹è·³æ•ˆæœ
+    /// </summary>
+    private IEnumerator EdgeBounceEffect()
+    {
+        SpriteRenderer targetRenderer = IsFirstSpread ? leftPageRenderer : rightPageRenderer;
         if (targetRenderer == null) yield break;
 
         Vector3 originalPos = targetRenderer.transform.localPosition;
-        float bounceDistance = 10f;
+        float bounceDistance = 5f;
         float bounceDuration = 0.15f;
 
+        // å‘å¤–å¼¹
         float elapsed = 0f;
+        Vector3 bounceDirection = IsFirstSpread ? Vector3.left : Vector3.right;
+
         while (elapsed < bounceDuration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / bounceDuration;
-            float offset = Mathf.Sin(t * Mathf.PI) * bounceDistance;
-            float direction = isLeft ? -1f : 1f;
-            targetRenderer.transform.localPosition = originalPos + new Vector3(offset * direction, 0f, 0f);
+            float t = Mathf.Sin(elapsed / bounceDuration * Mathf.PI);
+            targetRenderer.transform.localPosition = originalPos + bounceDirection * bounceDistance * t;
             yield return null;
         }
 
         targetRenderer.transform.localPosition = originalPos;
     }
 
-    // ============ Ò³ÃæÏÔÊ¾¸üĞÂ ============
+    /// <summary>
+    /// è°ƒè¯•æ—¥å¿—
+    /// </summary>
+    private void LogDebug(string message)
+    {
+        if (enableDebugLog)
+        {
+            Debug.Log($"[NotebookController] {message}");
+        }
+    }
+
+    // ============ å­˜æ¡£ç›¸å…³ ============
 
     /// <summary>
-    /// ¸üĞÂÒ³ÃæÏÔÊ¾
+    /// è·å–å­˜æ¡£æ•°æ®
     /// </summary>
-    private void UpdatePageDisplay()
-    {
-        if (currentSpreadIndex < 0 || currentSpreadIndex >= pageSpreads.Count)
-        {
-            Debug.LogWarning($"[NotebookController] Ò³ÃæË÷ÒıÔ½½ç: {currentSpreadIndex}");
-            return;
-        }
-
-        PageSpread spread = pageSpreads[currentSpreadIndex];
-
-        if (leftPageRenderer != null)
-        {
-            leftPageRenderer.sprite = spread.leftPageSprite;
-        }
-
-        if (rightPageRenderer != null)
-        {
-            rightPageRenderer.sprite = spread.rightPageSprite;
-        }
-
-        Debug.Log($"[NotebookController] ÏÔÊ¾Ò³Ãæ×é {currentSpreadIndex + 1}/{pageSpreads.Count}");
-    }
-
-    /// <summary>
-    /// ¸üĞÂÒ³ÂëÏÔÊ¾
-    /// </summary>
-    private void UpdatePageNumber()
-    {
-        if (pageNumberText != null)
-        {
-            pageNumberText.text = string.Format(pageNumberFormat, currentSpreadIndex + 1, pageSpreads.Count);
-        }
-    }
-
-    // ============ ¸¨Öú·½·¨ ============
-
-    private void SetSpriteAlpha(SpriteRenderer renderer, float alpha)
-    {
-        if (renderer == null) return;
-        Color c = renderer.color;
-        renderer.color = new Color(c.r, c.g, c.b, alpha);
-    }
-
-    private void PlaySound(string soundName)
-    {
-        if (string.IsNullOrEmpty(soundName)) return;
-
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySFX(soundName);
-        }
-    }
-
-    // ============ ´æµµÏµÍ³ ============
-
     public int GetSaveData()
     {
         return currentSpreadIndex;
     }
 
+    /// <summary>
+    /// åŠ è½½å­˜æ¡£æ•°æ®
+    /// </summary>
     public void LoadSaveData(int savedIndex)
     {
-        if (savedIndex >= 0 && savedIndex < pageSpreads.Count)
-        {
-            currentSpreadIndex = savedIndex;
-            UpdatePageDisplay();
-            UpdatePageNumber();
-        }
+        currentSpreadIndex = Mathf.Clamp(savedIndex, 0, Mathf.Max(0, pageSpreads.Count - 1));
+        UpdatePageDisplay();
     }
 
-    // ============ µ÷ÊÔ·½·¨ ============
+    // ============ ç¼–è¾‘å™¨è¾…åŠ© ============
 
-    [ContextMenu("Debug: ÏÂÒ»Ò³")]
-    private void DebugNextPage() => TryFlipNext();
-
-    [ContextMenu("Debug: ÉÏÒ»Ò³")]
-    private void DebugPrevPage() => TryFlipPrevious();
-
-    [ContextMenu("Debug: Ìø×ªµ½Ê×Ò³")]
-    private void DebugGoToFirst() => GoToSpread(0);
-
-    [ContextMenu("Debug: Ìø×ªµ½Ä©Ò³")]
-    private void DebugGoToLast() => GoToSpread(pageSpreads.Count - 1);
-
-    [ContextMenu("Debug: ´òÓ¡µ±Ç°×´Ì¬")]
-    private void DebugPrintState()
-    {
-        Debug.Log($"[NotebookController] µ±Ç°Ò³: {currentSpreadIndex + 1}/{pageSpreads.Count}, ·­Ò³ÖĞ: {isFlipping}");
-    }
-
-    [ContextMenu("Ó¦ÓÃÎ»ÖÃÉèÖÃ")]
-    private void ApplyPositionSettings()
-    {
-        ApplyPageTransforms();
-        UpdateClickAreas();
-    }
-
-    // ============ ±à¼­Æ÷¸¨Öú ============
-
+#if UNITY_EDITOR
     private void OnValidate()
     {
-        // È·±£Ë÷ÒıÔÚÓĞĞ§·¶Î§ÄÚ
-        if (pageSpreads.Count > 0)
-        {
-            currentSpreadIndex = Mathf.Clamp(currentSpreadIndex, 0, pageSpreads.Count - 1);
-        }
-
-        // ÊµÊ±Ô¤ÀÀ£¨½öÔÚ±à¼­Æ÷ÖĞ£©
+        // ç¼–è¾‘å™¨ä¸­å®æ—¶é¢„è§ˆ
         if (livePreview && !Application.isPlaying)
         {
             ApplyPageTransforms();
             UpdateClickAreas();
+
+            // ä½¿ç”¨ delayCall å»¶è¿Ÿæ›´æ–°ç²¾çµï¼Œé¿å… SendMessage è­¦å‘Š
+            UnityEditor.EditorApplication.delayCall += DelayedSpriteUpdate;
         }
     }
 
     /// <summary>
-    /// SceneÊÓÍ¼»æÖÆ
+    /// å»¶è¿Ÿæ›´æ–°ç²¾çµï¼ˆé¿å… OnValidate ä¸­çš„ SendMessage è­¦å‘Šï¼‰
     /// </summary>
+    private void DelayedSpriteUpdate()
+    {
+        // æ£€æŸ¥å¯¹è±¡æ˜¯å¦è¿˜å­˜åœ¨ï¼ˆå¯èƒ½å·²è¢«é”€æ¯ï¼‰
+        if (this == null) return;
+        if (leftPageRenderer == null || rightPageRenderer == null) return;
+        if (pageSpreads == null || pageSpreads.Count == 0) return;
+
+        int idx = Mathf.Clamp(currentSpreadIndex, 0, pageSpreads.Count - 1);
+        var spread = pageSpreads[idx];
+
+        leftPageRenderer.sprite = spread.leftPageSprite;
+        rightPageRenderer.sprite = spread.rightPageSprite;
+    }
+
     private void OnDrawGizmosSelected()
     {
-        // »æÖÆÒ³Ãæ±ß½ç
+        // ç»˜åˆ¶é¡µé¢è¾¹ç•Œ
         if (showPageBounds)
         {
-            // ×óÒ³±ß½ç
-            if (leftPageRenderer != null && leftPageRenderer.sprite != null)
-            {
-                Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f); // ³ÈÉ«
-                Vector3 leftCenter = transform.position + new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
-                Vector3 leftSize = leftPageRenderer.sprite.bounds.size;
-                leftSize.x *= useUniformScale ? uniformScale : leftPageScale.x;
-                leftSize.y *= useUniformScale ? uniformScale : leftPageScale.y;
-                Gizmos.DrawWireCube(leftCenter, leftSize);
-            }
+            // å·¦é¡µè¾¹ç•Œ
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f); // æ©™è‰²
+            Vector3 leftCenter = transform.position + new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
+            Vector3 leftSize = new Vector3(leftClickAreaSize.x, leftClickAreaSize.y, 1f);
+            Gizmos.DrawWireCube(leftCenter, leftSize);
 
-            // ÓÒÒ³±ß½ç
-            if (rightPageRenderer != null && rightPageRenderer.sprite != null)
-            {
-                Gizmos.color = new Color(0f, 0.5f, 1f, 0.5f); // À¶É«
-                Vector3 rightCenter = transform.position + new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
-                Vector3 rightSize = rightPageRenderer.sprite.bounds.size;
-                rightSize.x *= useUniformScale ? uniformScale : rightPageScale.x;
-                rightSize.y *= useUniformScale ? uniformScale : rightPageScale.y;
-                Gizmos.DrawWireCube(rightCenter, rightSize);
-            }
+            // å³é¡µè¾¹ç•Œ
+            Gizmos.color = new Color(0f, 0.5f, 1f, 0.5f); // è“è‰²
+            Vector3 rightCenter = transform.position + new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
+            Vector3 rightSize = new Vector3(rightClickAreaSize.x, rightClickAreaSize.y, 1f);
+            Gizmos.DrawWireCube(rightCenter, rightSize);
         }
 
-        // »æÖÆµã»÷ÇøÓò
+        // ç»˜åˆ¶ç‚¹å‡»åŒºåŸŸ
         if (showClickAreas)
         {
-            // ×ó²àµã»÷ÇøÓò
-            Gizmos.color = new Color(0f, 1f, 0f, 0.3f); // ÂÌÉ«
+            // å·¦ä¾§ç‚¹å‡»åŒºåŸŸ
+            Gizmos.color = new Color(0f, 1f, 0f, 0.3f); // ç»¿è‰²
             Vector3 leftClickCenter = transform.position + new Vector3(leftPageOffset.x, leftPageOffset.y, 0f);
             Gizmos.DrawCube(leftClickCenter, new Vector3(leftClickAreaSize.x, leftClickAreaSize.y, 1f));
 
-            // ÓÒ²àµã»÷ÇøÓò
-            Gizmos.color = new Color(1f, 0f, 0f, 0.3f); // ºìÉ«
+            // å³ä¾§ç‚¹å‡»åŒºåŸŸ
+            Gizmos.color = new Color(1f, 0f, 0f, 0.3f); // çº¢è‰²
             Vector3 rightClickCenter = transform.position + new Vector3(rightPageOffset.x, rightPageOffset.y, 0f);
             Gizmos.DrawCube(rightClickCenter, new Vector3(rightClickAreaSize.x, rightClickAreaSize.y, 1f));
         }
 
-        // »æÖÆÖĞĞÄÏß
+        // ç»˜åˆ¶ä¸­å¿ƒçº¿
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(
             transform.position + Vector3.up * 200f,
             transform.position + Vector3.down * 200f
         );
+    }
+#endif
+
+    // ============ å³é”®èœå•è°ƒè¯• ============
+
+    [ContextMenu("Debug: å¼ºåˆ¶åˆ·æ–°æ˜¾ç¤º")]
+    private void DebugForceRefresh()
+    {
+        ForceRefreshDisplay();
+    }
+
+    [ContextMenu("Debug: æ‰“å°çŠ¶æ€")]
+    private void DebugPrintState()
+    {
+        Debug.Log($"[NotebookController] === çŠ¶æ€ä¿¡æ¯ ===");
+        Debug.Log($"  å½“å‰é¡µé¢ç´¢å¼•: {currentSpreadIndex}");
+        Debug.Log($"  æ€»é¡µé¢æ•°: {pageSpreads?.Count ?? 0}");
+        Debug.Log($"  æ˜¯å¦æ­£åœ¨ç¿»é¡µ: {isFlipping}");
+        Debug.Log($"  æ˜¯å¦å·²åˆå§‹åŒ–: {isInitialized}");
+
+        if (leftPageRenderer != null)
+        {
+            Debug.Log($"  å·¦é¡µæ¸²æŸ“å™¨: enabled={leftPageRenderer.enabled}, sprite={leftPageRenderer.sprite?.name ?? "null"}");
+            Debug.Log($"    ä½ç½®: {leftPageRenderer.transform.localPosition}");
+            Debug.Log($"    ç¼©æ”¾: {leftPageRenderer.transform.localScale}");
+        }
+        else
+        {
+            Debug.Log("  å·¦é¡µæ¸²æŸ“å™¨: æœªé…ç½®!");
+        }
+
+        if (rightPageRenderer != null)
+        {
+            Debug.Log($"  å³é¡µæ¸²æŸ“å™¨: enabled={rightPageRenderer.enabled}, sprite={rightPageRenderer.sprite?.name ?? "null"}");
+            Debug.Log($"    ä½ç½®: {rightPageRenderer.transform.localPosition}");
+            Debug.Log($"    ç¼©æ”¾: {rightPageRenderer.transform.localScale}");
+        }
+        else
+        {
+            Debug.Log("  å³é¡µæ¸²æŸ“å™¨: æœªé…ç½®!");
+        }
+
+        if (pageSpreads != null)
+        {
+            for (int i = 0; i < pageSpreads.Count; i++)
+            {
+                var spread = pageSpreads[i];
+                Debug.Log($"  PageSpread[{i}]: Left={spread.leftPageSprite?.name ?? "null"}, Right={spread.rightPageSprite?.name ?? "null"}");
+            }
+        }
+    }
+
+    [ContextMenu("Debug: ä¸‹ä¸€é¡µ")]
+    private void DebugNextPage()
+    {
+        TryFlipToNext();
+    }
+
+    [ContextMenu("Debug: ä¸Šä¸€é¡µ")]
+    private void DebugPreviousPage()
+    {
+        TryFlipToPrevious();
+    }
+
+    [ContextMenu("é‡ç½®é¡µé¢ä½ç½®")]
+    private void ResetPagePositions()
+    {
+        leftPageOffset = new Vector2(-160f, 0f);
+        rightPageOffset = new Vector2(160f, 0f);
+        leftPageScale = Vector2.one;
+        rightPageScale = Vector2.one;
+        useUniformScale = false;
+        uniformScale = 1f;
+        ApplyPageTransforms();
+    }
+
+    [ContextMenu("è‡ªåŠ¨è®¡ç®—é¡µé¢ä½ç½®")]
+    private void AutoCalculatePositions()
+    {
+        if (leftPageRenderer != null && leftPageRenderer.sprite != null)
+        {
+            float halfWidth = leftPageRenderer.sprite.bounds.size.x * leftPageScale.x * 0.5f;
+            leftPageOffset.x = -halfWidth - 10f; // 10åƒç´ é—´è·
+        }
+
+        if (rightPageRenderer != null && rightPageRenderer.sprite != null)
+        {
+            float halfWidth = rightPageRenderer.sprite.bounds.size.x * rightPageScale.x * 0.5f;
+            rightPageOffset.x = halfWidth + 10f;
+        }
+
+        ApplyPageTransforms();
+        Debug.Log($"[NotebookController] è‡ªåŠ¨è®¡ç®—ä½ç½®: Left={leftPageOffset}, Right={rightPageOffset}");
+    }
+
+    [ContextMenu("â­ è‡ªåŠ¨åˆ›å»ºç‚¹å‡»åŒºåŸŸ")]
+    private void AutoCreateClickAreas()
+    {
+        // åˆ›å»ºå·¦ä¾§ç‚¹å‡»åŒºåŸŸ
+        if (leftClickArea == null)
+        {
+            GameObject leftClickObj = new GameObject("LeftClickArea");
+            leftClickObj.transform.SetParent(transform);
+            leftClickObj.transform.localPosition = new Vector3(leftPageOffset.x, leftPageOffset.y, 0);
+            leftClickObj.transform.localRotation = Quaternion.identity;
+            leftClickObj.transform.localScale = Vector3.one;
+
+            leftClickArea = leftClickObj.AddComponent<BoxCollider2D>();
+            leftClickArea.size = leftClickAreaSize;
+            leftClickArea.isTrigger = true;
+
+            Debug.Log("[NotebookController] âœ“ å·²åˆ›å»º LeftClickArea");
+        }
+
+        // åˆ›å»ºå³ä¾§ç‚¹å‡»åŒºåŸŸ
+        if (rightClickArea == null)
+        {
+            GameObject rightClickObj = new GameObject("RightClickArea");
+            rightClickObj.transform.SetParent(transform);
+            rightClickObj.transform.localPosition = new Vector3(rightPageOffset.x, rightPageOffset.y, 0);
+            rightClickObj.transform.localRotation = Quaternion.identity;
+            rightClickObj.transform.localScale = Vector3.one;
+
+            rightClickArea = rightClickObj.AddComponent<BoxCollider2D>();
+            rightClickArea.size = rightClickAreaSize;
+            rightClickArea.isTrigger = true;
+
+            Debug.Log("[NotebookController] âœ“ å·²åˆ›å»º RightClickArea");
+        }
+
+        Debug.Log("[NotebookController] â­ ç‚¹å‡»åŒºåŸŸåˆ›å»ºå®Œæˆï¼è¯·åœ¨ Scene è§†å›¾ä¸­è°ƒæ•´å¤§å°");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
+    }
+
+    [ContextMenu("â­ é‡ç½®é¡µé¢é€æ˜åº¦ä¸º1")]
+    private void DebugResetAlpha()
+    {
+        if (leftPageRenderer != null)
+        {
+            Color c = leftPageRenderer.color;
+            c.a = 1f;
+            leftPageRenderer.color = c;
+            Debug.Log($"[NotebookController] LeftPage alpha å·²é‡ç½®ä¸º 1");
+        }
+
+        if (rightPageRenderer != null)
+        {
+            Color c = rightPageRenderer.color;
+            c.a = 1f;
+            rightPageRenderer.color = c;
+            Debug.Log($"[NotebookController] RightPage alpha å·²é‡ç½®ä¸º 1");
+        }
     }
 }

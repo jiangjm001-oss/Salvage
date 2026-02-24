@@ -411,6 +411,69 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 获取音效的时长（秒）
+    /// 用于需要等待音效播放完毕的场景
+    /// </summary>
+    /// <param name="sfxName">音效名称或路径</param>
+    /// <returns>音效时长（秒），找不到返回 0</returns>
+    public float GetSFXDuration(string sfxName)
+    {
+        if (string.IsNullOrEmpty(sfxName)) return 0f;
+
+        AudioClip clip = null;
+
+        // 1. 优先从 SFXLibrary 查找
+        if (sfxLibrary != null)
+        {
+            clip = sfxLibrary.GetClip(sfxName);
+            if (clip != null)
+            {
+                return clip.length;
+            }
+        }
+
+        // 2. 尝试从缓存获取
+        if (sfxCache.TryGetValue(sfxName, out clip) && clip != null)
+        {
+            return clip.length;
+        }
+
+        // 3. 从 Resources 加载
+        clip = Resources.Load<AudioClip>(sfxName);
+        if (clip != null)
+        {
+            return clip.length;
+        }
+
+        // 4. 尝试提取文件名再查找
+        string fileName = ExtractFileName(sfxName);
+        if (fileName != sfxName && sfxLibrary != null)
+        {
+            clip = sfxLibrary.GetClip(fileName);
+            if (clip != null)
+            {
+                return clip.length;
+            }
+        }
+
+        Debug.LogWarning($"[AudioManager] 无法获取音效时长: '{sfxName}'");
+        return 0f;
+    }
+
+    /// <summary>
+    /// 播放音效并返回时长
+    /// </summary>
+    public float PlaySFXAndGetDuration(string sfxName)
+    {
+        float duration = GetSFXDuration(sfxName);
+        if (duration > 0f)
+        {
+            PlaySFX(sfxName);
+        }
+        return duration;
+    }
+
+    /// <summary>
     /// 播放音效 - 字符串路径版本
     /// 【核心改进】优先从 SFXLibrary 查找，找不到再用 Resources 加载
     /// 支持格式：

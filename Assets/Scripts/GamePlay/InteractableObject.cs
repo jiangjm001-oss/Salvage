@@ -133,6 +133,9 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("状态切换播放的音效")]
     public string stateSwitchSoundName = "Audio/SFX/state_switch";
 
+    [Tooltip("是否等待音效播放完毕后再切换图片")]
+    public bool waitForSoundBeforeSwitch = false;
+
     // ============ 物体切换设置 (ObjectSwap) ============
     [Header("物体切换设置 (ObjectSwap)")]
     [Tooltip("切换到的目标物体（如：柜门关 → 柜门开）")]
@@ -189,6 +192,7 @@ public class InteractableObject : MonoBehaviour
     private Sprite originalSprite;
     private SpriteRenderer spriteRenderer;
     private bool isDisappearing = false;
+    private bool isStateSwitching = false;  // 防止状态切换期间重复触发
     private bool hasSyncedHidden = false;  // ★ 新增：标记是否已通过同步被隐藏
     private Vector3 originalScale;
     private Color originalColor;
@@ -612,11 +616,15 @@ public class InteractableObject : MonoBehaviour
     // ============ StateSwitch ============
     private void HandleStateSwitch()
     {
+        // 如果已经切换过，只触发事件
         if (hasStateSwitch)
         {
             OnStateSwitchSuccess?.Invoke();
             return;
         }
+
+        // 防止协程执行期间重复触发
+        if (isStateSwitching) return;
 
         if (UIManager.Instance == null || switchRequiredItem == null) return;
 
@@ -627,11 +635,31 @@ public class InteractableObject : MonoBehaviour
 
         Debug.Log($"[InteractableObject] ✓ 状态切换: '{displayName}'");
 
+        // 消耗或取消选中物品
         if (consumeSwitchItem)
             UIManager.Instance.ConsumeSelectedItem();
         else
             UIManager.Instance.DeselectItem();
 
+        // 根据设置决定是否等待音效
+        if (waitForSoundBeforeSwitch && AudioManager.Instance != null && !string.IsNullOrEmpty(stateSwitchSoundName))
+        {
+            // 使用协程：先播放音效，等待完成后再切换图片
+            StartCoroutine(StateSwitchWithSoundDelay());
+        }
+        else
+        {
+            // 原有逻辑：立即切换
+            PerformStateSwitch();
+        }
+    }
+
+    /// <summary>
+    /// 执行状态切换（立即切换图片）
+    /// </summary>
+    private void PerformStateSwitch()
+    {
+        // 切换图片
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = switchedSprite;
@@ -639,14 +667,69 @@ public class InteractableObject : MonoBehaviour
 
         hasStateSwitch = true;
 
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(stateSwitchSoundName))
+        // 播放音效（如果没有使用延迟模式）
+        if (!waitForSoundBeforeSwitch && AudioManager.Instance != null && !string.IsNullOrEmpty(stateSwitchSoundName))
         {
             AudioManager.Instance.PlaySFX(stateSwitchSoundName);
         }
 
+        // 触发事件
         OnStateSwitchSuccess?.Invoke();
+
+        // 保存进度
         SaveLoadSystem.Instance?.SaveGame();
     }
+
+    /// <summary>
+    /// 带音效延迟的状态切换协程
+    /// </summary>
+    private System.Collections.IEnumerator StateSwitchWithSoundDelay()
+    {
+        isStateSwitching = true;
+
+        // 获取音效时长
+        float soundDuration = 0f;
+        if (AudioManager.Instance != null)
+        {
+            soundDuration = AudioManager.Instance.GetSFXDuration(stateSwitchSoundName);
+
+            // 播放音效
+            AudioManager.Instance.PlaySFX(stateSwitchSoundName);
+
+            Debug.Log($"[InteractableObject] 播放音效 '{stateSwitchSoundName}'，时长: {soundDuration:F2}秒");
+        }
+
+        // 等待音效播放完毕
+        if (soundDuration > 0f)
+        {
+            yield return new WaitForSeconds(soundDuration);
+        }
+        else
+        {
+            // 如果获取不到时长，使用默认等待时间
+            yield return new WaitForSeconds(0.5f);
+            Debug.LogWarning($"[InteractableObject] 无法获取音效时长，使用默认等待 0.5 秒");
+        }
+
+        // 切换图片
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = switchedSprite;
+        }
+
+        hasStateSwitch = true;
+
+        // 触发事件
+        OnStateSwitchSuccess?.Invoke();
+
+        // 保存进度
+        SaveLoadSystem.Instance?.SaveGame();
+
+        isStateSwitching = false;
+
+        Debug.Log($"[InteractableObject] 状态切换完成: '{displayName}'");
+    }
+
 
     // ============ ObjectSwap ============
     private void HandleObjectSwap()

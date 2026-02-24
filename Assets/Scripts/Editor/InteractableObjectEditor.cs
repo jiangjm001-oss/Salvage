@@ -51,6 +51,7 @@ public class InteractableObjectEditor : Editor
     SerializedProperty hasStateSwitch;
     SerializedProperty OnStateSwitchSuccess;
     SerializedProperty stateSwitchSoundName;
+    SerializedProperty waitForSoundBeforeSwitch;
 
     // ========== ObjectSwap ==========
     SerializedProperty swapTargetObject;
@@ -116,6 +117,7 @@ public class InteractableObjectEditor : Editor
         hasStateSwitch = serializedObject.FindProperty("hasStateSwitch");
         OnStateSwitchSuccess = serializedObject.FindProperty("OnStateSwitchSuccess");
         stateSwitchSoundName = serializedObject.FindProperty("stateSwitchSoundName");
+        waitForSoundBeforeSwitch = serializedObject.FindProperty("waitForSoundBeforeSwitch");
 
         // ObjectSwap
         swapTargetObject = serializedObject.FindProperty("swapTargetObject");
@@ -295,7 +297,18 @@ public class InteractableObjectEditor : Editor
         EditorGUILayout.PropertyField(OnStateSwitchSuccess, new GUIContent("On State Switch Success ()"));
         EditorGUI.indentLevel--;
 
+        // ⭐ 音效设置区域
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("音效设置（可选）", EditorStyles.miniBoldLabel);
+        EditorGUI.indentLevel++;
+
         DrawSoundSection(stateSwitchSoundName, "State Switch Sound Name");
+
+        // ⭐ 新增：等待音效选项
+        EditorGUILayout.PropertyField(waitForSoundBeforeSwitch,
+            new GUIContent("Wait For Sound", "勾选后，将等待音效播放完毕再切换图片"));
+
+        EditorGUI.indentLevel--;
     }
 
     private void DrawObjectSwapSettings()

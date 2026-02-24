@@ -9,6 +9,7 @@ using System.Collections.Generic;
 /// 1. 根据镜子状态显示不同图片（脏镜子A、干净镜子B、特殊状态C等）
 /// 2. 干净状态下，动态显示当前选中的物品
 /// 3. 特定物品触发特殊状态切换
+/// 4. 支持触发后消耗物品
 /// </summary>
 public class MirrorController : MonoBehaviour
 {
@@ -68,7 +69,7 @@ public class MirrorController : MonoBehaviour
     public class SpecialItemTrigger
     {
         [Tooltip("触发特殊状态的物品（直接拖入 ItemData）")]
-        public ItemData triggerItem;  // ⭐ 改为 ItemData 引用
+        public ItemData triggerItem;
 
         [Tooltip("该物品触发的特殊精灵图")]
         public Sprite triggerSprite;
@@ -78,6 +79,9 @@ public class MirrorController : MonoBehaviour
 
         [Tooltip("触发后是否永久切换状态（否则只在选中时显示）")]
         public bool permanentSwitch = false;
+
+        [Tooltip("触发后是否消耗该物品（从背包移除）")]
+        public bool consumeItemOnTrigger = false;  // ⭐ 新增：消耗物品选项
     }
 
     private void Awake()
@@ -193,7 +197,7 @@ public class MirrorController : MonoBehaviour
 
         foreach (var trigger in specialItemTriggers)
         {
-            // ⭐ 使用 ItemData 的 itemID 进行比较
+            // 使用 ItemData 的 itemID 进行比较
             if (trigger.triggerItem != null && trigger.triggerItem.itemID == item.itemID)
             {
                 return trigger;
@@ -230,6 +234,12 @@ public class MirrorController : MonoBehaviour
                 itemDisplayRenderer.enabled = false;
             }
 
+            // ⭐ 新增：消耗物品逻辑
+            if (trigger.consumeItemOnTrigger)
+            {
+                ConsumeItem(item);
+            }
+
             OnSpecialStateTriggered?.Invoke();
 
             // 保存进度
@@ -252,6 +262,30 @@ public class MirrorController : MonoBehaviour
                 itemDisplayRenderer.enabled = false;
             }
         }
+    }
+
+    /// <summary>
+    /// 消耗物品（从背包移除并取消选中）
+    /// </summary>
+    private void ConsumeItem(ItemData item)
+    {
+        if (item == null) return;
+
+        Debug.Log($"[MirrorController] 消耗物品: {item.displayName}");
+
+        // 方法1：使用 UIManager 的 ConsumeSelectedItem（会同时取消选中）
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ConsumeSelectedItem();
+        }
+        // 方法2：直接从背包移除（备用方案）
+        else if (InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.RemoveItem(item);
+        }
+
+        // 重置上次显示的物品ID，因为物品已被移除
+        lastDisplayedItemID = "";
     }
 
     /// <summary>
@@ -330,43 +364,40 @@ public class MirrorController : MonoBehaviour
         switch (currentState)
         {
             case MirrorState.Dirty:
-                spriteRenderer.sprite = dirtySprite;
+                if (dirtySprite != null)
+                    spriteRenderer.sprite = dirtySprite;
                 if (itemDisplayRenderer != null)
-                {
                     itemDisplayRenderer.enabled = false;
-                }
                 break;
 
             case MirrorState.Clean:
-                spriteRenderer.sprite = cleanSprite;
-                // 检查是否需要显示选中物品
-                if (enableDynamicItemDisplay)
-                {
-                    lastDisplayedItemID = ""; // 强制刷新
-                    CheckSelectedItemChange();
-                }
+                if (cleanSprite != null)
+                    spriteRenderer.sprite = cleanSprite;
+                // 干净状态下会在 Update 中更新物品显示
                 break;
 
             case MirrorState.Special:
-                spriteRenderer.sprite = specialSprite;
+                if (specialSprite != null)
+                    spriteRenderer.sprite = specialSprite;
                 if (itemDisplayRenderer != null)
-                {
                     itemDisplayRenderer.enabled = false;
-                }
                 break;
         }
     }
 
     /// <summary>
-    /// 清洁镜子（由外部调用，如 InteractableObject 的 OnStateSwitchSuccess 事件）
+    /// 擦干净镜子（从 Dirty 变为 Clean）
     /// </summary>
     public void CleanMirror()
     {
-        SetMirrorState(MirrorState.Clean);
+        if (currentState == MirrorState.Dirty)
+        {
+            SetMirrorState(MirrorState.Clean);
+        }
     }
 
     /// <summary>
-    /// 重置镜子到脏状态
+    /// 重置镜子（变为 Dirty 状态）
     /// </summary>
     public void ResetMirror()
     {
@@ -377,7 +408,7 @@ public class MirrorController : MonoBehaviour
     // ============ 存档相关 ============
 
     /// <summary>
-    /// 获取当前状态（用于存档）
+    /// 获取状态用于存档
     /// </summary>
     public int GetStateForSave()
     {
@@ -385,11 +416,13 @@ public class MirrorController : MonoBehaviour
     }
 
     /// <summary>
-    /// 恢复状态（用于读档）
+    /// 从存档恢复状态
     /// </summary>
-    public void RestoreState(int state)
+    public void RestoreState(int stateValue)
     {
-        currentState = (MirrorState)state;
+        MirrorState state = (MirrorState)stateValue;
+        currentState = state;
         UpdateMirrorVisual();
+        Debug.Log($"[MirrorController] 从存档恢复状态: {state}");
     }
 }
