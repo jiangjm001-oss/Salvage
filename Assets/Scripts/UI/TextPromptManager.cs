@@ -233,27 +233,26 @@ public class TextPromptManager : MonoBehaviour
     /// <param name="messages">文字数组</param>
     public void ShowPrompt(string[] messages)
     {
-        if (messages == null || messages.Length == 0)
-        {
-            Debug.LogWarning("[TextPromptManager] 没有要显示的文字");
-            return;
-        }
+        if (messages == null || messages.Length == 0) return;
 
-        // 如果正在显示，先停止
-        if (isShowing)
-        {
-            StopAllPromptCoroutines();
-        }
+        // 停止之前的所有协程
+        StopAllPromptCoroutines();
 
-        // 设置数据
+        // 存储消息
         currentMessages.Clear();
         currentMessages.AddRange(messages);
         currentIndex = 0;
 
-        // 开始显示
+        // ✅ 关键修复：先激活脚本所在的 GameObject
+        // TextPromptManager 挂在 TextPromptPanel 上，必须激活才能启动协程
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+
+        // 然后再启动协程
         StartCoroutine(ShowPromptSequence());
     }
-
     /// <summary>
     /// 显示多条提示文字（List 版本）
     /// </summary>
