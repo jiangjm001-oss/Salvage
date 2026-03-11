@@ -1,5 +1,6 @@
 ﻿// Assets/Scripts/GamePlay/CoffeeCupController.cs
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// 咖啡杯控制器 - 多阶段状态机（带外部条件依赖）
@@ -7,10 +8,10 @@ using UnityEngine;
 /// 阶段流程：
 /// A(empty) --[咖啡粉]--> B(powder) --[热水]--> C(water) --[牛奶]--> D(milk) --[滤纸B存在]--> 拾取
 /// 
-/// 音效逻辑：
-/// - 咖啡粉 → 播放 powderSoundName (coffee_powder)
-/// - 热水   → 播放 waterSoundName (coffee_pour)
-/// - 牛奶   → 播放 milkSoundName (coffee_pour)
+/// 音效逻辑（音效播放完成后再切换图片）：
+/// - 咖啡粉 → 播放 powderSoundName (coffee_powder) → 等待 → 切换图片
+/// - 热水   → 播放 waterSoundName (coffee_pour) → 等待 → 切换图片
+/// - 牛奶   → 播放 milkSoundName (coffee_pour) → 等待 → 切换图片
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
@@ -66,16 +67,26 @@ public class CoffeeCupController : MonoBehaviour
     [Tooltip("添加咖啡粉时的音效")]
     public string powderSoundName = "coffee_powder";
 
+    [Tooltip("咖啡粉音效时长（秒）")]
+    public float powderSoundDuration = 0.5f;
+
     [Tooltip("添加热水时的音效")]
     public string waterSoundName = "coffee_pour";
 
+    [Tooltip("热水音效时长（秒）")]
+    public float waterSoundDuration = 1.0f;
+
     [Tooltip("添加牛奶时的音效")]
     public string milkSoundName = "coffee_pour";
+
+    [Tooltip("牛奶音效时长（秒）")]
+    public float milkSoundDuration = 1.0f;
 
     [Tooltip("拾取咖啡杯时的音效")]
     public string collectSoundName = "Audio/SFX/item_pickup";
 
     private SpriteRenderer spriteRenderer;
+    private bool isProcessing = false; // 防止音效播放期间重复点击
 
     private void Awake()
     {
@@ -91,11 +102,20 @@ public class CoffeeCupController : MonoBehaviour
             return;
         }
 
+        // 正在处理中，忽略点击
+        if (isProcessing)
+        {
+            Debug.Log("[CoffeeCupController] 正在处理中，请稍候...");
+            return;
+        }
+
         Interact();
     }
 
     public void Interact()
     {
+        if (isProcessing) return;
+
         Debug.Log($"[CoffeeCupController] 交互，当前状态: {currentState}");
 
         switch (currentState)
@@ -151,12 +171,13 @@ public class CoffeeCupController : MonoBehaviour
         // 消耗物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 播放咖啡粉音效
-        PlaySound(powderSoundName);
-
-        // 切换状态
-        SetState(CupState.Powder);
-        Debug.Log("[CoffeeCupController] 添加咖啡粉成功 → Powder");
+        // 启动协程：播放音效 → 等待 → 切换图片
+        StartCoroutine(PlaySoundThenChangeState(
+            powderSoundName,
+            powderSoundDuration,
+            CupState.Powder,
+            "添加咖啡粉成功 → Powder"
+        ));
     }
 
     /// <summary>
@@ -188,12 +209,13 @@ public class CoffeeCupController : MonoBehaviour
         // 消耗物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 播放热水音效
-        PlaySound(waterSoundName);
-
-        // 切换状态
-        SetState(CupState.Water);
-        Debug.Log("[CoffeeCupController] 添加热水成功 → Water");
+        // 启动协程：播放音效 → 等待 → 切换图片
+        StartCoroutine(PlaySoundThenChangeState(
+            waterSoundName,
+            waterSoundDuration,
+            CupState.Water,
+            "添加热水成功 → Water"
+        ));
     }
 
     /// <summary>
@@ -225,10 +247,44 @@ public class CoffeeCupController : MonoBehaviour
         // 消耗物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 播放牛奶音效
+        // 启动协程：播放音效 → 等待 → 切换图片 → 显示滤纸
+        StartCoroutine(PlaySoundThenAddMilk());
+    }
+
+    /// <summary>
+    /// 协程：播放音效 → 等待 → 切换状态
+    /// </summary>
+    private IEnumerator PlaySoundThenChangeState(string soundName, float duration, CupState nextState, string logMessage)
+    {
+        isProcessing = true;
+
+        // 播放音效
+        PlaySound(soundName);
+
+        // 等待音效播放完成
+        yield return new WaitForSeconds(duration);
+
+        // 切换状态和图片
+        SetState(nextState);
+        Debug.Log($"[CoffeeCupController] {logMessage}");
+
+        isProcessing = false;
+    }
+
+    /// <summary>
+    /// 协程：添加牛奶专用（额外处理滤纸显示）
+    /// </summary>
+    private IEnumerator PlaySoundThenAddMilk()
+    {
+        isProcessing = true;
+
+        // 播放音效
         PlaySound(milkSoundName);
 
-        // 切换状态
+        // 等待音效播放完成
+        yield return new WaitForSeconds(milkSoundDuration);
+
+        // 切换状态和图片
         SetState(CupState.Milk);
 
         // 显示滤纸A
@@ -239,6 +295,8 @@ public class CoffeeCupController : MonoBehaviour
         }
 
         Debug.Log("[CoffeeCupController] 添加牛奶成功 → Milk，滤纸出现");
+
+        isProcessing = false;
     }
 
     /// <summary>

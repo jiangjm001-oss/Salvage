@@ -1,64 +1,95 @@
-// Assets/Scripts/GamePlay/LinkedWorldObject.cs
-// Á´½ÓÊÀ½çÎïÌå - ÓÃÓÚÈ«¾°ÊÓÍ¼ÖĞµÄ×°ÊÎÎïÌå£¬Óë·Å´óÊÓÍ¼ÖĞµÄ¿ÉÊ°È¡ÎïÆ·Í¬²½×´Ì¬
-// v1.1 - ĞŞ¸´£º´¦Àí GameObject ÒÑ¾­ inactive µÄÇé¿ö
+ï»¿// Assets/Scripts/GamePlay/LinkedWorldObject.cs
+// é“¾æ¥ä¸–ç•Œç‰©ä½“ - ç”¨äºå…¨æ™¯è§†å›¾ä¸­çš„è£…é¥°ç‰©ä½“ï¼Œä¸æ”¾å¤§è§†å›¾ä¸­çš„å¯æ‹¾å–ç‰©å“åŒæ­¥çŠ¶æ€
+// v2.0 - æ–°å¢ï¼šæ”¯æŒ PotController çš„ç²¾çµå›¾åŒæ­¥
 using UnityEngine;
 
 /// <summary>
-/// Á´½ÓÊÀ½çÎïÌå×é¼ş
+/// é“¾æ¥ä¸–ç•Œç‰©ä½“ç»„ä»¶
 /// 
-/// ÓÃÍ¾£º¹ÒÔØÔÚÈ«¾°ÊÓÍ¼ÖĞµÄ"×°ÊÎĞÔ"ÎïÌåÉÏ£¨Èç×ÀÉÏµÄÌÕ¹Ş£©£¬
-/// µ±·Å´óÊÓÍ¼ÖĞ¶ÔÓ¦µÄ¿ÉÊ°È¡ÎïÆ·±»Ê°È¡ºó£¬´ËÎïÌå»á×Ô¶¯Òş²Ø¡£
+/// ç”¨é€”ï¼šæŒ‚è½½åœ¨å…¨æ™¯è§†å›¾ä¸­çš„"è£…é¥°æ€§"ç‰©ä½“ä¸Šï¼ˆå¦‚æ¡Œä¸Šçš„é™¶ç½ï¼‰ï¼Œ
+/// å½“æ”¾å¤§è§†å›¾ä¸­å¯¹åº”çš„å¯æ‹¾å–ç‰©å“è¢«æ‹¾å–åï¼Œæ­¤ç‰©ä½“ä¼šè‡ªåŠ¨éšè—ã€‚
 /// 
-/// Ê¹ÓÃ·½·¨£º
-/// 1. ÔÚÈ«¾°ÊÓÍ¼µÄ×°ÊÎÎïÌåÉÏÌí¼Ó´Ë×é¼ş
-/// 2. ÔÚ linkedObjectID ÖĞÌîÈë¶ÔÓ¦¿ÉÊ°È¡ÎïÆ·µÄ objectID
-/// 3. µ±¸ÃÎïÆ·±»Ê°È¡Ê±£¬´Ë×°ÊÎÎïÌå»á×Ô¶¯ÏûÊ§
+/// â­ v2.0 æ–°å¢åŠŸèƒ½ï¼š
+/// - æ”¯æŒä¸ PotController çš„ç²¾çµå›¾åŒæ­¥
+/// - å½“æ”¾å¤§è§†å›¾ä¸­çš„é™¶ç½çŠ¶æ€æ”¹å˜æ—¶ï¼Œå…¨æ™¯è§†å›¾çš„é™¶ç½ç²¾çµå›¾ä¹Ÿä¼šåŒæ­¥æ›´æ–°
+/// 
+/// ä½¿ç”¨æ–¹æ³•ï¼š
+/// 1. åœ¨å…¨æ™¯è§†å›¾çš„è£…é¥°ç‰©ä½“ä¸Šæ·»åŠ æ­¤ç»„ä»¶
+/// 2. åœ¨ linkedObjectID ä¸­å¡«å…¥å¯¹åº”å¯æ‹¾å–ç‰©å“çš„ objectID
+/// 3. å½“è¯¥ç‰©å“è¢«æ‹¾å–æ—¶ï¼Œæ­¤è£…é¥°ç‰©ä½“ä¼šè‡ªåŠ¨æ¶ˆå¤±
+/// 4. ï¼ˆå¯é€‰ï¼‰å¯ç”¨ syncSprite æ¥åŒæ­¥ç²¾çµå›¾å˜åŒ–
 /// </summary>
 public class LinkedWorldObject : MonoBehaviour
 {
-    [Header("Á´½ÓÉèÖÃ")]
-    [Tooltip("¹ØÁªµÄ¿É½»»¥ÎïÆ·ID£¨Óë InteractableObject.objectID ¶ÔÓ¦£©")]
+    [Header("é“¾æ¥è®¾ç½®")]
+    [Tooltip("å…³è”çš„å¯äº¤äº’ç‰©å“IDï¼ˆä¸ InteractableObject.objectID æˆ– PotController.objectID å¯¹åº”ï¼‰")]
     public string linkedObjectID;
 
-    [Header("ÏûÊ§¶¯»­ÉèÖÃ")]
-    [Tooltip("ÊÇ·ñÆôÓÃÏûÊ§¶¯»­")]
+    // ============ â­ æ–°å¢ï¼šç²¾çµå›¾åŒæ­¥è®¾ç½® ============
+    [Header("ç²¾çµå›¾åŒæ­¥è®¾ç½®")]
+    [Tooltip("æ˜¯å¦åŒæ­¥ç²¾çµå›¾å˜åŒ–ï¼ˆç”¨äº PotController ç­‰æœ‰å¤šç§çŠ¶æ€çš„ç‰©ä½“ï¼‰")]
+    public bool syncSprite = false;
+
+    [Tooltip("ç©ºçŠ¶æ€ç²¾çµå›¾ï¼ˆå½“ pot ä¸ºç©ºæ—¶æ˜¾ç¤ºï¼‰")]
+    public Sprite emptySprite;
+
+    [Tooltip("å¡«å……ä¸­ç²¾çµå›¾ï¼ˆå½“ pot æ­£åœ¨å¡«å……æ—¶æ˜¾ç¤ºï¼‰")]
+    public Sprite fillingSprite;
+
+    [Tooltip("è£…æ»¡ç²¾çµå›¾ï¼ˆå½“ pot è£…æ»¡æ—¶æ˜¾ç¤ºï¼‰")]
+    public Sprite filledSprite;
+
+    [Header("æ¶ˆå¤±åŠ¨ç”»è®¾ç½®")]
+    [Tooltip("æ˜¯å¦å¯ç”¨æ¶ˆå¤±åŠ¨ç”»")]
     public bool useDisappearAnimation = true;
 
-    [Tooltip("ÏûÊ§¶¯»­³ÖĞøÊ±¼ä")]
+    [Tooltip("æ¶ˆå¤±åŠ¨ç”»æŒç»­æ—¶é—´")]
     [Range(0.1f, 2f)]
     public float disappearDuration = 0.3f;
 
-    [Tooltip("ÏûÊ§¶¯»­ÀàĞÍ")]
+    [Tooltip("æ¶ˆå¤±åŠ¨ç”»ç±»å‹")]
     public DisappearType disappearType = DisappearType.FadeAndShrink;
 
-    [Header("ÒôĞ§ÉèÖÃ£¨¿ÉÑ¡£©")]
-    [Tooltip("ÏûÊ§Ê±²¥·ÅµÄÒôĞ§")]
+    [Header("å‡ºç°åŠ¨ç”»è®¾ç½®")]
+    [Tooltip("æ˜¯å¦å¯ç”¨å‡ºç°åŠ¨ç”»ï¼ˆå½“ç‰©å“è¢«æ”¾å›æ—¶ï¼‰")]
+    public bool useAppearAnimation = true;
+
+    [Tooltip("å‡ºç°åŠ¨ç”»æŒç»­æ—¶é—´")]
+    [Range(0.1f, 2f)]
+    public float appearDuration = 0.3f;
+
+    [Header("éŸ³æ•ˆè®¾ç½®ï¼ˆå¯é€‰ï¼‰")]
+    [Tooltip("æ¶ˆå¤±æ—¶æ’­æ”¾çš„éŸ³æ•ˆ")]
     public string disappearSoundName;
 
-    [Header("µ÷ÊÔ")]
-    [Tooltip("ÔÚ¿ØÖÆÌ¨ÏÔÊ¾µ÷ÊÔĞÅÏ¢")]
+    [Tooltip("å‡ºç°æ—¶æ’­æ”¾çš„éŸ³æ•ˆ")]
+    public string appearSoundName;
+
+    [Header("è°ƒè¯•")]
+    [Tooltip("åœ¨æ§åˆ¶å°æ˜¾ç¤ºè°ƒè¯•ä¿¡æ¯")]
     public bool debugMode = false;
 
-    // Ë½ÓĞ±äÁ¿
+    // ç§æœ‰å˜é‡
     private SpriteRenderer spriteRenderer;
     private bool isDisappearing = false;
-    private bool hasBeenHidden = false;  // ¡ï ĞÂÔö£º±ê¼ÇÊÇ·ñÒÑ±»Òş²Ø
+    private bool isAppearing = false;
+    private bool hasBeenHidden = false;
     private Vector3 originalScale;
     private Color originalColor;
 
     /// <summary>
-    /// ÏûÊ§¶¯»­ÀàĞÍ
+    /// æ¶ˆå¤±åŠ¨ç”»ç±»å‹
     /// </summary>
     public enum DisappearType
     {
-        Instant,        // Á¢¼´ÏûÊ§
-        FadeOut,        // µ­³ö
-        Shrink,         // ËõĞ¡
-        FadeAndShrink,  // µ­³ö+ËõĞ¡
-        PopOut          // µ¯³öÏûÊ§£¨ÏÈ·Å´óÔÙËõĞ¡£©
+        Instant,        // ç«‹å³æ¶ˆå¤±
+        FadeOut,        // æ·¡å‡º
+        Shrink,         // ç¼©å°
+        FadeAndShrink,  // æ·¡å‡º+ç¼©å°
+        PopOut          // å¼¹å‡ºæ¶ˆå¤±ï¼ˆå…ˆæ”¾å¤§å†ç¼©å°ï¼‰
     }
 
-    // ============ ÉúÃüÖÜÆÚ ============
+    // ============ ç”Ÿå‘½å‘¨æœŸ ============
 
     private void Awake()
     {
@@ -77,56 +108,69 @@ public class LinkedWorldObject : MonoBehaviour
         {
             if (debugMode)
             {
-                Debug.LogWarning($"[LinkedWorldObject] '{gameObject.name}' Î´ÉèÖÃ linkedObjectID£¡");
+                Debug.LogWarning($"[LinkedWorldObject] '{gameObject.name}' æœªè®¾ç½® linkedObjectIDï¼");
             }
             return;
         }
 
-        // ¶©ÔÄ×´Ì¬¸Ä±äÊÂ¼ş
+        // è®¢é˜…çŠ¶æ€æ”¹å˜äº‹ä»¶
         WorldObjectStateManager.OnObjectStateChanged += OnObjectStateChanged;
         WorldObjectStateManager.OnObjectPickedUp += OnObjectPickedUp;
 
-        // ¼ì²é³õÊ¼×´Ì¬£¨´¦Àí´æµµ¶ÁÈ¡µÄÇé¿ö£©
+        // â­ æ–°å¢ï¼šè®¢é˜… PotController çš„ç²¾çµå›¾å˜åŒ–äº‹ä»¶
+        if (syncSprite)
+        {
+            PotController.OnPotSpriteChanged += OnPotSpriteChanged;
+            PotController.OnPotStateChanged += OnPotStateChanged;
+        }
+
+        // æ£€æŸ¥åˆå§‹çŠ¶æ€ï¼ˆå¤„ç†å­˜æ¡£è¯»å–çš„æƒ…å†µï¼‰
         CheckInitialState();
 
         if (debugMode)
         {
-            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ÒÑÁ´½Óµ½ÎïÆ·: {linkedObjectID}");
+            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' å·²é“¾æ¥åˆ°ç‰©å“: {linkedObjectID}, ç²¾çµå›¾åŒæ­¥: {syncSprite}");
         }
     }
 
     private void OnDestroy()
     {
-        // È¡Ïû¶©ÔÄÊÂ¼ş
+        // å–æ¶ˆè®¢é˜…äº‹ä»¶
         WorldObjectStateManager.OnObjectStateChanged -= OnObjectStateChanged;
         WorldObjectStateManager.OnObjectPickedUp -= OnObjectPickedUp;
+
+        // â­ æ–°å¢ï¼šå–æ¶ˆè®¢é˜… PotController äº‹ä»¶
+        if (syncSprite)
+        {
+            PotController.OnPotSpriteChanged -= OnPotSpriteChanged;
+            PotController.OnPotStateChanged -= OnPotStateChanged;
+        }
     }
 
     /// <summary>
-    /// ¡ï ¹Ø¼ü£ºµ±ÎïÌå±»¼¤»îÊ±¼ì²éÊÇ·ñÓ¦¸ÃÒş²Ø
-    /// Õâ´¦ÀíÁËÎïÌåÔÚ inactive Ê±ÊÕµ½Ê°È¡ÊÂ¼şµÄÇé¿ö
+    /// å½“ç‰©ä½“è¢«æ¿€æ´»æ—¶æ£€æŸ¥æ˜¯å¦åº”è¯¥éšè—
     /// </summary>
     private void OnEnable()
     {
-        // Èç¹ûÒÑ±»±ê¼ÇÎªÒş²Ø£¬Á¢¼´Òş²Ø×Ô¼º
+        // å¦‚æœå·²è¢«æ ‡è®°ä¸ºéšè—ï¼Œç«‹å³éšè—è‡ªå·±
         if (hasBeenHidden)
         {
             if (debugMode)
             {
-                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' OnEnable ¼ì²âµ½ÒÑ±»±ê¼ÇÒş²Ø");
+                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' OnEnable æ£€æµ‹åˆ°å·²è¢«æ ‡è®°éšè—");
             }
             gameObject.SetActive(false);
             return;
         }
 
-        // ¶îÍâ¼ì²é£º´Ó WorldObjectStateManager »ñÈ¡×îĞÂ×´Ì¬
+        // é¢å¤–æ£€æŸ¥ï¼šä» WorldObjectStateManager è·å–æœ€æ–°çŠ¶æ€
         if (!string.IsNullOrEmpty(linkedObjectID) && WorldObjectStateManager.Instance != null)
         {
             if (WorldObjectStateManager.Instance.IsObjectPickedUp(linkedObjectID))
             {
                 if (debugMode)
                 {
-                    Debug.Log($"[LinkedWorldObject] '{gameObject.name}' OnEnable ´Ó×´Ì¬¹ÜÀíÆ÷¼ì²âµ½ÒÑ±»Ê°È¡£¬Òş²Ø×Ô¼º");
+                    Debug.Log($"[LinkedWorldObject] '{gameObject.name}' OnEnable ä»çŠ¶æ€ç®¡ç†å™¨æ£€æµ‹åˆ°å·²è¢«æ‹¾å–ï¼Œéšè—è‡ªå·±");
                 }
                 hasBeenHidden = true;
                 gameObject.SetActive(false);
@@ -134,95 +178,156 @@ public class LinkedWorldObject : MonoBehaviour
         }
     }
 
-    // ============ ÊÂ¼ş´¦Àí ============
+    // ============ äº‹ä»¶å¤„ç† ============
 
     /// <summary>
-    /// ¼ì²é³õÊ¼×´Ì¬£¨ÓÃÓÚ´¦Àí´æµµ¶ÁÈ¡£©
+    /// æ£€æŸ¥åˆå§‹çŠ¶æ€ï¼ˆç”¨äºå¤„ç†å­˜æ¡£è¯»å–ï¼‰
     /// </summary>
     private void CheckInitialState()
     {
         if (WorldObjectStateManager.Instance == null) return;
 
-        // Èç¹û¹ØÁªµÄÎïÆ·ÒÑ±»Ê°È¡£¬Á¢¼´Òş²Ø×Ô¼º
+        // å¦‚æœå…³è”çš„ç‰©å“å·²è¢«æ‹¾å–ï¼Œç«‹å³éšè—è‡ªå·±
         if (WorldObjectStateManager.Instance.IsObjectPickedUp(linkedObjectID))
         {
             if (debugMode)
             {
-                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ¼ì²âµ½¹ØÁªÎïÆ·ÒÑ±»Ê°È¡£¬Á¢¼´Òş²Ø");
+                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' æ£€æµ‹åˆ°å…³è”ç‰©å“å·²è¢«æ‹¾å–ï¼Œç«‹å³éšè—");
             }
 
-            // ±ê¼Ç²¢Ö±½ÓÒş²Ø£¬²»²¥·Å¶¯»­
+            // æ ‡è®°å¹¶ç›´æ¥éšè—ï¼Œä¸æ’­æ”¾åŠ¨ç”»
             hasBeenHidden = true;
             gameObject.SetActive(false);
         }
     }
 
     /// <summary>
-    /// ÏìÓ¦ÎïÆ·×´Ì¬¸Ä±äÊÂ¼ş
+    /// å“åº”ç‰©å“çŠ¶æ€æ”¹å˜äº‹ä»¶
     /// </summary>
     private void OnObjectStateChanged(string objectID, bool isActive)
     {
         if (objectID != linkedObjectID) return;
 
-        // ¡ï Èç¹ûÒÑ¾­±»´¦Àí¹ı£¬Ö±½Ó·µ»Ø
-        if (hasBeenHidden) return;
-        if (isDisappearing) return;
-
         if (debugMode)
         {
-            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ÊÕµ½×´Ì¬¸Ä±ä: {objectID} ¡ú {(isActive ? "¼¤»î" : "Òş²Ø")}");
+            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' æ”¶åˆ°çŠ¶æ€æ”¹å˜: {objectID} â†’ {(isActive ? "æ¿€æ´»" : "éšè—")}");
         }
 
         if (!isActive)
         {
-            // ÎïÆ·±»Òş²Ø£¬Ö´ĞĞÏûÊ§Âß¼­
-            StartDisappear();
+            // ç‰©å“è¢«éšè—ï¼Œæ‰§è¡Œæ¶ˆå¤±é€»è¾‘
+            if (!hasBeenHidden && !isDisappearing)
+            {
+                StartDisappear();
+            }
         }
         else
         {
-            // ÎïÆ·±»¼¤»î£¬ÏÔÊ¾×Ô¼º£¨ÓÃÓÚÌØÊâÇé¿ö£©
-            hasBeenHidden = false;
-            gameObject.SetActive(true);
-            ResetAppearance();
+            // â­ æ–°å¢ï¼šç‰©å“è¢«æ¿€æ´»ï¼ˆæ”¾å›ï¼‰ï¼Œæ˜¾ç¤ºè‡ªå·±
+            StartAppear();
         }
     }
 
     /// <summary>
-    /// ÏìÓ¦ÎïÆ·Ê°È¡ÊÂ¼ş
+    /// å“åº”ç‰©å“æ‹¾å–äº‹ä»¶
     /// </summary>
     private void OnObjectPickedUp(string objectID)
     {
         if (objectID != linkedObjectID) return;
 
-        // ¡ï Èç¹ûÒÑ¾­±»´¦Àí¹ı£¬Ö±½Ó·µ»Ø
+        // å¦‚æœå·²ç»è¢«å¤„ç†è¿‡ï¼Œç›´æ¥è¿”å›
         if (hasBeenHidden) return;
         if (isDisappearing) return;
 
         if (debugMode)
         {
-            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ÊÕµ½Ê°È¡ÊÂ¼ş: {objectID}");
+            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' æ”¶åˆ°æ‹¾å–äº‹ä»¶: {objectID}");
         }
 
         StartDisappear();
     }
 
-    // ============ ÏûÊ§Âß¼­ ============
+    // ============ â­ æ–°å¢ï¼šPotController ä¸“ç”¨äº‹ä»¶å¤„ç† ============
 
     /// <summary>
-    /// ¿ªÊ¼ÏûÊ§
+    /// å“åº” PotController çš„ç²¾çµå›¾å˜åŒ–
+    /// </summary>
+    private void OnPotSpriteChanged(string potObjectID, Sprite newSprite)
+    {
+        if (potObjectID != linkedObjectID) return;
+        if (!syncSprite) return;
+        if (spriteRenderer == null) return;
+
+        // ç›´æ¥åŒæ­¥ç²¾çµå›¾
+        if (newSprite != null)
+        {
+            spriteRenderer.sprite = newSprite;
+
+            if (debugMode)
+            {
+                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' åŒæ­¥ç²¾çµå›¾: {newSprite.name}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// å“åº” PotController çš„çŠ¶æ€å˜åŒ–
+    /// </summary>
+    private void OnPotStateChanged(string potObjectID, PotController.PotState newState)
+    {
+        if (potObjectID != linkedObjectID) return;
+        if (!syncSprite) return;
+        if (spriteRenderer == null) return;
+
+        // æ ¹æ®çŠ¶æ€é€‰æ‹©å¯¹åº”çš„ç²¾çµå›¾
+        Sprite targetSprite = null;
+
+        switch (newState)
+        {
+            case PotController.PotState.OnTable_Empty:
+                targetSprite = emptySprite;
+                break;
+
+            case PotController.PotState.OnTable_Filling:
+                targetSprite = fillingSprite != null ? fillingSprite : emptySprite;
+                break;
+
+            case PotController.PotState.OnTable_Ready:
+                targetSprite = filledSprite != null ? filledSprite : emptySprite;
+                break;
+
+            default:
+                // å…¶ä»–çŠ¶æ€ï¼ˆåœ¨èƒŒåŒ…ä¸­ç­‰ï¼‰ä¸æ”¹å˜ç²¾çµå›¾
+                return;
+        }
+
+        if (targetSprite != null && spriteRenderer.sprite != targetSprite)
+        {
+            spriteRenderer.sprite = targetSprite;
+
+            if (debugMode)
+            {
+                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' æ ¹æ®çŠ¶æ€ {newState} æ›´æ–°ç²¾çµå›¾: {targetSprite.name}");
+            }
+        }
+    }
+
+    // ============ æ¶ˆå¤±é€»è¾‘ ============
+
+    /// <summary>
+    /// å¼€å§‹æ¶ˆå¤±
     /// </summary>
     private void StartDisappear()
     {
         if (isDisappearing) return;
         if (hasBeenHidden) return;
 
-        // ¡ï ¹Ø¼üĞŞ¸´£º¼ì²é GameObject ÊÇ·ñ´¦ÓÚ¼¤»î×´Ì¬
-        // Èç¹ûÒÑ¾­ÊÇ inactive£¬Ö±½Ó±ê¼Ç²¢·µ»Ø£¬²»³¢ÊÔÆô¶¯Ğ­³Ì
+        // æ£€æŸ¥ GameObject æ˜¯å¦å¤„äºæ¿€æ´»çŠ¶æ€
         if (!gameObject.activeInHierarchy)
         {
             if (debugMode)
             {
-                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ÒÑ¾­ÊÇ inactive ×´Ì¬£¬Ìø¹ı¶¯»­");
+                Debug.Log($"[LinkedWorldObject] '{gameObject.name}' å·²ç»æ˜¯ inactive çŠ¶æ€ï¼Œè·³è¿‡åŠ¨ç”»");
             }
             hasBeenHidden = true;
             return;
@@ -231,33 +336,33 @@ public class LinkedWorldObject : MonoBehaviour
         isDisappearing = true;
         hasBeenHidden = true;
 
-        // ²¥·ÅÒôĞ§
+        // æ’­æ”¾éŸ³æ•ˆ
         if (!string.IsNullOrEmpty(disappearSoundName) && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySFX(disappearSoundName);
         }
 
-        // ¸ù¾İÀàĞÍÖ´ĞĞÏûÊ§¶¯»­
+        // æ ¹æ®ç±»å‹æ‰§è¡Œæ¶ˆå¤±åŠ¨ç”»
         if (useDisappearAnimation && disappearType != DisappearType.Instant)
         {
             StartCoroutine(DisappearAnimation());
         }
         else
         {
-            // Á¢¼´ÏûÊ§
+            // ç«‹å³æ¶ˆå¤±
             gameObject.SetActive(false);
             isDisappearing = false;
         }
     }
 
     /// <summary>
-    /// ÏûÊ§¶¯»­Ğ­³Ì
+    /// æ¶ˆå¤±åŠ¨ç”»åç¨‹
     /// </summary>
     private System.Collections.IEnumerator DisappearAnimation()
     {
         float elapsed = 0f;
 
-        // PopOut ÀàĞÍÏÈ·Å´ó
+        // PopOut ç±»å‹å…ˆæ”¾å¤§
         if (disappearType == DisappearType.PopOut)
         {
             float popDuration = disappearDuration * 0.3f;
@@ -268,7 +373,7 @@ public class LinkedWorldObject : MonoBehaviour
                 elapsed += Time.deltaTime;
                 float t = elapsed / popDuration;
 
-                // Ê¹ÓÃ»º³öÇúÏß
+                // ä½¿ç”¨ç¼“å‡ºæ›²çº¿
                 float easeT = 1f - Mathf.Pow(1f - t, 2f);
                 transform.localScale = Vector3.Lerp(originalScale, popScale, easeT);
 
@@ -276,16 +381,16 @@ public class LinkedWorldObject : MonoBehaviour
             }
 
             elapsed = 0f;
-            originalScale = popScale; // ¸üĞÂÆğÊ¼Ëõ·Å
+            originalScale = popScale; // æ›´æ–°èµ·å§‹ç¼©æ”¾
         }
 
-        // Ö÷ÏûÊ§¶¯»­
+        // ä¸»æ¶ˆå¤±åŠ¨ç”»
         while (elapsed < disappearDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / disappearDuration);
 
-            // Ê¹ÓÃ»ºÈëÇúÏßÈÃÏûÊ§¸ü×ÔÈ»
+            // ä½¿ç”¨ç¼“å…¥æ›²çº¿è®©æ¶ˆå¤±æ›´è‡ªç„¶
             float easeT = t * t;
 
             switch (disappearType)
@@ -308,16 +413,90 @@ public class LinkedWorldObject : MonoBehaviour
             yield return null;
         }
 
-        // ¶¯»­½áÊø£¬Òş²ØÎïÌå
+        // åŠ¨ç”»ç»“æŸï¼Œéšè—ç‰©ä½“
         gameObject.SetActive(false);
 
-        // ÖØÖÃÍâ¹Û£¨ÎªÁË¿ÉÄÜµÄÖØĞÂÏÔÊ¾£©
+        // é‡ç½®å¤–è§‚ï¼ˆä¸ºäº†å¯èƒ½çš„é‡æ–°æ˜¾ç¤ºï¼‰
         ResetAppearance();
         isDisappearing = false;
     }
 
+    // ============ â­ æ–°å¢ï¼šå‡ºç°é€»è¾‘ ============
+
     /// <summary>
-    /// Ó¦ÓÃÍ¸Ã÷¶È
+    /// å¼€å§‹å‡ºç°ï¼ˆå½“ç‰©å“è¢«æ”¾å›æ—¶ï¼‰
+    /// </summary>
+    private void StartAppear()
+    {
+        if (isAppearing) return;
+        if (!hasBeenHidden) return; // å¦‚æœæ²¡è¢«éšè—è¿‡ï¼Œä¸éœ€è¦å‡ºç°åŠ¨ç”»
+
+        if (debugMode)
+        {
+            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' å¼€å§‹å‡ºç°åŠ¨ç”»");
+        }
+
+        hasBeenHidden = false;
+        isDisappearing = false;
+
+        // â­ å…³é”®ä¿®å¤ï¼šå…ˆæ¿€æ´»ç‰©ä½“ï¼Œå†åšå…¶ä»–æ“ä½œ
+        gameObject.SetActive(true);
+
+        // æ’­æ”¾éŸ³æ•ˆ
+        if (!string.IsNullOrEmpty(appearSoundName) && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX(appearSoundName);
+        }
+
+        // â­ å…³é”®ä¿®å¤ï¼šç¡®ä¿ GameObject å·²æ¿€æ´»åå†å¯åŠ¨åç¨‹
+        if (useAppearAnimation && gameObject.activeInHierarchy)
+        {
+            // è®¾ç½®åˆå§‹çŠ¶æ€ï¼ˆç¼©å°/é€æ˜ï¼‰
+            transform.localScale = Vector3.zero;
+            ApplyFade(0f);
+
+            StartCoroutine(AppearAnimation());
+        }
+        else
+        {
+            ResetAppearance();
+        }
+    }
+
+    /// <summary>
+    /// å‡ºç°åŠ¨ç”»åç¨‹
+    /// </summary>
+    private System.Collections.IEnumerator AppearAnimation()
+    {
+        isAppearing = true;
+
+        // åˆå§‹çŠ¶æ€å·²åœ¨ StartAppear ä¸­è®¾ç½®ï¼ˆç¼©å°/é€æ˜ï¼‰
+        float elapsed = 0f;
+
+        while (elapsed < appearDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / appearDuration);
+
+            // ä½¿ç”¨å¼¹æ€§ç¼“å‡ºæ›²çº¿
+            float easeT = 1f - Mathf.Pow(1f - t, 3f);
+
+            // åŒæ—¶æ”¾å¤§å’Œæ·¡å…¥
+            transform.localScale = Vector3.Lerp(Vector3.zero, originalScale, easeT);
+            ApplyFade(easeT);
+
+            yield return null;
+        }
+
+        // ç¡®ä¿æœ€ç»ˆçŠ¶æ€æ­£ç¡®
+        ResetAppearance();
+        isAppearing = false;
+    }
+
+    // ============ å·¥å…·æ–¹æ³• ============
+
+    /// <summary>
+    /// åº”ç”¨é€æ˜åº¦
     /// </summary>
     private void ApplyFade(float alpha)
     {
@@ -330,7 +509,7 @@ public class LinkedWorldObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ÖØÖÃÍâ¹Û
+    /// é‡ç½®å¤–è§‚
     /// </summary>
     private void ResetAppearance()
     {
@@ -341,10 +520,10 @@ public class LinkedWorldObject : MonoBehaviour
         transform.localScale = originalScale;
     }
 
-    // ============ ¹«¹²·½·¨ ============
+    // ============ å…¬å…±æ–¹æ³• ============
 
     /// <summary>
-    /// ÊÖ¶¯ÉèÖÃÁ´½ÓID£¨ÓÃÓÚÔËĞĞÊ±¶¯Ì¬´´½¨£©
+    /// æ‰‹åŠ¨è®¾ç½®é“¾æ¥IDï¼ˆç”¨äºè¿è¡Œæ—¶åŠ¨æ€åˆ›å»ºï¼‰
     /// </summary>
     public void SetLinkedObjectID(string objectID)
     {
@@ -352,69 +531,87 @@ public class LinkedWorldObject : MonoBehaviour
 
         if (debugMode)
         {
-            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' ¶¯Ì¬Á´½Óµ½: {objectID}");
+            Debug.Log($"[LinkedWorldObject] '{gameObject.name}' åŠ¨æ€é“¾æ¥åˆ°: {objectID}");
         }
 
-        // ¼ì²é×´Ì¬
+        // æ£€æŸ¥çŠ¶æ€
         CheckInitialState();
     }
 
     /// <summary>
-    /// Ç¿ÖÆÁ¢¼´Òş²Ø
+    /// å¼ºåˆ¶ç«‹å³éšè—
     /// </summary>
     public void ForceHide()
     {
         isDisappearing = false;
+        isAppearing = false;
         hasBeenHidden = true;
         gameObject.SetActive(false);
     }
 
     /// <summary>
-    /// Ç¿ÖÆÏÔÊ¾
+    /// å¼ºåˆ¶æ˜¾ç¤º
     /// </summary>
     public void ForceShow()
     {
         hasBeenHidden = false;
         isDisappearing = false;
+        isAppearing = false;
         gameObject.SetActive(true);
         ResetAppearance();
     }
 
     /// <summary>
-    /// ÖØÖÃ×´Ì¬£¨ÓÃÓÚĞÂÓÎÏ·£©
+    /// é‡ç½®çŠ¶æ€ï¼ˆç”¨äºæ–°æ¸¸æˆï¼‰
     /// </summary>
     public void ResetState()
     {
         hasBeenHidden = false;
         isDisappearing = false;
+        isAppearing = false;
         ResetAppearance();
     }
 
-    // ============ ±à¼­Æ÷¸¨Öú ============
+    /// <summary>
+    /// æ‰‹åŠ¨è®¾ç½®ç²¾çµå›¾
+    /// </summary>
+    public void SetSprite(Sprite sprite)
+    {
+        if (spriteRenderer != null && sprite != null)
+        {
+            spriteRenderer.sprite = sprite;
+        }
+    }
+
+    // ============ ç¼–è¾‘å™¨è¾…åŠ© ============
 
     private void OnValidate()
     {
-        // ×Ô¶¯Éú³ÉÌáÊ¾Ãû³Æ
-        if (string.IsNullOrEmpty(linkedObjectID))
+        // è‡ªåŠ¨æ£€æµ‹æ˜¯å¦éœ€è¦ç²¾çµå›¾åŒæ­¥
+        if (syncSprite && spriteRenderer == null)
         {
-            // ¿ÉÒÔ»ùÓÚÎïÌåÃû³Æ¸ø¸ö½¨Òé
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        // ÔÚSceneÊÓÍ¼ÖĞÏÔÊ¾Á´½Ó±êÊ¶
+        // åœ¨Sceneè§†å›¾ä¸­æ˜¾ç¤ºé“¾æ¥æ ‡è¯†
         if (!string.IsNullOrEmpty(linkedObjectID))
         {
-            Gizmos.color = Color.cyan;
+            Gizmos.color = syncSprite ? Color.magenta : Color.cyan;
             Gizmos.DrawWireSphere(transform.position, 0.2f);
 
-            // »­Ò»¸öĞ¡±êÇ©
+            // ç”»ä¸€ä¸ªå°æ ‡ç­¾
 #if UNITY_EDITOR
+            string label = syncSprite
+                ? $"é“¾æ¥(åŒæ­¥): {linkedObjectID}"
+                : $"é“¾æ¥: {linkedObjectID}";
+
             UnityEditor.Handles.Label(
                 transform.position + Vector3.up * 0.3f,
-                $"Á´½Ó: {linkedObjectID}",
-                new GUIStyle { normal = { textColor = Color.cyan } }
+                label,
+                new GUIStyle { normal = { textColor = syncSprite ? Color.magenta : Color.cyan } }
             );
 #endif
         }

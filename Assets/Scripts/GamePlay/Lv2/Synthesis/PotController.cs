@@ -1,6 +1,6 @@
-﻿// Assets/Scripts/GamePlay/Synthesis/PotController.cs
+﻿// Assets/Scripts/GamePlay/Lv2/Synthesis/PotController.cs
 // 陶罐控制器 - 管理陶罐的物品收集、状态和交互
-// 优化版：添加平滑颜色过渡动画
+// v2.0 - 新增：与 LinkedWorldObject 的联动支持
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
@@ -15,6 +15,10 @@ using System.Collections.Generic;
 /// 2. 放入正确配方的所有物品后 → 陶罐可拾取
 /// 3. 陶罐放入合成机器 → 由 SynthesisMachine 处理
 /// 4. 合成完成后 → 陶罐变空，可放回桌面
+/// 
+/// ⭐ v2.0 新增：
+/// - 通过 WorldObjectStateManager 与全景视图的 LinkedWorldObject 联动
+/// - 支持精灵图状态同步
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
@@ -33,7 +37,7 @@ public class PotController : MonoBehaviour
 
     // ============ 基本配置 ============
     [Header("基本信息")]
-    [Tooltip("物体唯一ID")]
+    [Tooltip("物体唯一ID（用于与 LinkedWorldObject 联动）")]
     public string objectID = "pot";
 
     [Tooltip("显示名称")]
@@ -138,6 +142,10 @@ public class PotController : MonoBehaviour
     public UnityEvent OnPotPlaced;
     public UnityEvent OnPotEmptied;
 
+    // ⭐ 新增：精灵图变化事件（用于 LinkedWorldObject 同步）
+    public static event System.Action<string, Sprite> OnPotSpriteChanged;
+    public static event System.Action<string, PotState> OnPotStateChanged;
+
     // ============ 运行时数据 ============
     [Header("调试信息（只读）")]
     [SerializeField] private PotState currentState = PotState.OnTable_Empty;
@@ -160,26 +168,25 @@ public class PotController : MonoBehaviour
     public PotState CurrentState => currentState;
     public PotRecipe MatchedRecipe => matchedRecipe;
     public List<string> ContainedItemIDs => new List<string>(containedItemIDs);
-    public bool IsEmpty => containedItemIDs.Count == 0;
-    public bool IsFilled => matchedRecipe != null;
 
     // ============ Unity 生命周期 ============
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         potCollider = GetComponent<Collider2D>();
 
-        currentColor = normalColor;
-        targetColor = normalColor;
-
         if (spriteRenderer != null)
         {
-            spriteRenderer.color = normalColor;
+            currentColor = spriteRenderer.color;
         }
     }
 
     private void Start()
     {
+        // ⭐ 新增：注册到 WorldObjectStateManager
+        RegisterToWorldObjectStateManager();
+
         UpdateVisuals();
     }
 
@@ -189,15 +196,12 @@ public class PotController : MonoBehaviour
         if (enableReadyPulse && currentState == PotState.OnTable_Ready && !isFlashing)
         {
             float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
-            Color pulseTarget = Color.Lerp(normalColor, readyPulseColor, pulse * 0.6f);
+            Color pulseColor = Color.Lerp(normalColor, readyPulseColor, pulse * 0.3f);
 
-            // 如果鼠标悬停，混合悬停颜色
-            if (isHovering)
+            if (!isHovering)
             {
-                pulseTarget = Color.Lerp(pulseTarget, hoverColor, 0.5f);
+                spriteRenderer.color = pulseColor;
             }
-
-            spriteRenderer.color = pulseTarget;
         }
     }
 
@@ -208,8 +212,7 @@ public class PotController : MonoBehaviour
             currentState == PotState.OnTable_Ready)
         {
             isHovering = true;
-
-            if (!isFlashing && currentState != PotState.OnTable_Ready)
+            if (!isFlashing)
             {
                 TransitionToColor(hoverColor);
             }
@@ -219,7 +222,6 @@ public class PotController : MonoBehaviour
     private void OnMouseExit()
     {
         isHovering = false;
-
         if (!isFlashing && currentState != PotState.OnTable_Ready)
         {
             TransitionToColor(normalColor);
@@ -228,30 +230,72 @@ public class PotController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // 检查是否点击在UI上
-        if (UnityEngine.EventSystems.EventSystem.current != null &&
-            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
-
         Interact();
     }
 
-    // ============ 颜色过渡系统 ============
+    // ============ ⭐ 新增：WorldObjectStateManager 联动 ============
 
     /// <summary>
-    /// 平滑过渡到目标颜色
+    /// 注册到世界物品状态管理器
     /// </summary>
+    private void RegisterToWorldObjectStateManager()
+    {
+        if (string.IsNullOrEmpty(objectID)) return;
+        if (WorldObjectStateManager.Instance == null) return;
+
+        // 注册初始状态（在桌上 = 激活）
+        bool isOnTable = currentState == PotState.OnTable_Empty ||
+                         currentState == PotState.OnTable_Filling ||
+                         currentState == PotState.OnTable_Ready;
+
+        WorldObjectStateManager.Instance.RegisterObject(objectID, isOnTable);
+
+        Debug.Log($"[PotController] 注册到 WorldObjectStateManager: {objectID}, 在桌上: {isOnTable}");
+    }
+
+    /// <summary>
+    /// 通知世界物品状态管理器状态变化
+    /// </summary>
+    private void NotifyWorldObjectStateManager(bool isVisible)
+    {
+        if (string.IsNullOrEmpty(objectID)) return;
+        if (WorldObjectStateManager.Instance == null) return;
+
+        WorldObjectStateManager.Instance.SetObjectState(objectID, isVisible);
+
+        Debug.Log($"[PotController] 通知状态变化: {objectID} → {(isVisible ? "显示" : "隐藏")}");
+    }
+
+    /// <summary>
+    /// 通知精灵图变化（用于 LinkedWorldObject 同步）
+    /// </summary>
+    private void NotifySpriteChanged(Sprite newSprite)
+    {
+        if (string.IsNullOrEmpty(objectID)) return;
+
+        OnPotSpriteChanged?.Invoke(objectID, newSprite);
+
+        Debug.Log($"[PotController] 通知精灵图变化: {objectID} → {(newSprite != null ? newSprite.name : "null")}");
+    }
+
+    /// <summary>
+    /// 通知状态变化（用于更复杂的同步需求）
+    /// </summary>
+    private void NotifyStateChanged()
+    {
+        if (string.IsNullOrEmpty(objectID)) return;
+
+        OnPotStateChanged?.Invoke(objectID, currentState);
+    }
+
+    // ============ 颜色过渡方法 ============
+
     private void TransitionToColor(Color target)
     {
-        targetColor = target;
-
         if (colorTransitionCoroutine != null)
         {
             StopCoroutine(colorTransitionCoroutine);
         }
-
         colorTransitionCoroutine = StartCoroutine(ColorTransitionCoroutine(target));
     }
 
@@ -263,14 +307,8 @@ public class PotController : MonoBehaviour
         while (elapsed < colorTransitionDuration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / colorTransitionDuration;
-
-            // 使用平滑的缓动函数
-            t = SmoothStep(t);
-
+            float t = SmoothStep(elapsed / colorTransitionDuration);
             spriteRenderer.color = Color.Lerp(startColor, target, t);
-            currentColor = spriteRenderer.color;
-
             yield return null;
         }
 
@@ -280,15 +318,14 @@ public class PotController : MonoBehaviour
     }
 
     /// <summary>
-    /// 闪烁效果（用于成功/失败反馈）
+    /// 闪烁颜色效果
     /// </summary>
-    private void FlashColor(Color flashColor)
+    public void FlashColor(Color flashColor)
     {
         if (flashCoroutine != null)
         {
             StopCoroutine(flashCoroutine);
         }
-
         flashCoroutine = StartCoroutine(FlashColorCoroutine(flashColor));
     }
 
@@ -297,13 +334,12 @@ public class PotController : MonoBehaviour
         isFlashing = true;
 
         // 快速过渡到闪烁颜色
-        Color startColor = spriteRenderer.color;
         float fadeInTime = flashDuration * 0.3f;
-        float holdTime = flashDuration * 0.2f;
-        float fadeOutTime = flashDuration * 0.5f;
-
-        // 淡入闪烁颜色
+        float fadeOutTime = flashDuration * 0.7f;
         float elapsed = 0f;
+
+        Color startColor = spriteRenderer.color;
+
         while (elapsed < fadeInTime)
         {
             elapsed += Time.deltaTime;
@@ -314,10 +350,7 @@ public class PotController : MonoBehaviour
 
         spriteRenderer.color = flashColor;
 
-        // 保持
-        yield return new WaitForSeconds(holdTime);
-
-        // 淡出回到目标颜色
+        // 淡出回原色
         Color returnColor = isHovering ? hoverColor : normalColor;
         elapsed = 0f;
         while (elapsed < fadeOutTime)
@@ -399,7 +432,7 @@ public class PotController : MonoBehaviour
         if (containedItemIDs.Contains(selectedItem.itemID))
         {
             Debug.Log($"[PotController] 物品已在陶罐中: {selectedItem.displayName}");
-            ShowHint("这个已经放进去了");
+            ShowHint("这个物品已经放进去了");
             PlaySFX(errorSFX);
             FlashColor(failColor);
             return;
@@ -411,21 +444,24 @@ public class PotController : MonoBehaviour
 
     private void AddItem(ItemData item)
     {
+        Debug.Log($"[PotController] 添加物品: {item.displayName}");
+
         // 消耗背包中的物品
         UIManager.Instance.ConsumeSelectedItem();
 
-        // 添加到陶罐
+        // 添加到已有列表
         containedItemIDs.Add(item.itemID);
-
-        Debug.Log($"[PotController] 添加物品: {item.displayName}，当前数量: {containedItemIDs.Count}");
 
         // 播放音效
         PlaySFX(addItemSFX);
 
-        // 视觉反馈
+        // 闪烁成功颜色
         FlashColor(successColor);
 
-        // 检查是否匹配配方
+        // 触发事件
+        OnItemAdded?.Invoke();
+
+        // 检查配方匹配
         CheckRecipeMatch();
 
         // 更新状态
@@ -434,16 +470,10 @@ public class PotController : MonoBehaviour
         // 更新视觉
         UpdateVisuals();
 
-        // 触发事件
-        OnItemAdded?.Invoke();
-
         // 保存
         SaveLoadSystem.Instance?.SaveGame();
     }
 
-    /// <summary>
-    /// 检查物品是否属于任何未完成的配方
-    /// </summary>
     private bool IsItemValidForAnyRecipe(string itemID)
     {
         if (availableRecipes == null) return false;
@@ -471,9 +501,6 @@ public class PotController : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// 检查当前物品是否匹配某个配方
-    /// </summary>
     private void CheckRecipeMatch()
     {
         matchedRecipe = null;
@@ -482,12 +509,10 @@ public class PotController : MonoBehaviour
 
         foreach (var recipe in availableRecipes)
         {
-            if (recipe == null) continue;
-
             // 跳过已完成的配方
-            if (completedRecipeIDs.Contains(recipe.recipeID)) continue;
+            if (completedRecipeIDs.Contains(recipe.recipeID))
+                continue;
 
-            // 检查是否匹配
             if (recipe.MatchesRecipe(containedItemIDs))
             {
                 matchedRecipe = recipe;
@@ -506,6 +531,8 @@ public class PotController : MonoBehaviour
 
     private void UpdateState()
     {
+        PotState oldState = currentState;
+
         if (containedItemIDs.Count == 0)
         {
             currentState = PotState.OnTable_Empty;
@@ -517,6 +544,12 @@ public class PotController : MonoBehaviour
         else
         {
             currentState = PotState.OnTable_Filling;
+        }
+
+        // ⭐ 新增：状态变化时通知
+        if (oldState != currentState)
+        {
+            NotifyStateChanged();
         }
     }
 
@@ -555,6 +588,10 @@ public class PotController : MonoBehaviour
 
         // 触发事件
         OnPotPickedUp?.Invoke();
+
+        // ⭐ 新增：通知 WorldObjectStateManager（隐藏）
+        NotifyWorldObjectStateManager(false);
+        NotifyStateChanged();
 
         // 隐藏场景中的陶罐
         gameObject.SetActive(false);
@@ -601,6 +638,10 @@ public class PotController : MonoBehaviour
         // 触发事件
         OnPotPlaced?.Invoke();
 
+        // ⭐ 新增：通知 WorldObjectStateManager（显示）
+        NotifyWorldObjectStateManager(true);
+        NotifyStateChanged();
+
         // 保存
         SaveLoadSystem.Instance?.SaveGame();
     }
@@ -619,6 +660,9 @@ public class PotController : MonoBehaviour
 
         UpdateVisuals();
         OnPotEmptied?.Invoke();
+
+        // ⭐ 新增：通知状态变化
+        NotifyStateChanged();
     }
 
     /// <summary>
@@ -680,15 +724,22 @@ public class PotController : MonoBehaviour
                     targetSprite = filledSprite != null ? filledSprite : emptySprite;
                 }
                 break;
+
+            default:
+                targetSprite = emptySprite;
+                break;
         }
 
-        if (targetSprite != null)
+        if (targetSprite != null && spriteRenderer.sprite != targetSprite)
         {
             spriteRenderer.sprite = targetSprite;
+
+            // ⭐ 新增：通知精灵图变化
+            NotifySpriteChanged(targetSprite);
         }
     }
 
-    // ============ 辅助方法 ============
+    // ============ 工具方法 ============
     private void PlaySFX(string sfxName)
     {
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(sfxName))
@@ -699,71 +750,85 @@ public class PotController : MonoBehaviour
 
     private void ShowHint(string hint)
     {
+        // 这里可以对接你的提示系统
         Debug.Log($"[提示] {hint}");
-        // 如果有提示系统：
-        // HintSystem.Instance?.ShowHint(hint);
+
+        // 如果有 TextPromptManager
+        if (TextPromptManager.Instance != null)
+        {
+            TextPromptManager.Instance.ShowPrompt(hint);
+        }
     }
 
-    // ============ 存档/读档 ============
-    [System.Serializable]
-    public class PotSaveData
-    {
-        public string objectID;
-        public int currentState;
-        public List<string> containedItemIDs;
-        public string matchedRecipeID;
-        public List<string> completedRecipeIDs;
-        public bool isActive;
-    }
+    // ============ 存档相关 ============
 
+    /// <summary>
+    /// 获取存档数据
+    /// </summary>
     public PotSaveData GetSaveData()
     {
         return new PotSaveData
         {
-            objectID = this.objectID,
-            currentState = (int)this.currentState,
-            containedItemIDs = new List<string>(this.containedItemIDs),
+            objectID = objectID,
+            currentState = (int)currentState,
+            containedItemIDs = new List<string>(containedItemIDs),
             matchedRecipeID = matchedRecipe?.recipeID ?? "",
-            completedRecipeIDs = new List<string>(this.completedRecipeIDs),
-            isActive = gameObject.activeSelf
+            completedRecipeIDs = new List<string>(completedRecipeIDs)
         };
     }
 
-    public void LoadSaveData(PotSaveData data)
+    /// <summary>
+    /// 恢复存档数据
+    /// </summary>
+    public void RestoreSaveData(PotSaveData data)
     {
         if (data == null) return;
 
-        this.currentState = (PotState)data.currentState;
-        this.containedItemIDs = new List<string>(data.containedItemIDs);
-        this.completedRecipeIDs = new List<string>(data.completedRecipeIDs);
+        currentState = (PotState)data.currentState;
+        containedItemIDs = new List<string>(data.containedItemIDs);
+        completedRecipeIDs = new List<string>(data.completedRecipeIDs);
 
         // 恢复匹配的配方
-        this.matchedRecipe = null;
         if (!string.IsNullOrEmpty(data.matchedRecipeID) && availableRecipes != null)
         {
             foreach (var recipe in availableRecipes)
             {
-                if (recipe != null && recipe.recipeID == data.matchedRecipeID)
+                if (recipe.recipeID == data.matchedRecipeID)
                 {
-                    this.matchedRecipe = recipe;
+                    matchedRecipe = recipe;
                     break;
                 }
             }
         }
 
-        gameObject.SetActive(data.isActive);
+        // 根据状态决定是否显示
+        bool shouldBeVisible = currentState == PotState.OnTable_Empty ||
+                               currentState == PotState.OnTable_Filling ||
+                               currentState == PotState.OnTable_Ready;
 
-        // 重置颜色状态
-        isFlashing = false;
-        isHovering = false;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = normalColor;
-        }
-        currentColor = normalColor;
+        gameObject.SetActive(shouldBeVisible);
 
         UpdateVisuals();
 
-        Debug.Log($"[PotController] 加载存档: state={currentState}, items={containedItemIDs.Count}, completed={completedRecipeIDs.Count}");
+        Debug.Log($"[PotController] 恢复存档: 状态={currentState}, 物品数={containedItemIDs.Count}");
+    }
+}
+
+/// <summary>
+/// 陶罐存档数据
+/// </summary>
+[System.Serializable]
+public class PotSaveData
+{
+    public string objectID;
+    public int currentState;
+    public List<string> containedItemIDs;
+    public string matchedRecipeID;
+    public List<string> completedRecipeIDs;
+
+    public PotSaveData()
+    {
+        containedItemIDs = new List<string>();
+        completedRecipeIDs = new List<string>();
     }
 }
